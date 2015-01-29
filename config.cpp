@@ -57,9 +57,9 @@ bool config::load(const char* path, const char* item)
         }
 
         if ((*found).second.find("address") == (*found).second.end() ||
-            (*found).second.find("port") == (*found).second.end() ||
-            (*found).second.find("doc_root") == (*found).second.end() ||
-            (*found).second.find("num_thread") == (*found).second.end())
+                (*found).second.find("port") == (*found).second.end() ||
+                (*found).second.find("doc_root") == (*found).second.end() ||
+                (*found).second.find("num_thread") == (*found).second.end())
         {
             return false;
         }
