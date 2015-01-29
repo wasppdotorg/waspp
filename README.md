@@ -1,5 +1,5 @@
-waspp : Web Application Server written in C++
-=============================================
+waspp
+=====
 
 Install MariaDB
 ---------------
