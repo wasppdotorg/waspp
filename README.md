@@ -23,15 +23,15 @@ Install Boost, MySQLCppConn and TCMalloc
 Install php-mvc-framework
 -------------------------
 * cd /var/
-* git clone https://github.com/waspporg/waspp.git
+* sudo git clone https://github.com/waspporg/waspp.git
 * cd waspp
-* mkdir doc_root
-* vi doc_root/index.html
+* sudo mkdir doc_root
+* sudo vi doc_root/index.html
 ```
 Hello, WASPP!
 ```
 
-* make
+* sudo make
 * sudo ./waspp config.json server0
 
 Run
