@@ -28,7 +28,7 @@ Install php-mvc-framework
 * mkdir doc_root
 * vi doc_root/index.html
 ```
-waspp
+Hello, WASPP!
 ```
 
 * make
