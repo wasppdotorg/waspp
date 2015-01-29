@@ -23,6 +23,11 @@
 #include <boost/algorithm/string.hpp>
 
 #include <boost/property_tree/ptree.hpp>
+
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#endif
+
 #include <boost/property_tree/json_parser.hpp>
 
 #include "mime_types.hpp"
