@@ -1,0 +1,66 @@
+{
+
+	// servers
+
+		"server0":
+		{
+			"address" : "127.0.0.1",
+			"port" : 8000,
+			"doc_root" : "doc_root",
+			"num_threads" : 4
+		},
+
+		"server1":
+		{
+			"address" : "127.0.0.1",
+			"port" : 8001,
+			"doc_root" : "doc_root",
+			"num_threads" : 4
+		},
+
+	// database
+
+		"db_index":
+		{
+			"source" : "tcp://127.0.0.1:3306",
+			"userid" : "root",
+			"passwd" : "1235",
+			"database" : "test",
+			"pool_size" : 8,
+			"wait_timeout" : 300
+		},
+
+		"db_shard_000":
+		{
+			"source" : "tcp://127.0.0.1:3306",
+			"userid" : "root",
+			"passwd" : "1235",
+			"database" : "test",
+			"pool_size" : 8,
+			"wait_timeout" : 259200
+		},
+
+
+		"db_shard_001":
+		{
+			"source" : "tcp://127.0.0.1:3306",
+			"userid" : "root",
+			"passwd" : "1235",
+			"database" : "test",
+			"pool_size" : 8,
+			"wait_timeout" : 259200
+		},
+
+		"db_log":
+		{
+			"source" : "tcp://127.0.0.1:3306",
+			"userid" : "root",
+			"passwd" : "1235",
+			"database" : "test",
+			"pool_size" : 8,
+			"wait_timeout" : 259200
+		}
+
+	// end of configuration
+
+}
