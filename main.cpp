@@ -38,9 +38,8 @@ int main(int argc, char* argv[])
             std::cerr << "config::load failed" << std::endl;
             return 1;
         }
-
+		
         waspp::server s(c.address, c.port, c.doc_root, c.num_threads);
-        s.run();
     }
     catch (std::exception& e)
     {

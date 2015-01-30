@@ -58,10 +58,6 @@ void connection::handle_read(const boost::system::error_code& e,
                                      strand_.wrap(
                                          boost::bind(&connection::handle_write, shared_from_this(),
                                                  boost::asio::placeholders::error)));
-
-			//request_parser_.reset();
-			//response_ = response();
-			//request_ = request();
         }
         else if (!result)
         {
@@ -92,18 +88,18 @@ void connection::handle_write(const boost::system::error_code& e)
     if (!e)
     {
         // Initiate graceful connection closure.
+        //boost::system::error_code ignored_ec;
+        //socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
 
-        /*** Do NOT Disconnect ***/
-        boost::system::error_code ignored_ec;
-        socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
+		request_parser_.reset();
+			response_ = response();
+			request_ = request();
 
-		/*
         socket_.async_read_some(boost::asio::buffer(buffer_),
                                 strand_.wrap(
                                     boost::bind(&connection::handle_read, shared_from_this(),
                                                 boost::asio::placeholders::error,
                                                 boost::asio::placeholders::bytes_transferred)));
-												*/
 												
 
     }

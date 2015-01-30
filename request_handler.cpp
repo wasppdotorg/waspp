@@ -78,8 +78,6 @@ void request_handler::handle_request(request& req, response& res)
 
     // Open the file to send back.
     std::string full_path = doc_root_ + request_uri;
-	std::cout << full_path << std::endl;
-
     std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
     if (is)
     {
