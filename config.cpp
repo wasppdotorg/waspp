@@ -33,7 +33,7 @@ bool config::load(const char* file, const char* item)
         std::ifstream is(file, std::ios::in | std::ios::binary);
         if (!is)
         {
-			std::cerr << "config::file not found" << std::endl;
+            std::cerr << "config::file not found" << std::endl;
             return false;
         }
 
@@ -54,7 +54,7 @@ bool config::load(const char* file, const char* item)
         std::map<std::string, std::map<std::string, std::string> >::iterator found = c.find(item);
         if (found == c.end())
         {
-			std::cerr << "config::item not found" << std::endl;
+            std::cerr << "config::item not found" << std::endl;
             return false;
         }
 
@@ -63,7 +63,7 @@ bool config::load(const char* file, const char* item)
                 (*found).second.find("doc_root") == (*found).second.end() ||
                 (*found).second.find("num_threads") == (*found).second.end())
         {
-			std::cerr << "config::element not found" << std::endl;
+            std::cerr << "config::element not found" << std::endl;
             return false;
         }
 
