@@ -26,18 +26,19 @@
 namespace waspp
 {
 
-bool config::load(const char* path, const char* item)
+bool config::load(const char* file, const char* item)
 {
     try
     {
-        std::ifstream is(path, std::ios::in | std::ios::binary);
+        std::ifstream is(file, std::ios::in | std::ios::binary);
         if (!is)
         {
+			std::cerr << "config::file not found" << std::endl;
             return false;
         }
 
         boost::property_tree::ptree pt;
-        read_json(path, pt);
+        read_json(file, pt);
 
         BOOST_FOREACH(boost::property_tree::ptree::value_type const& item_, pt.get_child(""))
         {
@@ -53,14 +54,16 @@ bool config::load(const char* path, const char* item)
         std::map<std::string, std::map<std::string, std::string> >::iterator found = c.find(item);
         if (found == c.end())
         {
+			std::cerr << "config::item not found" << std::endl;
             return false;
         }
 
         if ((*found).second.find("address") == (*found).second.end() ||
                 (*found).second.find("port") == (*found).second.end() ||
                 (*found).second.find("doc_root") == (*found).second.end() ||
-                (*found).second.find("num_thread") == (*found).second.end())
+                (*found).second.find("num_threads") == (*found).second.end())
         {
+			std::cerr << "config::element not found" << std::endl;
             return false;
         }
 

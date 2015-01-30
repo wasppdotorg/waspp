@@ -22,7 +22,7 @@ namespace waspp
 class config
 {
 public:
-    bool load(const char* path, const char* item);
+    bool load(const char* file, const char* item);
 
     std::string address, port, doc_root;
     std::size_t num_threads;

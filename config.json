@@ -1,6 +1,6 @@
 {
 
-	// servers
+	"//servers" : 0,
 
 		"server0":
 		{
@@ -18,7 +18,7 @@
 			"num_threads" : 4
 		},
 
-	// database
+	"//database" : 0,
 
 		"db_index":
 		{
@@ -59,8 +59,8 @@
 			"database" : "test",
 			"pool_size" : 8,
 			"wait_timeout" : 259200
-		}
+		},
 
-	// end of configuration
+	"//end" : 0
 
 }
