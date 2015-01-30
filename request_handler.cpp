@@ -43,7 +43,7 @@ request_handler::request_handler(const std::string& doc_root)
 {
 }
 
-void request_handler::handle_request(request& req, response& res)
+void request_handler::handle_request(const request& req, response& res)
 {
     // Decode url to path.
     std::string request_uri;
@@ -52,7 +52,7 @@ void request_handler::handle_request(request& req, response& res)
         res = response::static_response(response::bad_request);
         return;
     }
-    req.uri = request_uri;
+    //req.uri = request_uri;
 
     // Request path must be absolute and not contain "..".
     if (request_uri.empty() || request_uri[0] != '/'
