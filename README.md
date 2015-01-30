@@ -31,7 +31,7 @@ Install waspp
 * cd /var/
 * sudo git clone https://github.com/waspporg/waspp.git
 * cd waspp
-* sudo cmake
+* sudo cmake .
 * sudo make
 * sudo ./waspp config.json server0
 
