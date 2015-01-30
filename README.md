@@ -1,6 +1,14 @@
 waspp
 =====
 
+Tested with
+-----------
+* CMake on Ubuntu 14.04 LTS Linux Server (Boost 1.54)
+* CodeBlocks 10.05 on Debian 7 Linux Desktop (Boost 1.49)
+* Visual Studio 2010 Express on Windows 7 (Boost 1.54 lib32-msvc-10.0)
+* Visual Studio 2013 Professional on Windows 7 (Boost 1.55 lib64-msvc-12.0)
+
+
 Install MariaDB
 ---------------
 * sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
