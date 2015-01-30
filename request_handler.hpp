@@ -5,7 +5,6 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-// WASPP : Web Application Server written in C++
 //
 // Copyright (c) 2014-2015 WASPP (waspp.org@gmail.com)
 //
@@ -34,7 +33,7 @@ public:
     explicit request_handler(const std::string& doc_root);
 
     /// Handle a request and produce a response.
-    void handle_request(const request& req, response& res);
+    void handle_request(request& req, response& res);
 
 private:
     /// The directory containing the files to be served.

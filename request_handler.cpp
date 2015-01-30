@@ -5,7 +5,6 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-// WASPP : Web Application Server written in C++
 //
 // Copyright (c) 2014-2015 WASPP (waspp.org@gmail.com)
 //
@@ -43,7 +42,7 @@ request_handler::request_handler(const std::string& doc_root)
 {
 }
 
-void request_handler::handle_request(const request& req, response& res)
+void request_handler::handle_request(request& req, response& res)
 {
     // Decode url to path.
     std::string request_uri;
@@ -52,7 +51,7 @@ void request_handler::handle_request(const request& req, response& res)
         res = response::static_response(response::bad_request);
         return;
     }
-    //req.uri = request_uri;
+    req.uri = request_uri;
 
     // Request path must be absolute and not contain "..".
     if (request_uri.empty() || request_uri[0] != '/'
@@ -79,8 +78,6 @@ void request_handler::handle_request(const request& req, response& res)
 
     // Open the file to send back.
     std::string full_path = doc_root_ + request_uri;
-	//std::cout << full_path << std::endl;
-	full_path = "C:/Users/pwusr/Documents/Visual Studio 2013/Projects/doc_root/index.html";
 	std::cout << full_path << std::endl;
 
     std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
@@ -103,12 +100,13 @@ void request_handler::handle_request(const request& req, response& res)
         return;
     }
 
-	/*
-	res = response::static_response(response::not_found);
-	return;
-	*/
-
     function_ptr function = router::find(request_uri);
+	if (function == 0)
+	{
+		res = response::static_response(response::not_found);
+		return;
+	}
+
     function(req, res);
 
     //res = response::static_response(response::not_found);

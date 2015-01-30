@@ -5,7 +5,6 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-// WASPP : Web Application Server written in C++
 //
 // Copyright (c) 2014-2015 WASPP (waspp.org@gmail.com)
 //
@@ -27,7 +26,6 @@ int main(int argc, char* argv[])
 {
     try
     {
-		/*
         if (argc != 3)
         {
             std::cerr << "Usage: ./waspp config.json server0\n";
@@ -42,8 +40,6 @@ int main(int argc, char* argv[])
         }
 
         waspp::server s(c.address, c.port, c.doc_root, c.num_threads);
-		*/
-		waspp::server s("127.0.0.1", "8000", "doc_root", 4);
         s.run();
     }
     catch (std::exception& e)

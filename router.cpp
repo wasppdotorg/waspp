@@ -5,7 +5,6 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-// WASPP : Web Application Server written in C++
 //
 // Copyright (c) 2014-2015 WASPP (waspp.org@gmail.com)
 //
@@ -42,6 +41,7 @@ route routes[] =
 
         { "/?/index", &index::jsonp },
     */
+
     { 0, 0 } // Marks end of list.
 };
 
