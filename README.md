@@ -26,17 +26,12 @@ Install Boost, MySQLCppConn and TCMalloc
 * sudo apt-get install libmysqlcppconn-dev
 * sudo apt-get install libgoogle-perftools-dev
 
-Install php-mvc-framework
--------------------------
+Install waspp
+-------------
 * cd /var/
 * sudo git clone https://github.com/waspporg/waspp.git
 * cd waspp
-* sudo mkdir doc_root
-* sudo vi doc_root/index.html
-```
-Hello, WASPP!
-```
-
+* sudo cmake
 * sudo make
 * sudo ./waspp config.json server0
 
