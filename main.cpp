@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
         }
 		
         waspp::server s(c.address, c.port, c.doc_root, c.num_threads);
+		s.run();
     }
     catch (std::exception& e)
     {
