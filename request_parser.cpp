@@ -206,8 +206,8 @@ boost::tribool request_parser::consume(request& req, char input)
         }
         else
         {
-            req.headers.push_back(header());
-            req.headers.back().name.push_back(input);
+            req.headers.push_back(key_value());
+            req.headers.back().key.push_back(input);
             state_ = header_name;
             return boost::indeterminate;
         }
@@ -243,7 +243,7 @@ boost::tribool request_parser::consume(request& req, char input)
         }
         else
         {
-            req.headers.back().name.push_back(input);
+            req.headers.back().key.push_back(input);
             return boost::indeterminate;
         }
     case space_before_header_value:
@@ -290,10 +290,10 @@ boost::tribool request_parser::consume(request& req, char input)
         {
             req.content_length = 0;
 
-            std::vector<header>::iterator i;
+            std::vector<key_value>::iterator i;
             for (i = req.headers.begin(); i != req.headers.end(); ++i)
             {
-                if (i->name == "Content-Length")
+                if (i->key == "Content-Length")
                 {
                     req.content_length = boost::lexical_cast<std::size_t>(i->value);
                 }

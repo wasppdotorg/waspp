@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 #include <boost/asio.hpp>
-#include "header.hpp"
+#include "key_value.hpp"
 
 namespace waspp
 {
@@ -50,7 +50,7 @@ struct response
     status_type status;
 
     /// The headers to be included in the response.
-    std::vector<header> headers;
+    std::vector<key_value> headers;
 
     /// The content to be sent in the response.
     std::string content;

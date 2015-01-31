@@ -12,20 +12,28 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_HEADER_HPP
-#define WASPP_HEADER_HPP
+#ifndef WASPP_KEY_VALUE_HPP
+#define WASPP_KEY_VALUE_HPP
 
 #include <string>
 
 namespace waspp
 {
 
-struct header
+struct key_value
 {
-    std::string name;
+	key_value()
+	{
+	}
+
+	key_value(std::string key_, std::string value_) : key(key_), value(value_)
+	{
+	}
+
+    std::string key;
     std::string value;
 };
 
 } // namespace waspp
 
-#endif // WASPP_HEADER_HPP
+#endif // WASPP_KEY_VALUE_HPP

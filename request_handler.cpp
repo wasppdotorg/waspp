@@ -90,13 +90,17 @@ void request_handler::handle_request(request& req, response& res)
         }
 
         res.headers.resize(2);
-        res.headers[0].name = "Content-Length";
+        res.headers[0].key = "Content-Length";
         res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
-        res.headers[1].name = "Content-Type";
+        res.headers[1].key = "Content-Type";
         res.headers[1].value = mime_types::extension_to_type(extension);
 
         return;
     }
+
+	if (req.method == "POST")
+	{
+	}
 
     function_ptr function = router::find(request_uri);
 	if (function == 0)

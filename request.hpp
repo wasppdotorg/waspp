@@ -17,7 +17,7 @@
 
 #include <string>
 #include <vector>
-#include "header.hpp"
+#include "key_value.hpp"
 
 namespace waspp
 {
@@ -29,10 +29,12 @@ struct request
     std::string uri;
     int http_version_major;
     int http_version_minor;
-    std::vector<header> headers;
+    std::vector<key_value> headers;
 
     std::size_t content_length;
     std::string content;
+
+	std::vector<key_value> params;
 };
 
 } // namespace waspp

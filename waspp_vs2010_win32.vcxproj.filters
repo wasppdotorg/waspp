@@ -59,9 +59,6 @@
     <ClInclude Include="database_mysql.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="mime_types.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="server.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="key_value.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
