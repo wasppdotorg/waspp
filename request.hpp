@@ -17,6 +17,8 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <boost/bind.hpp>
 #include "key_value.hpp"
 
 namespace waspp
@@ -25,6 +27,32 @@ namespace waspp
 /// A request received from a client.
 struct request
 {
+	std::string get_header(std::string key)
+	{
+		std::vector<key_value>::iterator found;
+		found = std::find_if(headers.begin(), headers.end(), boost::bind(&key_value::compare_key, _1, key));
+
+		if (found == headers.end())
+		{
+			return found->value;
+		}
+
+		return std::string();
+	}
+
+	std::string get_param(std::string key)
+	{
+		std::vector<key_value>::iterator found;
+		found = std::find_if(params.begin(), params.end(), boost::bind(&key_value::compare_key, _1, key));
+
+		if (found == params.end())
+		{
+			return found->value;
+		}
+
+		return std::string();
+	}
+	
     std::string method;
     std::string uri;
     int http_version_major;

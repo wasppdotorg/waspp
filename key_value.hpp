@@ -30,6 +30,11 @@ struct key_value
 	{
 	}
 
+	bool compare_key(const std::string& key)
+	{
+		return this->key == key;
+	}
+
     std::string key;
     std::string value;
 };

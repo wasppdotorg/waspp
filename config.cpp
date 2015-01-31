@@ -50,17 +50,19 @@ bool config::load(const char* file, const char* item)
             c.insert(std::make_pair(item_.first, i));
         }
 
-        std::map<std::string, std::map<std::string, std::string> >::iterator found = c.find(item);
+        std::map<std::string, std::map<std::string, std::string>>::iterator found;
+		found = c.find(item);
+
         if (found == c.end())
         {
             std::cerr << "config::item not found" << std::endl;
             return false;
         }
 
-        if ((*found).second.find("address") == (*found).second.end() ||
-                (*found).second.find("port") == (*found).second.end() ||
-                (*found).second.find("doc_root") == (*found).second.end() ||
-                (*found).second.find("num_threads") == (*found).second.end())
+        if ((found->second).find("address") == (found->second).end() ||
+                (found->second).find("port") == (found->second).end() ||
+                (found->second).find("doc_root") == (found->second).end() ||
+                (found->second).find("num_threads") == (found->second).end())
         {
             std::cerr << "config::element not found" << std::endl;
             return false;

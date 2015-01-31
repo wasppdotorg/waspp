@@ -54,7 +54,7 @@ server::server(const std::string& address, const std::string& port,
 void server::run()
 {
     // Create a pool of threads to run all of the io_services.
-    std::vector<boost::shared_ptr<boost::thread> > threads;
+    std::vector<boost::shared_ptr<boost::thread>> threads;
     for (std::size_t i = 0; i < thread_pool_size_; ++i)
     {
         boost::shared_ptr<boost::thread> thread(new boost::thread(
