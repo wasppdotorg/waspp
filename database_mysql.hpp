@@ -62,4 +62,4 @@ private:
 
 } // namespace waspp
 
-#endif // WASPP_CONFIG_HPP
+#endif // WASPP_DATABASE_MYSQL_HPP
