@@ -290,12 +290,11 @@ boost::tribool request_parser::consume(request& req, char input)
         {
             req.content_length = 0;
 
-            std::vector<key_value>::iterator i;
-            for (i = req.headers.begin(); i != req.headers.end(); ++i)
+            for (std::size_t i = 0; i < req.headers.size(); ++i)
             {
-                if (i->key == "Content-Length")
+                if (req.headers[i].key == "Content-Length")
                 {
-                    req.content_length = boost::lexical_cast<std::size_t>(i->value);
+					req.content_length = boost::lexical_cast<std::size_t>(req.headers[i].value);
                 }
             }
 

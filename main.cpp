@@ -24,6 +24,10 @@
 
 int main(int argc, char* argv[])
 {
+	//waspp::server s("127.0.0.1", "8000", "doc_root", 4);
+	//s.run();
+	//return 0;
+
     try
     {
         if (argc != 3)

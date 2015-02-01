@@ -20,70 +20,101 @@
 
 #include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <mysql/mysql.h>
 
-#include "key_value.hpp"
-
 namespace waspp
 {
+
+/*
++---------------+----------------------+-------------------------+
+| c_types       | buffer_types         | sql_types               |
++---------------+----------------------+-------------------------+
+| signed char   | MYSQL_TYPE_TINY      | TINYINT                 |
+| short int     | MYSQL_TYPE_SHORT     | SMALLINT                |
+| int           | MYSQL_TYPE_LONG      | INT                     |
+| long long int | MYSQL_TYPE_LONGLONG  | BIGINT                  |
+| float         | MYSQL_TYPE_FLOAT     | FLOAT                   |
+| double        | MYSQL_TYPE_DOUBLE    | DOUBLE                  |
+| MYSQL_TIME    | MYSQL_TYPE_TIME      | TIME                    |
+| MYSQL_TIME    | MYSQL_TYPE_DATE      | DATE                    |
+| MYSQL_TIME    | MYSQL_TYPE_DATETIME  | DATETIME                |
+| MYSQL_TIME    | MYSQL_TYPE_TIMESTAMP | TIMESTAMP               |
+| char[]        | MYSQL_TYPE_STRING    | TEXT, CHAR, VARCHAR     |
+| char[]        | MYSQL_TYPE_BLOB      | BLOB, BINARY, VARBINARY |
+|               | MYSQL_TYPE_NULL      | NULL                    |
++---------------+----------------------+-------------------------+
+*/
 
 class mysql_runtime_error : public std::runtime_error
 {
 public:
 	mysql_runtime_error(const std::string& what_arg) : std::runtime_error(what_arg)
 	{
+		
 	}
 };
 
 struct mysql_param
 {
-	mysql_param() : is_null(true), is_blob(false), length(0), buffer(0)
+	mysql_param(const std::string& value)
 	{
+		make_bind(value, false, false);
 	}
 
-	bool is_null;
-	bool is_blob;
+	mysql_param(const std::string& value, bool is_null)
+	{
+		make_bind(value, is_null, false);
+	}
 
-	std::string value;
-	unsigned long length;
+	mysql_param(const std::string& value, bool is_null, bool is_blob)
+	{
+		make_bind(value, is_null, is_blob);
+	}
+
+	void make_bind(const std::string& value, bool is_null, bool is_blob)
+	{
+		if (is_null)
+		{
+			bind.buffer_type = MYSQL_TYPE_NULL;
+			return;
+		}
+
+		bind.buffer_type = MYSQL_TYPE_STRING;
+		if (is_blob)
+		{
+			bind.buffer_type = MYSQL_TYPE_BLOB;
+		}
+
+		bind.buffer = const_cast<char*>(value.c_str());
+		bind.buffer_length = value.size();
+
+		unsigned long length = boost::lexical_cast<unsigned long>(value.size());
+		bind.length = &length;
+	}
 	
-	void *buffer;
-};
-
-struct bind_data
-{
-	bind_data() : ptr(0), length(0), is_null(false), error(false)
-	{
-	}
-
-	char buf[128];
-	std::vector<char> vbuf;
-	char* ptr;
-	unsigned long length;
-	bool is_null;
-	bool error;
+	MYSQL_BIND bind;
 };
 
 class mysql_res
 {
 public:
-	mysql_res(MYSQL_STMT* stmt_);
+	mysql_res(MYSQL_STMT* stmt);
 	~mysql_res();
 
 private:
-	int field_count;
+	unsigned int field_count;
 	unsigned int current_row;
 
 	MYSQL_RES* metadata;
-	std::vector<MYSQL_BIND> binds;
-	std::vector<bind_data> bind_datas;
+	std::vector<mysql_param> params;
 };
 
 class mysql_stmt
 {
 public:
-	mysql_stmt(MYSQL* mysql_, const std::string& query_, const std::vector<mysql_param>& params_);
+	mysql_stmt(MYSQL* mysql, const std::string& query, const std::vector<mysql_param>& params);
 	~mysql_stmt();
 
 	//void bind();
@@ -94,7 +125,7 @@ private:
 	MYSQL_STMT* stmt;
 	int param_count;
 
-	std::vector<MYSQL_BIND> binds;
+	std::vector<mysql_param> params;
 };
 
 class mysql_conn

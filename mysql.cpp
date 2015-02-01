@@ -19,19 +19,20 @@
 namespace waspp
 {
 
-mysql_res::mysql_res(MYSQL_STMT* stmt_)
+mysql_res::mysql_res(MYSQL_STMT* stmt)
 {
-	field_count = mysql_stmt_field_count(stmt_);
-	if (mysql_stmt_store_result(stmt_) == 0)
+	if (mysql_stmt_store_result(stmt) == 0)
 	{
-		throw mysql_runtime_error(mysql_stmt_error(stmt_));
+		throw mysql_runtime_error(mysql_stmt_error(stmt));
 	}
 
-	metadata = mysql_stmt_result_metadata(stmt_);
+	metadata = mysql_stmt_result_metadata(stmt);
 	if (!metadata)
 	{
 		throw mysql_runtime_error("empty result");
 	}
+
+	field_count = mysql_stmt_field_count(stmt);
 }
 
 mysql_res::~mysql_res()
@@ -42,7 +43,7 @@ mysql_res::~mysql_res()
 	}
 }
 
-mysql_stmt::mysql_stmt(MYSQL* mysql, const std::string& query_, const std::vector<mysql_param>& params_)
+mysql_stmt::mysql_stmt(MYSQL* mysql, const std::string& query, const std::vector<mysql_param>& params)
 {
 	stmt = mysql_stmt_init(mysql);
 
@@ -53,12 +54,30 @@ mysql_stmt::mysql_stmt(MYSQL* mysql, const std::string& query_, const std::vecto
 			throw mysql_runtime_error("mysql_stmt_init failed");
 		}
 
-		if (mysql_stmt_prepare(stmt, query_.c_str(), query_.size()) != 0)
+		if (mysql_stmt_prepare(stmt, query.c_str(), query.size()) != 0)
 		{
 			throw mysql_runtime_error(mysql_stmt_error(stmt));
 		}
 
 		param_count = mysql_stmt_param_count(stmt);
+		if (param_count != params.size())
+		{
+			throw mysql_runtime_error("mysql_stmt_param_count not match");
+		}
+
+		if (!params.empty())
+		{
+			std::vector<MYSQL_BIND> binds;
+			for (std::size_t i = 0; i < params.size(); ++i)
+			{
+				binds.push_back(params[i].bind);
+			}
+
+			if (mysql_stmt_bind_param(stmt, &binds[0]) != 0)
+			{
+				throw mysql_runtime_error(mysql_stmt_error(stmt));
+			}
+		}
 	}
 	catch (...)
 	{
@@ -80,16 +99,9 @@ unsigned long long mysql_stmt::execute()
 {
 	//bind();
 
-	if (mysql_stmt_execute(stmt) != 0 || mysql_stmt_store_result(stmt) != 0)
+	if (mysql_stmt_execute(stmt) != 0)
 	{
 		throw mysql_runtime_error(mysql_stmt_error(stmt));
-	}
-
-	MYSQL_RES* r = mysql_stmt_result_metadata(stmt);
-	if (r)
-	{
-		mysql_free_result(r);
-		throw mysql_runtime_error("execute_query to get result");
 	}
 
 	return mysql_stmt_affected_rows(stmt);
