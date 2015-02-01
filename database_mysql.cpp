@@ -17,7 +17,7 @@
 namespace waspp
 {
 
-bool database_myql::create_pool()
+bool database_mysql::create_pool()
 {
     for (std::size_t i = 0; i < pool_size; ++i)
     {
@@ -33,7 +33,7 @@ bool database_myql::create_pool()
     return true;
 }
 
-database_ptr database_myql::acquire_connection()
+database_ptr database_mysql::acquire_connection()
 {
     boost::lock_guard<boost::mutex> lock(mutex_);
 
@@ -57,7 +57,7 @@ database_ptr database_myql::acquire_connection()
     return db;
 }
 
-void database_myql::release_connection(database_ptr db)
+void database_mysql::release_connection(database_ptr db)
 {
     boost::lock_guard<boost::mutex> lock(mutex_);
 
@@ -70,7 +70,7 @@ void database_myql::release_connection(database_ptr db)
     pool.push_back(db);
 }
 
-database_ptr database_myql::connect_database(bool connect_excessively)
+database_ptr database_mysql::connect_database(bool connect_excessively)
 {
     try
     {
@@ -91,7 +91,7 @@ database_ptr database_myql::connect_database(bool connect_excessively)
     }
 }
 
-bool database_myql::validate_connection(database_ptr db)
+bool database_mysql::validate_connection(database_ptr db)
 {
     try
     {

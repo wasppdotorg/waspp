@@ -40,7 +40,7 @@ struct database
 
 typedef boost::shared_ptr<database> database_ptr;
 
-class database_myql
+class database_mysql
 {
 public:
     bool create_pool();
