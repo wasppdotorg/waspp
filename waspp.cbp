@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="waspp" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/waspp" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/waspp" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Linker>
+			<Add option="-lpthread" />
+			<Add option="-lboost_system" />
+			<Add option="-lboost_thread" />
+			<Add option="-lmysqlcppconn" />
+		</Linker>
+		<Unit filename="config.cpp" />
+		<Unit filename="config.hpp" />
+		<Unit filename="connection.cpp" />
+		<Unit filename="connection.hpp" />
+		<Unit filename="database_mysql.cpp" />
+		<Unit filename="database_mysql.hpp" />
+		<Unit filename="header.hpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="mime_types.cpp" />
+		<Unit filename="mime_types.hpp" />
+		<Unit filename="request.hpp" />
+		<Unit filename="request_handler.cpp" />
+		<Unit filename="request_handler.hpp" />
+		<Unit filename="request_parser.cpp" />
+		<Unit filename="request_parser.hpp" />
+		<Unit filename="response.cpp" />
+		<Unit filename="response.hpp" />
+		<Unit filename="route_board.cpp" />
+		<Unit filename="router.cpp" />
+		<Unit filename="router.hpp" />
+		<Unit filename="server.cpp" />
+		<Unit filename="server.hpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
