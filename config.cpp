@@ -50,7 +50,7 @@ bool config::load(const char* file, const char* item)
             c.insert(std::make_pair(item_.first, i));
         }
 
-        std::map<std::string, std::map<std::string, std::string>>::iterator found;
+        std::map< std::string, std::map<std::string, std::string> >::iterator found;
 		found = c.find(item);
 
         if (found == c.end())
