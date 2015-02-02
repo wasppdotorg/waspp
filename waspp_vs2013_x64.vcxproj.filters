@@ -56,9 +56,6 @@
     <ClInclude Include="connection.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="header.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="mime_types.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -81,6 +78,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="database_mysql.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="key_value.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

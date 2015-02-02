@@ -141,7 +141,7 @@
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="database_mysql.hpp" />
-    <ClInclude Include="header.hpp" />
+    <ClInclude Include="key_value.hpp" />
     <ClInclude Include="mime_types.hpp" />
     <ClInclude Include="request.hpp" />
     <ClInclude Include="request_handler.hpp" />
