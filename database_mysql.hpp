@@ -34,8 +34,8 @@ namespace waspp
 struct database
 {
     sql::Connection* conn;
-    boost::posix_time::ptime last_released;
-    bool connected_excessively;
+    boost::posix_time::ptime released;
+    bool pooled;
 };
 
 typedef boost::shared_ptr<database> database_ptr;
@@ -52,7 +52,7 @@ public:
     void release_connection(database_ptr db);
 
 private:
-    database_ptr connect_database(bool connect_excessively = false);
+    database_ptr connect_database(bool pooled = true);
     bool validate_connection(database_ptr db);
 
     std::size_t pool_size;

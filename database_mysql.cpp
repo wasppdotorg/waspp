@@ -47,14 +47,14 @@ database_ptr database_mysql::acquire_connection()
 
     if (pool.size() == 0)
     {
-        return connect_database(true);
+        return connect_database(false);
     }
 
     database_ptr db = *(pool.end() - 1);
     pool.pop_back();
 
     boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
-    boost::posix_time::time_duration diff = now - db->last_released;
+    boost::posix_time::time_duration diff = now - db->released;
 
     if (diff.seconds() > wait_timeout && !validate_connection(db))
     {
@@ -69,16 +69,16 @@ void database_mysql::release_connection(database_ptr db)
 {
     boost::lock_guard<boost::mutex> lock(mutex_);
 
-    if (db->connected_excessively)
+    if (!db->pooled)
     {
         return;
     }
 
-    db->last_released = boost::posix_time::second_clock::local_time();
+    db->released = boost::posix_time::second_clock::local_time();
     pool.push_back(db);
 }
 
-database_ptr database_mysql::connect_database(bool connect_excessively)
+database_ptr database_mysql::connect_database(bool pooled)
 {
     try
     {
@@ -87,8 +87,8 @@ database_ptr database_mysql::connect_database(bool connect_excessively)
         database_ptr db;
         {
             db->conn = driver->connect("tcp://127.0.0.1:3306", "root", "1235");
-            db->last_released = boost::posix_time::second_clock::local_time();
-            db->connected_excessively = connect_excessively;
+            db->released = boost::posix_time::second_clock::local_time();
+            db->pooled = pooled;
         }
 
         return db;
