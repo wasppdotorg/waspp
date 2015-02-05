@@ -43,6 +43,9 @@ typedef boost::shared_ptr<database> database_ptr;
 class database_mysql
 {
 public:
+	database_mysql();
+	~database_mysql();
+
     bool create_pool();
 
     database_ptr acquire_connection();
@@ -57,7 +60,6 @@ private:
 
     std::vector<database_ptr> pool;
     boost::mutex mutex_;
-
 };
 
 } // namespace waspp

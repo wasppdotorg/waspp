@@ -17,6 +17,14 @@
 namespace waspp
 {
 
+database_mysql::database_mysql() : pool_size(0), wait_timeout(0), pool(0)
+{
+}
+
+database_mysql::~database_mysql()
+{
+}
+
 bool database_mysql::create_pool()
 {
     for (std::size_t i = 0; i < pool_size; ++i)
