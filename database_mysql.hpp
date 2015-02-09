@@ -56,7 +56,7 @@ private:
     bool validate_connection(database_ptr db);
 
     std::size_t pool_size;
-    int64_t wait_timeout;
+    long long int wait_timeout;
 
     std::vector<database_ptr> pool;
     boost::mutex mutex_;
