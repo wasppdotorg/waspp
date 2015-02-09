@@ -16,44 +16,44 @@
 
 namespace waspp
 {
-namespace mime_types
-{
+	namespace mime_types
+	{
 
-struct mapping
-{
-    const char* extension;
-    const char* mime_type;
-};
+		struct mapping
+		{
+			const char* extension;
+			const char* mime_type;
+		};
 
-mapping mappings[] =
-{
-    { "css", "text/css" },
-    { "gif", "image/gif" },
-    { "htm", "text/html" },
-    { "html", "text/html" },
-    { "ico", "image/x-icon" },
-    { "jpg", "image/jpeg" },
-    { "js", "application/javascript" },
-    { "json", "application/json" },
-    { "png", "image/png" },
-    { "txt", "text/plain" },
-    { "xhtml", "text/html" },
-    { "xml", "application/xml" },
-    { 0, 0 } // Marks end of list.
-};
+		mapping mappings[] =
+		{
+			{ "css", "text/css" },
+			{ "gif", "image/gif" },
+			{ "htm", "text/html" },
+			{ "html", "text/html" },
+			{ "ico", "image/x-icon" },
+			{ "jpg", "image/jpeg" },
+			{ "js", "application/javascript" },
+			{ "json", "application/json" },
+			{ "png", "image/png" },
+			{ "txt", "text/plain" },
+			{ "xhtml", "text/html" },
+			{ "xml", "application/xml" },
+			{ 0, 0 } // Marks end of list.
+		};
 
-std::string extension_to_type(const std::string& extension)
-{
-    for (mapping* m = mappings; m->extension; ++m)
-    {
-        if (m->extension == extension)
-        {
-            return m->mime_type;
-        }
-    }
+		std::string extension_to_type(const std::string& extension)
+		{
+			for (mapping* m = mappings; m->extension; ++m)
+			{
+				if (m->extension == extension)
+				{
+					return m->mime_type;
+				}
+			}
 
-    return "application/octet-stream";
-}
+			return "application/octet-stream";
+		}
 
-} // namespace mime_types
+	} // namespace mime_types
 } // namespace waspp

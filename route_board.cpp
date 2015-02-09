@@ -17,21 +17,21 @@
 
 namespace waspp
 {
-namespace board
-{
-namespace index
-{
+	namespace board
+	{
+		namespace index
+		{
 
-void html(const request& req, response& res)
-{
+			void html(const request& req, response& res)
+			{
 
-}
+			}
 
-void jsonp(const request& req, response& res)
-{
+			void jsonp(const request& req, response& res)
+			{
 
-}
+			}
 
-} // namespace index
-} // namespace board
+		} // namespace index
+	} // namespace board
 } // namespace waspp

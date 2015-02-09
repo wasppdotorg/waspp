@@ -20,24 +20,24 @@
 namespace waspp
 {
 
-struct key_value
-{
-    key_value()
-    {
-    }
+	struct key_value
+	{
+		key_value()
+		{
+		}
 
-    key_value(std::string key_, std::string value_) : key(key_), value(value_)
-    {
-    }
+		key_value(std::string key_, std::string value_) : key(key_), value(value_)
+		{
+		}
 
-    bool compare_key(const std::string& key_)
-    {
-        return key == key_;
-    }
+		bool compare_key(const std::string& key_)
+		{
+			return key == key_;
+		}
 
-    std::string key;
-    std::string value;
-};
+		std::string key;
+		std::string value;
+	};
 
 } // namespace waspp
 

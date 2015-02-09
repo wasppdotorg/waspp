@@ -16,47 +16,47 @@
 
 namespace waspp
 {
-namespace router
-{
+	namespace router
+	{
 
-route routes[] =
-{
-    //{ "/api/test", &api::test::json },
+		route routes[] =
+		{
+			//{ "/api/test", &api::test::json },
 
-    { "/board/index", &board::index::html },
-    { "/?/board/index", &board::index::jsonp },
+			{ "/board/index", &board::index::html },
+			{ "/?/board/index", &board::index::jsonp },
 
-    /*
-        { "/board/form", &board::form::html },
-        { "/?/board/form", &board::form::jsonp },
-        { "/board/post", &board::form::html },
+			/*
+				{ "/board/form", &board::form::html },
+				{ "/?/board/form", &board::form::jsonp },
+				{ "/board/post", &board::form::html },
 
-        { "/user/signin", &user::signin::html },
-        { "/?/user/signin", &user::signin::jsonp },
-        { "/user/auth", &user::auth },
+				{ "/user/signin", &user::signin::html },
+				{ "/?/user/signin", &user::signin::jsonp },
+				{ "/user/auth", &user::auth },
 
-        { "/user/signup", &user::signup::html },
-        { "/?/user/signup", &user::signup::jsonp },
-        { "/user/post", &user::post },
+				{ "/user/signup", &user::signup::html },
+				{ "/?/user/signup", &user::signup::jsonp },
+				{ "/user/post", &user::post },
 
-        { "/?/index", &index::jsonp },
-    */
+				{ "/?/index", &index::jsonp },
+				*/
 
-    { 0, 0 } // Marks end of list.
-};
+			{ 0, 0 } // Marks end of list.
+		};
 
-function_ptr find(const std::string& request_uri)
-{
-    for (route* r = routes; r->uri; ++r)
-    {
-        if (!request_uri.find(r->uri))
-        {
-            return r->function;
-        }
-    }
+		function_ptr find(const std::string& request_uri)
+		{
+			for (route* r = routes; r->uri; ++r)
+			{
+				if (!request_uri.find(r->uri))
+				{
+					return r->function;
+				}
+			}
 
-    return 0;
-}
+			return 0;
+		}
 
-} // namespace router
+	} // namespace router
 } // namespace waspp

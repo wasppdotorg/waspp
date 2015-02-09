@@ -18,18 +18,18 @@
 namespace waspp
 {
 
-class config
-{
-public:
-    bool load(const char* file, const char* item);
+	class config
+	{
+	public:
+		bool load(const char* file, const char* item);
 
-    std::string address, port, doc_root;
-    std::size_t num_threads;
-    std::map< std::string, std::map<std::string, std::string> > c;
+		std::string address, port, doc_root;
+		std::size_t num_threads;
+		std::map< std::string, std::map<std::string, std::string> > c;
 
-private:
+	private:
 
-};
+	};
 
 } // namespace waspp
 

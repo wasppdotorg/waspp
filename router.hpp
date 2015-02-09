@@ -22,29 +22,29 @@
 namespace waspp
 {
 
-namespace board
-{
-namespace index
-{
-void html(const request& req, response& res);
-void jsonp(const request& req, response& res);
-} // namespace index
-} // namespace board
+	namespace board
+	{
+		namespace index
+		{
+			void html(const request& req, response& res);
+			void jsonp(const request& req, response& res);
+		} // namespace index
+	} // namespace board
 
-typedef void (*function_ptr)(const request&, response&);
+	typedef void(*function_ptr)(const request&, response&);
 
-namespace router
-{
+	namespace router
+	{
 
-struct route
-{
-    const char* uri;
-    function_ptr function;
-};
+		struct route
+		{
+			const char* uri;
+			function_ptr function;
+		};
 
-function_ptr find(const std::string& request_uri);
+		function_ptr find(const std::string& request_uri);
 
-} // namespace router
+	} // namespace router
 
 } // namespace waspp
 

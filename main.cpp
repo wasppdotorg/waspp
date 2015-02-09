@@ -24,32 +24,32 @@
 
 int main(int argc, char* argv[])
 {
-    //waspp::server s("127.0.0.1", "8000", "doc_root", 4);
-    //s.run();
-    //return 0;
+	//waspp::server s("127.0.0.1", "8000", "doc_root", 4);
+	//s.run();
+	//return 0;
 
-    try
-    {
-        if (argc != 3)
-        {
-            std::cerr << "Usage: ./waspp config.json server0\n";
-            return 1;
-        }
+	try
+	{
+		if (argc != 3)
+		{
+			std::cerr << "Usage: ./waspp config.json server0\n";
+			return 1;
+		}
 
-        waspp::config c;
-        if (!c.load(argv[1], argv[2]))
-        {
-            std::cerr << "config::load failed" << std::endl;
-            return 1;
-        }
+		waspp::config c;
+		if (!c.load(argv[1], argv[2]))
+		{
+			std::cerr << "config::load failed" << std::endl;
+			return 1;
+		}
 
-        waspp::server s(c.address, c.port, c.doc_root, c.num_threads);
-        s.run();
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << "exception: " << e.what() << "\n";
-    }
+		waspp::server s(c.address, c.port, c.doc_root, c.num_threads);
+		s.run();
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "exception: " << e.what() << "\n";
+	}
 
-    return 0;
+	return 0;
 }

@@ -31,36 +31,36 @@
 namespace waspp
 {
 
-struct database
-{
-    sql::Connection* conn;
-    boost::posix_time::ptime released;
-    bool pooled;
-};
+	struct database
+	{
+		sql::Connection* conn;
+		boost::posix_time::ptime released;
+		bool pooled;
+	};
 
-typedef boost::shared_ptr<database> database_ptr;
+	typedef boost::shared_ptr<database> database_ptr;
 
-class database_mysql
-{
-public:
-    database_mysql();
-    ~database_mysql();
+	class database_mysql
+	{
+	public:
+		database_mysql();
+		~database_mysql();
 
-    bool create_pool();
+		bool create_pool();
 
-    database_ptr acquire_connection();
-    void release_connection(database_ptr db);
+		database_ptr acquire_connection();
+		void release_connection(database_ptr db);
 
-private:
-    database_ptr connect_database(bool pooled = true);
-    bool validate_connection(database_ptr db);
+	private:
+		database_ptr connect_database(bool pooled = true);
+		bool validate_connection(database_ptr db);
 
-    std::size_t pool_size;
-    long long int wait_timeout;
+		std::size_t pool_size;
+		long long int wait_timeout;
 
-    std::vector<database_ptr> pool;
-    boost::mutex mutex_;
-};
+		std::vector<database_ptr> pool;
+		boost::mutex mutex_;
+	};
 
 } // namespace waspp
 
