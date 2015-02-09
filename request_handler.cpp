@@ -98,16 +98,16 @@ void request_handler::handle_request(request& req, response& res)
         return;
     }
 
-	if (req.method == "POST")
-	{
-	}
+    if (req.method == "POST")
+    {
+    }
 
     function_ptr function = router::find(request_uri);
-	if (function == 0)
-	{
-		res = response::static_response(response::not_found);
-		return;
-	}
+    if (function == 0)
+    {
+        res = response::static_response(response::not_found);
+        return;
+    }
 
     function(req, res);
 

@@ -294,7 +294,7 @@ boost::tribool request_parser::consume(request& req, char input)
             {
                 if (req.headers[i].key == "Content-Length")
                 {
-					req.content_length = boost::lexical_cast<std::size_t>(req.headers[i].value);
+                    req.content_length = boost::lexical_cast<std::size_t>(req.headers[i].value);
                 }
             }
 

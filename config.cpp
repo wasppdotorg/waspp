@@ -51,7 +51,7 @@ bool config::load(const char* file, const char* item)
         }
 
         std::map< std::string, std::map<std::string, std::string> >::iterator found;
-		found = c.find(item);
+        found = c.find(item);
 
         if (found == c.end())
         {

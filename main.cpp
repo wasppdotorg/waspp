@@ -24,9 +24,9 @@
 
 int main(int argc, char* argv[])
 {
-	//waspp::server s("127.0.0.1", "8000", "doc_root", 4);
-	//s.run();
-	//return 0;
+    //waspp::server s("127.0.0.1", "8000", "doc_root", 4);
+    //s.run();
+    //return 0;
 
     try
     {
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
         }
 
         waspp::server s(c.address, c.port, c.doc_root, c.num_threads);
-		s.run();
+        s.run();
     }
     catch (std::exception& e)
     {

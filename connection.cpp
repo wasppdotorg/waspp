@@ -91,16 +91,16 @@ void connection::handle_write(const boost::system::error_code& e)
         //boost::system::error_code ignored_ec;
         //socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
 
-		request_parser_.reset();
-			response_ = response();
-			request_ = request();
+        request_parser_.reset();
+        response_ = response();
+        request_ = request();
 
         socket_.async_read_some(boost::asio::buffer(buffer_),
                                 strand_.wrap(
                                     boost::bind(&connection::handle_read, shared_from_this(),
                                                 boost::asio::placeholders::error,
                                                 boost::asio::placeholders::bytes_transferred)));
-												
+
 
     }
 

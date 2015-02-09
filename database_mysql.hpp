@@ -43,8 +43,8 @@ typedef boost::shared_ptr<database> database_ptr;
 class database_mysql
 {
 public:
-	database_mysql();
-	~database_mysql();
+    database_mysql();
+    ~database_mysql();
 
     bool create_pool();
 
