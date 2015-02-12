@@ -12,15 +12,16 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_DATABASE_MYSQL_HPP
-#define WASPP_DATABASE_MYSQL_HPP
+#ifndef WASPP_DATABASE_POOL_HPP
+#define WASPP_DATABASE_POOL_HPP
 
 #include <ctime>
+
 #include <vector>
 
-#include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include "spinlock.hpp"
 #include "mysql_connection.h"
 
 #include <cppconn/driver.h>
@@ -41,11 +42,11 @@ namespace waspp
 
 	typedef boost::shared_ptr<database> database_ptr;
 
-	class database_mysql
+	class database_pool
 	{
 	public:
-		database_mysql();
-		~database_mysql();
+		database_pool();
+		~database_pool();
 
 		bool create_pool();
 
@@ -56,16 +57,14 @@ namespace waspp
 		database_ptr connect(bool pooled = true);
 		bool validate(database_ptr db);
 
-		bool acquire(database_ptr& db);
-		void release(database_ptr db);
-
 		std::size_t pool_size;
 		double wait_timeout;
 
 		std::vector<database_ptr> pool;
-		boost::mutex mutex_;
+		spinlock lock;
+
 	};
 
 } // namespace waspp
 
-#endif // WASPP_DATABASE_MYSQL_HPP
+#endif // WASPP_DATABASE_POOL_HPP

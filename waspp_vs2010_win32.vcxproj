@@ -56,7 +56,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_MBCS;_WIN32_WINNT=0x601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;_WIN32_WINNT=0x601;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\MariaDB 10.0\mysql-connector-c++-noinstall-1.1.5-win32\include;C:\Program Files (x86)\MariaDB 10.0\include;C:\local\boost_1_54_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -70,7 +70,7 @@
   <ItemGroup>
     <ClCompile Include="config.cpp" />
     <ClCompile Include="connection.cpp" />
-    <ClCompile Include="database_mysql.cpp" />
+    <ClCompile Include="database_pool.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mime_types.cpp" />
     <ClCompile Include="request_handler.cpp" />
@@ -83,7 +83,7 @@
   <ItemGroup>
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
-    <ClInclude Include="database_mysql.hpp" />
+    <ClInclude Include="database_pool.hpp" />
     <ClInclude Include="key_value.hpp" />
     <ClInclude Include="mime_types.hpp" />
     <ClInclude Include="request.hpp" />
@@ -92,6 +92,7 @@
     <ClInclude Include="response.hpp" />
     <ClInclude Include="router.hpp" />
     <ClInclude Include="server.hpp" />
+    <ClInclude Include="spinlock.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

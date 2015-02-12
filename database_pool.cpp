@@ -12,44 +12,55 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include "database_mysql.hpp"
+#include "database_pool.hpp"
 
 namespace waspp
 {
 
-	database_mysql::database_mysql() : pool_size(0), wait_timeout(0), pool(0)
+	database_pool::database_pool() : pool_size(0), wait_timeout(0)
 	{
 	}
 
-	database_mysql::~database_mysql()
+	database_pool::~database_pool()
 	{
 	}
 
-	bool database_mysql::create_pool()
+	bool database_pool::create_pool()
 	{
-		boost::lock_guard<boost::mutex> lock(mutex_);
-
-		for (std::size_t i = 0; i < pool_size; ++i)
+		lock.acquire();
 		{
-			database_ptr db = connect();
-			if (!validate(db))
+			for (std::size_t i = 0; i < pool_size; ++i)
 			{
-				return false;
-			}
+				database_ptr db = connect();
+				if (!validate(db))
+				{
+					lock.release();
+					return false;
+				}
 
-			pool.push_back(db);
+				pool.push_back(db);
+			}
 		}
+		lock.release();
 
 		return true;
 	}
 
-	database_ptr database_mysql::acquire_connection()
+	database_ptr database_pool::acquire_connection()
 	{
 		database_ptr db;
-		if (!acquire(db))
+
+		lock.acquire();
 		{
-			return connect();
+			if (pool.empty())
+			{
+				lock.release();
+				return connect();
+			}
+
+			db = *(pool.end() - 1);
 		}
+		lock.release();
 
 		std::time_t now = std::time(0);
 		double diff = std::difftime(now, mktime(&db->released));
@@ -62,7 +73,7 @@ namespace waspp
 		return db;
 	}
 
-	void database_mysql::release_connection(database_ptr db)
+	void database_pool::release_connection(database_ptr db)
 	{
 		if (!db->pooled)
 		{
@@ -72,10 +83,14 @@ namespace waspp
 		std::time_t now = std::time(0);
 		db->released = *std::localtime(&now);
 
-		release(db);
+		lock.acquire();
+		{
+			pool.push_back(db);
+		}
+		lock.release();
 	}
 
-	database_ptr database_mysql::connect(bool pooled)
+	database_ptr database_pool::connect(bool pooled)
 	{
 		try
 		{
@@ -97,7 +112,7 @@ namespace waspp
 		}
 	}
 
-	bool database_mysql::validate(database_ptr db)
+	bool database_pool::validate(database_ptr db)
 	{
 		try
 		{
@@ -112,28 +127,6 @@ namespace waspp
 		}
 
 		return false;
-	}
-
-	bool database_mysql::acquire(database_ptr& db)
-	{
-		boost::lock_guard<boost::mutex> lock(mutex_);
-
-		if (pool.empty())
-		{
-			return false;
-		}
-
-		db = *(pool.end() - 1);
-		pool.pop_back();
-
-		return true;
-	}
-
-	void database_mysql::release(database_ptr db)
-	{
-		boost::lock_guard<boost::mutex> lock(mutex_);
-
-		pool.push_back(db);
 	}
 
 } // namespace waspp
