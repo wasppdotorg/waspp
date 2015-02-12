@@ -15,6 +15,7 @@
 #ifndef WASPP_DATABASE_MYSQL_HPP
 #define WASPP_DATABASE_MYSQL_HPP
 
+#include <ctime>
 #include <vector>
 
 #include <boost/thread.hpp>
@@ -34,7 +35,7 @@ namespace waspp
 	struct database
 	{
 		sql::Connection* conn;
-		boost::posix_time::ptime released;
+		std::tm released;
 		bool pooled;
 	};
 
@@ -52,11 +53,14 @@ namespace waspp
 		void release_connection(database_ptr db);
 
 	private:
-		database_ptr connect_database(bool pooled = true);
-		bool validate_connection(database_ptr db);
+		database_ptr connect(bool pooled = true);
+		bool validate(database_ptr db);
+
+		bool acquire(database_ptr& db);
+		void release(database_ptr db);
 
 		std::size_t pool_size;
-		long long int wait_timeout;
+		double wait_timeout;
 
 		std::vector<database_ptr> pool;
 		boost::mutex mutex_;

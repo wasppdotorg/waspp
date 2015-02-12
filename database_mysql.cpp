@@ -27,10 +27,12 @@ namespace waspp
 
 	bool database_mysql::create_pool()
 	{
+		boost::lock_guard<boost::mutex> lock(mutex_);
+
 		for (std::size_t i = 0; i < pool_size; ++i)
 		{
-			database_ptr db = connect_database();
-			if (!validate_connection(db))
+			database_ptr db = connect();
+			if (!validate(db))
 			{
 				return false;
 			}
@@ -43,23 +45,18 @@ namespace waspp
 
 	database_ptr database_mysql::acquire_connection()
 	{
-		boost::lock_guard<boost::mutex> lock(mutex_);
-
-		if (pool.size() == 0)
+		database_ptr db;
+		if (!acquire(db))
 		{
-			return connect_database(false);
+			return connect();
 		}
 
-		database_ptr db = *(pool.end() - 1);
-		pool.pop_back();
+		std::time_t now = std::time(0);
+		double diff = difftime(now, mktime(&db->released));
 
-		boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
-		boost::posix_time::time_duration diff = now - db->released;
-
-		if (diff.seconds() > wait_timeout && !validate_connection(db))
+		if (diff > wait_timeout && !validate(db))
 		{
-			db.reset();
-			return connect_database();
+			return connect();
 		}
 
 		return db;
@@ -67,27 +64,28 @@ namespace waspp
 
 	void database_mysql::release_connection(database_ptr db)
 	{
-		boost::lock_guard<boost::mutex> lock(mutex_);
-
 		if (!db->pooled)
 		{
 			return;
 		}
 
-		db->released = boost::posix_time::second_clock::local_time();
-		pool.push_back(db);
+		std::time_t now = std::time(0);
+		db->released = *std::localtime(&now);
+
+		release(db);
 	}
 
-	database_ptr database_mysql::connect_database(bool pooled)
+	database_ptr database_mysql::connect(bool pooled)
 	{
 		try
 		{
 			sql::Driver *driver = get_driver_instance();
+			std::time_t now = std::time(0);
 
 			database_ptr db;
 			{
 				db->conn = driver->connect("tcp://127.0.0.1:3306", "root", "1235");
-				db->released = boost::posix_time::second_clock::local_time();
+				db->released = *std::localtime(&now);
 				db->pooled = pooled;
 			}
 
@@ -99,7 +97,7 @@ namespace waspp
 		}
 	}
 
-	bool database_mysql::validate_connection(database_ptr db)
+	bool database_mysql::validate(database_ptr db)
 	{
 		try
 		{
@@ -114,6 +112,28 @@ namespace waspp
 		}
 
 		return false;
+	}
+
+	bool database_mysql::acquire(database_ptr& db)
+	{
+		boost::lock_guard<boost::mutex> lock(mutex_);
+
+		if (pool.empty())
+		{
+			return false;
+		}
+
+		db = *(pool.end() - 1);
+		pool.pop_back();
+
+		return true;
+	}
+
+	void database_mysql::release(database_ptr db)
+	{
+		boost::lock_guard<boost::mutex> lock(mutex_);
+
+		pool.push_back(db);
 	}
 
 } // namespace waspp
