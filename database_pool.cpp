@@ -17,7 +17,8 @@
 namespace waspp
 {
 
-	database_pool::database_pool(std::size_t pool_size_, double wait_timeout_) : pool_size(pool_size_), wait_timeout(wait_timeout_), pool(0)
+	database_pool::database_pool(std::size_t pool_size_, double wait_timeout_)
+		: pool_size(pool_size_), wait_timeout(wait_timeout_), pool(0)
 	{
 	}
 

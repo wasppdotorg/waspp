@@ -28,14 +28,9 @@ namespace waspp
 	public:
 		void acquire()
 		{
-			while (true)
+			while (atomic_flag_.test_and_set(boost::memory_order_acquire))
 			{
-				if (!atomic_flag_.test_and_set(boost::memory_order_acquire))
-				{
-					return;
-				}
-
-				boost::this_thread::sleep(boost::posix_time::milliseconds(250));
+				boost::this_thread::sleep(boost::posix_time::microseconds(250));
 			}
 		}
 
