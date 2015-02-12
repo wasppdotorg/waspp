@@ -52,7 +52,7 @@ namespace waspp
 		}
 
 		std::time_t now = std::time(0);
-		double diff = difftime(now, mktime(&db->released));
+		double diff = std::difftime(now, mktime(&db->released));
 
 		if (diff > wait_timeout && !validate(db))
 		{
