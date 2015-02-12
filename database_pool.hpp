@@ -45,10 +45,10 @@ namespace waspp
 	class database_pool
 	{
 	public:
-		database_pool();
+		database_pool(std::size_t pool_size_, double wait_timeout_);
 		~database_pool();
 
-		bool create_pool();
+		bool fill_pool();
 
 		database_ptr acquire_connection();
 		void release_connection(database_ptr db);

@@ -17,7 +17,7 @@
 namespace waspp
 {
 
-	database_pool::database_pool() : pool_size(0), wait_timeout(0)
+	database_pool::database_pool(std::size_t pool_size_, double wait_timeout_) : pool_size(pool_size_), wait_timeout(wait_timeout_), pool(0)
 	{
 	}
 
@@ -25,7 +25,7 @@ namespace waspp
 	{
 	}
 
-	bool database_pool::create_pool()
+	bool database_pool::fill_pool()
 	{
 		lock.acquire();
 		{
@@ -55,7 +55,7 @@ namespace waspp
 			if (pool.empty())
 			{
 				lock.release();
-				return connect();
+				return connect(false);
 			}
 
 			db = *(pool.end() - 1);
