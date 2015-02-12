@@ -30,6 +30,8 @@ namespace waspp
 		{
 			while (atomic_flag_.test_and_set(boost::memory_order_acquire))
 			{
+				// this line below is the reason why we created custom spinlock
+				// to improve the throughput and reduce the processor utilization
 				boost::this_thread::sleep(boost::posix_time::microseconds(250));
 			}
 		}
