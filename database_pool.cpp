@@ -28,21 +28,21 @@ namespace waspp
 
 	bool database_pool::fill_pool()
 	{
-		lock.acquire();
+		lock.set();
 		{
 			for (std::size_t i = 0; i < pool_size; ++i)
 			{
 				database_ptr db = connect();
 				if (!validate(db))
 				{
-					lock.release();
+					lock.clear();
 					return false;
 				}
 
 				pool.push_back(db);
 			}
 		}
-		lock.release();
+		lock.clear();
 
 		return true;
 	}
@@ -51,17 +51,17 @@ namespace waspp
 	{
 		database_ptr db;
 
-		lock.acquire();
+		lock.set();
 		{
 			if (pool.empty())
 			{
-				lock.release();
+				lock.clear();
 				return connect(false);
 			}
 
 			db = *(pool.end() - 1);
 		}
-		lock.release();
+		lock.clear();
 
 		std::time_t now = std::time(0);
 		double diff = std::difftime(now, mktime(&db->released));
@@ -84,11 +84,11 @@ namespace waspp
 		std::time_t now = std::time(0);
 		db->released = *std::localtime(&now);
 
-		lock.acquire();
+		lock.set();
 		{
 			pool.push_back(db);
 		}
-		lock.release();
+		lock.clear();
 	}
 
 	database_ptr database_pool::connect(bool pooled)
