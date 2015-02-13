@@ -42,8 +42,8 @@
 		<Unit filename="config.hpp" />
 		<Unit filename="connection.cpp" />
 		<Unit filename="connection.hpp" />
-		<Unit filename="database_mysql.cpp" />
-		<Unit filename="database_mysql.hpp" />
+		<Unit filename="database_pool.cpp" />
+		<Unit filename="database_pool.hpp" />
 		<Unit filename="key_value.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="mime_types.cpp" />
@@ -60,6 +60,7 @@
 		<Unit filename="router.hpp" />
 		<Unit filename="server.cpp" />
 		<Unit filename="server.hpp" />
+		<Unit filename="spinlock.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
