@@ -16,9 +16,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <boost/filesystem.hpp>
-#include <boost/lexical_cast.hpp>
 
+#include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
 #include <boost/property_tree/ptree.hpp>
