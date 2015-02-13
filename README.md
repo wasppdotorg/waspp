@@ -48,6 +48,7 @@ Install Boost, MySQLCppConn and TCMalloc
 Install waspp
 -------------
 * cd /var/
+* sudo apt-get install git
 * sudo git clone https://github.com/waspporg/waspp.git
 * cd waspp
 * sudo apt-get install cmake
