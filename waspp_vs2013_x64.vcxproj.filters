@@ -45,7 +45,7 @@
     <ClCompile Include="server.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="database_mysql.cpp">
+    <ClCompile Include="database_pool.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,10 +77,10 @@
     <ClInclude Include="server.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="database_mysql.hpp">
+    <ClInclude Include="key_value.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="key_value.hpp">
+    <ClInclude Include="spinlock.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
