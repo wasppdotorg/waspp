@@ -38,6 +38,7 @@ collation_server       = utf8_general_ci
 ```
 
 * sudo /etc/init.d/mysql restart
+* mysql -u root -p
 * create database test default character set utf8 default collate utf8_general_ci;
 * exit
 
