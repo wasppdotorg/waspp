@@ -64,7 +64,7 @@ namespace waspp
 		lock.clear();
 
 		std::time_t now = std::time(0);
-		double diff = std::difftime(now, mktime(&db->released));
+		double diff = std::difftime(now, mktime(db->last_released()));
 
 		if (diff > wait_timeout && !validate(db))
 		{
@@ -76,13 +76,13 @@ namespace waspp
 
 	void database_pool::release_connection(database_ptr db)
 	{
-		if (!db->pooled)
+		if (!db->is_pooled())
 		{
 			return;
 		}
 
 		std::time_t now = std::time(0);
-		db->released = *std::localtime(&now);
+		db->set_released(*std::localtime(&now));
 
 		lock.set();
 		{
@@ -91,23 +91,20 @@ namespace waspp
 		lock.clear();
 	}
 
-	database_ptr database_pool::connect(bool pooled)
+	database_ptr database_pool::connect(bool pooled_)
 	{
 		try
 		{
-			sql::Driver *driver = get_driver_instance();
-			std::time_t now = std::time(0);
+			database_ptr db(new mysqlpp::connection("127.0.0.1", "root", "1235", "test"));
 
-			database_ptr db;
-			{
-				db->conn = driver->connect("tcp://127.0.0.1:3306", "root", "1235");
-				db->released = *std::localtime(&now);
-				db->pooled = pooled;
-			}
+			std::time_t now = std::time(0);
+			db->set_released(*std::localtime(&now));
+
+			db->set_pooled(pooled_);
 
 			return db;
 		}
-		catch (sql::SQLException)
+		catch (std::exception& e)
 		{
 			return database_ptr();
 		}
@@ -117,12 +114,12 @@ namespace waspp
 	{
 		try
 		{
-			std::auto_ptr<sql::Statement> stmt(db->conn->createStatement());
-			stmt->executeQuery("DO 0");
+			std::auto_ptr<mysqlpp::statement> stmt(db->prepare("DO 0"));
+			stmt->execute();
 
 			return true;
 		}
-		catch (sql::SQLException)
+		catch (std::exception& e)
 		{
 
 		}

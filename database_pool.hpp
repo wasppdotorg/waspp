@@ -22,25 +22,13 @@
 #include <boost/shared_ptr.hpp>
 
 #include "spinlock.hpp"
-#include "mysql_connection.h"
+#include "mysqlpp.hpp"
 
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/resultset.h>
-#include <cppconn/statement.h>
-#include <cppconn/prepared_statement.h>
 
 namespace waspp
 {
 
-	struct database
-	{
-		sql::Connection* conn;
-		std::tm released;
-		bool pooled;
-	};
-
-	typedef boost::shared_ptr<database> database_ptr;
+	typedef boost::shared_ptr<mysqlpp::connection> database_ptr;
 
 	class database_pool
 	{
@@ -54,7 +42,7 @@ namespace waspp
 		void release_connection(database_ptr db);
 
 	private:
-		database_ptr connect(bool pooled = true);
+		database_ptr connect(bool pooled_ = true);
 		bool validate(database_ptr db);
 
 		std::size_t pool_size;
