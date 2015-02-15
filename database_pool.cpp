@@ -104,7 +104,7 @@ namespace waspp
 
 			return db;
 		}
-		catch (std::exception& e)
+		catch (...)
 		{
 			return database_ptr();
 		}
@@ -119,7 +119,7 @@ namespace waspp
 
 			return true;
 		}
-		catch (std::exception& e)
+		catch (...)
 		{
 
 		}
