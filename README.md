@@ -42,10 +42,10 @@ collation_server       = utf8_general_ci
 * create database test default character set utf8 default collate utf8_general_ci;
 * exit
 
-Install Boost, MySQLCppConn and TCMalloc
+Install Boost, MySQLClient and TCMalloc
 ----------------------------------------
 * sudo apt-get install libboost-all-dev
-* sudo apt-get install libmysqlcppconn-dev
+* sudo apt-get install libmariadbclient-dev
 * sudo apt-get install libgoogle-perftools-dev
 
 Install waspp
