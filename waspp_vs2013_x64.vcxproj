@@ -86,13 +86,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\MariaDB 10.0\mysql-connector-c++-noinstall-1.1.5-winx64\include;C:\Program Files\MariaDB 10.0\include;C:\local\boost_1_55_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\MariaDB 10.0\include;C:\local\boost_1_55_0</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_WIN32_WINNT=0x601;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files\MariaDB 10.0\mysql-connector-c++-noinstall-1.1.5-winx64\lib;C:\Program Files\MariaDB 10.0\lib;C:\local\boost_1_55_0\lib64-msvc-12.0</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;mysqlcppconn.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\MariaDB 10.0\lib;C:\local\boost_1_55_0\lib64-msvc-12.0</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -133,6 +133,9 @@
     <ClCompile Include="database_pool.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mime_types.cpp" />
+    <ClCompile Include="mysqlpp_connection.cpp" />
+    <ClCompile Include="mysqlpp_result.cpp" />
+    <ClCompile Include="mysqlpp_statement.cpp" />
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />
@@ -145,6 +148,7 @@
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="key_value.hpp" />
     <ClInclude Include="mime_types.hpp" />
+    <ClInclude Include="mysqlpp.hpp" />
     <ClInclude Include="request.hpp" />
     <ClInclude Include="request_handler.hpp" />
     <ClInclude Include="request_parser.hpp" />
