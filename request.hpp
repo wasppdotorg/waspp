@@ -34,10 +34,10 @@ namespace waspp
 
 			if (found == headers.end())
 			{
-				return found->value;
+				return std::string();
 			}
 
-			return std::string();
+			return found->value;
 		}
 
 		std::string get_param(std::string key)
@@ -47,10 +47,10 @@ namespace waspp
 
 			if (found == params.end())
 			{
-				return found->value;
+				return std::string();
 			}
 
-			return std::string();
+			return found->value;
 		}
 
 		std::string method;
