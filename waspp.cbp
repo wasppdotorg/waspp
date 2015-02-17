@@ -36,7 +36,7 @@
 			<Add option="-lpthread" />
 			<Add option="-lboost_system" />
 			<Add option="-lboost_thread" />
-			<Add option="-lmysqlcppconn" />
+			<Add option="-lmysqlclient" />
 		</Linker>
 		<Unit filename="config.cpp" />
 		<Unit filename="config.hpp" />
@@ -48,6 +48,10 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="mime_types.cpp" />
 		<Unit filename="mime_types.hpp" />
+		<Unit filename="mysqlpp.hpp" />
+		<Unit filename="mysqlpp_connection.cpp" />
+		<Unit filename="mysqlpp_result.cpp" />
+		<Unit filename="mysqlpp_statement.cpp" />
 		<Unit filename="request.hpp" />
 		<Unit filename="request_handler.cpp" />
 		<Unit filename="request_handler.hpp" />
