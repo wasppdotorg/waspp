@@ -20,15 +20,18 @@
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/scoped_ptr.hpp>
 
 #include "spinlock.hpp"
 #include "mysqlpp.hpp"
-
 
 namespace waspp
 {
 
 	typedef boost::shared_ptr<mysqlpp::connection> database_ptr;
+
+	typedef boost::scoped_ptr<mysqlpp::statement> statement_ptr;
+	typedef boost::scoped_ptr<mysqlpp::result> result_ptr;
 
 	class database_pool
 	{

@@ -81,8 +81,8 @@ namespace waspp
 			return;
 		}
 
-		std::time_t now = std::time(0);
-		db->set_released(*std::localtime(&now));
+		std::time_t time_ = std::time(0);
+		db->set_released(*std::localtime(&time_));
 
 		lock.set();
 		{
@@ -97,8 +97,8 @@ namespace waspp
 		{
 			database_ptr db(new mysqlpp::connection("127.0.0.1", "root", "1235", "test"));
 
-			std::time_t now = std::time(0);
-			db->set_released(*std::localtime(&now));
+			std::time_t time_ = std::time(0);
+			db->set_released(*std::localtime(&time_));
 
 			db->set_pooled(pooled_);
 
