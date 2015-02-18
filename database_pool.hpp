@@ -29,9 +29,10 @@ namespace waspp
 	class database_pool
 	{
 	public:
-		database_pool(std::size_t pool_size_, double wait_timeout_);
+		database_pool();
 		~database_pool();
 
+		void config(std::size_t pool_size_, double timeout_sec_);
 		bool fill_pool();
 
 		database_ptr acquire_connection();
@@ -42,7 +43,7 @@ namespace waspp
 		bool validate(database_ptr db);
 
 		std::size_t pool_size;
-		double wait_timeout;
+		double timeout_sec;
 
 		std::vector<database_ptr> pool;
 		spinlock lock;

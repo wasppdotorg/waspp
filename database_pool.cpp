@@ -10,8 +10,8 @@
 namespace waspp
 {
 
-	database_pool::database_pool(std::size_t pool_size_, double wait_timeout_)
-		: pool_size(pool_size_), wait_timeout(wait_timeout_), pool(0)
+	database_pool::database_pool()
+		: pool_size(0), timeout_sec(0), pool(0)
 	{
 	}
 
@@ -19,8 +19,19 @@ namespace waspp
 	{
 	}
 
+	void database_pool::config(std::size_t pool_size_, double timeout_sec_)
+	{
+		pool_size = pool_size_;
+		timeout_sec = timeout_sec_;
+	}
+
 	bool database_pool::fill_pool()
 	{
+		if (pool_size == 0)
+		{
+			return false;
+		}
+
 		lock.set();
 		{
 			for (std::size_t i = 0; i < pool_size; ++i)
@@ -59,7 +70,7 @@ namespace waspp
 		std::time_t time_ = std::time(0);
 		double diff = std::difftime(time_, mktime(db->last_released()));
 
-		if (diff > wait_timeout && !validate(db))
+		if (diff > timeout_sec && !validate(db))
 		{
 			return connect();
 		}
