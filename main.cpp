@@ -19,6 +19,7 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
+#include "logger.hpp"
 #include "config.hpp"
 #include "server.hpp"
 
@@ -27,6 +28,8 @@ int main(int argc, char* argv[])
 	//waspp::server s("127.0.0.1", "8000", "doc_root", 4);
 	//s.run();
 	//return 0;
+
+	waspp::logger logger_;
 
 	try
 	{
@@ -43,12 +46,21 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
+		if (!logger_.config("debug", "minutely", "log.csv"))
+		{
+			std::cerr << "logger::config failed" << std::endl;
+			return 1;
+		}
+
 		waspp::server s(c.address, c.port, c.doc_root, c.num_threads);
 		s.run();
+
+		logger_.info("waspp started");
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "exception: " << e.what() << "\n";
+		logger_.fatal(e.what());
+		//std::cerr << "exception: " << e.what() << "\n";
 	}
 
 	return 0;
