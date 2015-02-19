@@ -47,7 +47,7 @@ namespace waspp
 	public:
 		logger();
 		~logger();
-		
+
 		bool config(const std::string& level_, const std::string& rotation_, const std::string& file_);
 
 		/// Log a message.
@@ -85,6 +85,7 @@ namespace waspp
 		rotation_type rotation;
 
 		std::tm file_created;
+
 	};
 
 } // namespace waspp

@@ -10,6 +10,8 @@
 
 #include <cstdlib>
 
+#include "spinlock.hpp"
+
 namespace waspp
 {
 
@@ -19,11 +21,19 @@ namespace waspp
 	public:
 		static T* instance()
 		{
-			if (!instance_)
+			if (instance_)
+			{
+				return instance_;
+			}
+
+			// for thread-safe singleton
+			spinlock lock;
+			lock.set();
 			{
 				instance_ = new T();
 				atexit(destory);
 			}
+			lock.clear();
 
 			return instance_;
 		}
