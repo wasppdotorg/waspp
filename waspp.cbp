@@ -36,6 +36,7 @@
 			<Add option="-lpthread" />
 			<Add option="-lboost_system" />
 			<Add option="-lboost_thread" />
+			<Add option="-lboost_filesystem" />
 			<Add option="-lmysqlclient" />
 		</Linker>
 		<Unit filename="config.cpp" />
@@ -45,6 +46,8 @@
 		<Unit filename="database_pool.cpp" />
 		<Unit filename="database_pool.hpp" />
 		<Unit filename="key_value.hpp" />
+		<Unit filename="logger.cpp" />
+		<Unit filename="logger.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="mime_types.cpp" />
 		<Unit filename="mime_types.hpp" />
@@ -64,6 +67,7 @@
 		<Unit filename="router.hpp" />
 		<Unit filename="server.cpp" />
 		<Unit filename="server.hpp" />
+		<Unit filename="singleton.hpp" />
 		<Unit filename="spinlock.hpp" />
 		<Extensions>
 			<code_completion />
