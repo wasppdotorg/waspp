@@ -181,12 +181,14 @@ namespace waspp
 		char datetime[32] = { 0 };
 		std::strftime(datetime, sizeof(datetime), "%Y-%m-%d %H:%M:%S,", &time);
 
-		// Format the text to be logged.
-		std::ostringstream os;
-		os << datetime << log_type << message;
+		std::string line(datetime);
+		{
+			line.append(log_type);
+			line.append(message);
+		}
 
 		// Pass the work of opening the file to the background thread.
-		log_service_.post(boost::bind(&logger::log_impl, this, os.str()));
+		log_service_.post(boost::bind(&logger::log_impl, this, line));
 	}
 
 	void logger::config_impl(log_level level_, rotation_type rotation_)
@@ -225,9 +227,9 @@ namespace waspp
 
 	/// Helper function used to log a message from within the private io_service's
 	/// thread.
-	void logger::log_impl(const std::string& text)
+	void logger::log_impl(const std::string& line)
 	{
-		ofstream_ << text << std::endl;
+		ofstream_ << line << std::endl;
 	}
 
 } // namespace waspp

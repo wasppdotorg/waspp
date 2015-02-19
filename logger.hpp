@@ -64,7 +64,7 @@ namespace waspp
 		void config_impl(log_level level_, rotation_type rotation_);
 		void file_impl(const std::string& file_);
 		void rotate_impl(const std::string& file_to);
-		void log_impl(const std::string& text);
+		void log_impl(const std::string& line);
 
 		/// Private io_service used for performing logging operations.
 		boost::asio::io_service log_service_;
