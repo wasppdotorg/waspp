@@ -34,7 +34,7 @@ namespace waspp
 		database_pool();
 		~database_pool();
 
-		void config(std::size_t pool_size_, double timeout_sec_);
+		bool init_pool(std::map<std::string, std::string> db_info_);
 		bool fill_pool();
 
 		database_ptr acquire_connection();
@@ -43,6 +43,9 @@ namespace waspp
 	private:
 		database_ptr connect(bool pooled_ = true);
 		bool validate(database_ptr db);
+
+		std::string host, userid, passwd, database;
+		unsigned int port;
 
 		std::size_t pool_size;
 		double timeout_sec;

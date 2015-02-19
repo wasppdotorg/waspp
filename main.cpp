@@ -28,7 +28,9 @@ int main(int argc, char* argv[])
 {
 	waspp::config* cfg = waspp::config::instance();
 	waspp::logger* log = waspp::logger::instance();
-	
+
+	std::map<std::string, waspp::database_pool*> db_pools;
+
 	try
 	{
 		if (argc != 3)
@@ -37,26 +39,41 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		if (!cfg->load(argv[1], argv[2]))
+		if (!cfg->init(argv[1], argv[2]))
 		{
-			std::cerr << "config::load failed" << std::endl;
+			std::cerr << "config::init failed" << std::endl;
 			return 1;
 		}
 
-		if (!log->config("debug", "minutely", "log.csv"))
+		if (!log->init(cfg->log_level, cfg->log_rotation, cfg->log_file))
 		{
-			std::cerr << "logger::config failed" << std::endl;
+			std::cerr << "logger::init failed" << std::endl;
 			return 1;
 		}
 
-		/*
-		db_index.config(4, 3000);
-		if (!db_index.fill_pool())
+		waspp::database_pool db_index, db_000, db_001, db_etc;
 		{
-			std::cerr << "database_pool::fill_pool failed" << std::endl;
-			return 1;
+			db_pools.insert(std::make_pair("db_index", &db_index));
+			db_pools.insert(std::make_pair("db_000", &db_000));
+			db_pools.insert(std::make_pair("db_001", &db_001));
+			db_pools.insert(std::make_pair("db_etc", &db_etc));
 		}
-		*/
+
+		std::map<std::string, waspp::database_pool*>::iterator i;
+		for (i = db_pools.begin(); i != db_pools.end(); ++i)
+		{
+			if (!i->second->init_pool(cfg->get(i->first)))
+			{
+				std::cerr << "database_pool::init_pool failed" << std::endl;
+				return 1;
+			}
+
+			if (!i->second->fill_pool())
+			{
+				std::cerr << "database_pool::fill_pool failed" << std::endl;
+				return 1;
+			}
+		}
 
 		waspp::server s(cfg->address, cfg->port, cfg->doc_root, cfg->num_threads);
 		s.run();

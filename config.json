@@ -1,5 +1,14 @@
 {
 
+	"//log" : 0,
+
+		"log":
+		{
+			"level" : "debug",
+			"rotation" : "hourly",
+			"file" : "log.csv"
+		},
+	
 	"//servers" : 0,
 
 		"server0":
@@ -22,43 +31,47 @@
 
 		"db_index":
 		{
-			"source" : "tcp://127.0.0.1:3306",
+			"host" : "127.0.0.1",
 			"userid" : "root",
 			"passwd" : "1235",
 			"database" : "test",
+			"port" : 3306,
 			"pool_size" : 8,
-			"wait_timeout" : 300
+			"timeout_sec" : 259200
 		},
 
-		"db_shard_000":
+		"db_000":
 		{
-			"source" : "tcp://127.0.0.1:3306",
+			"host" : "127.0.0.1",
 			"userid" : "root",
 			"passwd" : "1235",
 			"database" : "test",
+			"port" : 3306,
 			"pool_size" : 8,
-			"wait_timeout" : 259200
+			"timeout_sec" : 259200
 		},
 
 
-		"db_shard_001":
+		"db_001":
 		{
-			"source" : "tcp://127.0.0.1:3306",
+			"host" : "127.0.0.1",
 			"userid" : "root",
 			"passwd" : "1235",
 			"database" : "test",
+			"port" : 3306,
 			"pool_size" : 8,
-			"wait_timeout" : 259200
+			"timeout_sec" : 259200
 		},
 
-		"db_log":
+		"db_etc":
 		{
-			"source" : "tcp://127.0.0.1:3306",
+			"host" : "127.0.0.1",
 			"userid" : "root",
 			"passwd" : "1235",
 			"database" : "test",
+			"port" : 3306,
 			"pool_size" : 8,
-			"wait_timeout" : 259200
+			"timeout_sec" : 259200
 		},
 
 	"//end" : 0

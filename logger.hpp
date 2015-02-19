@@ -48,7 +48,7 @@ namespace waspp
 		logger();
 		~logger();
 
-		bool config(const std::string& level_, const std::string& rotation_, const std::string& file_);
+		bool init(const std::string& level_, const std::string& rotation_, const std::string& file_);
 
 		/// Log a message.
 		void debug(const std::string& message);
@@ -58,12 +58,12 @@ namespace waspp
 		void fatal(const std::string& message);
 
 	private:
-		void rotate(const std::tm& time);
+		void log_rotate(const std::tm& time);
 		void log(const std::string& log_type, const std::string& message);
 
-		void config_impl(log_level level_, rotation_type rotation_);
+		void init_impl(log_level level_, rotation_type rotation_);
 		void file_impl(const std::string& file_);
-		void rotate_impl(const std::string& file_to);
+		void log_rotate_impl(const std::string& file_to);
 		void log_impl(const std::string& line);
 
 		/// Private io_service used for performing logging operations.

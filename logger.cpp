@@ -35,7 +35,7 @@ namespace waspp
 	/// output file for all logger instances, and so the impl parameter is not
 	/// actually needed. It is retained here to illustrate how service functions
 	/// are typically defined.
-	bool logger::config(const std::string& level_, const std::string& rotation_, const std::string& file_)
+	bool logger::init(const std::string& level_, const std::string& rotation_, const std::string& file_)
 	{
 		if (level_ == "debug")
 		{
@@ -79,7 +79,7 @@ namespace waspp
 			return false;
 		}
 
-		log_service_.post(boost::bind(&logger::config_impl, this, level, rotation));
+		log_service_.post(boost::bind(&logger::init_impl, this, level, rotation));
 
 		// Pass the work of opening the file to the background thread.
 		log_service_.post(boost::bind(&logger::file_impl, this, file_));
@@ -138,7 +138,7 @@ namespace waspp
 		log("FATAL,", message);
 	}
 
-	void logger::rotate(const std::tm& time)
+	void logger::log_rotate(const std::tm& time)
 	{
 		char datetime[32] = { 0 };
 
@@ -166,7 +166,7 @@ namespace waspp
 		std::string file_to(datetime);
 		file_to.append(file);
 
-		log_service_.post(boost::bind(&logger::rotate_impl, this, file_to));
+		log_service_.post(boost::bind(&logger::log_rotate_impl, this, file_to));
 	}
 
 	void logger::log(const std::string& log_type, const std::string& message)
@@ -175,7 +175,7 @@ namespace waspp
 		std::tm time = *std::localtime(&time_);
 
 		// rotate log file if necessary
-		rotate(time);
+		log_rotate(time);
 
 		// datetime for log message
 		char datetime[32] = { 0 };
@@ -191,7 +191,7 @@ namespace waspp
 		log_service_.post(boost::bind(&logger::log_impl, this, line));
 	}
 
-	void logger::config_impl(log_level level_, rotation_type rotation_)
+	void logger::init_impl(log_level level_, rotation_type rotation_)
 	{
 		level = level_;
 		rotation = rotation_;
@@ -211,7 +211,7 @@ namespace waspp
 		ofstream_.open(file.c_str(), std::fstream::app);
 	}
 
-	void logger::rotate_impl(const std::string& file_to)
+	void logger::log_rotate_impl(const std::string& file_to)
 	{
 		std::ifstream is(file_to.c_str(), std::ios::in | std::ios::binary);
 		if (is)

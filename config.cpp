@@ -26,7 +26,7 @@ namespace waspp
 	{
 	}
 
-	bool config::load(const char* file, const char* item)
+	bool config::init(const char* file, const char* item)
 	{
 		try
 		{
@@ -52,8 +52,27 @@ namespace waspp
 			}
 
 			std::map< std::string, std::map<std::string, std::string> >::iterator found;
-			found = c.find(item);
 
+			found = c.find("log");
+			if (found == c.end())
+			{
+				std::cerr << "config::log not found" << std::endl;
+				return false;
+			}
+
+			if ((found->second).find("level") == (found->second).end() ||
+				(found->second).find("rotation") == (found->second).end() ||
+				(found->second).find("file") == (found->second).end())
+			{
+				std::cerr << "config::element not found" << std::endl;
+				return false;
+			}
+
+			log_level = c["log"]["level"];
+			log_rotation = c["log"]["rotation"];
+			log_file = c["log"]["file"];
+
+			found = c.find(item);
 			if (found == c.end())
 			{
 				std::cerr << "config::item not found" << std::endl;
@@ -82,6 +101,19 @@ namespace waspp
 		}
 
 		return false;
+	}
+
+	std::map<std::string, std::string> config::get(const std::string& item)
+	{
+		std::map< std::string, std::map<std::string, std::string> >::iterator found;
+		found = c.find(item);
+
+		if (found != c.end())
+		{
+			return found->second;
+		}
+
+		return std::map<std::string, std::string>();
 	}
 
 } // namespace waspp
