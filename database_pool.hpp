@@ -12,6 +12,7 @@
 
 #include <vector>
 
+#include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/scoped_ptr.hpp>
 
@@ -27,6 +28,7 @@ namespace waspp
 	typedef boost::scoped_ptr<mysqlpp::result> result_ptr;
 
 	class database_pool
+		: private boost::noncopyable
 	{
 	public:
 		database_pool();

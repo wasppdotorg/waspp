@@ -98,6 +98,7 @@
     <ClInclude Include="response.hpp" />
     <ClInclude Include="router.hpp" />
     <ClInclude Include="server.hpp" />
+    <ClInclude Include="singleton.hpp" />
     <ClInclude Include="spinlock.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

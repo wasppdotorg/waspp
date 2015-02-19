@@ -26,14 +26,9 @@
 
 int main(int argc, char* argv[])
 {
-	//waspp::server s("127.0.0.1", "8000", "doc_root", 4);
-	//s.run();
-	//return 0;
-
-	waspp::config c;
-	waspp::logger log;
-	waspp::database_pool db_index, db_000, db_001, db_etc;
-
+	waspp::config* cfg = waspp::config::instance();
+	waspp::logger* log = waspp::logger::instance();
+	
 	try
 	{
 		if (argc != 3)
@@ -42,35 +37,35 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		waspp::config c;
-		if (!c.load(argv[1], argv[2]))
+		if (!cfg->load(argv[1], argv[2]))
 		{
 			std::cerr << "config::load failed" << std::endl;
 			return 1;
 		}
 
-		if (!log.config("debug", "minutely", "log.csv"))
+		if (!log->config("debug", "minutely", "log.csv"))
 		{
 			std::cerr << "logger::config failed" << std::endl;
 			return 1;
 		}
 
+		/*
 		db_index.config(4, 3000);
 		if (!db_index.fill_pool())
 		{
 			std::cerr << "database_pool::fill_pool failed" << std::endl;
 			return 1;
 		}
+		*/
 
-		waspp::server s(c.address, c.port, c.doc_root, c.num_threads);
+		waspp::server s(cfg->address, cfg->port, cfg->doc_root, cfg->num_threads);
 		s.run();
 
-		log.info("waspp started");
+		log->info("waspp started");
 	}
 	catch (std::exception& e)
 	{
-		log.fatal(e.what());
-		//std::cerr << "exception: " << e.what() << "\n";
+		log->fatal(e.what());
 	}
 
 	return 0;

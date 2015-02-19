@@ -1,11 +1,4 @@
 //
-// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-//
-// Distributed under the Boost Software License, Version 1.0. (See accompanying
-// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-//
-
-//
 // Copyright (c) 2014-2015 WASPP (waspp.org@gmail.com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -21,12 +14,13 @@
 #include <boost/thread/thread.hpp>
 #include <boost/bind.hpp>
 
-#include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/filesystem.hpp>
 #include <fstream>
 #include <sstream>
 #include <string>
+
+#include "singleton.hpp"
 
 namespace waspp
 {
@@ -48,12 +42,12 @@ namespace waspp
 	};
 
 	class logger
-		: private boost::noncopyable
+		: public singleton<logger>
 	{
 	public:
 		logger();
 		~logger();
-
+		
 		bool config(const std::string& level_, const std::string& rotation_, const std::string& file_);
 
 		/// Log a message.
@@ -92,6 +86,7 @@ namespace waspp
 
 		std::tm file_created;
 	};
+
 } // namespace waspp
 
 #endif // WASPP_LOGGER_HPP

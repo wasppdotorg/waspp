@@ -1,11 +1,4 @@
 //
-// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-//
-// Distributed under the Boost Software License, Version 1.0. (See accompanying
-// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-//
-
-//
 // Copyright (c) 2014-2015 WASPP (waspp.org@gmail.com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -16,6 +9,7 @@
 
 namespace waspp
 {
+
 	/// Constructor creates a thread to run a private io_service.
 	logger::logger()
 		: log_service_(),
@@ -86,6 +80,7 @@ namespace waspp
 		}
 
 		log_service_.post(boost::bind(&logger::config_impl, this, level, rotation));
+
 		// Pass the work of opening the file to the background thread.
 		log_service_.post(boost::bind(&logger::file_impl, this, file_));
 
@@ -234,4 +229,5 @@ namespace waspp
 	{
 		ofstream_ << text << std::endl;
 	}
+
 } // namespace waspp
