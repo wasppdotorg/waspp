@@ -8,6 +8,8 @@
 #ifndef WASPP_SINGLETON_HPP
 #define WASPP_SINGLETON_HPP
 
+#include <cstdlib>
+
 namespace waspp
 {
 
@@ -20,6 +22,7 @@ namespace waspp
 			if (!instance_)
 			{
 				instance_ = new T();
+				atexit(destory);
 			}
 
 			return instance_;
@@ -30,6 +33,11 @@ namespace waspp
 		virtual ~singleton() {};
 
 	private:
+		static void destory()
+		{
+			delete instance_;
+		}
+
 		static T* instance_;
 
 	};
