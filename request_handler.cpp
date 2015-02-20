@@ -15,6 +15,8 @@
 #include "request_handler.hpp"
 #include <fstream>
 #include <sstream>
+
+#include <map>
 #include <string>
 
 #include <boost/lexical_cast.hpp>
@@ -28,6 +30,7 @@
 
 #include <boost/property_tree/json_parser.hpp>
 
+#include "database_pool.hpp"
 #include "mime_types.hpp"
 #include "response.hpp"
 #include "request.hpp"
@@ -36,8 +39,8 @@
 namespace waspp
 {
 
-	request_handler::request_handler(const std::string& doc_root)
-		: doc_root_(doc_root)
+	request_handler::request_handler(const std::string& doc_root_, std::map<std::string, database_pool*>& db_pools_)
+		: doc_root(doc_root_), db_pools(&db_pools_)
 	{
 	}
 
@@ -76,7 +79,7 @@ namespace waspp
 		}
 
 		// Open the file to send back.
-		std::string full_path = doc_root_ + request_uri;
+		std::string full_path = doc_root + request_uri;
 		std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
 		if (is)
 		{
@@ -108,7 +111,7 @@ namespace waspp
 			return;
 		}
 
-		function(req, res);
+		function(req, res, db_pools);
 
 		//res = response::static_response(response::not_found);
 		//return;

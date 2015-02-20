@@ -7,6 +7,7 @@
 
 #include "response.hpp"
 #include "request.hpp"
+#include "database_pool.hpp"
 
 namespace waspp
 {
@@ -15,12 +16,12 @@ namespace waspp
 		namespace index
 		{
 
-			void html(const request& req, response& res)
+			void html(const request& req, response& res, std::map<std::string, database_pool*>* db_pools)
 			{
 
 			}
 
-			void jsonp(const request& req, response& res)
+			void jsonp(const request& req, response& res, std::map<std::string, database_pool*>* db_pools)
 			{
 
 			}

@@ -15,8 +15,12 @@
 #ifndef WASPP_REQUEST_HANDLER_HPP
 #define WASPP_REQUEST_HANDLER_HPP
 
+#include <map>
 #include <string>
+
 #include <boost/noncopyable.hpp>
+
+#include "database_pool.hpp"
 
 namespace waspp
 {
@@ -30,14 +34,16 @@ namespace waspp
 	{
 	public:
 		/// Construct with a directory containing files to be served.
-		explicit request_handler(const std::string& doc_root);
+		explicit request_handler(const std::string& doc_root_, std::map<std::string, database_pool*>& db_pools_);
 
 		/// Handle a request and produce a response.
 		void handle_request(request& req, response& res);
 
 	private:
 		/// The directory containing the files to be served.
-		std::string doc_root_;
+		std::string doc_root;
+
+		std::map<std::string, database_pool*>* db_pools;
 
 		/// Perform URL-decoding on a string. Returns false if the encoding was
 		/// invalid.

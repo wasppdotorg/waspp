@@ -33,6 +33,10 @@ int main(int argc, char* argv[])
 
 	try
 	{
+		//argc = 3;
+		//argv[1] = "config.json";
+		//argv[2] = "server0";
+
 		if (argc != 3)
 		{
 			std::cerr << "Usage: ./waspp config.json server0\n";
@@ -75,7 +79,7 @@ int main(int argc, char* argv[])
 			}
 		}
 
-		waspp::server s(cfg->address, cfg->port, cfg->doc_root, cfg->num_threads);
+		waspp::server s(cfg->address, cfg->port, cfg->doc_root, cfg->num_threads, db_pools);
 		s.run();
 
 		log->info("waspp started");

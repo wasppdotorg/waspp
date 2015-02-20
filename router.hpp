@@ -8,9 +8,12 @@
 #ifndef WASPP_ROUTER_HPP
 #define WASPP_ROUTER_HPP
 
+#include <map>
 #include <string>
+
 #include "response.hpp"
 #include "request.hpp"
+#include "database_pool.hpp"
 
 namespace waspp
 {
@@ -19,12 +22,12 @@ namespace waspp
 	{
 		namespace index
 		{
-			void html(const request& req, response& res);
-			void jsonp(const request& req, response& res);
+			void html(const request& req, response& res, std::map<std::string, database_pool*>* db_pools);
+			void jsonp(const request& req, response& res, std::map<std::string, database_pool*>* db_pools);
 		} // namespace index
 	} // namespace board
 
-	typedef void(*function_ptr)(const request&, response&);
+	typedef void(*function_ptr)(const request&, response&, std::map<std::string, database_pool*>* db_pools);
 
 	namespace router
 	{
