@@ -15,11 +15,13 @@
 #ifndef WASPP_SERVER_HPP
 #define WASPP_SERVER_HPP
 
-#include <boost/asio.hpp>
 #include <string>
 #include <vector>
+
+#include <boost/asio.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
+
 #include "connection.hpp"
 #include "database_pool.hpp"
 #include "request_handler.hpp"

@@ -12,7 +12,6 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include "request_handler.hpp"
 #include <fstream>
 #include <sstream>
 
@@ -21,8 +20,9 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
-
 #include <boost/property_tree/ptree.hpp>
+
+#include "request_handler.hpp"
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN

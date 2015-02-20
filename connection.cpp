@@ -12,9 +12,9 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include "connection.hpp"
-#include <vector>
 #include <boost/bind.hpp>
+
+#include "connection.hpp"
 #include "request_handler.hpp"
 
 namespace waspp
@@ -100,8 +100,6 @@ namespace waspp
 				boost::bind(&connection::handle_read, shared_from_this(),
 				boost::asio::placeholders::error,
 				boost::asio::placeholders::bytes_transferred)));
-
-
 		}
 
 		// No new asynchronous operations are started. This means that all shared_ptr
@@ -111,4 +109,3 @@ namespace waspp
 	}
 
 } // namespace waspp
-

@@ -17,7 +17,9 @@
 
 #include <string>
 #include <vector>
+
 #include <boost/asio.hpp>
+
 #include "key_value.hpp"
 
 namespace waspp

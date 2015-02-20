@@ -18,7 +18,9 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+
 #include <boost/bind.hpp>
+
 #include "key_value.hpp"
 
 namespace waspp

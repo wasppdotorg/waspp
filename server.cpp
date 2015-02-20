@@ -12,11 +12,13 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include "server.hpp"
+#include <vector>
+
 #include <boost/thread/thread.hpp>
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
-#include <vector>
+
+#include "server.hpp"
 
 namespace waspp
 {

@@ -10,15 +10,15 @@
 
 #include <ctime>
 
-#include <boost/asio.hpp>
-#include <boost/thread/thread.hpp>
-#include <boost/bind.hpp>
-
-#include <boost/scoped_ptr.hpp>
-#include <boost/filesystem.hpp>
 #include <fstream>
 #include <sstream>
 #include <string>
+
+#include <boost/asio.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/bind.hpp>
+#include <boost/scoped_ptr.hpp>
+#include <boost/filesystem.hpp>
 
 #include "singleton.hpp"
 
