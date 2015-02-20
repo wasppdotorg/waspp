@@ -35,7 +35,7 @@ namespace waspp
 		struct route
 		{
 			const char* uri;
-			function_ptr function;
+			function_ptr func;
 		};
 
 		function_ptr find(const std::string& request_uri);

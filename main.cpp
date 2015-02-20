@@ -33,10 +33,6 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		//argc = 3;
-		//argv[1] = "config.json";
-		//argv[2] = "server0";
-
 		if (argc != 3)
 		{
 			std::cerr << "Usage: ./waspp config.json server0\n";

@@ -21,7 +21,6 @@
 
 namespace waspp
 {
-
 	typedef boost::shared_ptr<mysqlpp::connection> database_ptr;
 
 	typedef boost::scoped_ptr<mysqlpp::statement> statement_ptr;
@@ -41,7 +40,7 @@ namespace waspp
 		void release_connection(database_ptr db);
 
 	private:
-		database_ptr connect(bool pooled_ = true);
+		mysqlpp::connection* connect(bool pooled_ = true);
 		bool validate(database_ptr db);
 
 		std::string host, userid, passwd, database;

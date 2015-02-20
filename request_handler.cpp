@@ -104,14 +104,14 @@ namespace waspp
 		{
 		}
 
-		function_ptr function = router::find(request_uri);
-		if (function == 0)
+		function_ptr func = router::find(request_uri);
+		if (func == 0)
 		{
 			res = response::static_response(response::not_found);
 			return;
 		}
 
-		function(req, res, db_pools);
+		func(req, res, db_pools);
 
 		//res = response::static_response(response::not_found);
 		//return;

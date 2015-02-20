@@ -57,7 +57,7 @@ namespace waspp
 		{
 			for (std::size_t i = 0; i < pool_size; ++i)
 			{
-				database_ptr db = connect();
+				database_ptr db(connect());
 				if (!validate(db))
 				{
 					lock.clear();
@@ -81,7 +81,7 @@ namespace waspp
 			if (pool.empty())
 			{
 				lock.clear();
-				return connect(false);
+				return database_ptr(connect(false));
 			}
 
 			db = *(pool.end() - 1);
@@ -93,7 +93,7 @@ namespace waspp
 
 		if (diff > timeout_sec && !validate(db))
 		{
-			return connect();
+			return database_ptr(connect());
 		}
 
 		return db;
@@ -116,25 +116,16 @@ namespace waspp
 		lock.clear();
 	}
 
-	database_ptr database_pool::connect(bool pooled_)
+	mysqlpp::connection* database_pool::connect(bool pooled_)
 	{
-		try
-		{
-			database_ptr db(new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, pooled_));
-
-			return db;
-		}
-		catch (...)
-		{
-			return database_ptr();
-		}
+		return new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, pooled_);
 	}
 
 	bool database_pool::validate(database_ptr db)
 	{
 		try
 		{
-			std::auto_ptr<mysqlpp::statement> stmt(db->prepare("DO 0"));
+			boost::scoped_ptr<mysqlpp::statement> stmt(db->prepare("DO 0"));
 			stmt->execute();
 
 			return true;

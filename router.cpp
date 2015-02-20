@@ -51,7 +51,7 @@ namespace waspp
 			{
 				if (!request_uri.find(r->uri))
 				{
-					return r->function;
+					return r->func;
 				}
 			}
 
