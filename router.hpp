@@ -38,7 +38,7 @@ namespace waspp
 			function_ptr func;
 		};
 
-		function_ptr find(const std::string& request_uri);
+		function_ptr find_func(const std::string& request_uri);
 
 	} // namespace router
 

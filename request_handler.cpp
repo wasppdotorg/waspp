@@ -104,7 +104,7 @@ namespace waspp
 		{
 		}
 
-		function_ptr func = router::find(request_uri);
+		function_ptr func = router::find_func(request_uri);
 		if (func == 0)
 		{
 			res = response::static_response(response::not_found);
