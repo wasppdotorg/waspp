@@ -22,7 +22,7 @@
 #include "config.hpp"
 #include "logger.hpp"
 #include "database.hpp"
-#include "dbcp.hpp"
+#include "dbconn_pool.hpp"
 #include "server.hpp"
 
 int main(int argc, char* argv[])
@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		waspp::dbcp db_index, db_000, db_001, db_etc;
+		waspp::dbconn_pool db_index, db_000, db_001, db_etc;
 		{
 			db->add(std::make_pair("db_index", &db_index));
 			db->add(std::make_pair("db_000", &db_000));

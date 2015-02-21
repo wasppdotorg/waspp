@@ -5,8 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_DBCP_HPP
-#define WASPP_DBCP_HPP
+#ifndef WASPP_dbconn_pool_HPP
+#define WASPP_dbconn_pool_HPP
 
 #include <ctime>
 
@@ -21,27 +21,27 @@
 
 namespace waspp
 {
-	typedef boost::shared_ptr<mysqlpp::connection> db_conn_ptr;
+	typedef boost::shared_ptr<mysqlpp::connection> dbconn_ptr;
 
 	typedef boost::scoped_ptr<mysqlpp::statement> statement_ptr;
 	typedef boost::scoped_ptr<mysqlpp::result> result_ptr;
 
-	class dbcp
+	class dbconn_pool
 		: private boost::noncopyable
 	{
 	public:
-		dbcp();
-		~dbcp();
+		dbconn_pool();
+		~dbconn_pool();
 
-		bool init_pool(const std::map<std::string, std::string>* c);
+		bool init_pool(const std::map<std::string, std::string>* cfg);
 		bool fill_pool();
 
-		db_conn_ptr acquire_connection();
-		void release_connection(db_conn_ptr db_conn);
+		dbconn_ptr get_dbconn();
+		void release_dbconn(dbconn_ptr dbconn);
 
 	private:
-		db_conn_ptr connect(bool pooled_ = true);
-		bool validate(db_conn_ptr db_conn);
+		dbconn_ptr connect(bool pooled_ = true);
+		bool validate(dbconn_ptr dbconn);
 
 		std::string host, userid, passwd, database;
 		unsigned int port;
@@ -49,11 +49,11 @@ namespace waspp
 		std::size_t pool_size;
 		double timeout_sec;
 
-		std::vector<db_conn_ptr> pool;
+		std::vector<dbconn_ptr> pool;
 		spinlock lock;
 
 	};
 
 } // namespace waspp
 
-#endif // WASPP_DBCP_HPP
+#endif // WASPP_dbconn_pool_HPP

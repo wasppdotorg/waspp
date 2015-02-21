@@ -7,23 +7,23 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include "dbcp.hpp"
+#include "dbconn_pool.hpp"
 
 namespace waspp
 {
 
-	dbcp::dbcp()
+	dbconn_pool::dbconn_pool()
 		: port(0), pool_size(0), timeout_sec(0), pool(0)
 	{
 	}
 
-	dbcp::~dbcp()
+	dbconn_pool::~dbconn_pool()
 	{
 	}
 
-	bool dbcp::init_pool(const std::map<std::string, std::string>* c)
+	bool dbconn_pool::init_pool(const std::map<std::string, std::string>* cfg)
 	{
-		if (c == 0)
+		if (cfg == 0)
 		{
 			return false;
 		}
@@ -41,25 +41,25 @@ namespace waspp
 
 		for (std::size_t i = 0; i < keys.size(); ++i)
 		{
-			if (c->find(keys[i]) == c->end())
+			if (cfg->find(keys[i]) == cfg->end())
 			{
 				return false;
 			}
 		}
 
-		host = c->at("host");
-		userid = c->at("userid");
-		passwd = c->at("passwd");
-		database = c->at("database");
+		host = cfg->at("host");
+		userid = cfg->at("userid");
+		passwd = cfg->at("passwd");
+		database = cfg->at("database");
 
-		port = boost::lexical_cast<unsigned int>(c->at("port"));
-		pool_size = boost::lexical_cast<std::size_t>(c->at("pool_size"));
-		timeout_sec = boost::lexical_cast<double>(c->at("timeout_sec"));
+		port = boost::lexical_cast<unsigned int>(cfg->at("port"));
+		pool_size = boost::lexical_cast<std::size_t>(cfg->at("pool_size"));
+		timeout_sec = boost::lexical_cast<double>(cfg->at("timeout_sec"));
 
 		return true;
 	}
 
-	bool dbcp::fill_pool()
+	bool dbconn_pool::fill_pool()
 	{
 		if (pool_size == 0)
 		{
@@ -70,14 +70,14 @@ namespace waspp
 		{
 			for (std::size_t i = 0; i < pool_size; ++i)
 			{
-				db_conn_ptr db_conn = connect();
-				if (!validate(db_conn))
+				dbconn_ptr dbconn = connect();
+				if (!validate(dbconn))
 				{
 					lock.clear();
 					return false;
 				}
 
-				pool.push_back(db_conn);
+				pool.push_back(dbconn);
 			}
 		}
 		lock.clear();
@@ -85,7 +85,7 @@ namespace waspp
 		return true;
 	}
 
-	db_conn_ptr dbcp::acquire_connection()
+	dbconn_ptr dbconn_pool::get_dbconn()
 	{
 		lock.set();
 		//{
@@ -95,49 +95,49 @@ namespace waspp
 				return connect(false);
 			}
 
-			db_conn_ptr db_conn = *(pool.end() - 1);
+			dbconn_ptr dbconn = *(pool.end() - 1);
 			pool.pop_back();
 		//}
 		lock.clear();
 
 		std::time_t time_ = std::time(0);
-		double diff = std::difftime(time_, mktime(db_conn->last_released()));
+		double diff = std::difftime(time_, mktime(dbconn->last_released()));
 
-		if (diff > timeout_sec && !validate(db_conn))
+		if (diff > timeout_sec && !validate(dbconn))
 		{
 			return connect();
 		}
 
-		return db_conn;
+		return dbconn;
 	}
 
-	void dbcp::release_connection(db_conn_ptr db_conn)
+	void dbconn_pool::release_dbconn(dbconn_ptr dbconn)
 	{
-		if (!db_conn->is_pooled())
+		if (!dbconn->is_pooled())
 		{
 			return;
 		}
 
 		std::time_t time_ = std::time(0);
-		db_conn->set_released(*std::localtime(&time_));
+		dbconn->set_released(*std::localtime(&time_));
 
 		lock.set();
 		{
-			pool.push_back(db_conn);
+			pool.push_back(dbconn);
 		}
 		lock.clear();
 	}
 
-	db_conn_ptr dbcp::connect(bool pooled_)
+	dbconn_ptr dbconn_pool::connect(bool pooled_)
 	{
-		return db_conn_ptr(new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, pooled_));
+		return dbconn_ptr(new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, pooled_));
 	}
 
-	bool dbcp::validate(db_conn_ptr db_conn)
+	bool dbconn_pool::validate(dbconn_ptr dbconn)
 	{
 		try
 		{
-			boost::scoped_ptr<mysqlpp::statement> stmt(db_conn->prepare("DO 0"));
+			boost::scoped_ptr<mysqlpp::statement> stmt(dbconn->prepare("DO 0"));
 			stmt->execute();
 
 			return true;

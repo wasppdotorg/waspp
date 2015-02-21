@@ -13,7 +13,7 @@
 #include <string>
 
 #include "singleton.hpp"
-#include "dbcp.hpp"
+#include "dbconn_pool.hpp"
 
 namespace waspp
 {
@@ -25,11 +25,11 @@ namespace waspp
 		database();
 		~database();
 
-		void add(const std::pair<std::string, dbcp*>& pair_);
+		void add(const std::pair<std::string, dbconn_pool*>& pair_);
 		bool init();
 
 	private:
-		std::map<std::string, dbcp*> db_;
+		std::map<std::string, dbconn_pool*> db_;
 
 	};
 

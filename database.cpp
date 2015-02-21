@@ -10,7 +10,7 @@
 
 #include "config.hpp"
 #include "database.hpp"
-#include "dbcp.hpp"
+#include "dbconn_pool.hpp"
 
 namespace waspp
 {
@@ -23,7 +23,7 @@ namespace waspp
 	{
 	}
 
-	void database::add(const std::pair<std::string, dbcp*>& pair_)
+	void database::add(const std::pair<std::string, dbconn_pool*>& pair_)
 	{
 		db_.insert(pair_);
 	}
@@ -32,7 +32,7 @@ namespace waspp
 	{
 		config* c = config::instance();
 
-		std::map<std::string, dbcp*>::iterator i;
+		std::map<std::string, dbconn_pool*>::iterator i;
 		for (i = db_.begin(); i != db_.end(); ++i)
 		{
 			if (!i->second->init_pool(c->get(i->first)))

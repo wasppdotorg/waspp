@@ -71,7 +71,7 @@
     <ClCompile Include="config.cpp" />
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="database.cpp" />
-    <ClCompile Include="dbcp.cpp" />
+    <ClCompile Include="dbconn_pool.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mime_types.cpp" />
@@ -89,7 +89,7 @@
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="database.hpp" />
-    <ClInclude Include="dbcp.hpp" />
+    <ClInclude Include="dbconn_pool.hpp" />
     <ClInclude Include="key_value.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mime_types.hpp" />

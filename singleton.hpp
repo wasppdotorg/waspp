@@ -10,7 +10,8 @@
 
 #include <cstdlib>
 
-#include "spinlock.hpp"
+#include <boost/atomic.hpp>
+#include <boost/thread.hpp>
 
 namespace waspp
 {
@@ -21,22 +22,15 @@ namespace waspp
 	public:
 		static T* instance()
 		{
-			if (instance_ != 0)
+			if(instance_ == 0)
 			{
-				return instance_;
-			}
-
-			// for thread-safe singleton
-			spinlock lock;
-			lock.set();
-			{
-				if (instance_ == 0)
+				boost::lock_guard<boost::mutex> lock(mutex_);
+				if(instance_ == 0)
 				{
 					instance_ = new T();
 					atexit(destory);
 				}
 			}
-			lock.clear();
 
 			return instance_;
 		}
@@ -51,11 +45,13 @@ namespace waspp
 			delete instance_;
 		}
 
-		static T* instance_;
+		static boost::atomic<T*> instance_;
+		static boost::mutex mutex_;
 
 	};
 
-	template<typename T> T* singleton<T>::instance_ = 0;
+	template<typename T> boost::atomic<T*> singleton<T>::instance_ = 0;
+	template<typename T> boost::mutex singleton<T>::mutex_;
 
 } // namespace waspp
 

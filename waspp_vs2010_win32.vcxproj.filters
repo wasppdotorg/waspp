@@ -60,7 +60,7 @@
     <ClCompile Include="database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbcp.cpp">
+    <ClCompile Include="dbconn_pool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,7 +110,7 @@
     <ClInclude Include="database.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dbcp.hpp">
+    <ClInclude Include="dbconn_pool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
