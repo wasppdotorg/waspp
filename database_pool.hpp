@@ -40,7 +40,7 @@ namespace waspp
 		void release_connection(database_ptr db);
 
 	private:
-		mysqlpp::connection* connect(bool pooled_ = true);
+		database_ptr connect(bool pooled_ = true);
 		bool validate(database_ptr db);
 
 		std::string host, userid, passwd, database;

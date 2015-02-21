@@ -57,7 +57,7 @@ namespace waspp
 		{
 			for (std::size_t i = 0; i < pool_size; ++i)
 			{
-				database_ptr db(connect());
+				database_ptr db = connect();
 				if (!validate(db))
 				{
 					lock.clear();
@@ -74,18 +74,17 @@ namespace waspp
 
 	database_ptr database_pool::acquire_connection()
 	{
-		database_ptr db;
-
 		lock.set();
-		{
+		//{
 			if (pool.empty())
 			{
 				lock.clear();
-				return database_ptr(connect(false));
+				return connect(false);
 			}
 
-			db = *(pool.end() - 1);
-		}
+			database_ptr db = *(pool.end() - 1);
+			pool.pop_back();
+		//}
 		lock.clear();
 
 		std::time_t time_ = std::time(0);
@@ -93,7 +92,7 @@ namespace waspp
 
 		if (diff > timeout_sec && !validate(db))
 		{
-			return database_ptr(connect());
+			return connect();
 		}
 
 		return db;
@@ -116,9 +115,9 @@ namespace waspp
 		lock.clear();
 	}
 
-	mysqlpp::connection* database_pool::connect(bool pooled_)
+	database_ptr database_pool::connect(bool pooled_)
 	{
-		return new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, pooled_);
+		return database_ptr(new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, pooled_));
 	}
 
 	bool database_pool::validate(database_ptr db)
