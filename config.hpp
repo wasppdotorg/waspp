@@ -21,7 +21,7 @@ namespace waspp
 		~config();
 
 		bool init(const char* file, const char* server_id);
-		std::map<std::string, std::string> get(const std::string& item);
+		std::map<std::string, std::string>* get(const std::string& item);
 
 		std::string log_level, log_rotation, log_file;
 

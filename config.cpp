@@ -120,17 +120,17 @@ namespace waspp
 		return false;
 	}
 
-	std::map<std::string, std::string> config::get(const std::string& item)
+	std::map<std::string, std::string>* config::get(const std::string& item)
 	{
 		std::map< std::string, std::map<std::string, std::string> >::iterator found;
 		found = c.find(item);
 
 		if (found != c.end())
 		{
-			return found->second;
+			return &(found->second);
 		}
 
-		return std::map<std::string, std::string>();
+		return 0;
 	}
 
 } // namespace waspp

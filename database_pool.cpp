@@ -21,8 +21,13 @@ namespace waspp
 	{
 	}
 
-	bool database_pool::init_pool(std::map<std::string, std::string> c)
+	bool database_pool::init_pool(std::map<std::string, std::string>* c)
 	{
+		if (c == 0)
+		{
+			return false;
+		}
+
 		std::vector<std::string> keys;
 		{
 			keys.push_back("host");
@@ -36,20 +41,20 @@ namespace waspp
 
 		for (std::size_t i = 0; i < keys.size(); ++i)
 		{
-			if (c.find(keys[i]) == c.end())
+			if (c->find(keys[i]) == c->end())
 			{
 				return false;
 			}
 		}
 
-		host = c["host"];
-		userid = c["userid"];
-		passwd = c["passwd"];
-		database = c["database"];
+		host = c->at("host");
+		userid = c->at("userid");
+		passwd = c->at("passwd");
+		database = c->at("database");
 
-		port = boost::lexical_cast<unsigned int>(c["port"]);
-		pool_size = boost::lexical_cast<std::size_t>(c["pool_size"]);
-		timeout_sec = boost::lexical_cast<double>(c["timeout_sec"]);
+		port = boost::lexical_cast<unsigned int>(c->at("port"));
+		pool_size = boost::lexical_cast<std::size_t>(c->at("pool_size"));
+		timeout_sec = boost::lexical_cast<double>(c->at("timeout_sec"));
 
 		return true;
 	}

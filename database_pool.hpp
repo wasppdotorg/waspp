@@ -33,7 +33,7 @@ namespace waspp
 		database_pool();
 		~database_pool();
 
-		bool init_pool(std::map<std::string, std::string> c);
+		bool init_pool(std::map<std::string, std::string>* c);
 		bool fill_pool();
 
 		database_ptr acquire_connection();
