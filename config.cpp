@@ -27,7 +27,7 @@ namespace waspp
 	{
 	}
 
-	bool config::init(const char* file, const char* item)
+	bool config::init(const char* file, const char* server_id)
 	{
 		try
 		{
@@ -61,38 +61,54 @@ namespace waspp
 				return false;
 			}
 
-			if ((found->second).find("level") == (found->second).end() ||
-				(found->second).find("rotation") == (found->second).end() ||
-				(found->second).find("file") == (found->second).end())
+			std::vector<std::string> keys;
 			{
-				std::cerr << "config::element not found" << std::endl;
-				return false;
+				keys.push_back("level");
+				keys.push_back("rotation");
+				keys.push_back("file");
+			}
+
+			for (std::size_t i = 0; i < keys.size(); ++i)
+			{
+				if ((found->second).find(keys[i]) == (found->second).end())
+				{
+					std::cerr << "config::element not found" << std::endl;
+					return false;
+				}
 			}
 
 			log_level = c["log"]["level"];
 			log_rotation = c["log"]["rotation"];
 			log_file = c["log"]["file"];
 
-			found = c.find(item);
+			found = c.find(server_id);
 			if (found == c.end())
 			{
-				std::cerr << "config::item not found" << std::endl;
+				std::cerr << "config::server_id not found" << std::endl;
 				return false;
 			}
 
-			if ((found->second).find("address") == (found->second).end() ||
-				(found->second).find("port") == (found->second).end() ||
-				(found->second).find("doc_root") == (found->second).end() ||
-				(found->second).find("num_threads") == (found->second).end())
+			keys.resize(0);
 			{
-				std::cerr << "config::element not found" << std::endl;
-				return false;
+				keys.push_back("address");
+				keys.push_back("port");
+				keys.push_back("doc_root");
+				keys.push_back("num_threads");
 			}
 
-			address = c[item]["address"];
-			port = c[item]["port"];
-			doc_root = c[item]["doc_root"];
-			num_threads = boost::lexical_cast<std::size_t>(c[item]["num_threads"]);
+			for (std::size_t i = 0; i < keys.size(); ++i)
+			{
+				if ((found->second).find(keys[i]) == (found->second).end())
+				{
+					std::cerr << "config::element not found" << std::endl;
+					return false;
+				}
+			}
+
+			address = c[server_id]["address"];
+			port = c[server_id]["port"];
+			doc_root = c[server_id]["doc_root"];
+			num_threads = boost::lexical_cast<std::size_t>(c[server_id]["num_threads"]);
 
 			return true;
 		}

@@ -23,15 +23,23 @@ namespace waspp
 
 	bool database_pool::init_pool(std::map<std::string, std::string> c)
 	{
-		if (c.find("host") == c.end() ||
-			c.find("userid") == c.end() ||
-			c.find("passwd") == c.end() ||
-			c.find("database") == c.end() ||
-			c.find("port") == c.end() ||
-			c.find("pool_size") == c.end() ||
-			c.find("timeout_sec") == c.end())
+		std::vector<std::string> keys;
 		{
-			return false;
+			keys.push_back("host");
+			keys.push_back("userid");
+			keys.push_back("passwd");
+			keys.push_back("database");
+			keys.push_back("port");
+			keys.push_back("pool_size");
+			keys.push_back("timeout_sec");
+		}
+
+		for (std::size_t i = 0; i < keys.size(); ++i)
+		{
+			if (c.find(keys[i]) == c.end())
+			{
+				return false;
+			}
 		}
 
 		host = c["host"];
