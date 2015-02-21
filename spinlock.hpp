@@ -19,7 +19,7 @@ namespace waspp
 	class spinlock
 	{
 	public:
-		void set()
+		void acquire()
 		{
 			while (atomic_flag_.test_and_set(boost::memory_order_acquire))
 			{
@@ -29,7 +29,7 @@ namespace waspp
 			}
 		}
 
-		void clear()
+		void release()
 		{
 			atomic_flag_.clear(boost::memory_order_release);
 		}

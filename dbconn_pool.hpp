@@ -37,7 +37,7 @@ namespace waspp
 		bool fill_pool();
 
 		dbconn_ptr get_dbconn();
-		void release_dbconn(dbconn_ptr dbconn);
+		void free_dbconn(dbconn_ptr dbconn);
 
 	private:
 		dbconn_ptr connect(bool pooled_ = true);

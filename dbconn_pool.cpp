@@ -66,39 +66,39 @@ namespace waspp
 			return false;
 		}
 
-		lock.set();
+		lock.acquire();
 		{
 			for (std::size_t i = 0; i < pool_size; ++i)
 			{
 				dbconn_ptr dbconn = connect();
 				if (!validate(dbconn))
 				{
-					lock.clear();
+					lock.release();
 					return false;
 				}
 
 				pool.push_back(dbconn);
 			}
 		}
-		lock.clear();
+		lock.release();
 
 		return true;
 	}
 
 	dbconn_ptr dbconn_pool::get_dbconn()
 	{
-		lock.set();
+		lock.acquire();
 		//{
 			if (pool.empty())
 			{
-				lock.clear();
+				lock.release();
 				return connect(false);
 			}
 
 			dbconn_ptr dbconn = *(pool.end() - 1);
 			pool.pop_back();
 		//}
-		lock.clear();
+		lock.release();
 
 		std::time_t time_ = std::time(0);
 		double diff = std::difftime(time_, mktime(dbconn->last_released()));
@@ -111,7 +111,7 @@ namespace waspp
 		return dbconn;
 	}
 
-	void dbconn_pool::release_dbconn(dbconn_ptr dbconn)
+	void dbconn_pool::free_dbconn(dbconn_ptr dbconn)
 	{
 		if (!dbconn->is_pooled())
 		{
@@ -121,11 +121,11 @@ namespace waspp
 		std::time_t time_ = std::time(0);
 		dbconn->set_released(*std::localtime(&time_));
 
-		lock.set();
+		lock.acquire();
 		{
 			pool.push_back(dbconn);
 		}
-		lock.clear();
+		lock.release();
 	}
 
 	dbconn_ptr dbconn_pool::connect(bool pooled_)
