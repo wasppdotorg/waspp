@@ -49,13 +49,13 @@ namespace waspp
 					i.insert(std::make_pair(pair_.first, pair_.second.get_value<std::string>()));
 				}
 
-				c.insert(std::make_pair(item_.first, i));
+				cfg_.insert(std::make_pair(item_.first, i));
 			}
 
 			std::map< std::string, std::map<std::string, std::string> >::iterator found;
 
-			found = c.find("log");
-			if (found == c.end())
+			found = cfg_.find("log");
+			if (found == cfg_.end())
 			{
 				std::cerr << "config::log not found" << std::endl;
 				return false;
@@ -77,12 +77,12 @@ namespace waspp
 				}
 			}
 
-			log_level = c["log"]["level"];
-			log_rotation = c["log"]["rotation"];
-			log_file = c["log"]["file"];
+			log_level = cfg_["log"]["level"];
+			log_rotation = cfg_["log"]["rotation"];
+			log_file = cfg_["log"]["file"];
 
-			found = c.find(server_id);
-			if (found == c.end())
+			found = cfg_.find(server_id);
+			if (found == cfg_.end())
 			{
 				std::cerr << "config::server_id not found" << std::endl;
 				return false;
@@ -105,10 +105,10 @@ namespace waspp
 				}
 			}
 
-			address = c[server_id]["address"];
-			port = c[server_id]["port"];
-			doc_root = c[server_id]["doc_root"];
-			num_threads = boost::lexical_cast<std::size_t>(c[server_id]["num_threads"]);
+			address = cfg_[server_id]["address"];
+			port = cfg_[server_id]["port"];
+			doc_root = cfg_[server_id]["doc_root"];
+			num_threads = boost::lexical_cast<std::size_t>(cfg_[server_id]["num_threads"]);
 
 			return true;
 		}
@@ -123,9 +123,9 @@ namespace waspp
 	std::map<std::string, std::string>* config::get(const std::string& item)
 	{
 		std::map< std::string, std::map<std::string, std::string> >::iterator found;
-		found = c.find(item);
+		found = cfg_.find(item);
 
-		if (found != c.end())
+		if (found != cfg_.end())
 		{
 			return &(found->second);
 		}

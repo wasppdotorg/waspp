@@ -29,7 +29,7 @@ namespace waspp
 		std::size_t num_threads;
 
 	private:
-		std::map< std::string, std::map<std::string, std::string> > c;
+		std::map< std::string, std::map<std::string, std::string> > cfg_;
 
 	};
 
