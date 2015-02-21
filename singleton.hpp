@@ -21,7 +21,7 @@ namespace waspp
 	public:
 		static T* instance()
 		{
-			if (instance_)
+			if (instance_ != 0)
 			{
 				return instance_;
 			}
@@ -30,8 +30,11 @@ namespace waspp
 			spinlock lock;
 			lock.set();
 			{
-				instance_ = new T();
-				atexit(destory);
+				if (instance_ == 0)
+				{
+					instance_ = new T();
+					atexit(destory);
+				}
 			}
 			lock.clear();
 

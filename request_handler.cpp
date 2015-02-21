@@ -30,7 +30,6 @@
 
 #include <boost/property_tree/json_parser.hpp>
 
-#include "database_pool.hpp"
 #include "mime_types.hpp"
 #include "response.hpp"
 #include "request.hpp"
@@ -39,8 +38,8 @@
 namespace waspp
 {
 
-	request_handler::request_handler(const std::string& doc_root_, std::map<std::string, database_pool*>& db_pools_)
-		: doc_root(doc_root_), db_pools(&db_pools_)
+	request_handler::request_handler(const std::string& doc_root_)
+		: doc_root(doc_root_)
 	{
 	}
 
@@ -111,7 +110,7 @@ namespace waspp
 			return;
 		}
 
-		func(req, res, db_pools);
+		func(req, res);
 
 		//res = response::static_response(response::not_found);
 		//return;

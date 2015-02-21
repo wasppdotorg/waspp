@@ -23,7 +23,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include "connection.hpp"
-#include "database_pool.hpp"
 #include "request_handler.hpp"
 
 namespace waspp
@@ -37,8 +36,7 @@ namespace waspp
 		/// Construct the server to listen on the specified TCP address and port, and
 		/// serve up files from the given directory.
 		explicit server(const std::string& address, const std::string& port,
-			const std::string& doc_root, std::size_t thread_pool_size,
-			std::map<std::string, database_pool*>& db_pools);
+			const std::string& doc_root, std::size_t thread_pool_size);
 
 		/// Run the server's io_service loop.
 		void run();

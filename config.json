@@ -9,24 +9,6 @@
 			"file" : "log.csv"
 		},
 	
-	"//servers" : 0,
-
-		"server0":
-		{
-			"address" : "127.0.0.1",
-			"port" : 8000,
-			"doc_root" : "doc_root",
-			"num_threads" : 4
-		},
-
-		"server1":
-		{
-			"address" : "127.0.0.1",
-			"port" : 8001,
-			"doc_root" : "doc_root",
-			"num_threads" : 4
-		},
-
 	"//database" : 0,
 
 		"db_index":
@@ -74,6 +56,24 @@
 			"timeout_sec" : 259200
 		},
 
+	"//servers" : 0,
+
+		"server0":
+		{
+			"address" : "127.0.0.1",
+			"port" : 8000,
+			"doc_root" : "doc_root",
+			"num_threads" : 4
+		},
+
+		"server1":
+		{
+			"address" : "127.0.0.1",
+			"port" : 8001,
+			"doc_root" : "doc_root",
+			"num_threads" : 4
+		},
+		
 	"//end" : 0
 
 }

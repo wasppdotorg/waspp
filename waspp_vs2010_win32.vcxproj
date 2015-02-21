@@ -70,7 +70,8 @@
   <ItemGroup>
     <ClCompile Include="config.cpp" />
     <ClCompile Include="connection.cpp" />
-    <ClCompile Include="database_pool.cpp" />
+    <ClCompile Include="database.cpp" />
+    <ClCompile Include="dbcp.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mime_types.cpp" />
@@ -87,7 +88,8 @@
   <ItemGroup>
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
-    <ClInclude Include="database_pool.hpp" />
+    <ClInclude Include="database.hpp" />
+    <ClInclude Include="dbcp.hpp" />
     <ClInclude Include="key_value.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mime_types.hpp" />

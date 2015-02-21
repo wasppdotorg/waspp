@@ -7,7 +7,6 @@
 
 #include "response.hpp"
 #include "request.hpp"
-#include "database_pool.hpp"
 #include "mime_types.hpp"
 
 namespace waspp
@@ -17,7 +16,7 @@ namespace waspp
 		namespace index
 		{
 
-			void html(const request& req, response& res, std::map<std::string, database_pool*>* db_pools)
+			void html(const request& req, response& res)
 			{
 				res.status = response::ok;
 				res.content = "OK";
@@ -28,7 +27,7 @@ namespace waspp
 				res.headers[1].value = mime_types::extension_to_type("html");
 			}
 
-			void jsonp(const request& req, response& res, std::map<std::string, database_pool*>* db_pools)
+			void jsonp(const request& req, response& res)
 			{
 
 			}

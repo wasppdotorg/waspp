@@ -21,15 +21,15 @@
 
 #include "config.hpp"
 #include "logger.hpp"
-#include "database_pool.hpp"
+#include "database.hpp"
+#include "dbcp.hpp"
 #include "server.hpp"
 
 int main(int argc, char* argv[])
 {
 	waspp::config* cfg = waspp::config::instance();
 	waspp::logger* log = waspp::logger::instance();
-
-	std::map<std::string, waspp::database_pool*> db_pools;
+	waspp::database* db = waspp::database::instance();
 
 	try
 	{
@@ -51,31 +51,21 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		waspp::database_pool db_index, db_000, db_001, db_etc;
+		waspp::dbcp db_index, db_000, db_001, db_etc;
 		{
-			db_pools.insert(std::make_pair("db_index", &db_index));
-			db_pools.insert(std::make_pair("db_000", &db_000));
-			db_pools.insert(std::make_pair("db_001", &db_001));
-			db_pools.insert(std::make_pair("db_etc", &db_etc));
+			db->add(std::make_pair("db_index", &db_index));
+			db->add(std::make_pair("db_000", &db_000));
+			db->add(std::make_pair("db_001", &db_001));
+			db->add(std::make_pair("db_etc", &db_etc));
 		}
 
-		std::map<std::string, waspp::database_pool*>::iterator i;
-		for (i = db_pools.begin(); i != db_pools.end(); ++i)
+		if (!db->init())
 		{
-			if (!i->second->init_pool(cfg->get(i->first)))
-			{
-				std::cerr << "database_pool::init_pool failed" << std::endl;
-				return 1;
-			}
-
-			if (!i->second->fill_pool())
-			{
-				std::cerr << "database_pool::fill_pool failed" << std::endl;
-				return 1;
-			}
+			std::cerr << "database::init failed" << std::endl;
+			return 1;
 		}
 
-		waspp::server s(cfg->address, cfg->port, cfg->doc_root, cfg->num_threads, db_pools);
+		waspp::server s(cfg->address, cfg->port, cfg->doc_root, cfg->num_threads);
 		s.run();
 
 		log->info("waspp started");
