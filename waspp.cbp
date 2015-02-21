@@ -43,8 +43,10 @@
 		<Unit filename="config.hpp" />
 		<Unit filename="connection.cpp" />
 		<Unit filename="connection.hpp" />
-		<Unit filename="database_pool.cpp" />
-		<Unit filename="database_pool.hpp" />
+		<Unit filename="database.cpp" />
+		<Unit filename="database.hpp" />
+		<Unit filename="dbconn_pool.cpp" />
+		<Unit filename="dbconn_pool.hpp" />
 		<Unit filename="key_value.hpp" />
 		<Unit filename="logger.cpp" />
 		<Unit filename="logger.hpp" />
