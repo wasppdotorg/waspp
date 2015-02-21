@@ -99,6 +99,12 @@ namespace waspp
 			return;
 		}
 
+		// to make router::find_func to work correctly
+		if (request_uri[request_uri.size() - 1] != '/')
+		{
+			request_uri += "/";
+		}
+		
 		if (req.method == "POST")
 		{
 		}

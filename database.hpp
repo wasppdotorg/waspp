@@ -25,8 +25,10 @@ namespace waspp
 		database();
 		~database();
 
-		void add(const std::pair<std::string, dbconn_pool*>& pair_);
-		bool init();
+		bool init(const std::vector<std::string>& dbnames);
+		
+		dbconn_ptr get(const std::string& dbname);
+		void free(const std::string& dbname, dbconn_ptr dbconn);
 
 	private:
 		std::map<std::string, dbconn_pool*> db_;

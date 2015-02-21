@@ -8,6 +8,7 @@
 #include "response.hpp"
 #include "request.hpp"
 #include "mime_types.hpp"
+#include "database.hpp"
 
 namespace waspp
 {
@@ -18,6 +19,11 @@ namespace waspp
 
 			void html(const request& req, response& res)
 			{
+				database* db = database::instance();
+
+				dbconn_ptr db_index = db->get("db_index");
+				db->free("db_index", db_index);
+
 				res.status = response::ok;
 				res.content = "OK";
 				res.headers.resize(2);

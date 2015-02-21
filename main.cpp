@@ -51,24 +51,23 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		waspp::dbconn_pool db_index, db_000, db_001, db_etc;
+		std::vector<std::string> dbnames;
 		{
-			db->add(std::make_pair("db_index", &db_index));
-			db->add(std::make_pair("db_000", &db_000));
-			db->add(std::make_pair("db_001", &db_001));
-			db->add(std::make_pair("db_etc", &db_etc));
+			dbnames.push_back("db_index");
+			dbnames.push_back("db_000");
+			dbnames.push_back("db_001");
+			dbnames.push_back("db_etc");
 		}
 
-		if (!db->init())
+		if (!db->init(dbnames))
 		{
 			std::cerr << "database::init failed" << std::endl;
 			return 1;
 		}
 
+		log->info("waspp starting..");
 		waspp::server s(cfg->address, cfg->port, cfg->doc_root, cfg->num_threads);
 		s.run();
-
-		log->info("waspp started");
 	}
 	catch (std::exception& e)
 	{

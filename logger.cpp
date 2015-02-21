@@ -17,6 +17,8 @@ namespace waspp
 		log_thread_(new boost::thread(
 		boost::bind(&boost::asio::io_service::run, &log_service_)))
 	{
+		std::time_t time_ = std::time(0);
+		file_created = *std::localtime(&time_);
 	}
 
 	/// Destructor shuts down the private io_service.

@@ -23,8 +23,8 @@ namespace waspp
 		{
 			//{ "/api/test", &api::test::json },
 
-			{ "/board/index", &board::index::html },
-			{ "/?/board/index", &board::index::jsonp },
+			{ "/board/index/", &board::index::html },
+			{ "/?/board/index/", &board::index::jsonp },
 
 			/*
 				{ "/board/form", &board::form::html },
