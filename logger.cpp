@@ -142,7 +142,7 @@ namespace waspp
 
 	void logger::log_rotate(const std::tm& time)
 	{
-		char datetime[32] = { 0 };
+		char datetime[32] = {0};
 
 		if (rotation == rotate_minutely && time.tm_min != file_created.tm_min)
 		{
@@ -180,7 +180,7 @@ namespace waspp
 		log_rotate(time);
 
 		// datetime for log message
-		char datetime[32] = { 0 };
+		char datetime[32] = {0};
 		std::strftime(datetime, sizeof(datetime), "%Y-%m-%d %H:%M:%S,", &time);
 
 		std::string line(datetime);

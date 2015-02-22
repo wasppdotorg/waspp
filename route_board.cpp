@@ -24,6 +24,9 @@ namespace waspp
 				dbconn_ptr db_index = db->get("db_index");
 				db->free("db_index", db_index);
 
+				dbconn_ptr db_shard = db->get(1);
+				db->free(1, db_shard);
+
 				res.status = response::ok;
 				res.content = "OK";
 				res.headers.resize(2);

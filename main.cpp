@@ -33,6 +33,7 @@ int main(int argc, char* argv[])
 
 	try
 	{
+		/*
 		if (argc != 3)
 		{
 			std::cerr << "Usage: ./waspp config.json server0\n";
@@ -40,6 +41,8 @@ int main(int argc, char* argv[])
 		}
 
 		if (!cfg->init(argv[1], argv[2]))
+		*/
+		if (!cfg->init("config.json", "server0"))
 		{
 			std::cerr << "config::init failed" << std::endl;
 			return 1;
@@ -51,15 +54,15 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		std::vector<std::string> dbnames;
+		std::vector<std::string> dbkeys;
 		{
-			dbnames.push_back("db_index");
-			dbnames.push_back("db_000");
-			dbnames.push_back("db_001");
-			dbnames.push_back("db_etc");
+			dbkeys.push_back("db_index");
+			dbkeys.push_back("db_000");
+			dbkeys.push_back("db_001");
+			dbkeys.push_back("db_etc");
 		}
 
-		if (!db->init(dbnames))
+		if (!db->init(dbkeys))
 		{
 			std::cerr << "database::init failed" << std::endl;
 			return 1;

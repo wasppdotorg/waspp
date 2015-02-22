@@ -8,6 +8,8 @@
 #include <vector>
 #include <string>
 
+#include <boost/lexical_cast.hpp>
+
 #include "config.hpp"
 #include "database.hpp"
 #include "dbconn_pool.hpp"
@@ -23,15 +25,40 @@ namespace waspp
 	{
 	}
 
-	bool database::init(const std::vector<std::string>& dbnames)
+	bool database::init(const std::vector<std::string>& dbkeys)
 	{
-		for (std::size_t i = 0; i < dbnames.size(); ++i)
+		config* cfg = config::instance();
+
+		std::map<std::string, std::string>* shard = cfg->get("shard");
+		if (shard == 0)
 		{
-			dbconn_pool* dbcp = new dbconn_pool();
-			db_.insert(std::make_pair(dbnames[i], dbcp));
+			return false;
 		}
 
-		config* cfg = config::instance();
+		std::vector<std::string> keys;
+		{
+			keys.push_back("shard_count");
+			keys.push_back("shard_prefix");
+			keys.push_back("shard_postfix");
+		}
+
+		for (std::size_t i = 0; i < keys.size(); ++i)
+		{
+			if (shard->find(keys[i]) == shard->end())
+			{
+				return false;
+			}
+		}
+
+		shard_count = boost::lexical_cast<unsigned int>(shard->at("shard_count"));
+		shard_prefix = shard->at("shard_prefix");
+		shard_postfix = shard->at("shard_postfix");
+
+		for (std::size_t i = 0; i < dbkeys.size(); ++i)
+		{
+			dbconn_pool* dbcp = new dbconn_pool();
+			db_.insert(std::make_pair(dbkeys[i], dbcp));
+		}
 
 		std::map<std::string, dbconn_pool*>::iterator i;
 		for (i = db_.begin(); i != db_.end(); ++i)
@@ -50,46 +77,41 @@ namespace waspp
 		return true;
 	}
 
-	dbconn_ptr database::get(const std::string& dbname)
+	dbconn_pool* database::this_db(const std::string& dbkey)
 	{
-		try
-		{
-			std::map<std::string, dbconn_pool*>::iterator found;
+		std::map<std::string, dbconn_pool*>::iterator found;
 
-			found = db_.find(dbname);
-			if (found == db_.end())
-			{
-				throw std::runtime_error("invalid dbname");
-			}
-
-			return db_.at(dbname)->get_dbconn();
-		}
-		catch (...)
+		found = db_.find(dbkey);
+		if (found == db_.end())
 		{
-			throw;
+			throw std::runtime_error("invalid dbkey");
 		}
 
-		return dbconn_ptr();
+		return found->second;
 	}
 
-	void database::free(const std::string& dbname, dbconn_ptr dbconn)
+	dbconn_pool* database::this_db(unsigned int dbkey)
 	{
-		try
-		{
-			std::map<std::string, dbconn_pool*>::iterator found;
+		char postfix[8] = {0};
 
-			found = db_.find(dbname);
-			if (found == db_.end())
-			{
-				throw std::runtime_error("invalid dbname");
-			}
-		
-			db_.at(dbname)->free_dbconn(dbconn);
-		}
-		catch (...)
+		int count = sprintf(postfix, shard_postfix.c_str(), dbkey % shard_count);
+		if (count == 0)
 		{
-			throw;
+			throw std::runtime_error("invalid dbkey");
 		}
+
+		std::map<std::string, dbconn_pool*>::iterator found;
+
+		std::string dbkey_str(shard_prefix);
+		dbkey_str.append(postfix);
+
+		found = db_.find(dbkey_str);
+		if (found == db_.end())
+		{
+			throw std::runtime_error("invalid dbkey");
+		}
+
+		return found->second;
 	}
 
 } // namespace waspp

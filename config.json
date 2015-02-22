@@ -9,6 +9,15 @@
 			"file" : "log.csv"
 		},
 	
+	"//shard" : 0,
+	
+		"shard":
+		{
+			"shard_count" : 2,
+			"shard_prefix" : "db_",
+			"shard_postfix" : "%03d"
+		},
+	
 	"//database" : 0,
 
 		"db_index":

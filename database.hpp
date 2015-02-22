@@ -25,12 +25,30 @@ namespace waspp
 		database();
 		~database();
 
-		bool init(const std::vector<std::string>& dbnames);
+		bool init(const std::vector<std::string>& dbkeys);
 		
-		dbconn_ptr get(const std::string& dbname);
-		void free(const std::string& dbname, dbconn_ptr dbconn);
-
+		template<typename T>
+		dbconn_ptr get(T dbkey)
+		{
+			dbconn_pool* db = this_db(dbkey);
+			return db->get_dbconn();
+		}
+		
+		template<typename T>
+		void free(T dbkey, dbconn_ptr dbconn)
+		{
+			dbconn_pool* db = this_db(dbkey);
+			db->free_dbconn(dbconn);
+		}
+		
 	private:
+		dbconn_pool* this_db(const std::string& dbkey);
+		dbconn_pool* this_db(unsigned int dbkey);
+
+		unsigned int shard_count;
+		std::string shard_prefix;
+		std::string shard_postfix;
+
 		std::map<std::string, dbconn_pool*> db_;
 
 	};
