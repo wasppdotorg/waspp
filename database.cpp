@@ -31,11 +31,7 @@ namespace waspp
 		{
 			config* cfg = config::instance();
 
-			std::map<std::string, std::string>* shard = cfg->get("shard");
-			if (shard == 0)
-			{
-				return false;
-			}
+			std::map<std::string, std::string>& cfg_shard = cfg->get("shard");
 
 			std::vector<std::string> keys;
 			{
@@ -45,14 +41,14 @@ namespace waspp
 
 			for (std::size_t i = 0; i < keys.size(); ++i)
 			{
-				if (shard->find(keys[i]) == shard->end())
+				if (cfg_shard.find(keys[i]) == cfg_shard.end())
 				{
 					return false;
 				}
 			}
 
-			shard_count = boost::lexical_cast<unsigned int>(shard->at("shard_count"));
-			shard_format = shard->at("shard_format");
+			shard_count = boost::lexical_cast<unsigned int>(cfg_shard["shard_count"]);
+			shard_format = cfg_shard["shard_format"];
 
 			for (std::size_t i = 0; i < dbkeys.size(); ++i)
 			{
@@ -73,7 +69,7 @@ namespace waspp
 					return false;
 				}
 			}
-		
+
 			return true;
 		}
 		catch (...)
@@ -84,7 +80,7 @@ namespace waspp
 		return false;
 	}
 
-	dbconn_pool* database::this_db(const std::string& dbkey)
+	dbconn_pool& database::this_db(const std::string& dbkey)
 	{
 		std::map<std::string, dbconn_pool*>::iterator found;
 
@@ -94,10 +90,10 @@ namespace waspp
 			throw std::runtime_error("invalid dbkey");
 		}
 
-		return found->second;
+		return *(found->second);
 	}
 
-	dbconn_pool* database::this_db(unsigned int dbkey)
+	dbconn_pool& database::this_db(unsigned int dbkey)
 	{
 		char format[8] = {0};
 
@@ -115,7 +111,7 @@ namespace waspp
 			throw std::runtime_error("invalid dbkey");
 		}
 
-		return found->second;
+		return *(found->second);
 	}
 
 } // namespace waspp

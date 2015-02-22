@@ -19,10 +19,9 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
-#include "config.hpp"
 #include "logger.hpp"
+#include "config.hpp"
 #include "database.hpp"
-#include "dbconn_pool.hpp"
 #include "server.hpp"
 
 int main(int argc, char* argv[])
@@ -33,24 +32,24 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		if (0)
-		//if (argc != 4)
+		//if (0)
+		if (argc != 4)
 		{
 			std::cerr << "Usage: ./waspp log.csv config.json server0\n";
 			return 1;
 		}
 
-		log->file("log.csv");
-		//log->file(argv[1]);
+		//log->file("log.csv");
+		log->file(argv[1]);
 
-		if (!cfg->init("config.json", "server0"))
-		//if (!cfg->init(argv[2], argv[3]))
+		//if (!cfg->init("config.json", "server0"))
+		if (!cfg->init(argv[2], argv[3]))
 		{
 			log->fatal("config::init failed");
 			return 1;
 		}
 
-		if (!log->init(cfg->log_level, cfg->log_rotation))
+		if (!log->init(cfg->level, cfg->rotation))
 		{
 			log->fatal("logger::init failed");
 			return 1;
@@ -71,7 +70,7 @@ int main(int argc, char* argv[])
 		}
 
 		log->info("waspp starting..");
-		
+
 		waspp::server s(cfg->address, cfg->port, cfg->doc_root, cfg->num_threads);
 		s.run();
 

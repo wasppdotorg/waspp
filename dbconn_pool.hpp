@@ -33,7 +33,7 @@ namespace waspp
 		dbconn_pool();
 		~dbconn_pool();
 
-		bool init_pool(const std::map<std::string, std::string>* cfg);
+		bool init_pool(const std::map<std::string, std::string>& cfg);
 		bool fill_pool();
 
 		dbconn_ptr get_dbconn();

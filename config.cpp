@@ -38,7 +38,7 @@ namespace waspp
 	bool config::init(const char* file, const char* server_id)
 	{
 		logger* log = logger::instance();
-		
+
 		try
 		{
 			std::ifstream is(file, std::ios::in | std::ios::binary);
@@ -86,8 +86,8 @@ namespace waspp
 				}
 			}
 
-			log_level = cfg_["log"]["level"];
-			log_rotation = cfg_["log"]["rotation"];
+			level = cfg_["log"]["level"];
+			rotation = cfg_["log"]["rotation"];
 
 			found = cfg_.find(server_id);
 			if (found == cfg_.end())
@@ -128,17 +128,17 @@ namespace waspp
 		return false;
 	}
 
-	std::map<std::string, std::string>* config::get(const std::string& item)
+	std::map<std::string, std::string>& config::get(const std::string& item)
 	{
 		std::map< std::string, std::map<std::string, std::string> >::iterator found;
 		found = cfg_.find(item);
 
-		if (found != cfg_.end())
+		if (found == cfg_.end())
 		{
-			return &(found->second);
+			throw std::runtime_error("config::get failed");
 		}
 
-		return 0;
+		return found->second;
 	}
 
 } // namespace waspp

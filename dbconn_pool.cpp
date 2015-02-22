@@ -21,13 +21,8 @@ namespace waspp
 	{
 	}
 
-	bool dbconn_pool::init_pool(const std::map<std::string, std::string>* cfg)
+	bool dbconn_pool::init_pool(const std::map<std::string, std::string>& cfg)
 	{
-		if (cfg == 0)
-		{
-			return false;
-		}
-
 		std::vector<std::string> keys;
 		{
 			keys.push_back("host");
@@ -41,20 +36,20 @@ namespace waspp
 
 		for (std::size_t i = 0; i < keys.size(); ++i)
 		{
-			if (cfg->find(keys[i]) == cfg->end())
+			if (cfg.find(keys[i]) == cfg.end())
 			{
 				return false;
 			}
 		}
 
-		host = cfg->at("host");
-		userid = cfg->at("userid");
-		passwd = cfg->at("passwd");
-		database = cfg->at("database");
+		host = cfg.at("host");
+		userid = cfg.at("userid");
+		passwd = cfg.at("passwd");
+		database = cfg.at("database");
 
-		port = boost::lexical_cast<unsigned int>(cfg->at("port"));
-		pool_size = boost::lexical_cast<std::size_t>(cfg->at("pool_size"));
-		timeout_sec = boost::lexical_cast<double>(cfg->at("timeout_sec"));
+		port = boost::lexical_cast<unsigned int>(cfg.at("port"));
+		pool_size = boost::lexical_cast<std::size_t>(cfg.at("pool_size"));
+		timeout_sec = boost::lexical_cast<double>(cfg.at("timeout_sec"));
 
 		return true;
 	}
