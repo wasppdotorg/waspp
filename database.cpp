@@ -27,52 +27,61 @@ namespace waspp
 
 	bool database::init(const std::vector<std::string>& dbkeys)
 	{
-		config* cfg = config::instance();
-
-		std::map<std::string, std::string>* shard = cfg->get("shard");
-		if (shard == 0)
+		try
 		{
-			return false;
-		}
+			config* cfg = config::instance();
 
-		std::vector<std::string> keys;
-		{
-			keys.push_back("shard_count");
-			keys.push_back("shard_format");
-		}
-
-		for (std::size_t i = 0; i < keys.size(); ++i)
-		{
-			if (shard->find(keys[i]) == shard->end())
-			{
-				return false;
-			}
-		}
-
-		shard_count = boost::lexical_cast<unsigned int>(shard->at("shard_count"));
-		shard_format = shard->at("shard_format");
-
-		for (std::size_t i = 0; i < dbkeys.size(); ++i)
-		{
-			dbconn_pool* dbcp = new dbconn_pool();
-			db_.insert(std::make_pair(dbkeys[i], dbcp));
-		}
-
-		std::map<std::string, dbconn_pool*>::iterator i;
-		for (i = db_.begin(); i != db_.end(); ++i)
-		{
-			if (!i->second->init_pool(cfg->get(i->first)))
+			std::map<std::string, std::string>* shard = cfg->get("shard");
+			if (shard == 0)
 			{
 				return false;
 			}
 
-			if (!i->second->fill_pool())
+			std::vector<std::string> keys;
 			{
-				return false;
+				keys.push_back("shard_count");
+				keys.push_back("shard_format");
 			}
-		}
+
+			for (std::size_t i = 0; i < keys.size(); ++i)
+			{
+				if (shard->find(keys[i]) == shard->end())
+				{
+					return false;
+				}
+			}
+
+			shard_count = boost::lexical_cast<unsigned int>(shard->at("shard_count"));
+			shard_format = shard->at("shard_format");
+
+			for (std::size_t i = 0; i < dbkeys.size(); ++i)
+			{
+				dbconn_pool* dbcp = new dbconn_pool();
+				db_.insert(std::make_pair(dbkeys[i], dbcp));
+			}
+
+			std::map<std::string, dbconn_pool*>::iterator i;
+			for (i = db_.begin(); i != db_.end(); ++i)
+			{
+				if (!i->second->init_pool(cfg->get(i->first)))
+				{
+					return false;
+				}
+
+				if (!i->second->fill_pool())
+				{
+					return false;
+				}
+			}
 		
-		return true;
+			return true;
+		}
+		catch (...)
+		{
+			throw;
+		}
+
+		return false;
 	}
 
 	dbconn_pool* database::this_db(const std::string& dbkey)

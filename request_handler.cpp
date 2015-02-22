@@ -23,16 +23,10 @@
 #include <boost/property_tree/ptree.hpp>
 
 #include "request_handler.hpp"
-
-#ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
-#endif
-
-#include <boost/property_tree/json_parser.hpp>
-
 #include "mime_types.hpp"
 #include "response.hpp"
 #include "request.hpp"
+#include "logger.hpp"
 #include "router.hpp"
 
 namespace waspp
@@ -45,78 +39,88 @@ namespace waspp
 
 	void request_handler::handle_request(request& req, response& res)
 	{
-		// Decode url to path.
-		std::string request_uri;
-		if (!url_decode(req.uri, request_uri))
-		{
-			res = response::static_response(response::bad_request);
-			return;
-		}
-		req.uri = request_uri;
+		logger* log = logger::instance();
 
-		// Request path must be absolute and not contain "..".
-		if (request_uri.empty() || request_uri[0] != '/'
-			|| request_uri.find("..") != std::string::npos)
+		try
 		{
-			res = response::static_response(response::bad_request);
-			return;
-		}
-
-		// If path ends in slash (i.e. is a directory) then add "index.html".
-		if (request_uri[request_uri.size() - 1] == '/')
-		{
-			request_uri += "index.html";
-		}
-
-		// Determine the file extension.
-		std::size_t last_slash_pos = request_uri.find_last_of("/");
-		std::size_t last_dot_pos = request_uri.find_last_of(".");
-		std::string extension;
-		if (last_dot_pos != std::string::npos && last_dot_pos > last_slash_pos)
-		{
-			extension = request_uri.substr(last_dot_pos + 1);
-		}
-
-		// Open the file to send back.
-		std::string full_path = doc_root + request_uri;
-		std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
-		if (is)
-		{
-			// Fill out the response to be sent to the client.
-			res.status = response::ok;
-			char buf[512];
-			while (is.read(buf, sizeof(buf)).gcount() > 0)
+			// Decode url to path.
+			std::string request_uri;
+			if (!url_decode(req.uri, request_uri))
 			{
-				res.content.append(buf, is.gcount());
+				res = response::static_response(response::bad_request);
+				return;
+			}
+			req.uri = request_uri;
+
+			// Request path must be absolute and not contain "..".
+			if (request_uri.empty() || request_uri[0] != '/'
+				|| request_uri.find("..") != std::string::npos)
+			{
+				res = response::static_response(response::bad_request);
+				return;
 			}
 
-			res.headers.resize(2);
-			res.headers[0].key = "Content-Length";
-			res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
-			res.headers[1].key = "Content-Type";
-			res.headers[1].value = mime_types::extension_to_type(extension);
+			// If path ends in slash (i.e. is a directory) then add "index.html".
+			if (request_uri[request_uri.size() - 1] == '/')
+			{
+				request_uri += "index.html";
+			}
 
-			return;
-		}
+			// Determine the file extension.
+			std::size_t last_slash_pos = request_uri.find_last_of("/");
+			std::size_t last_dot_pos = request_uri.find_last_of(".");
+			std::string extension;
+			if (last_dot_pos != std::string::npos && last_dot_pos > last_slash_pos)
+			{
+				extension = request_uri.substr(last_dot_pos + 1);
+			}
 
-		// to make router::find_func to work correctly
-		if (request_uri[request_uri.size() - 1] != '/')
-		{
-			request_uri += "/";
-		}
+			// Open the file to send back.
+			std::string full_path = doc_root + request_uri;
+			std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
+			if (is)
+			{
+				// Fill out the response to be sent to the client.
+				res.status = response::ok;
+				char buf[512];
+				while (is.read(buf, sizeof(buf)).gcount() > 0)
+				{
+					res.content.append(buf, is.gcount());
+				}
+
+				res.headers.resize(2);
+				res.headers[0].key = "Content-Length";
+				res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
+				res.headers[1].key = "Content-Type";
+				res.headers[1].value = mime_types::extension_to_type(extension);
+
+				return;
+			}
+
+			// to make router::find_func to work correctly
+			if (request_uri[request_uri.size() - 1] != '/')
+			{
+				request_uri += "/";
+			}
 		
-		if (req.method == "POST")
-		{
-		}
+			if (req.method == "POST")
+			{
+			}
 
-		function_ptr func = router::find_func(request_uri);
-		if (func == 0)
-		{
-			res = response::static_response(response::not_found);
-			return;
-		}
+			function_ptr func = router::find_func(request_uri);
+			if (func == 0)
+			{
+				res = response::static_response(response::not_found);
+				return;
+			}
 
-		func(req, res);
+			func(req, res);
+		}
+		catch (std::exception& e)
+		{
+			log->fatal(e.what());
+			res = response::static_response(response::internal_server_error);
+		}
 
 		//res = response::static_response(response::not_found);
 		//return;

@@ -9,11 +9,19 @@
 #include <string>
 
 #include <boost/property_tree/ptree.hpp>
+
+// when using both boost asio and boost ptree on win32
+// put these lines below before json_parser.hpp
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#endif
+
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>
 
 #include <boost/lexical_cast.hpp>
 
+#include "logger.hpp"
 #include "config.hpp"
 
 namespace waspp
@@ -29,12 +37,14 @@ namespace waspp
 
 	bool config::init(const char* file, const char* server_id)
 	{
+		logger* log = logger::instance();
+		
 		try
 		{
 			std::ifstream is(file, std::ios::in | std::ios::binary);
 			if (!is)
 			{
-				std::cerr << "config::file not found" << std::endl;
+				log->fatal("config::file not found");
 				return false;
 			}
 
@@ -57,7 +67,7 @@ namespace waspp
 			found = cfg_.find("log");
 			if (found == cfg_.end())
 			{
-				std::cerr << "config::log not found" << std::endl;
+				log->fatal("config::log not found");
 				return false;
 			}
 
@@ -65,26 +75,24 @@ namespace waspp
 			{
 				keys.push_back("level");
 				keys.push_back("rotation");
-				keys.push_back("file");
 			}
 
 			for (std::size_t i = 0; i < keys.size(); ++i)
 			{
 				if ((found->second).find(keys[i]) == (found->second).end())
 				{
-					std::cerr << "config::element not found" << std::endl;
+					log->fatal("config::element not found");
 					return false;
 				}
 			}
 
 			log_level = cfg_["log"]["level"];
 			log_rotation = cfg_["log"]["rotation"];
-			log_file = cfg_["log"]["file"];
 
 			found = cfg_.find(server_id);
 			if (found == cfg_.end())
 			{
-				std::cerr << "config::server_id not found" << std::endl;
+				log->fatal("config::server_id not found");
 				return false;
 			}
 
@@ -100,7 +108,7 @@ namespace waspp
 			{
 				if ((found->second).find(keys[i]) == (found->second).end())
 				{
-					std::cerr << "config::element not found" << std::endl;
+					log->fatal("config::element not found");
 					return false;
 				}
 			}
@@ -112,9 +120,9 @@ namespace waspp
 
 			return true;
 		}
-		catch (std::exception& e)
+		catch (...)
 		{
-			std::cerr << "exception: " << e.what() << "\n";
+			throw;
 		}
 
 		return false;

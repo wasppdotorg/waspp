@@ -48,7 +48,8 @@ namespace waspp
 		logger();
 		~logger();
 
-		bool init(const std::string& level_, const std::string& rotation_, const std::string& file_);
+		void file(const char* file);
+		bool init(const std::string& level, const std::string& rotation);
 
 		/// Log a message.
 		void debug(const std::string& message);
@@ -58,13 +59,13 @@ namespace waspp
 		void fatal(const std::string& message);
 
 	private:
-		void log_rotate(const std::tm& time);
 		void log(const std::string& log_type, const std::string& message);
+		void log_rotate(const std::tm& time);
 
-		void init_impl(log_level level_, rotation_type rotation_);
-		void file_impl(const std::string& file_);
-		void log_rotate_impl(const std::string& file_to);
+		void file_impl(const std::string& file);
+		void init_impl(log_level level, rotation_type rotation);
 		void log_impl(const std::string& line);
+		void log_rotate_impl(const std::string& file_to);
 
 		/// Private io_service used for performing logging operations.
 		boost::asio::io_service log_service_;
@@ -80,11 +81,11 @@ namespace waspp
 		/// The file to which log messages will be written.
 		std::ofstream ofstream_;
 
-		log_level level;
-		std::string file;
-		rotation_type rotation;
+		std::string file_;
+		std::tm file_created_;
 
-		std::tm file_created;
+		log_level level_;
+		rotation_type rotation_;
 
 	};
 

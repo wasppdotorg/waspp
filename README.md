@@ -57,7 +57,7 @@ Install waspp
 * sudo apt-get install cmake
 * sudo cmake .
 * sudo make
-* sudo ./waspp config.json server0
+* sudo ./waspp log.csv config.json server0
 
 Run
 ---

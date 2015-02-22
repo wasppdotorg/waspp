@@ -5,8 +5,7 @@
 		"log":
 		{
 			"level" : "debug",
-			"rotation" : "hourly",
-			"file" : "log.csv"
+			"rotation" : "hourly"
 		},
 	
 	"//shard" : 0,
