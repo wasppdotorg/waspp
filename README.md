@@ -58,9 +58,9 @@ Install waspp
 * sudo cmake .
 * sudo make
 * sudo cp -f ./waspp ../bin/
-* cd ../bin
-* sudo ./develop_start.sh
 
 Run
 ---
+* cd ../bin
+* sudo ./develop_start.sh
 * Go to http://your.web.server:8000/
