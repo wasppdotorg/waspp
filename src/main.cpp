@@ -35,14 +35,14 @@ int main(int argc, char* argv[])
 		//if (0)
 		if (argc != 4)
 		{
-			std::cerr << "Usage: ./waspp log.csv config.json server0\n";
+			std::cerr << "Usage: ./waspp ../log/develop.csv ../cfg/develop.json server0 &\n";
 			return 1;
 		}
 
-		//log->file("log.csv");
+		//log->file("../log/develop.csv");
 		log->file(argv[1]);
 
-		//if (!cfg->init("config.json", "server0"))
+		//if (!cfg->init("../cfg/develop.json", "server0"))
 		if (!cfg->init(argv[2], argv[3]))
 		{
 			log->fatal("config::init failed");

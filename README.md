@@ -53,11 +53,13 @@ Install waspp
 * cd /var/
 * sudo apt-get install git
 * sudo git clone https://github.com/waspporg/waspp.git
-* cd waspp
+* cd waspp/src
 * sudo apt-get install cmake
 * sudo cmake .
 * sudo make
-* sudo ./waspp log.csv config.json server0
+* sudo cp -f ./waspp ../bin/
+* cd ../bin
+* sudo ./develop_start.sh
 
 Run
 ---
