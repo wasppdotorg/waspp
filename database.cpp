@@ -38,8 +38,7 @@ namespace waspp
 		std::vector<std::string> keys;
 		{
 			keys.push_back("shard_count");
-			keys.push_back("shard_prefix");
-			keys.push_back("shard_postfix");
+			keys.push_back("shard_format");
 		}
 
 		for (std::size_t i = 0; i < keys.size(); ++i)
@@ -51,8 +50,7 @@ namespace waspp
 		}
 
 		shard_count = boost::lexical_cast<unsigned int>(shard->at("shard_count"));
-		shard_prefix = shard->at("shard_prefix");
-		shard_postfix = shard->at("shard_postfix");
+		shard_format = shard->at("shard_format");
 
 		for (std::size_t i = 0; i < dbkeys.size(); ++i)
 		{
@@ -92,9 +90,9 @@ namespace waspp
 
 	dbconn_pool* database::this_db(unsigned int dbkey)
 	{
-		char postfix[8] = {0};
+		char format[8] = {0};
 
-		int count = sprintf(postfix, shard_postfix.c_str(), dbkey % shard_count);
+		int count = sprintf(format, shard_format.c_str(), dbkey % shard_count);
 		if (count == 0)
 		{
 			throw std::runtime_error("invalid dbkey");
@@ -102,10 +100,7 @@ namespace waspp
 
 		std::map<std::string, dbconn_pool*>::iterator found;
 
-		std::string dbkey_str(shard_prefix);
-		dbkey_str.append(postfix);
-
-		found = db_.find(dbkey_str);
+		found = db_.find(std::string(format));
 		if (found == db_.end())
 		{
 			throw std::runtime_error("invalid dbkey");

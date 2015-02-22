@@ -14,8 +14,7 @@
 		"shard":
 		{
 			"shard_count" : 2,
-			"shard_prefix" : "db_",
-			"shard_postfix" : "%03d"
+			"shard_format" : "db_%03d"
 		},
 	
 	"//database" : 0,

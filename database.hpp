@@ -46,8 +46,7 @@ namespace waspp
 		dbconn_pool* this_db(unsigned int dbkey);
 
 		unsigned int shard_count;
-		std::string shard_prefix;
-		std::string shard_postfix;
+		std::string shard_format;
 
 		std::map<std::string, dbconn_pool*> db_;
 
