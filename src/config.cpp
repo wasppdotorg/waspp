@@ -41,7 +41,7 @@ namespace waspp
 
 		try
 		{
-			std::ifstream is(file, std::ios::in | std::ios::binary);
+			std::ifstream is(file.c_str(), std::ios::in | std::ios::binary);
 			if (!is)
 			{
 				log->fatal("config::file not found");
