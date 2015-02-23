@@ -1,4 +1,3 @@
-cmake_minimum_required (VERSION 2.6)
 
 project (waspp)
 
@@ -13,3 +12,4 @@ target_link_libraries(waspp ${Threads_LIBRARIES})
 target_link_libraries(waspp ${Boost_LIBRARIES})
 target_link_libraries(waspp ${MySQLClient_LIBRARIES})
 target_link_libraries(waspp ${TCMalloc_LIBRARIES})
+

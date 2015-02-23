@@ -42,15 +42,15 @@ int main(int argc, char* argv[])
 		std::ostringstream oss;
 		std::string log_file, cfg_file, server_id;
 		{
-			oss.clear();
+			oss.str(std::string());
 			oss << "../log/" << argv[1] << argv[2] << ".csv";
 			log_file.append(oss.str());
-		
-			oss.clear();
+
+			oss.str(std::string());
 			oss << "../cfg/" << argv[1] << ".json";
 			cfg_file.append(oss.str());
-		
-			oss.clear();
+
+			oss.str(std::string());
 			oss << "server" << argv[2];
 			server_id.append(oss.str());
 		}

@@ -58,7 +58,7 @@ Install waspp
 * sudo apt-get install cmake
 * sudo cmake .
 * sudo make
-* sudo cp -f ./waspp ../bin/
+* sudo mv -f ./waspp ../bin/
 
 Run
 ---
