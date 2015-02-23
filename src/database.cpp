@@ -53,21 +53,13 @@ namespace waspp
 			for (std::size_t i = 0; i < dbkeys.size(); ++i)
 			{
 				dbconn_pool* dbcp = new dbconn_pool();
+
+				if (!dbcp->init_pool(cfg->get(dbkeys[i])) || !dbcp->fill_pool())
+				{
+					return false;
+				}
+
 				db_.insert(std::make_pair(dbkeys[i], dbcp));
-			}
-
-			std::map<std::string, dbconn_pool*>::iterator i;
-			for (i = db_.begin(); i != db_.end(); ++i)
-			{
-				if (!i->second->init_pool(cfg->get(i->first)))
-				{
-					return false;
-				}
-
-				if (!i->second->fill_pool())
-				{
-					return false;
-				}
 			}
 
 			return true;

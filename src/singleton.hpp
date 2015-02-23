@@ -28,14 +28,12 @@ namespace waspp
 
 			// double checked locking for thread-safe singleton
 			lock.acquire();
+			if (instance_ == 0)
 			{
-				if (instance_ == 0)
-				{
-					instance_ = new T();
+				instance_ = new T();
 					
-					// avoid memory leak
-					atexit(destory);
-				}
+				// avoid memory leak
+				atexit(destory);
 			}
 			lock.release();
 

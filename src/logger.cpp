@@ -197,7 +197,7 @@ namespace waspp
 		}
 
 		std::string file_to(datetime);
-		file_to += file_;
+		file_to.append(file_);
 
 		log_service_.post(boost::bind(&logger::log_rotate_impl, this, file_to));
 	}

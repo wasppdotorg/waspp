@@ -61,21 +61,16 @@ namespace waspp
 			return false;
 		}
 
-		lock.acquire();
+		for (std::size_t i = 0; i < pool_size; ++i)
 		{
-			for (std::size_t i = 0; i < pool_size; ++i)
+			dbconn_ptr dbconn = connect();
+			if (!validate(dbconn))
 			{
-				dbconn_ptr dbconn = connect();
-				if (!validate(dbconn))
-				{
-					lock.release();
-					return false;
-				}
-
-				pool.push_back(dbconn);
+				return false;
 			}
+
+			pool.push_back(dbconn);
 		}
-		lock.release();
 
 		return true;
 	}

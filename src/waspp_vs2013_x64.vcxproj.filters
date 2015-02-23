@@ -45,9 +45,6 @@
     <ClCompile Include="server.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="database_pool.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="mysqlpp_connection.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -55,6 +52,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="mysqlpp_statement.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="database.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="dbconn_pool.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="logger.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,6 +99,18 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="mysqlpp.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="database.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dbconn_pool.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
