@@ -1,107 +1,111 @@
 
-CREATE DATABASE IF NOT EXISTS `waspp_index` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `waspp_idx` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE DATABASE IF NOT EXISTS `waspp_000` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE DATABASE IF NOT EXISTS `waspp_001` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE DATABASE IF NOT EXISTS `waspp_etc` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-USE `waspp_index`;
+USE `waspp_idx`;
 
-	CREATE TABLE `unique_seq` (
+	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
 	  `incr_amount` int(11) NOT NULL,
-	  `last_seq` int(11) unsigned NOT NULL,
+	  `last_key` int(11) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-	LOCK TABLES `unique_seq` WRITE;
-	INSERT INTO `unique_seq` VALUES ('users_index',1,1);
+	LOCK TABLES `unique_keys` WRITE;
+	INSERT INTO `unique_keys` VALUES ('users_idx',1,1);
 	UNLOCK TABLES;
 
-	CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_SEQ`(IN `p_table_id` VARCHAR(32), IN `p_seq_count` INT(11))
-	BEGIN
+	DELIMITER ;;
+		CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		BEGIN
 
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
-	DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
+		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+		DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
 
-	START TRANSACTION;
+		START TRANSACTION;
 
-		UPDATE `unique_seq`
-		SET `last_seq` = `last_seq` + (`incr_amount` * p_seq_count)
-		WHERE `table_id` = p_table_id;
+			UPDATE `unique_keys`
+			SET `last_key` = `last_key` + (`incr_amount` * in_key_amount)
+			WHERE `table_id` = in_table_id;
 
-		SELECT `last_seq` 
-		FROM `unique_seq`
-		WHERE `table_id` = p_table_id; 
+			SELECT `last_key` 
+			FROM `unique_keys`
+			WHERE `table_id` = in_table_id; 
 
-	COMMIT;
+		COMMIT;
 
-	END ;;
+		END ;;
+	DELIMITER ;
 	
-	CREATE TABLE `users_index` (
-	  `userseq` int(11) unsigned NOT NULL,
+	CREATE TABLE `users_idx` (
+	  `userid` int(11) unsigned NOT NULL,
 	  `platformtype` int(11) NOT NULL,
 	  `platformid` varchar(64) NOT NULL,
 	  `username` varchar(64) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
-	  PRIMARY KEY (`userseq`),
+	  PRIMARY KEY (`userid`),
 	  UNIQUE KEY `platformid_UNIQUE` (`platformid`),
 	  UNIQUE KEY `username_UNIQUE` (`username`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 USE `waspp_000`;
 
-	CREATE TABLE `unique_seq` (
+	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
 	  `incr_amount` int(11) NOT NULL,
-	  `last_seq` int(11) unsigned NOT NULL,
+	  `last_key` int(11) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-	LOCK TABLES `unique_seq` WRITE;
-	INSERT INTO `unique_seq` VALUES ('characters',2,0);
-	INSERT INTO `unique_seq` VALUES ('char_inven',2,0);
+	LOCK TABLES `unique_keys` WRITE;
+	INSERT INTO `unique_keys` VALUES ('characters',2,0);
+	INSERT INTO `unique_keys` VALUES ('char_inven',2,0);
 	UNLOCK TABLES;
 
-	CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_SEQ`(IN `p_table_id` VARCHAR(32), IN `p_seq_count` INT(11))
-	BEGIN
+	DELIMITER ;;
+		CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		BEGIN
 
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
-	DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
+		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+		DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
 
-	START TRANSACTION;
+		START TRANSACTION;
 
-		UPDATE `unique_seq`
-		SET `last_seq` = `last_seq` + (`incr_amount` * p_seq_count)
-		WHERE `table_id` = p_table_id;
+			UPDATE `unique_keys`
+			SET `last_key` = `last_key` + (`incr_amount` * in_key_amount)
+			WHERE `table_id` = in_table_id;
 
-		SELECT `last_seq` 
-		FROM `unique_seq`
-		WHERE `table_id` = p_table_id; 
+			SELECT `last_key` 
+			FROM `unique_keys`
+			WHERE `table_id` = in_table_id; 
 
-	COMMIT;
+		COMMIT;
 
-	END ;;
+		END ;;
+	DELIMITER ;
 	
 	CREATE TABLE IF NOT EXISTS `users` (
-	  `userseq` int(11) NOT NULL,
+	  `userid` int(11) NOT NULL,
 	  `passwd` varchar(32) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
-	  PRIMARY KEY (`userseq`, `userid`)
+	  PRIMARY KEY (`userid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE IF NOT EXISTS `characters` (
-	  `charseq` int(11) unsigned NOT NULL,
-	  `userseq` int(11) unsigned NOT NULL,
+	  `charid` int(11) unsigned NOT NULL,
+	  `userid` int(11) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
-	  PRIMARY KEY (`charseq`)
+	  PRIMARY KEY (`charid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE IF NOT EXISTS `char_inven` (
 	  `invenseq` int(11) unsigned NOT NULL,
-	  `charseq` int(11) unsigned NOT NULL,
+	  `charid` int(11) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
 	  PRIMARY KEY (`invenseq`)
@@ -109,57 +113,59 @@ USE `waspp_000`;
 
 USE `waspp_001`;
 
-	CREATE TABLE `unique_seq` (
+	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
 	  `incr_amount` int(11) NOT NULL,
-	  `last_seq` int(11) unsigned NOT NULL,
+	  `last_key` int(11) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-	LOCK TABLES `unique_seq` WRITE;
-	INSERT INTO `unique_seq` VALUES ('characters',2,1);
-	INSERT INTO `unique_seq` VALUES ('char_inven',2,1);
+	LOCK TABLES `unique_keys` WRITE;
+	INSERT INTO `unique_keys` VALUES ('characters',2,1);
+	INSERT INTO `unique_keys` VALUES ('char_inven',2,1);
 	UNLOCK TABLES;
 
-	CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_SEQ`(IN `p_table_id` VARCHAR(32), IN `p_seq_count` INT(11))
-	BEGIN
+	DELIMITER ;;
+		CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		BEGIN
 
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
-	DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
+		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+		DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
 
-	START TRANSACTION;
+		START TRANSACTION;
 
-		UPDATE `unique_seq`
-		SET `last_seq` = `last_seq` + (`incr_amount` * p_seq_count)
-		WHERE `table_id` = p_table_id;
+			UPDATE `unique_keys`
+			SET `last_key` = `last_key` + (`incr_amount` * in_key_amount)
+			WHERE `table_id` = in_table_id;
 
-		SELECT `last_seq` 
-		FROM `unique_seq`
-		WHERE `table_id` = p_table_id; 
+			SELECT `last_key` 
+			FROM `unique_keys`
+			WHERE `table_id` = in_table_id; 
 
-	COMMIT;
+		COMMIT;
 
-	END ;;
+		END ;;
+	DELIMITER ;
 	
 	CREATE TABLE IF NOT EXISTS `users` (
-	  `userseq` int(11) NOT NULL,
+	  `userid` int(11) NOT NULL,
 	  `passwd` varchar(32) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
-	  PRIMARY KEY (`userseq`, `userid`)
+	  PRIMARY KEY (`userid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE IF NOT EXISTS `characters` (
-	  `charseq` int(11) unsigned NOT NULL,
-	  `userseq` int(11) unsigned NOT NULL,
+	  `charid` int(11) unsigned NOT NULL,
+	  `userid` int(11) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
-	  PRIMARY KEY (`charseq`)
+	  PRIMARY KEY (`charid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE IF NOT EXISTS `char_inven` (
 	  `invenseq` int(11) unsigned NOT NULL,
-	  `charseq` int(11) unsigned NOT NULL,
+	  `charid` int(11) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
 	  PRIMARY KEY (`invenseq`)
@@ -167,36 +173,38 @@ USE `waspp_001`;
 
 USE `waspp_etc`;
 
-	CREATE TABLE `unique_seq` (
+	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(16) NOT NULL,
 	  `incr_amount` int(11) NOT NULL,
-	  `last_seq` int(11) unsigned NOT NULL,
+	  `last_key` int(11) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-	LOCK TABLES `unique_seq` WRITE;
-	INSERT INTO `unique_seq` VALUES ('board',1,1);
+	LOCK TABLES `unique_keys` WRITE;
+	INSERT INTO `unique_keys` VALUES ('board',1,1);
 	UNLOCK TABLES;
 
-	CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_SEQ`(IN `p_table_id` VARCHAR(16), IN `p_seq_count` INT(11))
-	BEGIN
+	DELIMITER ;;
+		CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		BEGIN
 
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
-	DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
+		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+		DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
 
-	START TRANSACTION;
+		START TRANSACTION;
 
-		UPDATE `unique_seq`
-		SET `last_seq` = `last_seq` + (`incr_amount` * p_seq_count)
-		WHERE `table_id` = p_table_id;
+			UPDATE `unique_keys`
+			SET `last_key` = `last_key` + (`incr_amount` * in_key_amount)
+			WHERE `table_id` = in_table_id;
 
-		SELECT `last_seq` 
-		FROM `unique_seq`
-		WHERE `table_id` = p_table_id; 
+			SELECT `last_key` 
+			FROM `unique_keys`
+			WHERE `table_id` = in_table_id; 
 
-	COMMIT;
+		COMMIT;
 
-	END ;;
+		END ;;
+	DELIMITER ;
 
 	CREATE TABLE IF NOT EXISTS `board` (
 	  `boardseq` int(11) NOT NULL,
@@ -204,7 +212,7 @@ USE `waspp_etc`;
 	  `content` text NOT NULL,
 	  `file1` varchar(64) NOT NULL,
 	  `file2` varchar(64) NOT NULL,
-	  `userseq` int(11) NOT NULL,
+	  `userid` int(11) NOT NULL,
 	  `username` varchar(64) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
