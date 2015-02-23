@@ -8,7 +8,7 @@ USE `testing_waspp_idx`;
 
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
-	  `incr_amount` int(11) NOT NULL,
+	  `incr_amount` int(11) unsigned NOT NULL,
 	  `last_key` int(11) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -18,7 +18,7 @@ USE `testing_waspp_idx`;
 	UNLOCK TABLES;
 
 	DELIMITER ;;
-		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11) unsigned)
 		BEGIN
 
 		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
@@ -55,7 +55,7 @@ USE `testing_waspp_000`;
 
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
-	  `incr_amount` int(11) NOT NULL,
+	  `incr_amount` int(11) unsigned NOT NULL,
 	  `last_key` int(11) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -66,7 +66,7 @@ USE `testing_waspp_000`;
 	UNLOCK TABLES;
 
 	DELIMITER ;;
-		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11) unsigned)
 		BEGIN
 
 		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
@@ -88,7 +88,7 @@ USE `testing_waspp_000`;
 	DELIMITER ;
 	
 	CREATE TABLE `users` (
-	  `userid` int(11) NOT NULL,
+	  `userid` int(11) unsigned NOT NULL,
 	  `passwd` varchar(32) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
@@ -115,7 +115,7 @@ USE `testing_waspp_001`;
 
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
-	  `incr_amount` int(11) NOT NULL,
+	  `incr_amount` int(11) unsigned NOT NULL,
 	  `last_key` int(11) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -126,7 +126,7 @@ USE `testing_waspp_001`;
 	UNLOCK TABLES;
 
 	DELIMITER ;;
-		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11) unsigned)
 		BEGIN
 
 		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
@@ -148,7 +148,7 @@ USE `testing_waspp_001`;
 	DELIMITER ;
 	
 	CREATE TABLE `users` (
-	  `userid` int(11) NOT NULL,
+	  `userid` int(11) unsigned NOT NULL,
 	  `passwd` varchar(32) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
@@ -175,7 +175,7 @@ USE `testing_waspp_etc`;
 
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(16) NOT NULL,
-	  `incr_amount` int(11) NOT NULL,
+	  `incr_amount` int(11) unsigned NOT NULL,
 	  `last_key` int(11) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -185,7 +185,7 @@ USE `testing_waspp_etc`;
 	UNLOCK TABLES;
 
 	DELIMITER ;;
-		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11) unsigned)
 		BEGIN
 
 		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
@@ -207,12 +207,12 @@ USE `testing_waspp_etc`;
 	DELIMITER ;
 
 	CREATE TABLE `board` (
-	  `boardseq` int(11) NOT NULL,
+	  `boardseq` int(11) unsigned NOT NULL,
 	  `title` varchar(128) NOT NULL,
 	  `content` text NOT NULL,
 	  `file1` varchar(64) NOT NULL,
 	  `file2` varchar(64) NOT NULL,
-	  `userid` int(11) NOT NULL,
+	  `userid` int(11) unsigned NOT NULL,
 	  `username` varchar(64) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
