@@ -74,6 +74,7 @@
     <ClCompile Include="dbconn_pool.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="md5.cpp" />
     <ClCompile Include="mime_types.cpp" />
     <ClCompile Include="mysqlpp_connection.cpp" />
     <ClCompile Include="mysqlpp_result.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="dbconn_pool.hpp" />
     <ClInclude Include="key_value.hpp" />
     <ClInclude Include="logger.hpp" />
+    <ClInclude Include="md5.hpp" />
     <ClInclude Include="mime_types.hpp" />
     <ClInclude Include="mysqlpp.hpp" />
     <ClInclude Include="request.hpp" />

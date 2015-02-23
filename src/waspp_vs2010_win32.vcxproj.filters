@@ -63,6 +63,9 @@
     <ClCompile Include="dbconn_pool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="md5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp">
@@ -111,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dbconn_pool.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="md5.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
