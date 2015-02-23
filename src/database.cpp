@@ -72,7 +72,7 @@ namespace waspp
 		return false;
 	}
 
-	dbconn_pool& database::this_db(const std::string& dbkey)
+	dbconn_pool& database::find_dbcp(const std::string& dbkey)
 	{
 		std::map<std::string, dbconn_pool*>::iterator found;
 
@@ -85,7 +85,7 @@ namespace waspp
 		return *(found->second);
 	}
 
-	dbconn_pool& database::this_db(unsigned int dbkey)
+	dbconn_pool& database::find_dbcp(unsigned int dbkey)
 	{
 		char format[8] = {0};
 
