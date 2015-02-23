@@ -54,6 +54,7 @@ Install waspp
 * sudo apt-get install git
 * sudo git clone https://github.com/waspporg/waspp.git
 * cd waspp/src
+* sudo apt-get install build-essential
 * sudo apt-get install cmake
 * sudo cmake .
 * sudo make
