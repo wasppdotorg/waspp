@@ -48,7 +48,7 @@ namespace waspp
 		logger();
 		~logger();
 
-		void file(const char* file);
+		void file(const std::string& file);
 		bool init(const std::string& level, const std::string& rotation);
 
 		/// Log a message.

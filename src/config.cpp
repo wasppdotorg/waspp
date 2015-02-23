@@ -35,7 +35,7 @@ namespace waspp
 	{
 	}
 
-	bool config::init(const char* file, const char* server_id)
+	bool config::init(const std::string& file, const std::string& server_id)
 	{
 		logger* log = logger::instance();
 

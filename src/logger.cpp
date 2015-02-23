@@ -33,7 +33,7 @@ namespace waspp
 		}
 	}
 
-	void logger::file(const char* file)
+	void logger::file(const std::string& file)
 	{
 		// Pass the work of opening the file to the background thread.
 		log_service_.post(boost::bind(&logger::file_impl, this, std::string(file)));

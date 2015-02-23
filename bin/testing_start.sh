@@ -1,7 +1,7 @@
 #!/bin/sh
 
-./waspp ../log/testing0.csv ../cfg/testing.json server0 &
-./waspp ../log/testing1.csv ../cfg/testing.json server1 &
+./waspp testing 00 &
+./waspp testing 01 &
 
 ps -ef | grep waspp | grep testing
 

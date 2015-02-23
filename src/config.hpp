@@ -20,7 +20,7 @@ namespace waspp
 		config();
 		~config();
 
-		bool init(const char* file, const char* server_id);
+		bool init(const std::string& file, const std::string& server_id);
 		std::map<std::string, std::string>& get(const std::string& item);
 
 		std::string level, rotation;

@@ -65,7 +65,7 @@
 
 	"//servers" : 0,
 
-		"server0":
+		"server00":
 		{
 			"address" : "127.0.0.1",
 			"port" : 8000,
@@ -73,7 +73,7 @@
 			"num_threads" : 4
 		},
 
-		"server1":
+		"server01":
 		{
 			"address" : "127.0.0.1",
 			"port" : 8001,

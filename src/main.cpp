@@ -33,9 +33,9 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		if (argc != 4)
+		if (argc != 3)
 		{
-			std::cerr << "Usage: ./waspp develop 0 &\n";
+			std::cerr << "Usage: ./waspp develop 00 &\n";
 			return 1;
 		}
 
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 		std::string log_file;
 		{
 			oss.clear();
-			oss << "../log/" << argv[1] << ".csv";
+			oss << "../log/" << argv[1] << argv[2] << ".csv";
 			log_file.append(oss.str());
 		}
 
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 		{
 			oss.clear();
 			oss << "server" << argv[2];
-			server_id.append(oss.str);
+			server_id.append(oss.str());
 		}
 
 		log->file(log_file);
