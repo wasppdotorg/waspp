@@ -13,6 +13,7 @@
 //
 
 #include <iostream>
+#include <sstream>
 #include <map>
 #include <string>
 
@@ -32,18 +33,38 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		//if (0)
 		if (argc != 4)
 		{
-			std::cerr << "Usage: ./waspp ../log/develop0.csv ../cfg/develop.json server0 &\n";
+			std::cerr << "Usage: ./waspp develop 0 &\n";
 			return 1;
 		}
 
-		//log->file("../log/develop0.csv");
-		log->file(argv[1]);
+		std::ostringstream oss;
 
-		//if (!cfg->init("../cfg/develop.json", "server0"))
-		if (!cfg->init(argv[2], argv[3]))
+		std::string log_file;
+		{
+			oss.clear();
+			oss << "../log/" << argv[1] << ".csv";
+			log_file.append(oss.str());
+		}
+
+		std::string cfg_file;
+		{
+			oss.clear();
+			oss << "../cfg/" << argv[1] << ".json";
+			cfg_file.append(oss.str());
+		}
+
+		std::string server_id;
+		{
+			oss.clear();
+			oss << "server" << argv[2];
+			server_id.append(oss.str);
+		}
+
+		log->file(log_file);
+
+		if (!cfg->init(cfg_file, server_id))
 		{
 			log->fatal("config::init failed");
 			return 1;

@@ -1,10 +1,10 @@
 
-CREATE DATABASE IF NOT EXISTS `waspp_idx` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE DATABASE IF NOT EXISTS `waspp_000` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE DATABASE IF NOT EXISTS `waspp_001` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE DATABASE IF NOT EXISTS `waspp_etc` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE `testing_waspp_idx` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE `testing_waspp_000` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE `testing_waspp_001` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE `testing_waspp_etc` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-USE `waspp_idx`;
+USE `testing_waspp_idx`;
 
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
@@ -18,7 +18,7 @@ USE `waspp_idx`;
 	UNLOCK TABLES;
 
 	DELIMITER ;;
-		CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
 		BEGIN
 
 		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
@@ -51,7 +51,7 @@ USE `waspp_idx`;
 	  UNIQUE KEY `username_UNIQUE` (`username`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-USE `waspp_000`;
+USE `testing_waspp_000`;
 
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
@@ -66,7 +66,7 @@ USE `waspp_000`;
 	UNLOCK TABLES;
 
 	DELIMITER ;;
-		CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
 		BEGIN
 
 		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
@@ -87,7 +87,7 @@ USE `waspp_000`;
 		END ;;
 	DELIMITER ;
 	
-	CREATE TABLE IF NOT EXISTS `users` (
+	CREATE TABLE `users` (
 	  `userid` int(11) NOT NULL,
 	  `passwd` varchar(32) NOT NULL,
 	  `inserttime` datetime NOT NULL,
@@ -95,7 +95,7 @@ USE `waspp_000`;
 	  PRIMARY KEY (`userid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
-	CREATE TABLE IF NOT EXISTS `characters` (
+	CREATE TABLE `characters` (
 	  `charid` int(11) unsigned NOT NULL,
 	  `userid` int(11) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
@@ -103,7 +103,7 @@ USE `waspp_000`;
 	  PRIMARY KEY (`charid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
-	CREATE TABLE IF NOT EXISTS `char_inven` (
+	CREATE TABLE `char_inven` (
 	  `invenseq` int(11) unsigned NOT NULL,
 	  `charid` int(11) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
@@ -111,7 +111,7 @@ USE `waspp_000`;
 	  PRIMARY KEY (`invenseq`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-USE `waspp_001`;
+USE `testing_waspp_001`;
 
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
@@ -126,7 +126,7 @@ USE `waspp_001`;
 	UNLOCK TABLES;
 
 	DELIMITER ;;
-		CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
 		BEGIN
 
 		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
@@ -147,7 +147,7 @@ USE `waspp_001`;
 		END ;;
 	DELIMITER ;
 	
-	CREATE TABLE IF NOT EXISTS `users` (
+	CREATE TABLE `users` (
 	  `userid` int(11) NOT NULL,
 	  `passwd` varchar(32) NOT NULL,
 	  `inserttime` datetime NOT NULL,
@@ -155,7 +155,7 @@ USE `waspp_001`;
 	  PRIMARY KEY (`userid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
-	CREATE TABLE IF NOT EXISTS `characters` (
+	CREATE TABLE `characters` (
 	  `charid` int(11) unsigned NOT NULL,
 	  `userid` int(11) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
@@ -163,7 +163,7 @@ USE `waspp_001`;
 	  PRIMARY KEY (`charid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
-	CREATE TABLE IF NOT EXISTS `char_inven` (
+	CREATE TABLE `char_inven` (
 	  `invenseq` int(11) unsigned NOT NULL,
 	  `charid` int(11) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
@@ -171,7 +171,7 @@ USE `waspp_001`;
 	  PRIMARY KEY (`invenseq`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-USE `waspp_etc`;
+USE `testing_waspp_etc`;
 
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(16) NOT NULL,
@@ -185,7 +185,7 @@ USE `waspp_etc`;
 	UNLOCK TABLES;
 
 	DELIMITER ;;
-		CREATE DEFINER=`root`@`%` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
+		CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_GET_UNIQUE_KEYS`(IN `in_table_id` VARCHAR(32), IN `in_key_amount` INT(11))
 		BEGIN
 
 		DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
@@ -206,7 +206,7 @@ USE `waspp_etc`;
 		END ;;
 	DELIMITER ;
 
-	CREATE TABLE IF NOT EXISTS `board` (
+	CREATE TABLE `board` (
 	  `boardseq` int(11) NOT NULL,
 	  `title` varchar(128) NOT NULL,
 	  `content` text NOT NULL,
