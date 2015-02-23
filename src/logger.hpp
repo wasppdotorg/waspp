@@ -26,7 +26,7 @@ namespace waspp
 {
 	enum rotation_type
 	{
-		rotate_minutely = 0, // for test
+		rotate_minutely = 0,
 		rotate_hourly = 1,
 		rotate_daily = 2,
 		rotate_monthly = 3
