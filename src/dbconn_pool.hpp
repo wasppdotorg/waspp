@@ -5,8 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_dbconn_pool_HPP
-#define WASPP_dbconn_pool_HPP
+#ifndef WASPP_DBCONN_POOL_HPP
+#define WASPP_DBCONN_POOL_HPP
 
 #include <ctime>
 
@@ -56,4 +56,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_dbconn_pool_HPP
+#endif // WASPP_DBCONN_POOL_HPP
