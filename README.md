@@ -3,8 +3,8 @@ waspp
 
 Tested with
 -----------
-* CMake - Ubuntu Linux 14.04 LTS
-* Codeblocks - Ubuntu Linux 14.04 LTS
+* CMake 2.8 - Ubuntu Linux 14.04 LTS
+* Codeblocks 13.12 - Ubuntu Linux 14.04 LTS
 * Visual Studio 2010 Express - Windows 7
 * Visual Studio 2013 Professional - Windows 7
 
