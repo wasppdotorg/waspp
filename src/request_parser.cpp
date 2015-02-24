@@ -290,14 +290,13 @@ namespace waspp
 			{
 				req.content_length = 0;
 
-				for (std::size_t i = 0; i < req.headers.size(); ++i)
+				std::vector<key_value>::iterator found;
+				found = std::find_if(req.headers.begin(), req.headers.end(), boost::bind(&key_value::compare_key, _1, "Content-Length"));
+				if (found != req.headers.end())
 				{
-					if (req.headers[i].key == "Content-Length")
-					{
-						req.content_length = boost::lexical_cast<std::size_t>(req.headers[i].value);
-					}
+					req.content_length = boost::lexical_cast<std::size_t>(found->value);
 				}
-
+				
 				if (req.content_length == 0)
 				{
 					return true;

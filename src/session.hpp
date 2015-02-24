@@ -17,11 +17,11 @@ namespace waspp
 	class session
 	{
 	public:
-		session();
+		session(std::vector<key_value>& headers);
 		~session();
 
 	private:
-		bool load(const std::vector<key_value>& headers);
+		bool load(std::vector<key_value>& headers);
 
 		std::string get_sess();
 		void set_sess();

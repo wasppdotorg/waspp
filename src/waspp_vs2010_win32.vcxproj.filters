@@ -63,7 +63,10 @@
     <ClCompile Include="dbconn_pool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="md5.cpp">
+    <ClCompile Include="cookie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -117,6 +120,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="md5.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cookie.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="session.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

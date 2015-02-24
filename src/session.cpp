@@ -6,6 +6,9 @@
 //
 
 #include <vector>
+#include <algorithm>
+
+#include <boost/bind.hpp>
 
 #include "key_value.hpp"
 #include "session.hpp"
@@ -13,9 +16,9 @@
 namespace waspp
 {
 
-	session::session()
+	session::session(std::vector<key_value>& headers)
 	{
-		if (!load())
+		if (!load(headers))
 		{
 			create();
 		}
@@ -29,8 +32,23 @@ namespace waspp
 	{
 	}
 
-	bool session::load(const std::vector<key_value>& headers)
+	bool session::load(std::vector<key_value>& headers)
 	{
+		std::vector<key_value>::iterator found;
+
+		found = std::find_if(headers.begin(), headers.end(), boost::bind(&key_value::compare_key, _1, "Set-Cookie"));
+		if (found == headers.end())
+		{
+			return false;
+		}
+
+		found = std::find_if(headers.begin(), headers.end(), boost::bind(&key_value::compare_key, _1, "User-Agent"));
+		std::string user_agent;
+		if (found != headers.end())
+		{
+			user_agent.append(found->value);
+		}
+
 		for (std::size_t i = 0; i < headers.size(); ++i)
 		{
 

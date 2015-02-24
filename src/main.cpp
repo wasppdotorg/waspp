@@ -33,6 +33,7 @@ int main(int argc, char* argv[])
 
 	try
 	{
+		//if (0)
 		if (argc != 3)
 		{
 			std::cerr << "Usage: ./waspp develop 00 &\n";
@@ -41,6 +42,7 @@ int main(int argc, char* argv[])
 
 		std::ostringstream oss;
 		std::string log_file, cfg_file, server_id;
+		//if (0)
 		{
 			oss.str(std::string());
 			oss << "../log/" << argv[1] << argv[2] << ".csv";
@@ -54,6 +56,9 @@ int main(int argc, char* argv[])
 			oss << "server" << argv[2];
 			server_id.append(oss.str());
 		}
+		//log_file.append("../log/develop.csv");
+		//cfg_file.append("../cfg/develop.json");
+		//server_id.append("server00");
 
 		log->file(log_file);
 
