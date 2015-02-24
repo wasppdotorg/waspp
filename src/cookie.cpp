@@ -22,4 +22,14 @@ namespace waspp
 	{
 	}
 
+	void cookie::set_cookie()
+	{
+
+	}
+
+	void cookie::delete_cookie()
+	{
+
+	}
+
 } // namespace waspp

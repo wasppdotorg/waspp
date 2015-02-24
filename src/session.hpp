@@ -8,6 +8,7 @@
 #ifndef WASPP_SESSION_HPP
 #define WASPP_SESSION_HPP
 
+#include <map>
 #include <string>
 
 namespace waspp
@@ -20,7 +21,7 @@ namespace waspp
 		~session();
 
 	private:
-		bool load();
+		bool load(const std::vector<key_value>& headers);
 
 		std::string get_sess();
 		void set_sess();
@@ -31,8 +32,10 @@ namespace waspp
 
 		std::string encrypt_key;
 		std::string cookie_name;
-		int expiry_time;
-		int update_time;
+		double expiry_sec;
+		double update_interval_sec;
+
+		std::map<std::string, std::string> data_;
 
 	};
 

@@ -5,6 +5,9 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#include <vector>
+
+#include "key_value.hpp"
 #include "session.hpp"
 
 namespace waspp
@@ -12,10 +15,28 @@ namespace waspp
 
 	session::session()
 	{
+		if (!load())
+		{
+			create();
+		}
+		else
+		{
+			update();
+		}
 	}
 
 	session::~session()
 	{
+	}
+
+	bool session::load(const std::vector<key_value>& headers)
+	{
+		for (std::size_t i = 0; i < headers.size(); ++i)
+		{
+
+		}
+
+		return false;
 	}
 
 	std::string session::get_sess() { return std::string(); }
