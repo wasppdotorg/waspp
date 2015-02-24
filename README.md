@@ -40,11 +40,11 @@ collation_server       = utf8_general_ci
 * sudo /etc/init.d/mysql restart
 * mysql -u root -p
 
-Install Boost, MySQLClient, LibSSL and TCMalloc
+Install Boost, MySQLClient, GnuTLS and TCMalloc
 ------------------------------------------------
 * sudo apt-get install libboost-all-dev
 * sudo apt-get install libmariadbclient-dev
-* sudo apt-get install libssl-dev
+* sudo apt-get install libgnutls-dev
 * sudo apt-get install libgoogle-perftools-dev
 
 Install waspp

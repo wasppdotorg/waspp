@@ -11,8 +11,6 @@
 #include <boost/atomic.hpp>
 #include <boost/thread.hpp>
 
-#include "spinlock.hpp"
-
 namespace waspp
 {
 

@@ -51,6 +51,7 @@
 		<Unit filename="logger.cpp" />
 		<Unit filename="logger.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="md5.hpp" />
 		<Unit filename="mime_types.cpp" />
 		<Unit filename="mime_types.hpp" />
 		<Unit filename="mysqlpp.hpp" />
