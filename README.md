@@ -3,9 +3,9 @@ waspp
 
 Tested with
 -----------
-* CMake on Ubuntu 14.04 LTS Linux Server (Boost 1.54)
-* Visual Studio 2010 Express on Windows 7 (Boost 1.54 lib32-msvc-10.0)
-* Visual Studio 2013 Professional on Windows 7 (Boost 1.55 lib64-msvc-12.0)
+* CMake on Ubuntu Linux 14.04 LTS
+* Visual Studio 2010 Express on Windows 7
+* Visual Studio 2013 Professional on Windows 7
 
 
 Install MariaDB
@@ -75,3 +75,4 @@ For Windows
 * boost_1_55_0-msvc-12.0-64.exe (boost_1_54_0-msvc-10.0-32.exe)
 * mariadb-10.0.16-winx64.msi (mariadb-10.0.16-win32.msi)
 * Win64OpenSSL-1_0_1L.exe (Win32OpenSSL_Light-1_0_1L.exe)
+
