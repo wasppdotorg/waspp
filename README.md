@@ -40,7 +40,7 @@ collation_server       = utf8_general_ci
 * sudo /etc/init.d/mysql restart
 * mysql -u root -p
 
-Install Boost, MySQLClient, GnuTLS and TCMalloc
+Install Boost, MariaDBClient, GnuTLS and TCMalloc
 ------------------------------------------------
 * sudo apt-get install libboost-all-dev
 * sudo apt-get install libmariadbclient-dev
