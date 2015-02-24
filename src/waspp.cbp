@@ -43,6 +43,8 @@
 		<Unit filename="config.hpp" />
 		<Unit filename="connection.cpp" />
 		<Unit filename="connection.hpp" />
+		<Unit filename="cookie.cpp" />
+		<Unit filename="cookie.hpp" />
 		<Unit filename="database.cpp" />
 		<Unit filename="database.hpp" />
 		<Unit filename="dbconn_pool.cpp" />
@@ -70,6 +72,8 @@
 		<Unit filename="router.hpp" />
 		<Unit filename="server.cpp" />
 		<Unit filename="server.hpp" />
+		<Unit filename="session.cpp" />
+		<Unit filename="session.hpp" />
 		<Unit filename="singleton.hpp" />
 		<Unit filename="spinlock.hpp" />
 		<Extensions>
