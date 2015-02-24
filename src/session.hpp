@@ -8,6 +8,8 @@
 #ifndef WASPP_SESSION_HPP
 #define WASPP_SESSION_HPP
 
+#include <string>
+
 namespace waspp
 {
 
@@ -18,6 +20,19 @@ namespace waspp
 		~session();
 
 	private:
+		bool load();
+
+		std::string get_sess();
+		void set_sess();
+
+		void create();
+		void update();
+		void destory();
+
+		std::string encrypt_key;
+		std::string cookie_name;
+		int expiry_time;
+		int update_time;
 
 	};
 

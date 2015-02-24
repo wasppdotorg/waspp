@@ -18,4 +18,11 @@ namespace waspp
 	{
 	}
 
+	std::string session::get_sess() { return std::string(); }
+	void session::set_sess() {}
+
+	void session::create() {}
+	void session::update() {}
+	void session::destory() {}
+
 } // namespace waspp

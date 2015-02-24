@@ -18,4 +18,8 @@ namespace waspp
 	{
 	}
 
+	void cookie::get_cookie()
+	{
+	}
+
 } // namespace waspp

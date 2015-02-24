@@ -17,6 +17,10 @@ namespace waspp
 		cookie();
 		~cookie();
 
+		void set_cookie();
+		void get_cookie();
+		void delete_cookie();
+
 	private:
 
 	};
