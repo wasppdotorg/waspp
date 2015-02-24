@@ -3,10 +3,10 @@ waspp
 
 Tested with
 -----------
-* CMake / Ubuntu Linux 14.04 LTS
-* Codeblocks / Ubuntu Linux 14.04 LTS
-* Visual Studio 2010 Express / Windows 7
-* Visual Studio 2013 Professional / Windows 7
+* CMake - Ubuntu Linux 14.04 LTS
+* Codeblocks - Ubuntu Linux 14.04 LTS
+* Visual Studio 2010 Express - Windows 7
+* Visual Studio 2013 Professional - Windows 7
 
 Install MariaDB
 ---------------
