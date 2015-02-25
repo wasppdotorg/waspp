@@ -102,7 +102,7 @@ namespace waspp
 			{
 				request_uri += "/";
 			}
-		
+
 			if (req.method == "POST")
 			{
 			}

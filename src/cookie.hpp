@@ -8,13 +8,19 @@
 #ifndef WASPP_COOKIE_HPP
 #define WASPP_COOKIE_HPP
 
+#include <map>
+#include <vector>
+#include <string>
+
+#include "key_value.hpp"
+
 namespace waspp
 {
 
 	class cookie
 	{
 	public:
-		cookie();
+		cookie(std::vector<key_value>& headers);
 		~cookie();
 
 		void set_cookie();
@@ -22,6 +28,7 @@ namespace waspp
 		void delete_cookie();
 
 	private:
+		std::map<std::string, std::string> data_;
 
 	};
 

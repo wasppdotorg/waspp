@@ -32,7 +32,7 @@ namespace waspp
 
 		std::string encrypt_key;
 		std::string cookie_name;
-		double expiry_sec;
+		double expiry_time_sec;
 		double update_interval_sec;
 
 		std::map<std::string, std::string> data_;

@@ -34,8 +34,13 @@ namespace waspp
 
 	bool session::load(std::vector<key_value>& headers)
 	{
-		std::vector<key_value>::iterator found;
+		for (std::size_t i = 0; i < headers.size(); ++i)
+		{
+			//if (headers[i].key.compare("Cookie") == 0)
 
+		}
+
+		std::vector<key_value>::iterator found;
 		found = std::find_if(headers.begin(), headers.end(), boost::bind(&key_value::compare_key, _1, "Set-Cookie"));
 		if (found == headers.end())
 		{
@@ -46,7 +51,7 @@ namespace waspp
 		std::string user_agent;
 		if (found != headers.end())
 		{
-			user_agent.append(found->value);
+			user_agent.append((found->value).substr(0, 120));
 		}
 
 		for (std::size_t i = 0; i < headers.size(); ++i)
