@@ -13,6 +13,7 @@
 //
 
 #include <boost/bind.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include "connection.hpp"
 #include "request_handler.hpp"
@@ -26,6 +27,7 @@ namespace waspp
 		socket_(io_service),
 		request_handler_(handler)
 	{
+		request_.remote_addr = boost::lexical_cast<std::string>(socket_.remote_endpoint());
 	}
 
 	boost::asio::ip::tcp::socket& connection::socket()

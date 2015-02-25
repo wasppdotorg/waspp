@@ -55,6 +55,7 @@ namespace waspp
 			return found->value;
 		}
 
+		std::string remote_addr;
 		std::string method;
 		std::string uri;
 		int http_version_major;
