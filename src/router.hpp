@@ -21,12 +21,12 @@ namespace waspp
 	{
 		namespace index
 		{
-			void html(const request& req, response& res);
-			void jsonp(const request& req, response& res);
+			void html(request& req, response& res);
+			void jsonp(request& req, response& res);
 		} // namespace index
 	} // namespace board
 
-	typedef void(*function_ptr)(const request&, response&);
+	typedef void(*func_ptr)(request&, response&);
 
 	namespace router
 	{
@@ -34,10 +34,10 @@ namespace waspp
 		struct route
 		{
 			const char* uri;
-			function_ptr func;
+			func_ptr func;
 		};
 
-		function_ptr find_func(const std::string& request_uri);
+		func_ptr find_func(const std::string& request_uri);
 
 	} // namespace router
 

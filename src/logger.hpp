@@ -24,6 +24,7 @@
 
 namespace waspp
 {
+
 	enum rotation_type
 	{
 		rotate_minutely = 0,

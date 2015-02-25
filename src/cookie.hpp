@@ -22,18 +22,19 @@ namespace waspp
 	class cookie
 	{
 	public:
-		cookie(request* req_, response* res_);
+		cookie(request& req);
 		~cookie();
 
-		void set_cookie();
-		void get_cookie();
-		void delete_cookie();
+		void set_cookie(const std::string& name, const std::string& value);
+		std::string& get_cookie(const std::string& name);
+		void delete_cookie(const std::string& name);
+
+		std::map<std::string, std::string>::iterator begin();
+		std::map<std::string, std::string>::iterator end();
+		std::string str(std::map<std::string, std::string>::iterator i);
 
 	private:
-		request* req;
-		response* res;
-
-		std::map<std::string, std::string> data_;
+		std::map<std::string, std::string> cookie_;
 
 	};
 

@@ -88,11 +88,9 @@ namespace waspp
 					res.content.append(buf, is.gcount());
 				}
 
-				res.headers.resize(2);
-				res.headers[0].key = "Content-Length";
-				res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
-				res.headers[1].key = "Content-Type";
-				res.headers[1].value = mime_types::extension_to_type(extension);
+				res.headers.resize(0);
+				res.headers.push_back(key_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
+				res.headers.push_back(key_value("Content-Type", mime_types::extension_to_type(extension)));
 
 				return;
 			}
@@ -107,7 +105,7 @@ namespace waspp
 			{
 			}
 
-			function_ptr func = router::find_func(request_uri);
+			func_ptr func = router::find_func(request_uri);
 			if (func == 0)
 			{
 				res = response::static_response(response::not_found);
@@ -161,11 +159,10 @@ namespace waspp
 			// Fill out the response to be sent to the client.
 			res.status = response::ok;
 			res.content = ss.str();
-			res.headers.resize(2);
-			res.headers[0].name = "Content-Length";
-			res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
-			res.headers[1].name = "Content-Type";
-			res.headers[1].value = mime_types::extension_to_type("json");
+
+			res.headers.push_back(key_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
+			res.headers.push_back(key_value("Content-Type", mime_types::extension_to_type("json")));
+
 			*/
 	}
 

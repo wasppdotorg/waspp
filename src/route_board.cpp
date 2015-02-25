@@ -7,8 +7,9 @@
 
 #include "response.hpp"
 #include "request.hpp"
-#include "mime_types.hpp"
+#include "cookie.hpp"
 #include "database.hpp"
+#include "mime_types.hpp"
 
 namespace waspp
 {
@@ -17,8 +18,9 @@ namespace waspp
 		namespace index
 		{
 
-			void html(const request& req, response& res)
+			void html(request& req, response& res)
 			{
+				cookie cookie_(req);
 				database* db = database::instance();
 
 				dbconn_ptr db_index = db->get("db_index");
@@ -30,14 +32,19 @@ namespace waspp
 
 				res.status = response::ok;
 				res.content = "OK";
-				res.headers.resize(2);
-				res.headers[0].key = "Content-Length";
-				res.headers[0].value = "2";
-				res.headers[1].key = "Content-Type";
-				res.headers[1].value = mime_types::extension_to_type("html");
+
+				res.headers.resize(0);
+				res.headers.push_back(key_value("Content-Length", "2"));
+				res.headers.push_back(key_value("Content-Type", mime_types::extension_to_type("html")));
+
+				std::map<std::string, std::string>::iterator i;
+				for (i = cookie_.begin(); i != cookie_.end(); ++i)
+				{
+					res.headers.push_back(key_value("Set-Cookie", cookie_.str(i)));
+				}
 			}
 
-			void jsonp(const request& req, response& res)
+			void jsonp(request& req, response& res)
 			{
 
 			}

@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <sstream>
 
 #include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
@@ -20,29 +21,39 @@
 namespace waspp
 {
 
-	cookie::cookie(request* req_, response* res_) : req(req_), res(res_)
+	cookie::cookie(request& req)
 	{
-		std::vector<key_value>::iterator found;
-		found = std::find_if(req->headers.begin(), req->headers.end(), boost::bind(&key_value::compare_key, _1, "Cookie"));
+		std::vector<key_value>::const_iterator found;
+		found = std::find_if(req.headers.begin(), req.headers.end(), boost::bind(&key_value::compare_key, _1, "Cookie"));
 
-		if (found == req->headers.end())
+		if (found == req.headers.end())
 		{
 			return;
 		}
 
-		std::vector<std::string> cookie_params;
-		boost::split(cookie_params, found->value, boost::is_any_of("; "));
+		std::vector<std::string> cookies;
+		boost::split(cookies, found->value, boost::is_any_of(";"));
 
 		std::size_t last_pos;
-		for (std::size_t i = 0; i < cookie_params.size(); ++i)
+		std::size_t lws_count;
+		for (std::size_t i = 0; i < cookies.size(); ++i)
 		{
-			last_pos = cookie_params[i].find_last_of("=");
+			last_pos = cookies[i].find_last_of("=");
 			if (last_pos == std::string::npos)
 			{
 				continue;
 			}
 
-			data_.insert(std::make_pair(cookie_params[i].substr(0, last_pos), cookie_params[i].substr(last_pos + 1)));
+			lws_count = 0;
+			for (std::size_t j = 0; j < cookies[i].size(); ++j, ++lws_count)
+			{
+				if (std::isspace(cookies[i][j]) == 0)
+				{
+					break;
+				}
+			}
+
+			cookie_.insert(std::make_pair(cookies[i].substr(lws_count, last_pos - lws_count), cookies[i].substr(++last_pos)));
 		}
 	}
 
@@ -50,18 +61,42 @@ namespace waspp
 	{
 	}
 
-	void cookie::get_cookie()
+	std::string& cookie::get_cookie(const std::string& name)
 	{
+		return cookie_[name];
 	}
 
-	void cookie::set_cookie()
+	void cookie::set_cookie(const std::string& name, const std::string& value)
 	{
-
+		cookie_[name] = value;
 	}
 
-	void cookie::delete_cookie()
+	void cookie::delete_cookie(const std::string& name)
 	{
+		set_cookie(name, std::string());
+	}
 
+	std::map<std::string, std::string>::iterator cookie::begin()
+	{
+		return cookie_.begin();
+	}
+
+	std::map<std::string, std::string>::iterator cookie::end()
+	{
+		return cookie_.end();
+	}
+
+	std::string cookie::str(std::map<std::string, std::string>::iterator i)
+	{
+		std::string value;
+		{
+			value.append(i->first);
+			value.append("=");
+			value.append(i->second);
+			value.append("; path=/");
+		}
+
+		return value;
 	}
 
 } // namespace waspp
