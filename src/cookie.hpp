@@ -13,6 +13,7 @@
 #include <string>
 
 #include "request.hpp"
+#include "response.hpp"
 #include "key_value.hpp"
 
 namespace waspp
@@ -21,7 +22,7 @@ namespace waspp
 	class cookie
 	{
 	public:
-		cookie(request* req_);
+		cookie(request* req_, response* res_);
 		~cookie();
 
 		void set_cookie();
@@ -30,6 +31,8 @@ namespace waspp
 
 	private:
 		request* req;
+		response* res;
+
 		std::map<std::string, std::string> data_;
 
 	};

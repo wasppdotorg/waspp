@@ -13,13 +13,14 @@
 #include <boost/algorithm/string.hpp>
 
 #include "request.hpp"
+#include "response.hpp"
 #include "key_value.hpp"
 #include "cookie.hpp"
 
 namespace waspp
 {
 
-	cookie::cookie(request* req_) : req(req_)
+	cookie::cookie(request* req_, response* res_) : req(req_), res(res_)
 	{
 		std::vector<key_value>::iterator found;
 		found = std::find_if(req->headers.begin(), req->headers.end(), boost::bind(&key_value::compare_key, _1, "Cookie"));
