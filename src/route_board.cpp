@@ -38,7 +38,7 @@ namespace waspp
 				res.headers.push_back(key_value("Content-Type", mime_types::extension_to_type("html")));
 
 				std::map<std::string, std::string>::iterator i;
-				for (i = cookie_.begin(); i != cookie_.end(); ++i)
+				for (i = cookie_.all().begin(); i != cookie_.all().end(); ++i)
 				{
 					res.headers.push_back(key_value("Set-Cookie", cookie_.str(i)));
 				}

@@ -29,8 +29,7 @@ namespace waspp
 		std::string& get_cookie(const std::string& name);
 		void delete_cookie(const std::string& name);
 
-		std::map<std::string, std::string>::iterator begin();
-		std::map<std::string, std::string>::iterator end();
+		std::map<std::string, std::string>& all();
 		std::string str(std::map<std::string, std::string>::iterator i);
 
 	private:

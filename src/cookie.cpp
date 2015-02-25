@@ -76,14 +76,9 @@ namespace waspp
 		set_cookie(name, std::string());
 	}
 
-	std::map<std::string, std::string>::iterator cookie::begin()
+	std::map<std::string, std::string>& cookie::all()
 	{
-		return cookie_.begin();
-	}
-
-	std::map<std::string, std::string>::iterator cookie::end()
-	{
-		return cookie_.end();
+		return cookie_;
 	}
 
 	std::string cookie::str(std::map<std::string, std::string>::iterator i)
