@@ -12,6 +12,7 @@
 #include <vector>
 #include <string>
 
+#include "request.hpp"
 #include "key_value.hpp"
 
 namespace waspp
@@ -20,7 +21,7 @@ namespace waspp
 	class cookie
 	{
 	public:
-		cookie(std::vector<key_value>& headers);
+		cookie(request* req_);
 		~cookie();
 
 		void set_cookie();
@@ -28,6 +29,7 @@ namespace waspp
 		void delete_cookie();
 
 	private:
+		request* req;
 		std::map<std::string, std::string> data_;
 
 	};

@@ -26,7 +26,7 @@ namespace waspp
 		{
 		}
 
-		key_value(std::string key_, std::string value_) : key(key_), value(value_)
+		key_value(const std::string& key_, const std::string& value_) : key(key_), value(value_)
 		{
 		}
 

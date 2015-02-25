@@ -20,7 +20,7 @@ namespace waspp
 		md5() {};
 		~md5() {};
 
-		std::string digest(std::string str_)
+		std::string digest(const std::string& str_)
 		{
 			unsigned char digest_[16];
 			char* c_str_ = const_cast<char*>(str_.c_str());

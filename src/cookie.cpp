@@ -7,22 +7,24 @@
 
 #include <vector>
 #include <algorithm>
+#include <string>
 
 #include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include "cookie.hpp"
+#include "request.hpp"
 #include "key_value.hpp"
+#include "cookie.hpp"
 
 namespace waspp
 {
 
-	cookie::cookie(std::vector<key_value>& headers)
+	cookie::cookie(request* req_) : req(req_)
 	{
 		std::vector<key_value>::iterator found;
-		found = std::find_if(headers.begin(), headers.end(), boost::bind(&key_value::compare_key, _1, "Cookie"));
+		found = std::find_if(req->headers.begin(), req->headers.end(), boost::bind(&key_value::compare_key, _1, "Cookie"));
 
-		if (found == headers.end())
+		if (found == req->headers.end())
 		{
 			return;
 		}
@@ -30,11 +32,17 @@ namespace waspp
 		std::vector<std::string> cookie_params;
 		boost::split(cookie_params, found->value, boost::is_any_of("; "));
 
+		std::size_t last_pos;
 		for (std::size_t i = 0; i < cookie_params.size(); ++i)
 		{
+			last_pos = cookie_params[i].find_last_of("=");
+			if (last_pos == std::string::npos)
+			{
+				continue;
+			}
+
+			data_.insert(std::make_pair(cookie_params[i].substr(0, last_pos), cookie_params[i].substr(last_pos + 1)));
 		}
-
-
 	}
 
 	cookie::~cookie()
