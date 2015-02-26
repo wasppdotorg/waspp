@@ -25,6 +25,9 @@ namespace waspp
 
 		std::string level, rotation;
 
+		std::string encrypt_key, cookie_name;
+		double expiry_sec, update_sec;
+
 		std::string address, port, doc_root;
 		std::size_t num_threads;
 

@@ -15,7 +15,7 @@
 #ifndef WASPP_RESPONSE_HPP
 #define WASPP_RESPONSE_HPP
 
-#include <string>
+#include <map>
 #include <vector>
 
 #include <boost/asio.hpp>
@@ -56,6 +56,9 @@ namespace waspp
 
 		/// The content to be sent in the response.
 		std::string content;
+		std::string content_extension;
+
+		std::map<std::string, std::string> cookie;
 
 		/// Convert the response into a vector of buffers. The buffers do not own the
 		/// underlying memory blocks, therefore the response object must remain valid and

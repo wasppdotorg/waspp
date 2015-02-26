@@ -7,6 +7,16 @@
 			"level" : "debug",
 			"rotation" : "hourly"
 		},
+
+	"//session" : 0,
+
+		"session":
+		{
+			"cookie_name" : "waspp_sess",
+			"encrypt_key" : "MY_ENC_KEY",
+			"expiry_sec" : 3600,
+			"update_sec" : 30,
+		},
 	
 	"//shard" : 0,
 	

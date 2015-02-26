@@ -21,39 +21,29 @@
 namespace waspp
 {
 
-	cookie::cookie(request& req)
+	cookie::cookie(request* req_, response* res_) : req(req_), res(res_)
 	{
-		std::vector<key_value>::const_iterator found;
-		found = std::find_if(req.headers.begin(), req.headers.end(), boost::bind(&key_value::compare_key, _1, "Cookie"));
-
-		if (found == req.headers.end())
+		std::string cookie = req->get_header("Cookie");
+		if (cookie.empty())
 		{
 			return;
 		}
-
+		
 		std::vector<std::string> cookies;
-		boost::split(cookies, found->value, boost::is_any_of(";"));
+		boost::split(cookies, cookie, boost::is_any_of(";"));
 
 		std::size_t last_pos;
-		std::size_t lws_count;
 		for (std::size_t i = 0; i < cookies.size(); ++i)
 		{
+			boost::algorithm::trim(cookies[i]);
+
 			last_pos = cookies[i].find_last_of("=");
 			if (last_pos == std::string::npos)
 			{
 				continue;
 			}
 
-			lws_count = 0;
-			for (std::size_t j = 0; j < cookies[i].size(); ++j, ++lws_count)
-			{
-				if (std::isspace(cookies[i][j]) == 0)
-				{
-					break;
-				}
-			}
-
-			cookie_.insert(std::make_pair(cookies[i].substr(lws_count, last_pos - lws_count), cookies[i].substr(++last_pos)));
+			req->cookie.insert(std::make_pair(cookies[i].substr(0, last_pos), cookies[i].substr(++last_pos)));
 		}
 	}
 
@@ -63,35 +53,17 @@ namespace waspp
 
 	std::string& cookie::get_cookie(const std::string& name)
 	{
-		return cookie_[name];
+		return req->cookie[name];
 	}
 
 	void cookie::set_cookie(const std::string& name, const std::string& value)
 	{
-		cookie_[name] = value;
+		res->cookie[name] = value;
 	}
 
 	void cookie::delete_cookie(const std::string& name)
 	{
 		set_cookie(name, std::string());
-	}
-
-	std::map<std::string, std::string>& cookie::all()
-	{
-		return cookie_;
-	}
-
-	std::string cookie::str(std::map<std::string, std::string>::iterator i)
-	{
-		std::string value;
-		{
-			value.append(i->first);
-			value.append("=");
-			value.append(i->second);
-			value.append("; path=/");
-		}
-
-		return value;
 	}
 
 } // namespace waspp

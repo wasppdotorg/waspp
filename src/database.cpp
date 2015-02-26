@@ -17,7 +17,7 @@
 namespace waspp
 {
 
-	database::database()
+	database::database() : shard_count(0)
 	{
 	}
 
@@ -47,8 +47,8 @@ namespace waspp
 				}
 			}
 
-			shard_count = boost::lexical_cast<unsigned int>(cfg_shard["shard_count"]);
-			shard_format = cfg_shard["shard_format"];
+			shard_count = boost::lexical_cast<unsigned int>(cfg_shard.at("shard_count"));
+			shard_format = cfg_shard.at("shard_format");
 
 			for (std::size_t i = 0; i < dbkeys.size(); ++i)
 			{

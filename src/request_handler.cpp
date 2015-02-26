@@ -113,6 +113,23 @@ namespace waspp
 			}
 
 			func(req, res);
+
+			res.headers.resize(0);
+			res.headers.push_back(key_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
+			res.headers.push_back(key_value("Content-Type", mime_types::extension_to_type(res.content_extension)));
+
+			std::string cookie;
+			std::map<std::string, std::string>::iterator i;
+			for (i = res.cookie.begin(); i != res.cookie.end(); ++i)
+			{
+				cookie.clear();
+				cookie.append(i->first);
+				cookie.append("=");
+				cookie.append(i->second);
+				cookie.append("; path=/");
+
+				res.headers.push_back(key_value("Set-Cookie", cookie));
+			}
 		}
 		catch (std::exception& e)
 		{

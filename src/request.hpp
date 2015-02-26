@@ -15,8 +15,9 @@
 #ifndef WASPP_REQUEST_HPP
 #define WASPP_REQUEST_HPP
 
-#include <string>
+#include <map>
 #include <vector>
+#include <string>
 #include <algorithm>
 
 #include <boost/bind.hpp>
@@ -45,9 +46,9 @@ namespace waspp
 		std::string get_param(const std::string& key)
 		{
 			std::vector<key_value>::iterator found;
-			found = std::find_if(params.begin(), params.end(), boost::bind(&key_value::compare_key, _1, key));
+			found = std::find_if(param.begin(), param.end(), boost::bind(&key_value::compare_key, _1, key));
 
-			if (found == params.end())
+			if (found == param.end())
 			{
 				return std::string();
 			}
@@ -62,10 +63,11 @@ namespace waspp
 		int http_version_minor;
 		std::vector<key_value> headers;
 
-		std::size_t content_length;
 		std::string content;
+		std::size_t content_length;
 
-		std::vector<key_value> params;
+		std::map<std::string, std::string> cookie;
+		std::vector<key_value> param;
 	};
 
 } // namespace waspp

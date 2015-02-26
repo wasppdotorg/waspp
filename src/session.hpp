@@ -11,29 +11,37 @@
 #include <map>
 #include <string>
 
+#include "request.hpp"
+#include "response.hpp"
+#include "cookie.hpp"
+
 namespace waspp
 {
 
 	class session
 	{
 	public:
-		session(std::vector<key_value>& headers);
+		session(request* req_, response* res_);
 		~session();
-
-	private:
-		bool load(std::vector<key_value>& headers);
 
 		std::string get_sess();
 		void set_sess();
+
+	private:
+		bool load();
 
 		void create();
 		void update();
 		void destory();
 
+		request* req;
+		cookie cookie_;
+
 		std::string encrypt_key;
 		std::string cookie_name;
-		double expiry_time_sec;
-		double update_interval_sec;
+
+		double expiry_sec;
+		double update_sec;
 
 		std::map<std::string, std::string> data_;
 

@@ -5,6 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#include <boost/lexical_cast.hpp>
+
 #include "response.hpp"
 #include "request.hpp"
 #include "cookie.hpp"
@@ -20,19 +22,22 @@ namespace waspp
 
 			void html(request& req, response& res)
 			{
-				cookie cookie_(req);
+				cookie cookie_(&req, &res);
 				database* db = database::instance();
 
 				dbconn_ptr db_index = db->get("db_index");
-				db->free("db_index", db_index);
+				
 
 				unsigned int userid = 1;
 				dbconn_ptr db_shard = db->get_shard(userid);
-				db->free_shard(userid, db_shard);
+				
 
 				res.status = response::ok;
+				res.content_extension = "html";
 				res.content = "OK";
 
+				/*
+				res.content_length = boost::lexical_cast<std::string>(res.content.length);
 				res.headers.resize(0);
 				res.headers.push_back(key_value("Content-Length", "2"));
 				res.headers.push_back(key_value("Content-Type", mime_types::extension_to_type("html")));
@@ -40,8 +45,12 @@ namespace waspp
 				std::map<std::string, std::string>::iterator i;
 				for (i = cookie_.all().begin(); i != cookie_.all().end(); ++i)
 				{
-					res.headers.push_back(key_value("Set-Cookie", cookie_.str(i)));
+				res.headers.push_back(key_value("Set-Cookie", cookie_.str(i)));
 				}
+				*/
+
+				db->free("db_index", db_index);
+				db->free_shard(userid, db_shard);
 			}
 
 			void jsonp(request& req, response& res)

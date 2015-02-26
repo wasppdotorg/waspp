@@ -62,62 +62,98 @@ namespace waspp
 				cfg_.insert(std::make_pair(item_.first, i));
 			}
 
-			std::map< std::string, std::map<std::string, std::string> >::iterator found;
-
-			found = cfg_.find("log");
-			if (found == cfg_.end())
-			{
-				log->fatal("config::log not found");
-				return false;
-			}
-
 			std::vector<std::string> keys;
+			std::map< std::string, std::map<std::string, std::string> >::iterator found;
+			
+			found = cfg_.find("log");
 			{
-				keys.push_back("level");
-				keys.push_back("rotation");
-			}
-
-			for (std::size_t i = 0; i < keys.size(); ++i)
-			{
-				if ((found->second).find(keys[i]) == (found->second).end())
+				if (found == cfg_.end())
 				{
-					log->fatal("config::element not found");
+					log->fatal("config::log not found");
 					return false;
 				}
+
+				keys.resize(0);
+				{
+					keys.push_back("level");
+					keys.push_back("rotation");
+				}
+
+				for (std::size_t i = 0; i < keys.size(); ++i)
+				{
+					if ((found->second).find(keys[i]) == (found->second).end())
+					{
+						log->fatal("config::element not found");
+						return false;
+					}
+				}
+
+				level = cfg_.at("log").at("level");
+				rotation = cfg_.at("log").at("rotation");
 			}
 
-			level = cfg_["log"]["level"];
-			rotation = cfg_["log"]["rotation"];
+			found = cfg_.find("session");
+			{
+				if (found == cfg_.end())
+				{
+					log->fatal("config::session not found");
+					return false;
+				}
 
+				keys.resize(0);
+				{
+					keys.push_back("encrypt_key");
+					keys.push_back("cookie_name");
+					keys.push_back("expiry_sec");
+					keys.push_back("update_sec");
+				}
+
+				for (std::size_t i = 0; i < keys.size(); ++i)
+				{
+					if ((found->second).find(keys[i]) == (found->second).end())
+					{
+						log->fatal("config::element not found");
+						return false;
+					}
+				}
+
+				encrypt_key = cfg_.at("session").at("encrypt_key");
+				cookie_name = cfg_.at("session").at("cookie_name");
+				expiry_sec = boost::lexical_cast<double>(cfg_.at("session").at("expiry_sec"));
+				update_sec = boost::lexical_cast<double>(cfg_.at("session").at("update_sec"));
+			}
+			
 			found = cfg_.find(server_id);
-			if (found == cfg_.end())
 			{
-				log->fatal("config::server_id not found");
-				return false;
-			}
-
-			keys.resize(0);
-			{
-				keys.push_back("address");
-				keys.push_back("port");
-				keys.push_back("doc_root");
-				keys.push_back("num_threads");
-			}
-
-			for (std::size_t i = 0; i < keys.size(); ++i)
-			{
-				if ((found->second).find(keys[i]) == (found->second).end())
+				if (found == cfg_.end())
 				{
-					log->fatal("config::element not found");
+					log->fatal("config::server_id not found");
 					return false;
 				}
+
+				keys.resize(0);
+				{
+					keys.push_back("address");
+					keys.push_back("port");
+					keys.push_back("doc_root");
+					keys.push_back("num_threads");
+				}
+
+				for (std::size_t i = 0; i < keys.size(); ++i)
+				{
+					if ((found->second).find(keys[i]) == (found->second).end())
+					{
+						log->fatal("config::element not found");
+						return false;
+					}
+				}
+
+				address = cfg_.at(server_id).at("address");
+				port = cfg_.at(server_id).at("port");
+				doc_root = cfg_.at(server_id).at("doc_root");
+				num_threads = boost::lexical_cast<std::size_t>(cfg_.at(server_id).at("num_threads"));
 			}
-
-			address = cfg_[server_id]["address"];
-			port = cfg_[server_id]["port"];
-			doc_root = cfg_[server_id]["doc_root"];
-			num_threads = boost::lexical_cast<std::size_t>(cfg_[server_id]["num_threads"]);
-
+			
 			return true;
 		}
 		catch (...)

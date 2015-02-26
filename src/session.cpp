@@ -5,61 +5,71 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#include <ctime>
+
 #include <vector>
+#include <string>
 #include <algorithm>
 
 #include <boost/bind.hpp>
+#include <boost/algorithm/string.hpp>
 
-#include "key_value.hpp"
+#include "config.hpp"
+#include "request.hpp"
+#include "response.hpp"
+#include "cookie.hpp"
+#include "md5.hpp"
 #include "session.hpp"
 
 namespace waspp
 {
 
-	session::session(std::vector<key_value>& headers)
+	session::session(request* req_, response* res_) : req(req_), cookie_(req_, res_)
 	{
-		if (!load(headers))
+		if (!load())
 		{
 			create();
+			return;
 		}
-		else
-		{
-			update();
-		}
+		
+		update();
 	}
 
 	session::~session()
 	{
 	}
 
-	bool session::load(std::vector<key_value>& headers)
+	bool session::load()
 	{
-		for (std::size_t i = 0; i < headers.size(); ++i)
-		{
-			//if (headers[i].key.compare("Cookie") == 0)
+		config* cfg = config::instance();
 
-		}
-
-		std::vector<key_value>::iterator found;
-		found = std::find_if(headers.begin(), headers.end(), boost::bind(&key_value::compare_key, _1, "Set-Cookie"));
-		if (found == headers.end())
+		std::string session_cookie = cookie_.get_cookie(cfg->cookie_name);
+		if (session_cookie.empty())
 		{
 			return false;
 		}
 
-		found = std::find_if(headers.begin(), headers.end(), boost::bind(&key_value::compare_key, _1, "User-Agent"));
-		std::string user_agent;
-		if (found != headers.end())
+		std::string session_md5 = session_cookie.substr(session_cookie.size() - 32);
+		std::string session_str = session_cookie.substr(0, session_cookie.size() - 32);
+
+		md5 md5_;
+		if (session_md5 != md5_.digest(session_str + cfg->encrypt_key))
 		{
-			user_agent.append((found->value).substr(0, 120));
+			return false;
 		}
 
-		for (std::size_t i = 0; i < headers.size(); ++i)
-		{
+		std::vector<std::string> sessions;
+		boost::split(sessions, session_str, boost::is_any_of("|"));
 
+		if (sessions.size() != 4)
+		{
+			return false;
 		}
 
-		return false;
+		std::string http_user_agent = req->get_header("User-Agent").substr(0, 120);
+		boost::algorithm::trim(http_user_agent);
+
+		return true;
 	}
 
 	std::string session::get_sess() { return std::string(); }
