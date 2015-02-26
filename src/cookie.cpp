@@ -28,7 +28,7 @@ namespace waspp
 		{
 			return;
 		}
-		
+
 		std::vector<std::string> cookies;
 		boost::split(cookies, cookie, boost::is_any_of(";"));
 
@@ -43,7 +43,8 @@ namespace waspp
 				continue;
 			}
 
-			req->cookie.insert(std::make_pair(cookies[i].substr(0, last_pos), cookies[i].substr(++last_pos)));
+			++last_pos;
+			req->cookie.insert(std::make_pair(cookies[i].substr(0, last_pos), cookies[i].substr(last_pos)));
 		}
 	}
 
