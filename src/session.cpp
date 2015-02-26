@@ -7,12 +7,22 @@
 
 #include <ctime>
 
+#include <map>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <algorithm>
 
 #include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
+
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/map.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+
+#include <boost/uuid/uuid.hpp>
 
 #include "config.hpp"
 #include "request.hpp"
@@ -58,16 +68,53 @@ namespace waspp
 			return false;
 		}
 
-		std::vector<std::string> sessions;
-		boost::split(sessions, session_str, boost::is_any_of("|"));
-
-		if (sessions.size() != 4)
+		// deserialize
 		{
+			std::istringstream iss;
+			boost::archive::text_iarchive iar(iss, 1);
+			iar >> session_;
+		}
+
+		std::vector<std::string> keys;
+		{
+			keys.push_back("sess_id");
+			keys.push_back("last_tm");
+			keys.push_back("ip_addr");
+			keys.push_back("u_agent");
+		}
+
+		for (std::size_t i = 0; i < keys.size(); ++i)
+		{
+			if (session_.find(keys[i]) == session_.end())
+			{
+				cookie_.delete_cookie(cfg->cookie_name);
+				return false;
+			}
+		}
+		
+		std::time_t last_tm = boost::lexical_cast<std::time_t>(session_.at("last_tm"));
+		double diff = std::difftime(std::time(0), last_tm);
+
+		if (diff > cfg->expiry_sec)
+		{
+			cookie_.delete_cookie(cfg->cookie_name);
+			return false;
+		}
+
+		if (cfg->validate_ip_addr && req->remote_addr != session_.at("ip_addr"))
+		{
+			cookie_.delete_cookie(cfg->cookie_name);
 			return false;
 		}
 
 		std::string http_user_agent = req->get_header("User-Agent").substr(0, 120);
 		boost::algorithm::trim(http_user_agent);
+
+		if (cfg->validate_u_agent && http_user_agent != session_.at("u_agent"))
+		{
+			cookie_.delete_cookie(cfg->cookie_name);
+			return false;
+		}
 
 		return true;
 	}

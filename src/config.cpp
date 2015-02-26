@@ -106,6 +106,8 @@ namespace waspp
 					keys.push_back("cookie_name");
 					keys.push_back("expiry_sec");
 					keys.push_back("update_sec");
+					keys.push_back("validate_ip_addr");
+					keys.push_back("validate_u_agent");
 				}
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
@@ -121,6 +123,8 @@ namespace waspp
 				cookie_name = cfg_.at("session").at("cookie_name");
 				expiry_sec = boost::lexical_cast<double>(cfg_.at("session").at("expiry_sec"));
 				update_sec = boost::lexical_cast<double>(cfg_.at("session").at("update_sec"));
+				validate_ip_addr = boost::lexical_cast<bool>(cfg_.at("session").at("validate_ip_addr"));
+				validate_u_agent = boost::lexical_cast<bool>(cfg_.at("session").at("validate_u_agent"));
 			}
 			
 			found = cfg_.find(server_id);

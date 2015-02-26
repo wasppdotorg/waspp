@@ -15,7 +15,9 @@
 			"cookie_name" : "waspp_sess",
 			"encrypt_key" : "MY_ENC_KEY",
 			"expiry_sec" : 3600,
-			"update_sec" : 30,
+			"update_sec" : 300,
+			"validate_ip_addr" : 0,
+			"validate_u_agent" : 1,
 		},
 	
 	"//shard" : 0,

@@ -90,8 +90,7 @@ namespace waspp
 		//}
 		lock.release();
 
-		std::time_t time_ = std::time(0);
-		double diff = std::difftime(time_, mktime(dbconn->last_released()));
+		double diff = std::difftime(std::time(0), mktime(dbconn->last_released()));
 
 		if (diff > timeout_sec && !validate(dbconn))
 		{

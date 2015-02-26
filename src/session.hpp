@@ -37,13 +37,7 @@ namespace waspp
 		request* req;
 		cookie cookie_;
 
-		std::string encrypt_key;
-		std::string cookie_name;
-
-		double expiry_sec;
-		double update_sec;
-
-		std::map<std::string, std::string> data_;
+		std::map<std::string, std::string> session_;
 
 	};
 

@@ -53,12 +53,12 @@ namespace waspp
 
 	std::string& cookie::get_cookie(const std::string& name)
 	{
-		return req->cookie[name];
+		return req->cookie.at(name);
 	}
 
 	void cookie::set_cookie(const std::string& name, const std::string& value)
 	{
-		res->cookie[name] = value;
+		res->cookie.at(name) = value;
 	}
 
 	void cookie::delete_cookie(const std::string& name)
