@@ -7,9 +7,10 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include "response.hpp"
+#include "config.hpp"
+#include "logger.hpp"
 #include "request.hpp"
-#include "cookie.hpp"
+#include "response.hpp"
 #include "database.hpp"
 #include "mime_types.hpp"
 
@@ -20,9 +21,8 @@ namespace waspp
 		namespace index
 		{
 
-			void html(request& req, response& res)
+			void html(config* cfg, logger* log, request& req, response& res)
 			{
-				cookie cookie_(&req, &res);
 				database* db = database::instance();
 
 				dbconn_ptr db_index = db->get("db_index");
@@ -53,7 +53,7 @@ namespace waspp
 				db->free_shard(userid, db_shard);
 			}
 
-			void jsonp(request& req, response& res)
+			void jsonp(config* cfg, logger* log, request& req, response& res)
 			{
 
 			}

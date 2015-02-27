@@ -70,7 +70,6 @@
   <ItemGroup>
     <ClCompile Include="config.cpp" />
     <ClCompile Include="connection.cpp" />
-    <ClCompile Include="cookie.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="dbconn_pool.cpp" />
     <ClCompile Include="logger.cpp" />
@@ -90,7 +89,6 @@
   <ItemGroup>
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
-    <ClInclude Include="cookie.hpp" />
     <ClInclude Include="database.hpp" />
     <ClInclude Include="dbconn_pool.hpp" />
     <ClInclude Include="key_value.hpp" />

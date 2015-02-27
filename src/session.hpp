@@ -17,9 +17,9 @@
 #include <boost/archive/text_oarchive.hpp>
 
 #include "config.hpp"
+#include "logger.hpp"
 #include "request.hpp"
 #include "response.hpp"
-#include "cookie.hpp"
 
 namespace waspp
 {
@@ -27,7 +27,7 @@ namespace waspp
 	class session
 	{
 	public:
-		session(request* req_, response* res_);
+		session(config* cfg_, logger* log_, request* req_, response* res_);
 		~session();
 
 		std::string& get_sess(const std::string& name);
@@ -53,8 +53,9 @@ namespace waspp
 		void serialize_and_set();
 
 		config* cfg;
+		logger* log;
 		request* req;
-		cookie cookie_;
+		response* res;
 		md5 md5_;
 
 		std::map<std::string, std::string> session_;

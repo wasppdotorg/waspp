@@ -49,6 +49,16 @@ namespace waspp
 			service_unavailable = 503
 		};
 
+		void set_cookie(const std::string& name, const std::string& value)
+		{
+			cookie[name] = value;
+		}
+
+		void delete_cookie(const std::string& name)
+		{
+			set_cookie(name, std::string());
+		}
+
 		status_type status;
 
 		/// The headers to be included in the response.

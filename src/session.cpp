@@ -20,19 +20,17 @@
 #include <boost/uuid/uuid.hpp>
 
 #include "config.hpp"
+#include "logger.hpp"
 #include "request.hpp"
 #include "response.hpp"
-#include "cookie.hpp"
 #include "md5.hpp"
 #include "session.hpp"
 
 namespace waspp
 {
 
-	session::session(request* req_, response* res_) : req(req_), cookie_(req_, res_)
+	session::session(config* cfg_, logger* log_, request* req_, response* res_) : cfg(cfg_), log(log_), req(req_), res(res_)
 	{
-		cfg = config::instance();
-
 		if (!load())
 		{
 			create();
@@ -60,7 +58,7 @@ namespace waspp
 	{
 		try
 		{
-			std::string session_cookie = cookie_.get_cookie(cfg->sess_cookie);
+			std::string session_cookie = req->get_cookie(cfg->sess_cookie);
 			if (session_cookie.empty())
 			{
 				return false;
@@ -71,7 +69,7 @@ namespace waspp
 
 			if (session_md5 != md5_.digest(session_str + cfg->encrypt_key))
 			{
-				cookie_.delete_cookie(cfg->sess_cookie);
+				res->delete_cookie(cfg->sess_cookie);
 				return false;
 			}
 
@@ -94,26 +92,26 @@ namespace waspp
 			{
 				if (session_.find(keys[i]) == session_.end())
 				{
-					cookie_.delete_cookie(cfg->sess_cookie);
+					res->delete_cookie(cfg->sess_cookie);
 					return false;
 				}
 			}
 
 			if (std::difftime(std::time(0), get_last_tm()) > cfg->expiry_sec)
 			{
-				cookie_.delete_cookie(cfg->sess_cookie);
+				res->delete_cookie(cfg->sess_cookie);
 				return false;
 			}
 
 			if (cfg->validate_ip && get_curr_ip() != get_last_ip())
 			{
-				cookie_.delete_cookie(cfg->sess_cookie);
+				res->delete_cookie(cfg->sess_cookie);
 				return false;
 			}
 
 			if (cfg->validate_ua && get_curr_ua() != get_last_ua())
 			{
-				cookie_.delete_cookie(cfg->sess_cookie);
+				res->delete_cookie(cfg->sess_cookie);
 				return false;
 			}
 
@@ -209,7 +207,7 @@ namespace waspp
 		std::string cookie_value(oss.str());
 		cookie_value.append(md5_.digest(cookie_value + cfg->encrypt_key));
 
-		cookie_.set_cookie(cfg->sess_cookie, cookie_value);
+		res->set_cookie(cfg->sess_cookie, cookie_value);
 	}
 
 } // namespace waspp

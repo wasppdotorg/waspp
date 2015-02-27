@@ -25,12 +25,10 @@ namespace waspp
 	{
 	}
 
-	bool database::init(const std::vector<std::string>& dbkeys)
+	bool database::init(config* cfg, const std::vector<std::string>& dbkeys)
 	{
 		try
 		{
-			config* cfg = config::instance();
-
 			std::map<std::string, std::string>& cfg_shard = cfg->get("shard");
 
 			std::vector<std::string> keys;

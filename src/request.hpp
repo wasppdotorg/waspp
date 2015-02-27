@@ -21,6 +21,7 @@
 #include <algorithm>
 
 #include <boost/bind.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "key_value.hpp"
 
@@ -41,6 +42,41 @@ namespace waspp
 			}
 
 			return found->value;
+		}
+
+		void parse_cookie()
+		{
+			std::string cookie_header = get_header("Cookie");
+			if (cookie_header.empty())
+			{
+				return;
+			}
+
+			std::vector<std::string> cookies;
+			boost::split(cookies, cookie_header, boost::is_any_of(";"));
+
+			std::size_t last_pos;
+			for (std::size_t i = 0; i < cookies.size(); ++i)
+			{
+				boost::algorithm::trim(cookies[i]);
+
+				last_pos = cookies[i].find_last_of("=");
+				if (last_pos == std::string::npos)
+				{
+					continue;
+				}
+
+				cookie.insert(std::make_pair(cookies[i].substr(0, last_pos), cookies[i].substr(last_pos + 1)));
+			}
+		}
+
+		std::string& get_cookie(const std::string& name)
+		{
+			return cookie[name];
+		}
+
+		void parse_param()
+		{
 		}
 
 		std::string get_param(const std::string& key)

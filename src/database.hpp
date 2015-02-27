@@ -13,6 +13,7 @@
 #include <string>
 
 #include "singleton.hpp"
+#include "config.hpp"
 #include "dbconn_pool.hpp"
 
 namespace waspp
@@ -27,7 +28,7 @@ namespace waspp
 		database();
 		~database();
 
-		bool init(const std::vector<std::string>& dbkeys);
+		bool init(config* cfg, const std::vector<std::string>& dbkeys);
 
 		/*
 		template<typename T>

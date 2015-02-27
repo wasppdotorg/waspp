@@ -11,8 +11,10 @@
 #include <map>
 #include <string>
 
-#include "response.hpp"
+#include "config.hpp"
+#include "logger.hpp"
 #include "request.hpp"
+#include "response.hpp"
 
 namespace waspp
 {
@@ -21,12 +23,12 @@ namespace waspp
 	{
 		namespace index
 		{
-			void html(request& req, response& res);
-			void jsonp(request& req, response& res);
+			void html(config* cfg, logger* log, request& req, response& res);
+			void jsonp(config* cfg, logger* log, request& req, response& res);
 		} // namespace index
 	} // namespace board
 
-	typedef void(*func_ptr)(request&, response&);
+	typedef void(*func_ptr)(config*, logger*, request&, response&);
 
 	namespace router
 	{

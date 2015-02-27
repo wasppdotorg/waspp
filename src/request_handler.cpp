@@ -39,6 +39,7 @@ namespace waspp
 
 	void request_handler::handle_request(request& req, response& res)
 	{
+		config* cfg = config::instance();
 		logger* log = logger::instance();
 
 		try
@@ -112,7 +113,7 @@ namespace waspp
 				return;
 			}
 
-			func(req, res);
+			func(cfg, log, req, res);
 
 			res.headers.resize(0);
 			res.headers.push_back(key_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));

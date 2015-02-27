@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
 			dbkeys.push_back("db_etc");
 		}
 
-		if (!db->init(dbkeys))
+		if (!db->init(cfg, dbkeys))
 		{
 			log->fatal("database::init failed");
 			return 1;
