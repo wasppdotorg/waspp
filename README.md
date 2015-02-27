@@ -54,7 +54,7 @@ Install waspp
 * cd waspp/src
 * sudo apt-get install build-essential
 * sudo apt-get install cmake
-* sudo cmake CMakeLists.txt (or sudo make .)
+* sudo cmake .
 * sudo make
 * mysql -u root -p
 ```
