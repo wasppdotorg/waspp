@@ -40,12 +40,13 @@ collation_server       = utf8_general_ci
 * sudo /etc/init.d/mysql restart
 * mysql -u root -p
 
-Install Boost, MariaDBClient, GnuTLS and TCMalloc
-------------------------------------------------
+Install Boost, MariaDBClient, GnuTLS, TCMalloc and GTest
+--------------------------------------------------------
 * sudo apt-get install libboost-all-dev
 * sudo apt-get install libmariadbclient-dev
 * sudo apt-get install libgnutls-dev
 * sudo apt-get install libgoogle-perftools-dev
+* sudo apt-get install libgtest-dev
 
 Install waspp
 -------------
