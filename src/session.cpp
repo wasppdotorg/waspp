@@ -69,7 +69,6 @@ namespace waspp
 			std::string session_md5 = session_cookie.substr(session_cookie.size() - 32);
 			std::string session_str = session_cookie.substr(0, session_cookie.size() - 32);
 
-			md5 md5_;
 			if (session_md5 != md5_.digest(session_str + cfg->encrypt_key))
 			{
 				cookie_.delete_cookie(cfg->sess_cookie);
@@ -100,13 +99,13 @@ namespace waspp
 				}
 			}
 
-			if (std::difftime(get_curr_tm(), get_last_tm()) > cfg->expiry_sec)
+			if (std::difftime(std::time(0), get_last_tm()) > cfg->expiry_sec)
 			{
 				cookie_.delete_cookie(cfg->sess_cookie);
 				return false;
 			}
 
-			if (cfg->validate_ip && get_curr_ip() != get_lass_ip())
+			if (cfg->validate_ip && get_curr_ip() != get_last_ip())
 			{
 				cookie_.delete_cookie(cfg->sess_cookie);
 				return false;
@@ -129,47 +128,34 @@ namespace waspp
 
 	void session::create()
 	{
-
-
-		std::string last_tm = boost::lexical_cast<std::string>(std::time(0));
-
-		std::string user_agent = req->get_header("User-Agent").substr(0, 120);
-		boost::algorithm::trim(user_agent);
+		std::string sess_id = md5_.digest(get_uuid());
 
 		session_.clear();
-		session_.insert(std::make_pair("sess_id", uuid_str));
-		session_.insert(std::make_pair("last_tm", last_tm));
-		session_.insert(std::make_pair("ip_addr", req->remote_addr));
-		session_.insert(std::make_pair("u_agent", user_agent));
+		session_.insert(std::make_pair("sess_id", sess_id));
+		session_.insert(std::make_pair("last_tm", get_curr_tm()));
+		session_.insert(std::make_pair("last_ip", get_curr_ip()));
+		session_.insert(std::make_pair("last_ua", get_curr_ua()));
 
-		// serialize
-		{
-			std::ostringstream oss;
-			boost::archive::text_oarchive oar(oss, boost::archive::no_tracking);
-			oar << session_;
-		}
-
-		md5 md5_;
-		std::string cookie_value(oss.str());
-		cookie_value.append(md5_.digest(cookie_value + cfg->encrypt_key));
-
-		cookie_.set_cookie(cfg->sess_cookie, cookie_value);
+		serialize_and_set();
 	}
 
 	void session::update()
 	{
-		std::time_t last_tm = boost::lexical_cast<std::time_t>(session_.at("last_tm"));
-		double diff = std::difftime(std::time(0), last_tm);
-
-		if (diff < cfg->update_sec)
+		if (std::difftime(std::time(0), get_last_tm()) < cfg->update_sec)
 		{
 			return;
 		}
 
-		std::string new_sess_id
+		std::string new_sess_id(get_uuid());
+		new_sess_id.append(get_curr_ip());
+
+		session_.at("sess_id") = md5_.digest(new_sess_id);
+		session_.at("last_tm") = get_curr_tm();
+
+		serialize_and_set();
 	}
 
-	std::string new_sess_id()
+	std::string session::get_uuid()
 	{
 		boost::uuids::uuid uuid_;
 		std::vector<char> uuid_vec_char(uuid_.size());
@@ -178,32 +164,27 @@ namespace waspp
 		return std::string(uuid_vec_char.begin(), uuid_vec_char.end());
 	}
 
-	std::time_t get_curr_tm()
+	std::string session::get_curr_tm()
 	{
 		return boost::lexical_cast<std::string>(std::time(0));
 	}
 
-	std::string get_curr_tm(int time_)
-	{
-		return boost::lexical_cast<std::string>(std::time(0));
-	}
-
-	std::string get_last_tm()
+	std::time_t session::get_last_tm()
 	{
 		return boost::lexical_cast<std::time_t>(session_.at("last_tm"));
 	}
 
-	std::string get_curr_ip()
+	std::string session::get_curr_ip()
 	{
 		return req->remote_addr;
 	}
 
-	std::string get_last_ip()
+	std::string session::get_last_ip()
 	{
 		return session_.at("last_ip");
 	}
 
-	std::string get_curr_ua()
+	std::string session::get_curr_ua()
 	{
 		std::string user_agent = req->get_header("User-Agent").substr(0, 120);
 		boost::algorithm::trim(user_agent);
@@ -211,9 +192,24 @@ namespace waspp
 		return user_agent;
 	}
 
-	std::string get_last_ua()
+	std::string session::get_last_ua()
 	{
 		return session_.at("last_ua");
+	}
+
+	void session::serialize_and_set()
+	{
+		// serialize
+		std::ostringstream oss;
+		{
+			boost::archive::text_oarchive oar(oss, boost::archive::no_tracking);
+			oar << session_;
+		}
+
+		std::string cookie_value(oss.str());
+		cookie_value.append(md5_.digest(cookie_value + cfg->encrypt_key));
+
+		cookie_.set_cookie(cfg->sess_cookie, cookie_value);
 	}
 
 } // namespace waspp
