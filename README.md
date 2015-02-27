@@ -1,8 +1,8 @@
 waspp
 =====
 
-Build Tested with
------------------
+Built with
+----------
 * CMake 2.8 - Ubuntu Linux 14.04 LTS
 * Codeblocks 13.12 - Ubuntu Linux 14.04 LTS
 * Visual Studio 2010 Express - Windows 7
