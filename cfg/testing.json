@@ -17,7 +17,7 @@
 			"expiry_sec" : 3600,
 			"update_sec" : 300,
 			"validate_ip" : 0,
-			"validate_ua" : 1,
+			"validate_ua" : 1
 		},
 	
 	"//shard" : 0,

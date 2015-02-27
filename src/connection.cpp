@@ -27,7 +27,6 @@ namespace waspp
 		socket_(io_service),
 		request_handler_(handler)
 	{
-		request_.remote_addr = boost::lexical_cast<std::string>(socket_.remote_endpoint());
 	}
 
 	boost::asio::ip::tcp::socket& connection::socket()
@@ -37,6 +36,8 @@ namespace waspp
 
 	void connection::start()
 	{
+		request_.remote_addr = boost::lexical_cast<std::string>(socket_.remote_endpoint());
+
 		socket_.async_read_some(boost::asio::buffer(buffer_),
 			strand_.wrap(
 			boost::bind(&connection::handle_read, shared_from_this(),

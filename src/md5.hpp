@@ -8,8 +8,9 @@
 #ifndef WASPP_MD5_HPP
 #define WASPP_MD5_HPP
 
-#include <string>
 #include <openssl/md5.h>
+
+#include <string>
 
 namespace waspp
 {

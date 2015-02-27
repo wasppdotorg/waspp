@@ -75,6 +75,11 @@ For Windows
 * mariadb-10.0.16-winx64.msi (mariadb-10.0.16-win32.msi)
 * Win64OpenSSL-1_0_1L.exe (Win32OpenSSL_Light-1_0_1L.exe)
 
+Memory Leak Check
+-----------------
+* sudo apt-get install valgrind
+* valgrind --leak-check=full ./waspp develop 00
+
 Test with Google Test
 ---------------------
 * sudo apt-get install libgtest-dev
