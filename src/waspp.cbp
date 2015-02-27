@@ -38,7 +38,7 @@
 			<Add option="-lboost_thread" />
 			<Add option="-lboost_filesystem" />
 			<Add option="-lmysqlclient" />
-			<Add option="-lcrypt" />
+			<Add option="-lcrypto" />
 			<Add option="-lgnutls" />
 		</Linker>
 		<Unit filename="config.cpp" />

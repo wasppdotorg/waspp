@@ -11,12 +11,29 @@
 #include <map>
 #include <string>
 
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/map.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+
 #include "request.hpp"
 #include "response.hpp"
 #include "cookie.hpp"
 
 namespace waspp
 {
+
+	struct session_data
+	{
+		std::map<std::string, std::string> data_;
+
+		template<typename Archive>
+		void serialize(Archive& ar, const unsigned int version)
+		{
+			ar & data_;
+		}
+
+	};
 
 	class session
 	{
@@ -37,7 +54,7 @@ namespace waspp
 		request* req;
 		cookie cookie_;
 
-		std::map<std::string, std::string> session_;
+		session_data session_;
 
 	};
 

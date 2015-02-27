@@ -41,7 +41,7 @@ namespace waspp
 			create();
 			return;
 		}
-		
+
 		update();
 	}
 
@@ -85,14 +85,14 @@ namespace waspp
 
 		for (std::size_t i = 0; i < keys.size(); ++i)
 		{
-			if (session_.find(keys[i]) == session_.end())
+			if (session_.data_.find(keys[i]) == session_.data_.end())
 			{
 				cookie_.delete_cookie(cfg->cookie_name);
 				return false;
 			}
 		}
-		
-		std::time_t last_tm = boost::lexical_cast<std::time_t>(session_.at("last_tm"));
+
+		std::time_t last_tm = boost::lexical_cast<std::time_t>(session_.data_.at("last_tm"));
 		double diff = std::difftime(std::time(0), last_tm);
 
 		if (diff > cfg->expiry_sec)
@@ -101,7 +101,7 @@ namespace waspp
 			return false;
 		}
 
-		if (cfg->validate_ip_addr && req->remote_addr != session_.at("ip_addr"))
+		if (cfg->validate_ip_addr && req->remote_addr != session_.data_.at("ip_addr"))
 		{
 			cookie_.delete_cookie(cfg->cookie_name);
 			return false;
@@ -110,7 +110,7 @@ namespace waspp
 		std::string http_user_agent = req->get_header("User-Agent").substr(0, 120);
 		boost::algorithm::trim(http_user_agent);
 
-		if (cfg->validate_u_agent && http_user_agent != session_.at("u_agent"))
+		if (cfg->validate_u_agent && http_user_agent != session_.data_.at("u_agent"))
 		{
 			cookie_.delete_cookie(cfg->cookie_name);
 			return false;
