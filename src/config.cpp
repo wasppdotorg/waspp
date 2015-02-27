@@ -27,7 +27,7 @@
 namespace waspp
 {
 
-	config::config()
+	config::config() : expiry_sec(0), update_sec(0), validate_ip(false), validate_ua(false), num_threads(0)
 	{
 	}
 
