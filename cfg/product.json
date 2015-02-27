@@ -16,8 +16,8 @@
 			"sess_cookie" : "waspp_sess",
 			"expiry_sec" : 3600,
 			"update_sec" : 300,
-			"validate_ip_addr" : 0,
-			"validate_u_agent" : 1,
+			"validate_ip" : 0,
+			"validate_ua" : 1,
 		},
 		
 	"//shard" : 0,

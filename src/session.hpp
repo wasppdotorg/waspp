@@ -16,6 +16,7 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
+#include "config.hpp"
 #include "request.hpp"
 #include "response.hpp"
 #include "cookie.hpp"
@@ -29,16 +30,27 @@ namespace waspp
 		session(request* req_, response* res_);
 		~session();
 
-		std::string get_sess();
-		void set_sess();
+		std::string& get_sess(const std::string& name);
+		void set_sess(const std::string& name, const std::string& value);
 
 	private:
 		bool load();
 
 		void create();
 		void update();
-		void destory();
 
+		std::string new_sess_id();
+
+		std::string get_curr_tm();
+		std::string get_last_tm();
+
+		std::string get_curr_ip();
+		std::string get_last_ip();
+
+		std::string get_curr_ua();
+		std::string get_last_ua();
+
+		config* cfg;
 		request* req;
 		cookie cookie_;
 

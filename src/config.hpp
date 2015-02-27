@@ -27,7 +27,7 @@ namespace waspp
 
 		std::string encrypt_key, sess_cookie;
 		double expiry_sec, update_sec;
-		bool validate_ip_addr, validate_u_agent;
+		bool validate_ip, validate_ua;
 
 		std::string address, port, doc_root;
 		std::size_t num_threads;
