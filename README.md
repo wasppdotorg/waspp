@@ -40,13 +40,12 @@ collation_server       = utf8_general_ci
 * sudo /etc/init.d/mysql restart
 * mysql -u root -p
 
-Install Boost, MariaDBClient, GnuTLS, TCMalloc and GTest
---------------------------------------------------------
+Install Boost, MariaDBClient, GnuTLS and TCMalloc
+-------------------------------------------------
 * sudo apt-get install libboost-all-dev
 * sudo apt-get install libmariadbclient-dev
 * sudo apt-get install libgnutls-dev
 * sudo apt-get install libgoogle-perftools-dev
-* sudo apt-get install libgtest-dev
 
 Install waspp
 -------------
@@ -77,3 +76,6 @@ For Windows
 * mariadb-10.0.16-winx64.msi (mariadb-10.0.16-win32.msi)
 * Win64OpenSSL-1_0_1L.exe (Win32OpenSSL_Light-1_0_1L.exe)
 
+Test
+----
+* sudo apt-get install libgtest-dev
