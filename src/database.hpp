@@ -18,7 +18,7 @@
 namespace waspp
 {
 
-	typedef boost::shared_ptr<dbconn_pool> dbcp_ptr;
+	typedef boost::shared_ptr<dbconn_pool> dbpool_ptr;
 
 	class database
 		: public singleton<database>
@@ -33,52 +33,52 @@ namespace waspp
 		template<typename T>
 		dbconn_ptr get(T dbkey)
 		{
-			dbcp_ptr dbcp = find_dbcp(dbkey);
-			return dbcp->get_dbconn();
+			dbpool_ptr dbpool = find_dbpool(dbkey);
+			return dbpool->get_dbconn();
 		}
 		*/
 
 		dbconn_ptr get(const std::string& dbkey)
 		{
-			dbcp_ptr dbcp = find_dbcp(dbkey);
-			return dbcp->get_dbconn();
+			dbpool_ptr dbpool = find_dbpool(dbkey);
+			return dbpool->get_dbconn();
 		}
 
 		dbconn_ptr get_shard(unsigned int shard_key)
 		{
-			dbcp_ptr dbcp = find_dbcp(shard_key);
-			return dbcp->get_dbconn();
+			dbpool_ptr dbpool = find_dbpool(shard_key);
+			return dbpool->get_dbconn();
 		}
 
 		/*
 		template<typename T>
 		void free(T dbkey, dbconn_ptr dbconn)
 		{
-			dbcp_ptr dbcp = find_dbcp(dbkey);
-			dbcp->free_dbconn(dbconn);
+			dbpool_ptr dbpool = find_dbpool(dbkey);
+			dbpool->free_dbconn(dbconn);
 		}
 		*/
 
 		void free(const std::string& dbkey, dbconn_ptr dbconn)
 		{
-			dbcp_ptr dbcp = find_dbcp(dbkey);
-			dbcp->free_dbconn(dbconn);
+			dbpool_ptr dbpool = find_dbpool(dbkey);
+			dbpool->free_dbconn(dbconn);
 		}
 
 		void free_shard(unsigned int shard_key, dbconn_ptr dbconn)
 		{
-			dbcp_ptr dbcp = find_dbcp(shard_key);
-			dbcp->free_dbconn(dbconn);
+			dbpool_ptr dbpool = find_dbpool(shard_key);
+			dbpool->free_dbconn(dbconn);
 		}
 
 	private:
-		dbcp_ptr find_dbcp(const std::string& dbkey);
-		dbcp_ptr find_dbcp(unsigned int dbkey);
+		dbpool_ptr find_dbpool(const std::string& dbkey);
+		dbpool_ptr find_dbpool(unsigned int dbkey);
 
 		unsigned int shard_count;
 		std::string shard_format;
 
-		std::map<std::string, dbcp_ptr> db_;
+		std::map<std::string, dbpool_ptr> db_;
 
 	};
 
