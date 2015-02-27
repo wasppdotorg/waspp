@@ -43,8 +43,7 @@ namespace waspp
 				continue;
 			}
 
-			++last_pos;
-			req->cookie.insert(std::make_pair(cookies[i].substr(0, last_pos), cookies[i].substr(last_pos)));
+			req->cookie.insert(std::make_pair(cookies[i].substr(0, last_pos), cookies[i].substr(last_pos + 1)));
 		}
 	}
 
