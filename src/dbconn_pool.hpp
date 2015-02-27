@@ -21,8 +21,8 @@
 
 namespace waspp
 {
-	typedef boost::shared_ptr<mysqlpp::connection> dbconn_ptr;
 
+	typedef boost::shared_ptr<mysqlpp::connection> dbconn_ptr;
 	typedef boost::scoped_ptr<mysqlpp::statement> statement_ptr;
 	typedef boost::scoped_ptr<mysqlpp::result> result_ptr;
 

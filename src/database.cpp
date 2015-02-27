@@ -52,7 +52,7 @@ namespace waspp
 
 			for (std::size_t i = 0; i < dbkeys.size(); ++i)
 			{
-				dbconn_pool* dbcp = new dbconn_pool();
+				dbcp_ptr dbcp(new dbconn_pool());
 
 				if (!dbcp->init_pool(cfg->get(dbkeys[i])) || !dbcp->fill_pool())
 				{
@@ -72,9 +72,9 @@ namespace waspp
 		return false;
 	}
 
-	dbconn_pool& database::find_dbcp(const std::string& dbkey)
+	dbcp_ptr database::find_dbcp(const std::string& dbkey)
 	{
-		std::map<std::string, dbconn_pool*>::iterator found;
+		std::map<std::string, dbcp_ptr>::iterator found;
 
 		found = db_.find(dbkey);
 		if (found == db_.end())
@@ -82,10 +82,10 @@ namespace waspp
 			throw std::runtime_error("invalid dbkey");
 		}
 
-		return *(found->second);
+		return found->second;
 	}
 
-	dbconn_pool& database::find_dbcp(unsigned int dbkey)
+	dbcp_ptr database::find_dbcp(unsigned int dbkey)
 	{
 		char format[8] = {0};
 
@@ -95,7 +95,7 @@ namespace waspp
 			throw std::runtime_error("invalid dbkey");
 		}
 
-		std::map<std::string, dbconn_pool*>::iterator found;
+		std::map<std::string, dbcp_ptr>::iterator found;
 
 		found = db_.find(std::string(format));
 		if (found == db_.end())
@@ -103,7 +103,7 @@ namespace waspp
 			throw std::runtime_error("invalid dbkey");
 		}
 
-		return *(found->second);
+		return found->second;
 	}
 
 } // namespace waspp
