@@ -38,7 +38,6 @@ collation_server       = utf8_general_ci
 ```
 
 * sudo /etc/init.d/mysql restart
-* mysql -u root -p
 
 Install Boost, MariaDBClient, GnuTLS and TCMalloc
 -------------------------------------------------
