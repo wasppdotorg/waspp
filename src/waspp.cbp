@@ -37,6 +37,7 @@
 			<Add option="-lboost_system" />
 			<Add option="-lboost_thread" />
 			<Add option="-lboost_filesystem" />
+			<Add option="-lboost_serialization" />
 			<Add option="-lmysqlclient" />
 			<Add option="-lcrypto" />
 			<Add option="-lgnutls" />

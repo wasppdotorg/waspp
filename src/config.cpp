@@ -64,7 +64,7 @@ namespace waspp
 
 			std::vector<std::string> keys;
 			std::map< std::string, std::map<std::string, std::string> >::iterator found;
-			
+
 			found = cfg_.find("log");
 			{
 				if (found == cfg_.end())
@@ -103,7 +103,7 @@ namespace waspp
 				keys.resize(0);
 				{
 					keys.push_back("encrypt_key");
-					keys.push_back("cookie_name");
+					keys.push_back("sess_cookie");
 					keys.push_back("expiry_sec");
 					keys.push_back("update_sec");
 					keys.push_back("validate_ip_addr");
@@ -120,13 +120,13 @@ namespace waspp
 				}
 
 				encrypt_key = cfg_.at("session").at("encrypt_key");
-				cookie_name = cfg_.at("session").at("cookie_name");
+				sess_cookie = cfg_.at("session").at("sess_cookie");
 				expiry_sec = boost::lexical_cast<double>(cfg_.at("session").at("expiry_sec"));
 				update_sec = boost::lexical_cast<double>(cfg_.at("session").at("update_sec"));
 				validate_ip_addr = boost::lexical_cast<bool>(cfg_.at("session").at("validate_ip_addr"));
 				validate_u_agent = boost::lexical_cast<bool>(cfg_.at("session").at("validate_u_agent"));
 			}
-			
+
 			found = cfg_.find(server_id);
 			{
 				if (found == cfg_.end())
@@ -157,7 +157,7 @@ namespace waspp
 				doc_root = cfg_.at(server_id).at("doc_root");
 				num_threads = boost::lexical_cast<std::size_t>(cfg_.at(server_id).at("num_threads"));
 			}
-			
+
 			return true;
 		}
 		catch (...)

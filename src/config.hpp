@@ -25,7 +25,7 @@ namespace waspp
 
 		std::string level, rotation;
 
-		std::string encrypt_key, cookie_name;
+		std::string encrypt_key, sess_cookie;
 		double expiry_sec, update_sec;
 		bool validate_ip_addr, validate_u_agent;
 

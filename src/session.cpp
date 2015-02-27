@@ -17,11 +17,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/map.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-
 #include <boost/uuid/uuid.hpp>
 
 #include "config.hpp"
@@ -53,7 +48,7 @@ namespace waspp
 	{
 		config* cfg = config::instance();
 
-		std::string session_cookie = cookie_.get_cookie(cfg->cookie_name);
+		std::string session_cookie = cookie_.get_cookie(cfg->sess_cookie);
 		if (session_cookie.empty())
 		{
 			return false;
@@ -70,7 +65,7 @@ namespace waspp
 
 		// deserialize
 		{
-			std::istringstream iss;
+			std::istringstream iss(session_str);
 			boost::archive::text_iarchive iar(iss, 1);
 			iar >> session_;
 		}
@@ -85,34 +80,34 @@ namespace waspp
 
 		for (std::size_t i = 0; i < keys.size(); ++i)
 		{
-			if (session_.data_.find(keys[i]) == session_.data_.end())
+			if (session_.find(keys[i]) == session_.end())
 			{
-				cookie_.delete_cookie(cfg->cookie_name);
+				cookie_.delete_cookie(cfg->sess_cookie);
 				return false;
 			}
 		}
 
-		std::time_t last_tm = boost::lexical_cast<std::time_t>(session_.data_.at("last_tm"));
+		std::time_t last_tm = boost::lexical_cast<std::time_t>(session_.at("last_tm"));
 		double diff = std::difftime(std::time(0), last_tm);
 
 		if (diff > cfg->expiry_sec)
 		{
-			cookie_.delete_cookie(cfg->cookie_name);
+			cookie_.delete_cookie(cfg->sess_cookie);
 			return false;
 		}
 
-		if (cfg->validate_ip_addr && req->remote_addr != session_.data_.at("ip_addr"))
+		if (cfg->validate_ip_addr && req->remote_addr != session_.at("ip_addr"))
 		{
-			cookie_.delete_cookie(cfg->cookie_name);
+			cookie_.delete_cookie(cfg->sess_cookie);
 			return false;
 		}
 
 		std::string http_user_agent = req->get_header("User-Agent").substr(0, 120);
 		boost::algorithm::trim(http_user_agent);
 
-		if (cfg->validate_u_agent && http_user_agent != session_.data_.at("u_agent"))
+		if (cfg->validate_u_agent && http_user_agent != session_.at("u_agent"))
 		{
-			cookie_.delete_cookie(cfg->cookie_name);
+			cookie_.delete_cookie(cfg->sess_cookie);
 			return false;
 		}
 

@@ -23,18 +23,6 @@
 namespace waspp
 {
 
-	struct session_data
-	{
-		std::map<std::string, std::string> data_;
-
-		template<typename Archive>
-		void serialize(Archive& ar, const unsigned int version)
-		{
-			ar & data_;
-		}
-
-	};
-
 	class session
 	{
 	public:
@@ -54,7 +42,7 @@ namespace waspp
 		request* req;
 		cookie cookie_;
 
-		session_data session_;
+		std::map<std::string, std::string> session_;
 
 	};
 
