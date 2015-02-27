@@ -54,7 +54,7 @@ Install waspp
 * cd waspp/src
 * sudo apt-get install build-essential
 * sudo apt-get install cmake
-* sudo cmake .
+* sudo cmake CMakeLists.txt (or sudo make .)
 * sudo make
 * mysql -u root -p
 ```
@@ -79,6 +79,6 @@ Test with Google Test
 ---------------------
 * sudo apt-get install libgtest-dev
 * cd /usr/src/gtest
-* sudo cmake .
+* sudo cmake CMakeLists.txt
 * sudo make
 * sudo cp *.a /usr/lib
