@@ -30,6 +30,9 @@ Rene Nyffenegger rene.nyffenegger@adp-gmbh.ch
 // and removed the base64_ prefix
 // from function names and variable names.
 
+// std::string encoded = base64::encode(reinterpret_cast<const unsigned char*>(s.c_str()), s.length());
+// std::string decoded = base64::decode(encoded);
+
 #include <iostream>
 
 #include "base64.hpp"
