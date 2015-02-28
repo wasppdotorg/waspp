@@ -45,7 +45,7 @@ namespace waspp
 			{ 0, 0 } // Marks end of list.
 		};
 
-		func_ptr find_func(const std::string& request_uri)
+		func_ptr get_func(const std::string& request_uri)
 		{
 			for (route* r = routes; r->uri; ++r)
 			{

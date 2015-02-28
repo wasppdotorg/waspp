@@ -34,20 +34,20 @@ namespace waspp
 		template<typename T>
 		dbconn_ptr get(T dbkey)
 		{
-			dbpool_ptr dbpool = find_dbpool(dbkey);
+			dbpool_ptr dbpool = get_dbpool(dbkey);
 			return dbpool->get_dbconn();
 		}
 		*/
 
 		dbconn_ptr get(const std::string& dbkey)
 		{
-			dbpool_ptr dbpool = find_dbpool(dbkey);
+			dbpool_ptr dbpool = get_dbpool(dbkey);
 			return dbpool->get_dbconn();
 		}
 
 		dbconn_ptr get_shard(unsigned int shard_key)
 		{
-			dbpool_ptr dbpool = find_dbpool(shard_key);
+			dbpool_ptr dbpool = get_dbpool(shard_key);
 			return dbpool->get_dbconn();
 		}
 
@@ -55,26 +55,26 @@ namespace waspp
 		template<typename T>
 		void free(T dbkey, dbconn_ptr dbconn)
 		{
-			dbpool_ptr dbpool = find_dbpool(dbkey);
+			dbpool_ptr dbpool = get_dbpool(dbkey);
 			dbpool->free_dbconn(dbconn);
 		}
 		*/
 
 		void free(const std::string& dbkey, dbconn_ptr dbconn)
 		{
-			dbpool_ptr dbpool = find_dbpool(dbkey);
+			dbpool_ptr dbpool = get_dbpool(dbkey);
 			dbpool->free_dbconn(dbconn);
 		}
 
 		void free_shard(unsigned int shard_key, dbconn_ptr dbconn)
 		{
-			dbpool_ptr dbpool = find_dbpool(shard_key);
+			dbpool_ptr dbpool = get_dbpool(shard_key);
 			dbpool->free_dbconn(dbconn);
 		}
 
 	private:
-		dbpool_ptr find_dbpool(const std::string& dbkey);
-		dbpool_ptr find_dbpool(unsigned int dbkey);
+		dbpool_ptr get_dbpool(const std::string& dbkey);
+		dbpool_ptr get_dbpool(unsigned int dbkey);
 
 		unsigned int shard_count;
 		std::string shard_format;

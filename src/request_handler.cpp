@@ -96,7 +96,7 @@ namespace waspp
 				return;
 			}
 
-			// to make router::find_func to work correctly
+			// to make router::get_func to work correctly
 			if (request_uri[request_uri.size() - 1] != '/')
 			{
 				request_uri += "/";
@@ -106,7 +106,7 @@ namespace waspp
 			{
 			}
 
-			func_ptr func = router::find_func(request_uri);
+			func_ptr func = router::get_func(request_uri);
 			if (func == 0)
 			{
 				res = response::static_response(response::not_found);

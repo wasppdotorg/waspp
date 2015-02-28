@@ -70,7 +70,7 @@ namespace waspp
 		return false;
 	}
 
-	dbpool_ptr database::find_dbpool(const std::string& dbkey)
+	dbpool_ptr database::get_dbpool(const std::string& dbkey)
 	{
 		std::map<std::string, dbpool_ptr>::iterator found;
 
@@ -83,7 +83,7 @@ namespace waspp
 		return found->second;
 	}
 
-	dbpool_ptr database::find_dbpool(unsigned int dbkey)
+	dbpool_ptr database::get_dbpool(unsigned int dbkey)
 	{
 		char format[8] = {0};
 
