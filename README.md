@@ -94,6 +94,7 @@ cd .\bin
 ```
 
 Add Your Own Route
+------------------
 * cd ../src
 * sudo cp route_board.cpp route_test.cpp
 * sudo vi route_test.cpp
@@ -109,8 +110,8 @@ route routes[] =
 
 * sudo vi CMakeLists.txt
 ```
-add_executable
-(
+add_executable (
+
 	waspp
 	
 	..
