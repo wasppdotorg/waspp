@@ -77,6 +77,9 @@ namespace waspp
 
 		void parse_param()
 		{
+			if (method == "POST")
+			{
+			}
 		}
 
 		std::string get_param(const std::string& key)

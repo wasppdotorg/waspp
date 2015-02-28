@@ -13,6 +13,7 @@
 
 #include "config.hpp"
 #include "logger.hpp"
+#include "database.hpp"
 #include "request.hpp"
 #include "response.hpp"
 
@@ -23,12 +24,12 @@ namespace waspp
 	{
 		namespace index
 		{
-			void html(config* cfg, logger* log, request& req, response& res);
-			void jsonp(config* cfg, logger* log, request& req, response& res);
+			void html(config* cfg, logger* log, database* db, request& req, response& res);
+			void jsonp(config* cfg, logger* log, database* db, request& req, response& res);
 		} // namespace index
 	} // namespace board
 
-	typedef void(*func_ptr)(config*, logger*, request&, response&);
+	typedef void(*func_ptr)(config*, logger*, database* db, request&, response&);
 
 	namespace router
 	{

@@ -24,9 +24,11 @@
 
 #include "request_handler.hpp"
 #include "mime_types.hpp"
+#include "config.hpp"
+#include "logger.hpp"
+#include "database.hpp"
 #include "response.hpp"
 #include "request.hpp"
-#include "logger.hpp"
 #include "router.hpp"
 
 namespace waspp
@@ -41,6 +43,7 @@ namespace waspp
 	{
 		config* cfg = config::instance();
 		logger* log = logger::instance();
+		database* db = database::instance();
 
 		try
 		{
@@ -102,9 +105,8 @@ namespace waspp
 				request_uri += "/";
 			}
 
-			if (req.method == "POST")
-			{
-			}
+			req.parse_cookie();
+			req.parse_param();
 
 			func_ptr func = router::get_func(request_uri);
 			if (func == 0)
@@ -113,7 +115,7 @@ namespace waspp
 				return;
 			}
 
-			func(cfg, log, req, res);
+			func(cfg, log, db, req, res);
 
 			res.headers.resize(0);
 			res.headers.push_back(key_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));

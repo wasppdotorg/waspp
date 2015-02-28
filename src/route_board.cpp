@@ -9,9 +9,9 @@
 
 #include "config.hpp"
 #include "logger.hpp"
+#include "database.hpp"
 #include "request.hpp"
 #include "response.hpp"
-#include "database.hpp"
 #include "mime_types.hpp"
 
 namespace waspp
@@ -21,13 +21,10 @@ namespace waspp
 		namespace index
 		{
 
-			void html(config* cfg, logger* log, request& req, response& res)
+			void html(config* cfg, logger* log, database* db, request& req, response& res)
 			{
-				database* db = database::instance();
-
 				dbconn_ptr db_index = db->get("db_index");
-				
-
+			
 				unsigned int userid = 1;
 				dbconn_ptr db_shard = db->get_shard(userid);
 				
@@ -53,7 +50,7 @@ namespace waspp
 				db->free_shard(userid, db_shard);
 			}
 
-			void jsonp(config* cfg, logger* log, request& req, response& res)
+			void jsonp(config* cfg, logger* log, database* db, request& req, response& res)
 			{
 
 			}
