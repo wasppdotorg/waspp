@@ -27,6 +27,7 @@ DEALINGS IN THE SOFTWARE.
 #ifndef WASPP_UTILITY_HPP
 #define WASPP_UTILITY_HPP
 
+#include <cstdio>
 #include <cstdlib>
 
 #include <openssl/md5.h>
