@@ -8,7 +8,7 @@ Built with
 * Visual Studio 2010 Express - Windows 7
 * Visual Studio 2013 Professional - Windows 7
 
-Libraries For Windows
+For Windows
 ---------------------
 * boost_1_56_0-msvc-12.0-64.exe (boost_1_54_0-msvc-10.0-32.exe)
 * mariadb-10.0.16-winx64.msi (mariadb-10.0.16-win32.msi)
