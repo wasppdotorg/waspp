@@ -73,7 +73,7 @@ Run
 ---
 * cd ../bin
 * sudo ./develop_start.sh
-* Go to http://your.web.server:8000/
+* Go to http://127.0.0.1:8000/
 
 Run on Windows
 --------------
