@@ -13,13 +13,13 @@ add_executable (
 
 	waspp
 	
+	base64.hpp
 	config.hpp
 	connection.hpp
 	database.hpp
 	dbconn_pool.hpp
 	key_value.hpp
 	logger.hpp
-	md5.hpp
 	mime_types.hpp
 	mysqlpp.hpp
 	request_handler.hpp
@@ -29,9 +29,9 @@ add_executable (
 	router.hpp
 	server.hpp
 	session.hpp
-	singleton.hpp
-	spinlock.hpp
+	utility.hpp
 	
+	base64.cpp
 	config.cpp
 	connection.cpp
 	database.cpp
