@@ -25,6 +25,11 @@ Rene Nyffenegger rene.nyffenegger@adp-gmbh.ch
 
 */
 
+// this is not the original source code.
+// added namespace base64
+// and removed the base64_ prefix
+// from function names and variable names.
+
 #include <iostream>
 
 #include "base64.hpp"

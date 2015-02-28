@@ -25,6 +25,11 @@ Rene Nyffenegger rene.nyffenegger@adp-gmbh.ch
 
 */
 
+// this is not the original source code.
+// added namespace base64
+// and removed the base64_ prefix
+// from function names and variable names.
+
 #ifndef WASPP_BASE64_HPP
 #define WASPP_BASE64_HPP
 
