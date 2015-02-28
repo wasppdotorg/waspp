@@ -66,6 +66,9 @@
     <ClCompile Include="session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="base64.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp">
@@ -98,16 +101,10 @@
     <ClInclude Include="key_value.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="spinlock.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="mysqlpp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="logger.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="singleton.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="database.hpp">
@@ -116,10 +113,13 @@
     <ClInclude Include="dbconn_pool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="md5.hpp">
+    <ClInclude Include="session.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="session.hpp">
+    <ClInclude Include="base64.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

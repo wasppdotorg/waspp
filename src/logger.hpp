@@ -20,7 +20,7 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/filesystem.hpp>
 
-#include "singleton.hpp"
+#include "utility.hpp"
 
 namespace waspp
 {
@@ -43,7 +43,7 @@ namespace waspp
 	};
 
 	class logger
-		: public singleton<logger>
+		: public utility::singleton<logger>
 	{
 	public:
 		logger();

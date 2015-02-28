@@ -22,11 +22,14 @@ namespace waspp
 
 	namespace board
 	{
+
 		namespace index
 		{
 			void html(config* cfg, logger* log, database* db, request& req, response& res);
 			void jsonp(config* cfg, logger* log, database* db, request& req, response& res);
+
 		} // namespace index
+
 	} // namespace board
 
 	typedef void(*func_ptr)(config*, logger*, database* db, request&, response&);

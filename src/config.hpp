@@ -8,13 +8,13 @@
 #ifndef WASPP_CONFIG_HPP
 #define WASPP_CONFIG_HPP
 
-#include "singleton.hpp"
+#include "utility.hpp"
 
 namespace waspp
 {
 
 	class config
-		: public singleton<config>
+		: public utility::singleton<config>
 	{
 	public:
 		config();

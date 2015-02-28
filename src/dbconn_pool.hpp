@@ -16,7 +16,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/scoped_ptr.hpp>
 
-#include "spinlock.hpp"
+#include "utility.hpp"
 #include "mysqlpp.hpp"
 
 namespace waspp
@@ -50,7 +50,7 @@ namespace waspp
 		double timeout_sec;
 
 		std::vector<dbconn_ptr> pool;
-		spinlock lock;
+		utility::spinlock lock;
 
 	};
 

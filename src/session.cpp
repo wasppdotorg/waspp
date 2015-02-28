@@ -23,7 +23,7 @@
 #include "logger.hpp"
 #include "request.hpp"
 #include "response.hpp"
-#include "md5.hpp"
+#include "utility.hpp"
 #include "session.hpp"
 
 namespace waspp

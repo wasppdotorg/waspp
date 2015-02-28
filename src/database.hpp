@@ -12,7 +12,7 @@
 #include <vector>
 #include <string>
 
-#include "singleton.hpp"
+#include "utility.hpp"
 #include "config.hpp"
 #include "dbconn_pool.hpp"
 
@@ -22,7 +22,7 @@ namespace waspp
 	typedef boost::shared_ptr<dbconn_pool> dbpool_ptr;
 
 	class database
-		: public singleton<database>
+		: public utility::singleton<database>
 	{
 	public:
 		database();
