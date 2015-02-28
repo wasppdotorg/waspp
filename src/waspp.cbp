@@ -54,7 +54,6 @@
 		<Unit filename="logger.cpp" />
 		<Unit filename="logger.hpp" />
 		<Unit filename="main.cpp" />
-		<Unit filename="md5.hpp" />
 		<Unit filename="mime_types.cpp" />
 		<Unit filename="mime_types.hpp" />
 		<Unit filename="mysqlpp.hpp" />
@@ -75,8 +74,7 @@
 		<Unit filename="server.hpp" />
 		<Unit filename="session.cpp" />
 		<Unit filename="session.hpp" />
-		<Unit filename="singleton.hpp" />
-		<Unit filename="spinlock.hpp" />
+		<Unit filename="utility.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
