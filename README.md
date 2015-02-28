@@ -93,6 +93,34 @@ cd .\bin
 (.\waspp_vs2010_win32.exe develop 00)
 ```
 
+Add Your Own Route
+* cd ../src
+* sudo cp route_board.cpp route_test.cpp
+* sudo vi route_test.cpp
+* sudo vi router.cpp
+```
+route routes[] =
+{
+	..
+	{ "/test/index/", &test::index::html },
+	{ "/?/test/index/", &test::index::jsonp },
+	..
+```
+
+* sudo vi CMakeLists.txt
+```
+add_executable
+(
+	waspp
+	
+	..
+	route_test.cpp
+	..
+)
+```
+
+* sudo cmake .
+
 Memory Leak Check
 -----------------
 * sudo apt-get install valgrind
