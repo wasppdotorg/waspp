@@ -68,7 +68,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="base64.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="database.cpp" />
@@ -86,9 +85,9 @@
     <ClCompile Include="route_board.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="session.cpp" />
+    <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="base64.hpp" />
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="database.hpp" />
