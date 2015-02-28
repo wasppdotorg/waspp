@@ -51,6 +51,7 @@ add_executable (
 	
 	server.cpp
 	session.cpp
+
 )
 
 target_link_libraries (waspp ${Threads_LIBRARIES})
