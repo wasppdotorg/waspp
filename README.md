@@ -78,13 +78,15 @@ Libraries For Windows
 Run on Windows
 --------------
 * Run cmd.exe
-* cd path\to\waspp
-* copy src\x64\Debug\waspp_vs2013_x64.exe .\bin
-* (copy src\Debug\waspp_vs2010_win32.exe .\bin)
-* copy src\Debug\libmysql.dll .\bin
-* cd .\bin
-* .\waspp_vs2013_x64.exe develop 00
-* (.\waspp_vs2010_win32.exe develop 00)
+```
+cd path\to\waspp
+copy src\x64\Debug\waspp_vs2013_x64.exe .\bin
+(copy src\Debug\waspp_vs2010_win32.exe .\bin)
+copy src\Debug\libmysql.dll .\bin
+cd .\bin
+.\waspp_vs2013_x64.exe develop 00
+(.\waspp_vs2010_win32.exe develop 00)
+```
 
 Memory Leak Check
 -----------------
