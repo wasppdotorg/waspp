@@ -15,7 +15,7 @@
 #include <string>
 
 #include <boost/asio.hpp>
-#include <boost/thread/thread.hpp>
+#include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/filesystem.hpp>

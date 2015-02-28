@@ -8,6 +8,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <map>
 #include <string>
 
+#include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 
 // when using both boost asio and boost ptree on win32
@@ -18,8 +19,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>
-
-#include <boost/lexical_cast.hpp>
 
 #include "logger.hpp"
 #include "config.hpp"

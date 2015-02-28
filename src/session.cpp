@@ -10,17 +10,17 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <map>
 #include <vector>
 #include <string>
+
 #include <sstream>
 #include <algorithm>
 
 #include <boost/bind.hpp>
-#include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
-
+#include <boost/algorithm/string.hpp>
 #include <boost/uuid/uuid.hpp>
 
-#include "config.hpp"
 #include "logger.hpp"
+#include "config.hpp"
 #include "request.hpp"
 #include "response.hpp"
 #include "utility.hpp"

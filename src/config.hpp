@@ -8,6 +8,9 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_CONFIG_HPP
 #define WASPP_CONFIG_HPP
 
+#include <map>
+#include <string>
+
 #include "utility.hpp"
 
 namespace waspp
