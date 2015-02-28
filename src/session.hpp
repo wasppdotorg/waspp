@@ -16,8 +16,8 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
-#include "config.hpp"
 #include "logger.hpp"
+#include "config.hpp"
 #include "request.hpp"
 #include "response.hpp"
 

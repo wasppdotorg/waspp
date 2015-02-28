@@ -11,8 +11,8 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <map>
 #include <string>
 
-#include "config.hpp"
 #include "logger.hpp"
+#include "config.hpp"
 #include "database.hpp"
 #include "request.hpp"
 #include "response.hpp"
@@ -25,14 +25,14 @@ namespace waspp
 
 		namespace index
 		{
-			void html(config* cfg, logger* log, database* db, request& req, response& res);
-			void jsonp(config* cfg, logger* log, database* db, request& req, response& res);
+			void html(logger* log, config* cfg, database* db, request& req, response& res);
+			void jsonp(logger* log, config* cfg, database* db, request& req, response& res);
 
 		} // namespace index
 
 	} // namespace board
 
-	typedef void(*func_ptr)(config*, logger*, database* db, request&, response&);
+	typedef void(*func_ptr)(logger*, config*, database* db, request&, response&);
 
 	namespace router
 	{

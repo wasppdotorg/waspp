@@ -7,8 +7,8 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <boost/lexical_cast.hpp>
 
-#include "config.hpp"
 #include "logger.hpp"
+#include "config.hpp"
 #include "database.hpp"
 #include "request.hpp"
 #include "response.hpp"
@@ -21,7 +21,7 @@ namespace waspp
 		namespace index
 		{
 
-			void html(config* cfg, logger* log, database* db, request& req, response& res)
+			void html(logger* log, config* cfg, database* db, request& req, response& res)
 			{
 				dbconn_ptr db_index = db->get("db_index");
 			
@@ -50,7 +50,7 @@ namespace waspp
 				db->free_shard(userid, db_shard);
 			}
 
-			void jsonp(config* cfg, logger* log, database* db, request& req, response& res)
+			void jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 			{
 
 			}

@@ -108,7 +108,7 @@ namespace waspp
 				return;
 			}
 
-			func(cfg, log, db, req, res);
+			func(log, cfg, db, req, res);
 
 			res.headers.resize(0);
 			res.headers.push_back(key_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
