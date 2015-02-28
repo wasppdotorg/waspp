@@ -69,11 +69,22 @@ Run
 * sudo ./develop_start.sh
 * Go to http://your.web.server:8000/
 
-For Windows
------------
+Libraries For Windows
+---------------------
 * boost_1_56_0-msvc-12.0-64.exe (boost_1_54_0-msvc-10.0-32.exe)
 * mariadb-10.0.16-winx64.msi (mariadb-10.0.16-win32.msi)
 * Win64OpenSSL-1_0_1L.exe (Win32OpenSSL_Light-1_0_1L.exe)
+
+Run on Windows
+--------------
+* Run cmd.exe
+* cd path\to\waspp
+* copy src\x64\Debug\waspp_vs2013_x64.exe .\bin
+* (copy src\Debug\waspp_vs2010_win32.exe .\bin)
+* copy src\Debug\libmysql.dll .\bin
+* cd .\bin
+* .\waspp_vs2013_x64.exe develop 00
+* (.\waspp_vs2010_win32.exe develop 00)
 
 Memory Leak Check
 -----------------
