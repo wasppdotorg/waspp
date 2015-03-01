@@ -88,34 +88,33 @@ namespace waspp
 		template<typename T> T* singleton<T>::instance_ = 0;
 		template<typename T> spinlock singleton<T>::lock;
 
-		class md5
-		{
-		public:
-			md5() {};
-			~md5() {};
+		/*
+		*  $Id: CgiUtils.cpp,v 1.20 2014/04/23 20:55:03 sebdiaz Exp $
+		*
+		*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+		*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+		*  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
+		*
+		*  This library is free software; you can redistribute it and/or
+		*  modify it under the terms of the GNU Lesser General Public
+		*  License as published by the Free Software Foundation; either
+		*  version 3 of the License, or (at your option) any later version.
+		*
+		*  This library is distributed in the hope that it will be useful,
+		*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+		*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+		*  Lesser General Public License for more details.
+		*
+		*  You should have received a copy of the GNU Lesser General Public
+		*  License along with this library; if not, write to the Free Software
+		*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
+		*/
 
-			std::string digest(const std::string& str_)
-			{
-				unsigned char digest_[16];
-				char* c_str_ = const_cast<char*>(str_.c_str());
+		std::string __char2hex(char c);
+		char __hex2char(char first, char second);
 
-				MD5_CTX ctx;
-				MD5_Init(&ctx);
-				MD5_Update(&ctx, c_str_, strlen(c_str_));
-				MD5_Final(digest_, &ctx);
-
-				char md_str[33];
-				for (int i = 0; i < 16; ++i)
-				{
-					sprintf(&md_str[i * 2], "%02x", (unsigned int)digest_[i]);
-				}
-
-				return std::string(md_str);
-			}
-
-		private:
-
-		};
+		std::string url_encode(const std::string& src);
+		std::string url_decode(const std::string& src);
 
 		/*
 		base64.cpp and base64.h
@@ -159,33 +158,8 @@ namespace waspp
 		std::string base64_encode(std::string const& string_to_encode);
 		std::string base64_decode(std::string const& encoded_string);
 
-		/*
-		*  $Id: CgiUtils.cpp,v 1.20 2014/04/23 20:55:03 sebdiaz Exp $
-		*
-		*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
-		*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
-		*  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
-		*
-		*  This library is free software; you can redistribute it and/or
-		*  modify it under the terms of the GNU Lesser General Public
-		*  License as published by the Free Software Foundation; either
-		*  version 3 of the License, or (at your option) any later version.
-		*
-		*  This library is distributed in the hope that it will be useful,
-		*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-		*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-		*  Lesser General Public License for more details.
-		*
-		*  You should have received a copy of the GNU Lesser General Public
-		*  License along with this library; if not, write to the Free Software
-		*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
-		*/
-
-		std::string __char2hex(char c);
-		char __hex2char(char first, char second);
-
-		std::string url_encode(const std::string& src);
-		std::string url_decode(const std::string& src);
+		// md5
+		std::string md5_digest(const std::string& str_);
 
 	} // namespace utility
 

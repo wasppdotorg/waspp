@@ -52,11 +52,11 @@ namespace waspp
 
 		void serialize_and_set();
 
-		config* cfg;
 		logger* log;
+		config* cfg;
 		request* req;
 		response* res;
-		utility::md5 md5_;
+		//utility::md5 md5_;
 
 		std::map<std::string, std::string> session_;
 
