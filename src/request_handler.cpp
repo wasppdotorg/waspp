@@ -66,10 +66,9 @@ namespace waspp
 			// Determine the file extension.
 			std::size_t last_slash_pos = request_uri.find_last_of("/");
 			std::size_t last_dot_pos = request_uri.find_last_of(".");
-			std::string extension;
 			if (last_dot_pos != std::string::npos && last_dot_pos > last_slash_pos)
 			{
-				extension = request_uri.substr(last_dot_pos + 1);
+				res.content_extension = request_uri.substr(last_dot_pos + 1);
 			}
 
 			// Open the file to send back.
@@ -87,7 +86,7 @@ namespace waspp
 
 				res.headers.resize(0);
 				res.headers.push_back(key_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
-				res.headers.push_back(key_value("Content-Type", mime_types::extension_to_type(extension)));
+				res.headers.push_back(key_value("Content-Type", mime_types::extension_to_type(res.content_extension)));
 
 				return;
 			}
