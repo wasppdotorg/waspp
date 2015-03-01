@@ -147,17 +147,14 @@ namespace waspp
 	*/
 
 	/*
-	this is not the original source code.
+	this is NOT the original source code.
 
 	added namespace base64
 	and removed the base64_ prefix
 	from function names and variable names.
 
-	and changed the return value type of encode function
-
-	ex)
-	std::string encoded = base64::encode(reinterpret_cast<const unsigned char*>(s.c_str()), s.size());
-	std::string decoded = base64::decode(encoded);
+	and changed the function name encode to __encode_impl
+	and wrapped it with the function has const std::tring& param only.
 	*/
 
 	namespace base64
@@ -168,12 +165,14 @@ namespace waspp
 			"abcdefghijklmnopqrstuvwxyz"
 			"0123456789+/";
 
-		static inline bool is_base64(unsigned char c)
+		static inline bool __is_base64(unsigned char c)
 		{
 			return (isalnum(c) || (c == '+') || (c == '/'));
 		}
 
-		std::string encode(unsigned char const* bytes_to_encode, unsigned int in_len);
+		std::string __encode_impl(unsigned char const* bytes_to_encode, unsigned int in_len);
+
+		std::string encode(std::string const& string_to_encode);
 		std::string decode(std::string const& encoded_string);
 		
 	} // namespace base64
