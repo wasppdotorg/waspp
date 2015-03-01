@@ -42,11 +42,13 @@ namespace waspp
 		*/
 
 		// this is NOT the original source code.
-		// changed the function name from base64_encode to __base64_encode_impl
-		// and wrapped it with the function which has only one parameter.
+		// updated the function base64_encode to get string input.
 
-		std::string __base64_encode_impl(unsigned char const* bytes_to_encode, unsigned int in_len)
+		std::string base64_encode(const std::string& string_to_encode)
 		{
+			unsigned char const* bytes_to_encode = reinterpret_cast<const unsigned char*>(string_to_encode.c_str());
+			unsigned int in_len = string_to_encode.size();
+
 			std::string ret;
 			int i = 0;
 			int j = 0;
@@ -95,11 +97,6 @@ namespace waspp
 			}
 
 			return ret;
-		}
-
-		std::string base64_encode(const std::string& string_to_encode)
-		{
-			return __base64_encode_impl(reinterpret_cast<const unsigned char*>(string_to_encode.c_str()), string_to_encode.size());
 		}
 
 		std::string base64_decode(std::string const& encoded_string)
