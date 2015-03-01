@@ -12,53 +12,97 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	/* 
-	base64.cpp and base64.h
-
-	Copyright (C) 2004-2008 Rene Nyffenegger
-
-	This source code is provided 'as-is', without any express or implied
-	warranty. In no event will the author be held liable for any damages
-	arising from the use of this software.
-
-	Permission is granted to anyone to use this software for any purpose,
-	including commercial applications, and to alter it and redistribute it
-	freely, subject to the following restrictions:
-
-	1. The origin of this source code must not be misrepresented; you must not
-	claim that you wrote the original source code. If you use this source code
-	in a product, an acknowledgment in the product documentation would be
-	appreciated but is not required.
-
-	2. Altered source versions must be plainly marked as such, and must not be
-	misrepresented as being the original source code.
-
-	3. This notice may not be removed or altered from any source distribution.
-
-	Rene Nyffenegger rene.nyffenegger@adp-gmbh.ch
-
-	*/
-
-	/*
-	this is NOT the original source code.
-
-	added namespace base64
-	and removed the base64_ prefix
-	from function names and variable names.
-
-	and changed the function name encode to __encode_impl
-	and wrapped it with the function has const std::tring& param only.
-	*/
-
-	namespace base64
+	namespace utility
 	{
 
-		std::string encode(const std::string& string_to_encode)
+		/*
+		base64.cpp and base64.h
+
+		Copyright (C) 2004-2008 Rene Nyffenegger
+
+		This source code is provided 'as-is', without any express or implied
+		warranty. In no event will the author be held liable for any damages
+		arising from the use of this software.
+
+		Permission is granted to anyone to use this software for any purpose,
+		including commercial applications, and to alter it and redistribute it
+		freely, subject to the following restrictions:
+
+		1. The origin of this source code must not be misrepresented; you must not
+		claim that you wrote the original source code. If you use this source code
+		in a product, an acknowledgment in the product documentation would be
+		appreciated but is not required.
+
+		2. Altered source versions must be plainly marked as such, and must not be
+		misrepresented as being the original source code.
+
+		3. This notice may not be removed or altered from any source distribution.
+
+		Rene Nyffenegger rene.nyffenegger@adp-gmbh.ch
+		*/
+
+		// this is NOT the original source code.
+		// changed the function name from base64_encode to __base64_encode_impl
+		// and wrapped it with the function which has only one parameter.
+
+		std::string __base64_encode_impl(unsigned char const* bytes_to_encode, unsigned int in_len)
 		{
-			return __encode_impl(reinterpret_cast<const unsigned char*>(string_to_encode.c_str()), string_to_encode.size());
+			std::string ret;
+			int i = 0;
+			int j = 0;
+			unsigned char char_array_3[3];
+			unsigned char char_array_4[4];
+
+			while (in_len--)
+			{
+				char_array_3[i++] = *(bytes_to_encode++);
+				if (i == 3)
+				{
+					char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+					char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+					char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+					char_array_4[3] = char_array_3[2] & 0x3f;
+
+					for(i = 0; i < 4; ++i)
+					{
+						ret += base64_chars[char_array_4[i]];
+					}
+					i = 0;
+				}
+			}
+
+			if (i)
+			{
+				for(j = i; j < 3; ++j)
+				{
+					char_array_3[j] = '\0';
+				}
+
+				char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+				char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+				char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+				char_array_4[3] = char_array_3[2] & 0x3f;
+
+				for (j = 0; j < (i + 1); ++j)
+				{
+					ret += base64_chars[char_array_4[j]];
+				}
+
+				while((i++ < 3))
+				{
+					ret += '=';
+				}
+			}
+
+			return ret;
 		}
 
-		std::string decode(std::string const& encoded_string)
+		std::string base64_encode(const std::string& string_to_encode)
+		{
+			return __base64_encode_impl(reinterpret_cast<const unsigned char*>(string_to_encode.c_str()), string_to_encode.size());
+		}
+
+		std::string base64_decode(std::string const& encoded_string)
 		{
 			int in_len = encoded_string.size();
 			int i = 0;
@@ -76,7 +120,7 @@ namespace waspp
 				{
 					for (i = 0; i < 4; ++i)
 					{
-						char_array_4[i] = chars.find(char_array_4[i]);
+						char_array_4[i] = base64_chars.find(char_array_4[i]);
 					}
 
 					char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
@@ -100,7 +144,7 @@ namespace waspp
 
 				for (j = 0; j < 4; j++)
 				{
-					char_array_4[j] = chars.find(char_array_4[j]);
+					char_array_4[j] = base64_chars.find(char_array_4[j]);
 				}
 
 				char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
@@ -116,84 +160,27 @@ namespace waspp
 			return ret;
 		}
 
-		std::string __encode_impl(unsigned char const* bytes_to_encode, unsigned int in_len)
-		{
-			std::string ret;
-			int i = 0;
-			int j = 0;
-			unsigned char char_array_3[3];
-			unsigned char char_array_4[4];
-
-			while (in_len--)
-			{
-				char_array_3[i++] = *(bytes_to_encode++);
-				if (i == 3)
-				{
-					char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-					char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-					char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-					char_array_4[3] = char_array_3[2] & 0x3f;
-
-					for(i = 0; i < 4; ++i)
-					{
-						ret += chars[char_array_4[i]];
-					}
-					i = 0;
-				}
-			}
-
-			if (i)
-			{
-				for(j = i; j < 3; ++j)
-				{
-					char_array_3[j] = '\0';
-				}
-
-				char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-				char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-				char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-				char_array_4[3] = char_array_3[2] & 0x3f;
-
-				for (j = 0; j < (i + 1); ++j)
-				{
-					ret += chars[char_array_4[j]];
-				}
-
-				while((i++ < 3))
-				{
-					ret += '=';
-				}
-			}
-
-			return ret;
-		}
-		
-	} // namespace base64
-
-	/*
-	*  $Id: CgiUtils.cpp,v 1.20 2014/04/23 20:55:03 sebdiaz Exp $
-	*
-	*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
-	*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
-	*  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
-	*
-	*  This library is free software; you can redistribute it and/or
-	*  modify it under the terms of the GNU Lesser General Public
-	*  License as published by the Free Software Foundation; either
-	*  version 3 of the License, or (at your option) any later version.
-	*
-	*  This library is distributed in the hope that it will be useful,
-	*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-	*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	*  Lesser General Public License for more details.
-	*
-	*  You should have received a copy of the GNU Lesser General Public
-	*  License along with this library; if not, write to the Free Software
-	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
-	*/
-
-	namespace url
-	{
+		/*
+		*  $Id: CgiUtils.cpp,v 1.20 2014/04/23 20:55:03 sebdiaz Exp $
+		*
+		*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+		*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+		*  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
+		*
+		*  This library is free software; you can redistribute it and/or
+		*  modify it under the terms of the GNU Lesser General Public
+		*  License as published by the Free Software Foundation; either
+		*  version 3 of the License, or (at your option) any later version.
+		*
+		*  This library is distributed in the hope that it will be useful,
+		*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+		*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+		*  Lesser General Public License for more details.
+		*
+		*  You should have received a copy of the GNU Lesser General Public
+		*  License along with this library; if not, write to the Free Software
+		*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
+		*/
 
 		std::string __char2hex(char c)
 		{
@@ -222,7 +209,7 @@ namespace waspp
 			return static_cast<char>(digit);
 		}
 
-		std::string encode(const std::string& src)
+		std::string url_encode(const std::string& src)
 		{
 			std::string result;
 			std::string::const_iterator iter;
@@ -262,7 +249,7 @@ namespace waspp
 			return result;
 		}
 
-		std::string decode(const std::string& src)
+		std::string url_decode(const std::string& src)
 		{
 			std::string result;
 			std::string::const_iterator iter;
@@ -300,7 +287,7 @@ namespace waspp
 			return result;
 		}
 
-	} // namespace url
+	} // namespace utility
 
 } // namespace waspp
 

@@ -117,50 +117,37 @@ namespace waspp
 
 		};
 
-	} // namespace utility
+		/*
+		base64.cpp and base64.h
 
-	/* 
-	base64.cpp and base64.h
+		Copyright (C) 2004-2008 Rene Nyffenegger
 
-	Copyright (C) 2004-2008 Rene Nyffenegger
+		This source code is provided 'as-is', without any express or implied
+		warranty. In no event will the author be held liable for any damages
+		arising from the use of this software.
 
-	This source code is provided 'as-is', without any express or implied
-	warranty. In no event will the author be held liable for any damages
-	arising from the use of this software.
+		Permission is granted to anyone to use this software for any purpose,
+		including commercial applications, and to alter it and redistribute it
+		freely, subject to the following restrictions:
 
-	Permission is granted to anyone to use this software for any purpose,
-	including commercial applications, and to alter it and redistribute it
-	freely, subject to the following restrictions:
+		1. The origin of this source code must not be misrepresented; you must not
+		claim that you wrote the original source code. If you use this source code
+		in a product, an acknowledgment in the product documentation would be
+		appreciated but is not required.
 
-	1. The origin of this source code must not be misrepresented; you must not
-	claim that you wrote the original source code. If you use this source code
-	in a product, an acknowledgment in the product documentation would be
-	appreciated but is not required.
+		2. Altered source versions must be plainly marked as such, and must not be
+		misrepresented as being the original source code.
 
-	2. Altered source versions must be plainly marked as such, and must not be
-	misrepresented as being the original source code.
+		3. This notice may not be removed or altered from any source distribution.
 
-	3. This notice may not be removed or altered from any source distribution.
+		Rene Nyffenegger rene.nyffenegger@adp-gmbh.ch
+		*/
 
-	Rene Nyffenegger rene.nyffenegger@adp-gmbh.ch
+		// this is NOT the original source code.
+		// changed the function name from base64_encode to __base64_encode_impl
+		// and wrapped it with the function which has only one parameter.
 
-	*/
-
-	/*
-	this is NOT the original source code.
-
-	added namespace base64
-	and removed the base64_ prefix
-	from function names and variable names.
-
-	and changed the function name encode to __encode_impl
-	and wrapped it with the function has const std::tring& param only.
-	*/
-
-	namespace base64
-	{
-
-		static const std::string chars = 
+		static const std::string base64_chars = 
 			"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 			"abcdefghijklmnopqrstuvwxyz"
 			"0123456789+/";
@@ -170,45 +157,40 @@ namespace waspp
 			return (isalnum(c) || (c == '+') || (c == '/'));
 		}
 
-		std::string __encode_impl(unsigned char const* bytes_to_encode, unsigned int in_len);
+		std::string __base64_encode_impl(unsigned char const* bytes_to_encode, unsigned int in_len);
 
-		std::string encode(std::string const& string_to_encode);
-		std::string decode(std::string const& encoded_string);
-		
-	} // namespace base64
+		std::string base64_encode(std::string const& string_to_encode);
+		std::string base64_decode(std::string const& encoded_string);
 
-	/*
-	*  $Id: CgiUtils.cpp,v 1.20 2014/04/23 20:55:03 sebdiaz Exp $
-	*
-	*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
-	*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
-	*  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
-	*
-	*  This library is free software; you can redistribute it and/or
-	*  modify it under the terms of the GNU Lesser General Public
-	*  License as published by the Free Software Foundation; either
-	*  version 3 of the License, or (at your option) any later version.
-	*
-	*  This library is distributed in the hope that it will be useful,
-	*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-	*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	*  Lesser General Public License for more details.
-	*
-	*  You should have received a copy of the GNU Lesser General Public
-	*  License along with this library; if not, write to the Free Software
-	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
-	*/
+		/*
+		*  $Id: CgiUtils.cpp,v 1.20 2014/04/23 20:55:03 sebdiaz Exp $
+		*
+		*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+		*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+		*  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
+		*
+		*  This library is free software; you can redistribute it and/or
+		*  modify it under the terms of the GNU Lesser General Public
+		*  License as published by the Free Software Foundation; either
+		*  version 3 of the License, or (at your option) any later version.
+		*
+		*  This library is distributed in the hope that it will be useful,
+		*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+		*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+		*  Lesser General Public License for more details.
+		*
+		*  You should have received a copy of the GNU Lesser General Public
+		*  License along with this library; if not, write to the Free Software
+		*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
+		*/
 
-	namespace url
-	{
+		std::string __char2hex(char c);
+		char __hex2char(char first, char second);
 
-		std::string char2hex(char c);
-		char hex2char(char first, char second);
-		
-		std::string encode(const std::string& src);
-		std::string decode(const std::string& src);
+		std::string url_encode(const std::string& src);
+		std::string url_decode(const std::string& src);
 
-	} // namespace url
+	} // namespace utility
 
 } // namespace waspp
 
