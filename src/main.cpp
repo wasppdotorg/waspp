@@ -19,19 +19,8 @@
 #include "database.hpp"
 #include "server.hpp"
 
-#include "utility.hpp"
 int main(int argc, char* argv[])
 {
-	std::string s("한글 한글+한글");
-	//std::string s("test");
-	std::string e = waspp::base64::encode(s);
-
-	std::cout << e << std::endl;
-	std::cout << waspp::base64::decode(e) << std::endl;
-
-	std::cin.get();
-	return 0;
-
 	waspp::logger* log = waspp::logger::instance();
 	waspp::config* cfg = waspp::config::instance();
 	waspp::database* db = waspp::database::instance();
