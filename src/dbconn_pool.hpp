@@ -50,7 +50,7 @@ namespace waspp
 		double timeout_sec;
 
 		std::vector<dbconn_ptr> pool;
-		utility::spinlock lock;
+		spinlock lock;
 
 	};
 

@@ -43,7 +43,7 @@ namespace waspp
 	};
 
 	class logger
-		: public utility::singleton<logger>
+		: public singleton<logger>
 	{
 	public:
 		logger();

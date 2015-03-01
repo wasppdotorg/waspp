@@ -17,7 +17,7 @@ namespace waspp
 {
 
 	class config
-		: public utility::singleton<config>
+		: public singleton<config>
 	{
 	public:
 		config();

@@ -22,7 +22,7 @@ namespace waspp
 	typedef boost::shared_ptr<dbconn_pool> dbpool_ptr;
 
 	class database
-		: public utility::singleton<database>
+		: public singleton<database>
 	{
 	public:
 		database();

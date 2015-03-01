@@ -56,7 +56,6 @@ namespace waspp
 		config* cfg;
 		request* req;
 		response* res;
-		//utility::md5 md5_;
 
 		std::map<std::string, std::string> session_;
 
