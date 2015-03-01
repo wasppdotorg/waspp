@@ -13,7 +13,6 @@ add_executable (
 
 	waspp
 	
-	base64.hpp
 	config.hpp
 	connection.hpp
 	database.hpp
@@ -31,7 +30,6 @@ add_executable (
 	session.hpp
 	utility.hpp
 	
-	base64.cpp
 	config.cpp
 	connection.cpp
 	database.cpp
@@ -51,6 +49,7 @@ add_executable (
 	
 	server.cpp
 	session.cpp
+	utility.cpp
 
 )
 
