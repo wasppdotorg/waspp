@@ -40,23 +40,83 @@ namespace waspp
 	*/
 
 	/*
-	this is not the original source code.
+	this is NOT the original source code.
 
 	added namespace base64
 	and removed the base64_ prefix
 	from function names and variable names.
 
-	and changed the return value type of encode function
-
-	ex)
-	std::string encoded = base64::encode(reinterpret_cast<const unsigned char*>(s.c_str()), s.size());
-	std::string decoded = base64::decode(encoded);
+	and changed the function name encode to __encode_impl
+	and wrapped it with the function has const std::tring& param only.
 	*/
 
 	namespace base64
 	{
 
-		std::string encode(unsigned char const* bytes_to_encode, unsigned int in_len)
+		std::string encode(const std::string& string_to_encode)
+		{
+			return __encode_impl(reinterpret_cast<const unsigned char*>(string_to_encode.c_str()), string_to_encode.size());
+		}
+
+		std::string decode(std::string const& encoded_string)
+		{
+			int in_len = encoded_string.size();
+			int i = 0;
+			int j = 0;
+			int in_ = 0;
+			unsigned char char_array_4[4], char_array_3[3];
+			std::string ret;
+
+			while (in_len-- && (encoded_string[in_] != '=') && __is_base64(encoded_string[in_]))
+			{
+				char_array_4[i++] = encoded_string[in_];
+				++in_;
+
+				if (i == 4)
+				{
+					for (i = 0; i < 4; ++i)
+					{
+						char_array_4[i] = chars.find(char_array_4[i]);
+					}
+
+					char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+					char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+					char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+					for (i = 0; i < 3; ++i)
+					{
+						ret += char_array_3[i];
+					}
+					i = 0;
+				}
+			}
+
+			if (i)
+			{
+				for (j = i; j < 4; ++j)
+				{
+					char_array_4[j] = 0;
+				}
+
+				for (j = 0; j < 4; j++)
+				{
+					char_array_4[j] = chars.find(char_array_4[j]);
+				}
+
+				char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+				char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+				char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+				for (j = 0; j < (i - 1); ++j)
+				{
+					ret += char_array_3[j];
+				}
+			}
+
+			return ret;
+		}
+
+		std::string __encode_impl(unsigned char const* bytes_to_encode, unsigned int in_len)
 		{
 			std::string ret;
 			int i = 0;
@@ -108,64 +168,6 @@ namespace waspp
 			return ret;
 		}
 		
-		std::string decode(std::string const& encoded_string)
-		{
-			int in_len = encoded_string.size();
-			int i = 0;
-			int j = 0;
-			int in_ = 0;
-			unsigned char char_array_4[4], char_array_3[3];
-			std::string ret;
-
-			while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_]))
-			{
-				char_array_4[i++] = encoded_string[in_];
-				++in_;
-
-				if (i == 4)
-				{
-					for (i = 0; i < 4; ++i)
-					{
-						char_array_4[i] = chars.find(char_array_4[i]);
-					}
-
-					char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-					char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-					char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-
-					for (i = 0; i < 3; ++i)
-					{
-						ret += char_array_3[i];
-					}
-					i = 0;
-				}
-			}
-
-			if (i)
-			{
-				for (j = i; j < 4; ++j)
-				{
-					char_array_4[j] = 0;
-				}
-
-				for (j = 0; j < 4; j++)
-				{
-					char_array_4[j] = chars.find(char_array_4[j]);
-				}
-
-				char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-				char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-				char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-
-				for (j = 0; j < (i - 1); ++j)
-				{
-					ret += char_array_3[j];
-				}
-			}
-
-			return ret;
-		}
-
 	} // namespace base64
 
 	/*
@@ -193,7 +195,7 @@ namespace waspp
 	namespace url
 	{
 
-		std::string char2hex(char c)
+		std::string __char2hex(char c)
 		{
 			std::string result;
 			char first, second;
@@ -209,7 +211,7 @@ namespace waspp
 			return result;
 		}
 
-		char hex2char(char first, char second)
+		char __hex2char(char first, char second)
 		{
 			int digit;
 
@@ -252,7 +254,7 @@ namespace waspp
 					// escape
 				default:
 					result.append(1, '%');
-					result.append(char2hex(*iter));
+					result.append(__char2hex(*iter));
 					break;
 				}
 			}
@@ -280,7 +282,7 @@ namespace waspp
 						std::isxdigit(*(iter + 2)))
 					{
 						c = *++iter;
-						result.append(1, hex2char(c, *++iter));
+						result.append(1, __hex2char(c, *++iter));
 					}
 					// Just pass the % through untouched
 					else
