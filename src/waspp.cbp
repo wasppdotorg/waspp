@@ -50,7 +50,6 @@
 		<Unit filename="database.hpp" />
 		<Unit filename="dbconn_pool.cpp" />
 		<Unit filename="dbconn_pool.hpp" />
-		<Unit filename="key_value.hpp" />
 		<Unit filename="logger.cpp" />
 		<Unit filename="logger.hpp" />
 		<Unit filename="main.cpp" />
@@ -60,6 +59,8 @@
 		<Unit filename="mysqlpp_connection.cpp" />
 		<Unit filename="mysqlpp_result.cpp" />
 		<Unit filename="mysqlpp_statement.cpp" />
+		<Unit filename="name_value.hpp" />
+		<Unit filename="request.cpp" />
 		<Unit filename="request.hpp" />
 		<Unit filename="request_handler.cpp" />
 		<Unit filename="request_handler.hpp" />
