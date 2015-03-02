@@ -56,7 +56,7 @@ namespace waspp
 		case uri:
 			if (input == '?')
 			{
-				state_ = get_param_name_start;
+				state_ = param_name_start;
 				return boost::indeterminate;
 			}
 			else if (input == ' ')
@@ -73,7 +73,7 @@ namespace waspp
 				req.uri.push_back(input);
 				return boost::indeterminate;
 			}
-		case get_param_name_start:
+		case param_name_start:
 			if (input == ' ')
 			{
 				state_ = http_version_h;
@@ -87,10 +87,10 @@ namespace waspp
 			{
 				req.params.push_back(name_value());
 				req.params.back().name.push_back(input);
-				state_ = get_param_name;
+				state_ = param_name;
 				return boost::indeterminate;
 			}
-		case get_param_name:
+		case param_name:
 			if (input == ' ')
 			{
 				state_ = http_version_h;
@@ -98,7 +98,7 @@ namespace waspp
 			}
 			else if (input == '=')
 			{
-				state_ = get_param_value;
+				state_ = param_value;
 				return boost::indeterminate;
 			}
 			else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
@@ -110,7 +110,7 @@ namespace waspp
 				req.params.back().name.push_back(input);
 				return boost::indeterminate;
 			}
-		case get_param_value:
+		case param_value:
 			if (input == ' ')
 			{
 				state_ = http_version_h;
@@ -118,7 +118,7 @@ namespace waspp
 			}
 			else if (input == '&')
 			{
-				state_ = get_param_name_start;
+				state_ = param_name_start;
 				return boost::indeterminate;
 			}
 			else if (!is_char(input) || is_ctl(input) || is_tspecial(input))

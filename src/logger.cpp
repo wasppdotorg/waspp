@@ -50,7 +50,12 @@ namespace waspp
 	bool logger::init(const std::string& phase, const std::string& level, const std::string& rotation)
 	{
 		phase_type phase_type_ = develop;
-		if (phase == "testing")
+
+		if (phase == "develop")
+		{
+			phase_type_ = develop;
+		}
+		else if (phase == "testing")
 		{
 			phase_type_ = testing;
 		}
@@ -64,7 +69,12 @@ namespace waspp
 		}
 
 		log_level cfg_level = log_debug;
-		if (level == "info")
+
+		if (level == "debug")
+		{
+			cfg_level = log_debug;
+		}
+		else if (level == "info")
 		{
 			cfg_level = log_info;
 		}
@@ -82,7 +92,12 @@ namespace waspp
 		}
 
 		rotation_type cfg_rotation = rotate_minutely;
-		if (rotation == "hourly")
+
+		if (rotation == "minutely")
+		{
+			cfg_rotation = rotate_minutely;
+		}
+		else if (rotation == "hourly")
 		{
 			cfg_rotation = rotate_hourly;
 		}

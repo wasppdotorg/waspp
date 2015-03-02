@@ -27,16 +27,17 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		//if (0)
-		if (argc != 3)
+		if (0)
+		//if (argc != 3)
 		{
 			std::cerr << "Usage: ./waspp develop 00 &\n";
 			return 1;
 		}
 
-		std::string phase(argv[1]), server_seq(argv[2]);
+		//std::string phase(argv[1]), server_seq(argv[2]);
+		std::string phase("develop"), server_seq("00");
 		std::string log_file, cfg_file, server_id;
-		//if (0)
+		if (0)
 		{
 			log_file.append("../log/");
 			log_file.append(phase);
@@ -50,9 +51,9 @@ int main(int argc, char* argv[])
 			server_id.append("server");
 			server_id.append(server_seq);
 		}
-		//log_file.append("../log/develop00.csv");
-		//cfg_file.append("../cfg/develop.json");
-		//server_id.append("server00");
+		log_file.append("../log/develop00.csv");
+		cfg_file.append("../cfg/develop.json");
+		server_id.append("server00");
 
 		log->file(log_file);
 
@@ -68,15 +69,15 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		std::vector<std::string> dbkeys;
+		std::vector<std::string> dbnames;
 		{
-			dbkeys.push_back("db_index");
-			dbkeys.push_back("db_000");
-			dbkeys.push_back("db_001");
-			dbkeys.push_back("db_etc");
+			dbnames.push_back("db_index");
+			dbnames.push_back("db_000");
+			dbnames.push_back("db_001");
+			dbnames.push_back("db_etc");
 		}
 
-		if (!db->init(cfg, dbkeys))
+		if (!db->init(cfg, dbnames))
 		{
 			log->fatal("database::init failed");
 			return 1;
