@@ -34,8 +34,8 @@ namespace waspp
 
 	void request_handler::handle_request(request& req, response& res)
 	{
-		config* cfg = config::instance();
 		logger* log = logger::instance();
+		config* cfg = config::instance();
 		database* db = database::instance();
 
 		try
