@@ -78,6 +78,7 @@
     <ClCompile Include="mysqlpp_connection.cpp" />
     <ClCompile Include="mysqlpp_result.cpp" />
     <ClCompile Include="mysqlpp_statement.cpp" />
+    <ClCompile Include="request.cpp" />
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />
@@ -92,7 +93,7 @@
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="database.hpp" />
     <ClInclude Include="dbconn_pool.hpp" />
-    <ClInclude Include="key_value.hpp" />
+    <ClInclude Include="name_value.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mime_types.hpp" />
     <ClInclude Include="mysqlpp.hpp" />

@@ -28,7 +28,7 @@ namespace waspp
 		database();
 		~database();
 
-		bool init(config* cfg, const std::vector<std::string>& dbkeys);
+		bool init(config* cfg, const std::vector<std::string>& dbnames);
 
 		/*
 		template<typename T>
@@ -39,9 +39,9 @@ namespace waspp
 		}
 		*/
 
-		dbconn_ptr get(const std::string& dbkey)
+		dbconn_ptr get(const std::string& dbname)
 		{
-			dbpool_ptr dbpool = get_dbpool(dbkey);
+			dbpool_ptr dbpool = get_dbpool(dbname);
 			return dbpool->get_dbconn();
 		}
 
@@ -60,9 +60,9 @@ namespace waspp
 		}
 		*/
 
-		void free(const std::string& dbkey, dbconn_ptr dbconn)
+		void free(const std::string& dbname, dbconn_ptr dbconn)
 		{
-			dbpool_ptr dbpool = get_dbpool(dbkey);
+			dbpool_ptr dbpool = get_dbpool(dbname);
 			dbpool->free_dbconn(dbconn);
 		}
 
@@ -73,8 +73,8 @@ namespace waspp
 		}
 
 	private:
-		dbpool_ptr get_dbpool(const std::string& dbkey);
-		dbpool_ptr get_dbpool(unsigned int dbkey);
+		dbpool_ptr get_dbpool(const std::string& dbname);
+		dbpool_ptr get_dbpool(unsigned int shard_key);
 
 		unsigned int shard_count;
 		std::string shard_format;

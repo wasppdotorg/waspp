@@ -17,12 +17,12 @@ add_executable (
 	connection.hpp
 	database.hpp
 	dbconn_pool.hpp
-	key_value.hpp
+	name_value.hpp
 	logger.hpp
 	mime_types.hpp
 	mysqlpp.hpp
-	request_handler.hpp
 	request.hpp
+	request_handler.hpp
 	request_parser.hpp
 	response.hpp
 	router.hpp
@@ -40,6 +40,7 @@ add_executable (
 	mysqlpp_connection.cpp
 	mysqlpp_result.cpp
 	mysqlpp_statement.cpp
+	request.cpp
 	request_handler.cpp
 	request_parser.cpp
 	response.cpp

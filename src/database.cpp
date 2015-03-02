@@ -25,7 +25,7 @@ namespace waspp
 	{
 	}
 
-	bool database::init(config* cfg, const std::vector<std::string>& dbkeys)
+	bool database::init(config* cfg, const std::vector<std::string>& dbnames)
 	{
 		try
 		{
@@ -48,16 +48,16 @@ namespace waspp
 			shard_count = boost::lexical_cast<unsigned int>(cfg_shard.at("shard_count"));
 			shard_format = cfg_shard.at("shard_format");
 
-			for (std::size_t i = 0; i < dbkeys.size(); ++i)
+			for (std::size_t i = 0; i < dbnames.size(); ++i)
 			{
 				dbpool_ptr dbpool(new dbconn_pool());
 
-				if (!dbpool->init_pool(cfg->get(dbkeys[i])) || !dbpool->fill_pool())
+				if (!dbpool->init_pool(cfg->get(dbnames[i])) || !dbpool->fill_pool())
 				{
 					return false;
 				}
 
-				db_.insert(std::make_pair(dbkeys[i], dbpool));
+				db_.insert(std::make_pair(dbnames[i], dbpool));
 			}
 
 			return true;
@@ -70,27 +70,27 @@ namespace waspp
 		return false;
 	}
 
-	dbpool_ptr database::get_dbpool(const std::string& dbkey)
+	dbpool_ptr database::get_dbpool(const std::string& dbname)
 	{
 		std::map<std::string, dbpool_ptr>::iterator found;
 
-		found = db_.find(dbkey);
+		found = db_.find(dbname);
 		if (found == db_.end())
 		{
-			throw std::runtime_error("invalid dbkey");
+			throw std::runtime_error("invalid dbname");
 		}
 
 		return found->second;
 	}
 
-	dbpool_ptr database::get_dbpool(unsigned int dbkey)
+	dbpool_ptr database::get_dbpool(unsigned int shard_key)
 	{
 		char format[8] = {0};
 
-		int count = sprintf(format, shard_format.c_str(), dbkey % shard_count);
+		int count = sprintf(format, shard_format.c_str(), shard_key % shard_count);
 		if (count == 0)
 		{
-			throw std::runtime_error("invalid dbkey");
+			throw std::runtime_error("invalid shard_format");
 		}
 
 		std::map<std::string, dbpool_ptr>::iterator found;
@@ -98,7 +98,7 @@ namespace waspp
 		found = db_.find(std::string(format));
 		if (found == db_.end())
 		{
-			throw std::runtime_error("invalid dbkey");
+			throw std::runtime_error("invalid shard_key");
 		}
 
 		return found->second;

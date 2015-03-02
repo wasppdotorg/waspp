@@ -107,8 +107,8 @@ namespace waspp
 		buffers.push_back(status_strings::to_buffer(status));
 		for (std::size_t i = 0; i < headers.size(); ++i)
 		{
-			key_value& p = headers[i];
-			buffers.push_back(boost::asio::buffer(p.key));
+			name_value& p = headers[i];
+			buffers.push_back(boost::asio::buffer(p.name));
 			buffers.push_back(boost::asio::buffer(misc_strings::name_value_separator));
 			buffers.push_back(boost::asio::buffer(p.value));
 			buffers.push_back(boost::asio::buffer(misc_strings::crlf));
@@ -248,9 +248,9 @@ namespace waspp
 		res.content = static_responses::to_string(status);
 
 		res.headers.resize(2);
-		res.headers[0].key = "Content-Length";
+		res.headers[0].name = "Content-Length";
 		res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
-		res.headers[1].key = "Content-Type";
+		res.headers[1].name = "Content-Type";
 		res.headers[1].value = "text/html";
 
 		return res;

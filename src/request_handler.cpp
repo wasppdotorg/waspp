@@ -85,9 +85,9 @@ namespace waspp
 				}
 
 				res.headers.resize(2);
-				res.headers[0].key = "Content-Length";
+				res.headers[0].name = "Content-Length";
 				res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
-				res.headers[1].key = "Content-Type";
+				res.headers[1].name = "Content-Type";
 				res.headers[1].value = mime_types::extension_to_type(res.content_extension);
 
 				return;
@@ -100,7 +100,7 @@ namespace waspp
 			}
 
 			req.parse_cookie();
-			req.parse_param();
+			req.parse_content();
 
 			func_ptr func = router::get_func(request_uri);
 			if (func == 0)
@@ -112,14 +112,14 @@ namespace waspp
 			func(log, cfg, db, req, res);
 
 			res.headers.resize(2);
-			res.headers[0].key = "Content-Length";
+			res.headers[0].name = "Content-Length";
 			res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
-			res.headers[1].key = "Content-Type";
+			res.headers[1].name = "Content-Type";
 			res.headers[1].value = mime_types::extension_to_type(res.content_extension);
 
 			std::string cookie;
 			std::map<std::string, std::string>::iterator i;
-			for (i = res.cookie.begin(); i != res.cookie.end(); ++i)
+			for (i = res.cookies.begin(); i != res.cookies.end(); ++i)
 			{
 				cookie.clear();
 				cookie.append(i->first);
@@ -127,7 +127,7 @@ namespace waspp
 				cookie.append(i->second);
 				cookie.append("; path=/");
 
-				res.headers.push_back(key_value("Set-Cookie", cookie));
+				res.headers.push_back(name_value("Set-Cookie", cookie));
 			}
 		}
 		catch (std::exception& e)
@@ -176,8 +176,8 @@ namespace waspp
 			res.status = response::ok;
 			res.content = ss.str();
 
-			res.headers.push_back(key_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
-			res.headers.push_back(key_value("Content-Type", mime_types::extension_to_type("json")));
+			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
+			res.headers.push_back(name_value("Content-Type", mime_types::extension_to_type("json")));
 
 			*/
 	}

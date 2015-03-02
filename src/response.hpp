@@ -13,7 +13,7 @@
 
 #include <boost/asio.hpp>
 
-#include "key_value.hpp"
+#include "name_value.hpp"
 
 namespace waspp
 {
@@ -44,7 +44,7 @@ namespace waspp
 
 		void set_cookie(const std::string& name, const std::string& value)
 		{
-			cookie[name] = value;
+			cookies[name] = value;
 		}
 
 		void delete_cookie(const std::string& name)
@@ -55,13 +55,13 @@ namespace waspp
 		status_type status;
 
 		/// The headers to be included in the response.
-		std::vector<key_value> headers;
+		std::vector<name_value> headers;
 
 		/// The content to be sent in the response.
 		std::string content;
 		std::string content_extension;
 
-		std::map<std::string, std::string> cookie;
+		std::map<std::string, std::string> cookies;
 
 		/// Convert the response into a vector of buffers. The buffers do not own the
 		/// underlying memory blocks, therefore the response object must remain valid and

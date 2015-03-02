@@ -54,7 +54,12 @@ namespace waspp
 				return boost::indeterminate;
 			}
 		case uri:
-			if (input == ' ')
+			if (input == '?')
+			{
+				state_ = get_param_name_start;
+				return boost::indeterminate;
+			}
+			else if (input == ' ')
 			{
 				state_ = http_version_h;
 				return boost::indeterminate;
@@ -66,6 +71,63 @@ namespace waspp
 			else
 			{
 				req.uri.push_back(input);
+				return boost::indeterminate;
+			}
+		case get_param_name_start:
+			if (input == ' ')
+			{
+				state_ = http_version_h;
+				return boost::indeterminate;
+			}
+			else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+			{
+				return false;
+			}
+			else
+			{
+				req.params.push_back(name_value());
+				req.params.back().name.push_back(input);
+				state_ = get_param_name;
+				return boost::indeterminate;
+			}
+		case get_param_name:
+			if (input == ' ')
+			{
+				state_ = http_version_h;
+				return boost::indeterminate;
+			}
+			else if (input == '=')
+			{
+				state_ = get_param_value;
+				return boost::indeterminate;
+			}
+			else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+			{
+				return false;
+			}
+			else
+			{
+				req.params.back().name.push_back(input);
+				return boost::indeterminate;
+			}
+		case get_param_value:
+			if (input == ' ')
+			{
+				state_ = http_version_h;
+				return boost::indeterminate;
+			}
+			else if (input == '&')
+			{
+				state_ = get_param_name_start;
+				return boost::indeterminate;
+			}
+			else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+			{
+				return false;
+			}
+			else
+			{
+				req.params.back().value.push_back(input);
 				return boost::indeterminate;
 			}
 		case http_version_h:
@@ -199,8 +261,8 @@ namespace waspp
 			}
 			else
 			{
-				req.headers.push_back(key_value());
-				req.headers.back().key.push_back(input);
+				req.headers.push_back(name_value());
+				req.headers.back().name.push_back(input);
 				state_ = header_name;
 				return boost::indeterminate;
 			}
@@ -236,7 +298,7 @@ namespace waspp
 			}
 			else
 			{
-				req.headers.back().key.push_back(input);
+				req.headers.back().name.push_back(input);
 				return boost::indeterminate;
 			}
 		case space_before_header_value:

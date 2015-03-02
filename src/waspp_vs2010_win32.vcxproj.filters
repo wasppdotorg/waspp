@@ -69,6 +69,9 @@
     <ClCompile Include="utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="request.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp">
@@ -98,9 +101,6 @@
     <ClInclude Include="server.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="key_value.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="mysqlpp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,6 +117,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="utility.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="name_value.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
