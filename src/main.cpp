@@ -34,23 +34,23 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		std::ostringstream oss;
+		std::string phase(argv[1]), server_seq(argv[2]);
 		std::string log_file, cfg_file, server_id;
 		//if (0)
 		{
-			oss.str(std::string());
-			oss << "../log/" << argv[1] << argv[2] << ".csv";
-			log_file.append(oss.str());
+			log_file.append("../log/");
+			log_file.append(phase);
+			log_file.append(server_seq);
+			log_file.append(".csv");
 
-			oss.str(std::string());
-			oss << "../cfg/" << argv[1] << ".json";
-			cfg_file.append(oss.str());
+			cfg_file.append("../cfg/");
+			cfg_file.append(phase);
+			cfg_file.append(".json");
 
-			oss.str(std::string());
-			oss << "server" << argv[2];
-			server_id.append(oss.str());
+			server_id.append("server");
+			server_id.append(server_seq);
 		}
-		//log_file.append("../log/develop.csv");
+		//log_file.append("../log/develop00.csv");
 		//cfg_file.append("../cfg/develop.json");
 		//server_id.append("server00");
 
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		if (!log->init(cfg->level, cfg->rotation))
+		if (!log->init(phase, cfg->level, cfg->rotation))
 		{
 			log->fatal("logger::init failed");
 			return 1;

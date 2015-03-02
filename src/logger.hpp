@@ -25,12 +25,18 @@
 namespace waspp
 {
 
+	enum phase_type
+	{
+		develop,
+		testing,
+		product
+	};
+
 	enum rotation_type
 	{
-		rotate_minutely = 0,
-		rotate_hourly = 1,
-		rotate_daily = 2,
-		rotate_monthly = 3
+		rotate_minutely,
+		rotate_hourly,
+		rotate_daily
 	};
 
 	enum log_level
@@ -50,7 +56,7 @@ namespace waspp
 		~logger();
 
 		void file(const std::string& file);
-		bool init(const std::string& level, const std::string& rotation);
+		bool init(const std::string& phase, const std::string& level, const std::string& rotation);
 
 		/// Log a message.
 		void debug(const std::string& message);
@@ -64,7 +70,7 @@ namespace waspp
 		void log_rotate(const std::tm& time);
 
 		void file_impl(const std::string& file);
-		void init_impl(log_level level, rotation_type rotation);
+		void init_impl(phase_type phase, log_level level, rotation_type rotation);
 		void log_impl(const std::string& line);
 		void log_rotate_impl(const std::string& file_to);
 
@@ -85,6 +91,7 @@ namespace waspp
 		std::string file_;
 		std::tm file_created_;
 
+		phase_type phase_;
 		log_level level_;
 		rotation_type rotation_;
 

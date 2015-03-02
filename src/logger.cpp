@@ -19,6 +19,10 @@ namespace waspp
 	{
 		std::time_t time_ = std::time(0);
 		file_created_ = *std::localtime(&time_);
+
+		phase_ = develop;
+		level_ = log_debug;
+		rotation_ = rotate_minutely;
 	}
 
 	/// Destructor shuts down the private io_service.
@@ -37,26 +41,30 @@ namespace waspp
 	{
 		// Pass the work of opening the file to the background thread.
 		log_service_.post(boost::bind(&logger::file_impl, this, std::string(file)));
-
-		log_level default_level = log_debug;
-		rotation_type default_rotation = rotate_hourly;
-		log_service_.post(boost::bind(&logger::init_impl, this, default_level, default_rotation));
 	}
 
 	/// Set the output file for the logger. The current implementation sets the
 	/// output file for all logger instances, and so the impl parameter is not
 	/// actually needed. It is retained here to illustrate how service functions
 	/// are typically defined.
-	bool logger::init(const std::string& level, const std::string& rotation)
+	bool logger::init(const std::string& phase, const std::string& level, const std::string& rotation)
 	{
-		log_level cfg_level = log_debug;
-		rotation_type cfg_rotation = rotate_hourly;
-
-		if (level == "debug")
+		phase_type phase_type_ = develop;
+		if (phase == "testing")
 		{
-			cfg_level = log_debug;
+			phase_type_ = testing;
 		}
-		else if (level == "info")
+		else if (phase == "product")
+		{
+			phase_type_ = product;
+		}
+		else
+		{
+			return false;
+		}
+
+		log_level cfg_level = log_debug;
+		if (level == "info")
 		{
 			cfg_level = log_info;
 		}
@@ -73,11 +81,8 @@ namespace waspp
 			return false;
 		}
 
-		if (rotation == "minutely")
-		{
-			cfg_rotation = rotate_minutely;
-		}
-		else if (rotation == "hourly")
+		rotation_type cfg_rotation = rotate_minutely;
+		if (rotation == "hourly")
 		{
 			cfg_rotation = rotate_hourly;
 		}
@@ -85,16 +90,12 @@ namespace waspp
 		{
 			cfg_rotation = rotate_daily;
 		}
-		else if (rotation == "monthly")
-		{
-			cfg_rotation = rotate_monthly;
-		}
 		else
 		{
 			return false;
 		}
 
-		log_service_.post(boost::bind(&logger::init_impl, this, cfg_level, cfg_rotation));
+		log_service_.post(boost::bind(&logger::init_impl, this, phase_type_, cfg_level, cfg_rotation));
 		return true;
 	}
 
@@ -187,10 +188,6 @@ namespace waspp
 		{
 			std::strftime(datetime, sizeof(datetime), "%Y-%m-%d_", &file_created_);
 		}
-		else if (rotation_ == rotate_monthly && time.tm_mon != file_created_.tm_mon)
-		{
-			std::strftime(datetime, sizeof(datetime), "%Y-%m_", &file_created_);
-		}
 		else
 		{
 			return;
@@ -216,8 +213,9 @@ namespace waspp
 		ofstream_.open(file_.c_str(), std::fstream::app);
 	}
 
-	void logger::init_impl(log_level level, rotation_type rotation)
+	void logger::init_impl(phase_type phase, log_level level, rotation_type rotation)
 	{
+		phase_ = phase;
 		level_ = level;
 		rotation_ = rotation;
 	}
@@ -227,6 +225,11 @@ namespace waspp
 	void logger::log_impl(const std::string& line)
 	{
 		ofstream_ << line << std::endl;
+
+		if (phase_ == develop)
+		{
+			std::cout << line;
+		}
 	}
 
 	void logger::log_rotate_impl(const std::string& file_to)
