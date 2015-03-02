@@ -29,7 +29,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	session::session(config* cfg_, logger* log_, request* req_, response* res_) : cfg(cfg_), log(log_), req(req_), res(res_)
+	session::session(logger* log_, config* cfg_, request* req_, response* res_) : log(log_), cfg(cfg_), req(req_), res(res_)
 	{
 		if (!load())
 		{

@@ -27,7 +27,7 @@ namespace waspp
 	class session
 	{
 	public:
-		session(config* cfg_, logger* log_, request* req_, response* res_);
+		session(logger* log_, config* cfg_, request* req_, response* res_);
 		~session();
 
 		std::string& get_sess(const std::string& name);
