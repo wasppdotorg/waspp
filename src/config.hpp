@@ -26,12 +26,15 @@ namespace waspp
 		bool init(const std::string& file, const std::string& server_id);
 		std::map<std::string, std::string>& get(const std::string& item);
 
+		// logger
 		std::string level, rotation;
 
+		// session
 		std::string encrypt_key, sess_cookie;
 		double expiry_sec, update_sec;
 		bool validate_ip, validate_ua;
 
+		// server
 		std::string address, port, doc_root;
 		std::size_t num_threads;
 
