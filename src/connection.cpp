@@ -87,6 +87,7 @@ namespace waspp
 			//boost::system::error_code ignored_ec;
 			//socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
 
+			buffer_.fill(0);
 			request_parser_.reset();
 			response_ = response();
 			request_ = request();
