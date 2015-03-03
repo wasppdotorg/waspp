@@ -60,7 +60,7 @@
 		<Unit filename="mysqlpp_result.cpp" />
 		<Unit filename="mysqlpp_statement.cpp" />
 		<Unit filename="name_value.hpp" />
-		<Unit filename="request.cpp" />
+		<Unit filename="part_header.hpp" />
 		<Unit filename="request.hpp" />
 		<Unit filename="request_handler.cpp" />
 		<Unit filename="request_handler.hpp" />

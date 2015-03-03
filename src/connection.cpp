@@ -52,7 +52,7 @@ namespace waspp
 			{
 				request_parser_.decode_param(request_);
 				request_parser_.parse_cookies(request_);
-				request_parser_.parse_content(request_, request_.content);
+				request_parser_.parse_content(request_, request_.content, 0);
 
 				request_handler_.handle_request(request_, response_);
 				boost::asio::async_write(socket_, response_.to_buffers(),

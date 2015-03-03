@@ -136,7 +136,7 @@ namespace waspp
 	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
 	*/
 
-	void request_parser::parse_content(request& req, const std::string& data)
+	void request_parser::parse_content(request& req, std::string& data, int i)
 	{
 		if (data.empty())
 		{
@@ -239,41 +239,6 @@ namespace waspp
 			{
 				parse_part_content(req, data.substr(old_pos, pos - old_pos));
 			}
-		}
-	}
-
-	part_header parse_part_header(request& req, const std::string& data)
-	{
-		std::string disposition = __extract_between(data, "Content-Disposition: ", ";");
-		std::string name = __extract_between(data, "name=\"", "\"");
-		std::string filename = url_decode(__extract_between(data, "filename=\"", "\""));
-		std::string filetype = __extract_between(data, "Content-Type: ", "\r\n\r\n");
-
-		return part_header(disposition, name, filename, filetype);
-	}
-
-	void parse_part_content(request& req, const std::string& data)
-	{
-		std::string end = "\r\n\r\n";
-		std::string::size_type head_limit = data.find(end, 0);
-
-		if (head_limit == std::string::npos)
-		{
-			throw std::runtime_error("invalid multipart");
-		}
-
-		std::string::size_type value_start = head_limit + end.size();
-		std::string value = data.substr(value_start, data.size() - value_start - 2);
-
-		part_header head = parse_part_header(req, data.substr(0, value_start));
-
-		if (head.filename.empty())
-		{
-			req.params.push_back(name_value(head.name, value));
-		}
-		else
-		{
-			//req.
 		}
 	}
 
