@@ -75,6 +75,7 @@
 		<Unit filename="server.hpp" />
 		<Unit filename="session.cpp" />
 		<Unit filename="session.hpp" />
+		<Unit filename="upload.hpp" />
 		<Unit filename="utility.cpp" />
 		<Unit filename="utility.hpp" />
 		<Extensions>
