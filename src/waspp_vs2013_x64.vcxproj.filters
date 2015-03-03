@@ -63,10 +63,13 @@
     <ClCompile Include="logger.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cookie.cpp">
+    <ClCompile Include="request.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="session.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="utility.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,12 +101,6 @@
     <ClInclude Include="server.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="key_value.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="spinlock.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="mysqlpp.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -116,16 +113,13 @@
     <ClInclude Include="logger.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="singleton.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="md5.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cookie.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="session.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="name_value.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

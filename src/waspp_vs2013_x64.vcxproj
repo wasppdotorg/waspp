@@ -130,7 +130,6 @@
   <ItemGroup>
     <ClCompile Include="config.cpp" />
     <ClCompile Include="connection.cpp" />
-    <ClCompile Include="cookie.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="dbconn_pool.cpp" />
     <ClCompile Include="logger.cpp" />
@@ -139,6 +138,7 @@
     <ClCompile Include="mysqlpp_connection.cpp" />
     <ClCompile Include="mysqlpp_result.cpp" />
     <ClCompile Include="mysqlpp_statement.cpp" />
+    <ClCompile Include="request.cpp" />
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />
@@ -146,18 +146,17 @@
     <ClCompile Include="route_board.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="session.cpp" />
+    <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
-    <ClInclude Include="cookie.hpp" />
     <ClInclude Include="database.hpp" />
     <ClInclude Include="dbconn_pool.hpp" />
-    <ClInclude Include="key_value.hpp" />
     <ClInclude Include="logger.hpp" />
-    <ClInclude Include="md5.hpp" />
     <ClInclude Include="mime_types.hpp" />
     <ClInclude Include="mysqlpp.hpp" />
+    <ClInclude Include="name_value.hpp" />
     <ClInclude Include="request.hpp" />
     <ClInclude Include="request_handler.hpp" />
     <ClInclude Include="request_parser.hpp" />
@@ -165,8 +164,7 @@
     <ClInclude Include="router.hpp" />
     <ClInclude Include="server.hpp" />
     <ClInclude Include="session.hpp" />
-    <ClInclude Include="singleton.hpp" />
-    <ClInclude Include="spinlock.hpp" />
+    <ClInclude Include="utility.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
