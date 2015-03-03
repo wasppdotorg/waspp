@@ -24,12 +24,36 @@ namespace waspp
 	/// A request received from a client.
 	struct request
 	{
-		std::string get_header(const std::string& name);
-		std::string& get_cookie(const std::string& name);
-		std::string get_param(const std::string& name);
+		std::string header(const std::string& name)
+		{
+			std::vector<name_value>::iterator found;
+			found = std::find_if(headers.begin(), headers.end(), boost::bind(&name_value::compare_name, _1, name));
 
-		void parse_cookie();
-		void parse_content();
+			if (found == headers.end())
+			{
+				return std::string();
+			}
+
+			return found->value;
+		}
+
+		std::string& cookie(const std::string& name)
+		{
+			return cookies[name];
+		}
+
+		std::string param(const std::string& name)
+		{
+			std::vector<name_value>::iterator found;
+			found = std::find_if(params.begin(), params.end(), boost::bind(&name_value::compare_name, _1, name));
+
+			if (found == params.end())
+			{
+				return std::string();
+			}
+
+			return found->value;
+		}
 
 		std::string remote_addr;
 		std::string method;

@@ -11,6 +11,8 @@
 #include <boost/logic/tribool.hpp>
 #include <boost/tuple/tuple.hpp>
 
+#include "part_header.hpp"
+
 namespace waspp
 {
 
@@ -46,6 +48,61 @@ namespace waspp
 			boost::tribool result = boost::indeterminate;
 			return boost::make_tuple(result, begin);
 		}
+
+		void decode_param(request& req);
+
+		/* -*-mode:c++; c-file-style: "gnu";-*- */
+		/*
+		*  $Id: CgiEnvironment.h,v 1.21 2014/04/23 20:55:03 sebdiaz Exp $
+		*
+		*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+		*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+		*  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
+		*
+		*  This library is free software; you can redistribute it and/or
+		*  modify it under the terms of the GNU Lesser General Public
+		*  License as published by the Free Software Foundation; either
+		*  version 3 of the License, or (at your option) any later version.
+		*
+		*  This library is distributed in the hope that it will be useful,
+		*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+		*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+		*  Lesser General Public License for more details.
+		*
+		*  You should have received a copy of the GNU Lesser General Public
+		*  License along with this library; if not, write to the Free Software
+		*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
+		*/
+
+		void parse_cookies(request& req);
+		void parse_cookie(request& req, const std::string& data);
+
+		/* -*-mode:c++; c-file-style: "gnu";-*- */
+		/*
+		*  $Id: Cgicc.h,v 1.20 2014/04/23 20:55:04 sebdiaz Exp $
+		*
+		*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+		*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+		*  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
+		*
+		*  This library is free software; you can redistribute it and/or
+		*  modify it under the terms of the GNU Lesser General Public
+		*  License as published by the Free Software Foundation; either
+		*  version 3 of the License, or (at your option) any later version.
+		*
+		*  This library is distributed in the hope that it will be useful,
+		*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+		*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+		*  Lesser General Public License for more details.
+		*
+		*  You should have received a copy of the GNU Lesser General Public
+		*  License along with this library; if not, write to the Free Software
+		*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
+		*/
+
+		void parse_content(request& req, const std::string& data);
+		part_header parse_part_header(request& req, const std::string& data);
+		void parse_part_content(request& req, const std::string& data);
 
 	private:
 		/// Handle the next character of input.

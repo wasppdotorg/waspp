@@ -7,6 +7,8 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include "utility.hpp"
+#include "part_header.hpp"
 #include "request_parser.hpp"
 #include "request.hpp"
 
@@ -21,6 +23,258 @@ namespace waspp
 	void request_parser::reset()
 	{
 		state_ = method_start;
+	}
+
+	/* -*-mode:c++; c-file-style: "gnu";-*- */
+	/*
+	*  $Id: CgiEnvironment.cpp,v 1.29 2014/06/11 04:43:46 sebdiaz Exp $
+	*
+	*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+	*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+	*  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
+	*
+	*  This library is free software; you can redistribute it and/or
+	*  modify it under the terms of the GNU Lesser General Public
+	*  License as published by the Free Software Foundation; either
+	*  version 3 of the License, or (at your option) any later version.
+	*
+	*  This library is distributed in the hope that it will be useful,
+	*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+	*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	*  Lesser General Public License for more details.
+	*
+	*  You should have received a copy of the GNU Lesser General Public
+	*  License along with this library; if not, write to the Free Software
+	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
+	*
+	*/
+
+	void request_parser::decode_param(request& req)
+	{
+		if (req.params.size() == 0)
+		{
+			return;
+		}
+
+		for (std::size_t i = 0; i < req.params.size(); ++i)
+		{
+			req.params[i].name = url_decode(req.params[i].name);
+			req.params[i].value = url_decode(req.params[i].value);
+		}
+	}
+
+	void request_parser::parse_cookies(request& req)
+	{
+		std::string data = req.header("Cookie");
+		if (data.empty())
+		{
+			return;
+		}
+
+		std::string::size_type pos;
+		std::string::size_type old_pos = 0;
+
+		while (true)
+		{
+			pos = data.find(";", old_pos);
+			if (pos == std::string::npos)
+			{
+				parse_cookie(req, data.substr(old_pos));
+				return;
+			}
+
+			parse_cookie(req, data.substr(old_pos, pos - old_pos));
+			old_pos = pos + 1;
+		}
+	}
+
+	void request_parser::parse_cookie(request& req, const std::string& data)
+	{
+		std::string::size_type pos = data.find("=", 0);
+		if (pos == std::string::npos)
+		{
+			return;
+		}
+
+		std::string::size_type space_count = 0;
+		std::string::const_iterator data_iter;
+
+		for (data_iter = data.begin(); data_iter != data.end(); ++data_iter, ++space_count)
+		{
+			if (std::isspace(*data_iter) == 0)
+			{
+				break;
+			}
+		}
+
+		std::string name = data.substr(space_count, pos - space_count);
+		std::string value = data.substr(++pos);
+
+		req.cookies[name] = value;
+	}
+
+	/* -*-mode:c++; c-file-style: "gnu";-*- */
+	/*
+	*  $Id: Cgicc.cpp,v 1.34 2014/04/23 20:55:04 sebdiaz Exp $
+	*
+	*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+	*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+	*  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
+	*
+	*  This library is free software; you can redistribute it and/or
+	*  modify it under the terms of the GNU Lesser General Public
+	*  License as published by the Free Software Foundation; either
+	*  version 3 of the License, or (at your option) any later version.
+	*
+	*  This library is distributed in the hope that it will be useful,
+	*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+	*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	*  Lesser General Public License for more details.
+	*
+	*  You should have received a copy of the GNU Lesser General Public
+	*  License along with this library; if not, write to the Free Software
+	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
+	*/
+
+	void request_parser::parse_content(request& req, const std::string& data)
+	{
+		if (data.empty())
+		{
+			return;
+		}
+
+		std::string standard_type = "application/x-www-form-urlencoded";
+		std::string multipart_type = "multipart/form-data";
+
+		std::string content_type = req.header("Content-Type");
+		if (content_type.empty() || __strings_are_equal(content_type, standard_type, standard_type.size()))
+		{
+			std::string name, value;
+			std::string::size_type pos;
+			std::string::size_type old_pos = 0;
+
+			while (true)
+			{
+				pos = data.find_first_not_of("&=", old_pos);
+				if (pos == std::string::npos)
+				{
+					break;
+				}
+
+				if (data.at(pos) == '&')
+				{
+					const char* c_str_ = data.c_str() + old_pos;
+					while (*c_str_ == '&')
+					{
+						++c_str_;
+						++old_pos;
+					}
+
+					if (old_pos >= pos)
+					{
+						old_pos = ++pos;
+						continue;
+					}
+
+					name = url_decode(data.substr(old_pos, pos - old_pos));
+					req.params.push_back(name_value(name, std::string()));
+					old_pos = ++pos;
+					continue;
+				}
+
+				name = url_decode(data.substr(old_pos, pos - old_pos));
+				old_pos = ++pos;
+
+				pos = data.find_first_of(";&", old_pos);
+				value = url_decode(data.substr(old_pos, pos - old_pos));
+				req.params.push_back(name_value(name, value));
+
+				if (pos == std::string::npos)
+				{
+					break;
+				}
+
+				old_pos = ++pos;
+			}
+		}
+		else if (__strings_are_equal(multipart_type, content_type, multipart_type.size()))
+		{
+			std::string b_type = "boundary=";
+			std::string::size_type pos = content_type.find(b_type);
+
+			std::string sep1 = content_type.substr(pos + b_type.size());
+			if (sep1.find(";") != std::string::npos)
+			{
+				sep1 = sep1.substr(0, sep1.find(";"));
+			}
+			sep1.append("\r\n");
+			sep1.insert(0, "--");
+
+			std::string sep2 = content_type.substr(pos + b_type.size());
+			if (sep2.find(";") != std::string::npos)
+			{
+				sep2 = sep2.substr(0, sep2.find(";"));
+			}
+			sep2.append("--\r\n");
+			sep2.insert(0, "--");
+
+			std::string::size_type start = data.find(sep1);
+			std::string::size_type sep_size = sep1.size();
+			std::string::size_type old_pos = start + sep_size;
+
+			while (true)
+			{
+				pos = data.find(sep1, old_pos);
+				if (pos == std::string::npos)
+				{
+					break;
+				}
+
+				parse_part_content(req, data.substr(old_pos, pos - old_pos));
+				old_pos = pos + sep_size;
+			}
+
+			pos = data.find(sep2, old_pos);
+			if (pos != std::string::npos)
+			{
+				parse_part_content(req, data.substr(old_pos, pos - old_pos));
+			}
+		}
+	}
+
+	part_header parse_part_header(request& req, const std::string& data)
+	{
+		std::string disposition = __extract_between(data, "Content-Disposition: ", ";");
+		std::string name = __extract_between(data, "name=\"", "\"");
+		std::string filename = url_decode(__extract_between(data, "filename=\"", "\""));
+		std::string filetype = __extract_between(data, "Content-Type: ", "\r\n\r\n");
+
+		return part_header(disposition, name, filename, filetype);
+	}
+
+	void parse_part_content(request& req, const std::string& data)
+	{
+		std::string end = "\r\n\r\n";
+		std::string::size_type head_limit = data.find(end, 0);
+
+		if (head_limit == std::string::npos)
+		{
+			throw std::runtime_error("invalid multipart");
+		}
+
+		std::string::size_type value_start = head_limit + end.size();
+		std::string value = data.substr(value_start, data.size() - value_start - 2);
+
+		part_header head = parse_part_header(req, data.substr(0, value_start));
+
+		if (head.filename.empty())
+		{
+			req.params.push_back(name_value(head.name, value));
+		}
+		else
+		{
+			//req.
+		}
 	}
 
 	boost::tribool request_parser::consume(request& req, char input)
@@ -345,13 +599,13 @@ namespace waspp
 			{
 				req.content_length = 0;
 
-				std::string content_length_str = req.get_header("Content-Length");
+				std::string content_length_str = req.header("Content-Length");
 				if (content_length_str.empty())
 				{
 					return false;
 				}
 				req.content_length = boost::lexical_cast<std::size_t>(content_length_str);
-				
+
 				state_ = content_start;
 				return boost::indeterminate;
 			}

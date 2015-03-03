@@ -58,7 +58,7 @@ namespace waspp
 	{
 		try
 		{
-			std::string session_cookie = req->get_cookie(cfg->sess_cookie);
+			std::string session_cookie = req->cookie(cfg->sess_cookie);
 			if (session_cookie.empty())
 			{
 				return false;
@@ -184,7 +184,7 @@ namespace waspp
 
 	std::string session::get_curr_ua()
 	{
-		std::string user_agent = req->get_header("User-Agent").substr(0, 120);
+		std::string user_agent = req->header("User-Agent").substr(0, 120);
 		boost::algorithm::trim(user_agent);
 
 		return user_agent;

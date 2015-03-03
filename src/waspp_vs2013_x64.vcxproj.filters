@@ -63,9 +63,6 @@
     <ClCompile Include="logger.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="request.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="session.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -120,6 +117,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="utility.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="part_header.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

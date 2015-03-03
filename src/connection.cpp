@@ -10,6 +10,7 @@
 
 #include "connection.hpp"
 #include "request_handler.hpp"
+#include "utility.hpp"
 
 namespace waspp
 {
@@ -49,6 +50,10 @@ namespace waspp
 
 			if (result)
 			{
+				request_parser_.decode_param(request_);
+				request_parser_.parse_cookies(request_);
+				request_parser_.parse_content(request_, request_.content);
+
 				request_handler_.handle_request(request_, response_);
 				boost::asio::async_write(socket_, response_.to_buffers(),
 					strand_.wrap(

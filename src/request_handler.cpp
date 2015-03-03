@@ -99,18 +99,6 @@ namespace waspp
 				request_uri += "/";
 			}
 
-			if (req.params.size() != 0)
-			{
-				for (std::size_t i = 0; i < req.params.size(); ++i)
-				{
-					req.params[i].name = url_decode(req.params[i].name);
-					req.params[i].value = url_decode(req.params[i].value);
-				}
-			}
-
-			req.parse_cookie();
-			req.parse_content();
-
 			func_ptr func = router::get_func(request_uri);
 			if (func == 0)
 			{

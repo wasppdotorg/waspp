@@ -85,8 +85,9 @@ namespace waspp
 	template<typename T> T* singleton<T>::instance_ = 0;
 	template<typename T> spinlock singleton<T>::lock;
 
+	/* -*-mode:c++; c-file-style: "gnu";-*- */
 	/*
-	*  $Id: CgiUtils.cpp,v 1.20 2014/04/23 20:55:03 sebdiaz Exp $
+	*  $Id: CgiUtils.h,v 1.17 2014/04/23 20:55:03 sebdiaz Exp $
 	*
 	*  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
 	*                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
@@ -104,9 +105,15 @@ namespace waspp
 	*
 	*  You should have received a copy of the GNU Lesser General Public
 	*  License along with this library; if not, write to the Free Software
-	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
+	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
 	*/
 
+	bool __strings_are_equal(const std::string& s1, const std::string& s2);
+	bool __strings_are_equal(const std::string& s1, const std::string& s2, size_t n);
+
+	std::string __extract_between(const std::string& data, const std::string& separator1, const std::string& separator2);
+	std::string __extract_between(const std::string& datas, const std::string& separators);
+	
 	std::string __char2hex(char c);
 	char __hex2char(char first, char second);
 

@@ -12,6 +12,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
+	/* -*-mode:c++; c-file-style: "gnu";-*- */
 	/*
 	*  $Id: CgiUtils.cpp,v 1.20 2014/04/23 20:55:03 sebdiaz Exp $
 	*
@@ -31,8 +32,73 @@ namespace waspp
 	*
 	*  You should have received a copy of the GNU Lesser General Public
 	*  License along with this library; if not, write to the Free Software
-	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
+	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
 	*/
+
+	// case-insensitive string comparison
+	// This code based on code from 
+	// "The C++ Programming Language, Third Edition" by Bjarne Stroustrup
+	bool __strings_are_equal(const std::string& s1, const std::string& s2)
+	{
+		std::string::const_iterator p1 = s1.begin();
+		std::string::const_iterator p2 = s2.begin();
+		std::string::const_iterator l1 = s1.end();
+		std::string::const_iterator l2 = s2.end();
+
+		while (p1 != l1 && p2 != l2)
+		{
+			if (std::toupper(*(p1++)) != std::toupper(*(p2++)))
+			{
+				return false;
+			}
+		}
+
+		return (s2.size() == s1.size()) ? true : false;
+	}
+
+	// case-insensitive string comparison
+	bool __strings_are_equal(const std::string& s1, const std::string& s2, size_t n)
+	{
+		std::string::const_iterator p1 = s1.begin();
+		std::string::const_iterator p2 = s2.begin();
+		bool good = (n <= s1.length() && n <= s2.length());
+		std::string::const_iterator l1 = good ? (s1.begin() + n) : s1.end();
+		std::string::const_iterator l2 = good ? (s2.begin() + n) : s2.end();
+
+		while (p1 != l1 && p2 != l2)
+		{
+			if (std::toupper(*(p1++)) != std::toupper(*(p2++)))
+			{
+				return false;
+			}
+		}
+
+		return good;
+	}
+
+	std::string __extract_between(const std::string& data, const std::string& separator1, const std::string& separator2)
+	{
+		std::string result;
+		std::string::size_type start, limit;
+
+		start = data.find(separator1, 0);
+		if (std::string::npos != start)
+		{
+			start += separator1.length();
+			limit = data.find(separator2, start);
+			if (std::string::npos != limit)
+			{
+				result = data.substr(start, limit - start);
+			}
+		}
+
+		return result;
+	}
+
+	std::string __extract_between(const std::string& datas, const std::string& separators)
+	{
+		return __extract_between(datas, separators, separators);
+	}
 
 	std::string __char2hex(char c)
 	{
@@ -66,9 +132,9 @@ namespace waspp
 		std::string result;
 		std::string::const_iterator iter;
 
-		for(iter = src.begin(); iter != src.end(); ++iter)
+		for (iter = src.begin(); iter != src.end(); ++iter)
 		{
-			switch(*iter)
+			switch (*iter)
 			{
 			case ' ':
 				//result.append(1, '+');
@@ -86,7 +152,7 @@ namespace waspp
 			case '0': case '1': case '2': case '3': case '4': case '5': case '6':
 			case '7': case '8': case '9':
 				// mark
-			case '-': case '_': case '.': case '!': case '~': case '*': case '\'': 
+			case '-': case '_': case '.': case '!': case '~': case '*': case '\'':
 			case '(': case ')':
 				result.append(1, *iter);
 				break;
@@ -107,16 +173,16 @@ namespace waspp
 		std::string::const_iterator iter;
 		char c;
 
-		for(iter = src.begin(); iter != src.end(); ++iter)
+		for (iter = src.begin(); iter != src.end(); ++iter)
 		{
-			switch(*iter)
+			switch (*iter)
 			{
 			case '+':
 				result.append(1, ' ');
 				break;
 			case '%':
 				// Don't assume well-formed input
-				if(std::distance(iter, src.end()) >= 2 &&
+				if (std::distance(iter, src.end()) >= 2 &&
 					std::isxdigit(*(iter + 1)) &&
 					std::isxdigit(*(iter + 2)))
 				{
@@ -189,7 +255,7 @@ namespace waspp
 				char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
 				char_array_4[3] = char_array_3[2] & 0x3f;
 
-				for(i = 0; i < 4; ++i)
+				for (i = 0; i < 4; ++i)
 				{
 					ret += base64_chars[char_array_4[i]];
 				}
@@ -199,7 +265,7 @@ namespace waspp
 
 		if (i)
 		{
-			for(j = i; j < 3; ++j)
+			for (j = i; j < 3; ++j)
 			{
 				char_array_3[j] = '\0';
 			}
@@ -214,7 +280,7 @@ namespace waspp
 				ret += base64_chars[char_array_4[j]];
 			}
 
-			while((i++ < 3))
+			while ((i++ < 3))
 			{
 				ret += '=';
 			}

@@ -138,7 +138,6 @@
     <ClCompile Include="mysqlpp_connection.cpp" />
     <ClCompile Include="mysqlpp_result.cpp" />
     <ClCompile Include="mysqlpp_statement.cpp" />
-    <ClCompile Include="request.cpp" />
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />
@@ -157,6 +156,7 @@
     <ClInclude Include="mime_types.hpp" />
     <ClInclude Include="mysqlpp.hpp" />
     <ClInclude Include="name_value.hpp" />
+    <ClInclude Include="part_header.hpp" />
     <ClInclude Include="request.hpp" />
     <ClInclude Include="request_handler.hpp" />
     <ClInclude Include="request_parser.hpp" />
