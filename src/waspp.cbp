@@ -55,12 +55,12 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="mime_types.cpp" />
 		<Unit filename="mime_types.hpp" />
+		<Unit filename="multipart.hpp" />
 		<Unit filename="mysqlpp.hpp" />
 		<Unit filename="mysqlpp_connection.cpp" />
 		<Unit filename="mysqlpp_result.cpp" />
 		<Unit filename="mysqlpp_statement.cpp" />
 		<Unit filename="name_value.hpp" />
-		<Unit filename="part_header.hpp" />
 		<Unit filename="request.hpp" />
 		<Unit filename="request_handler.cpp" />
 		<Unit filename="request_handler.hpp" />
@@ -75,7 +75,6 @@
 		<Unit filename="server.hpp" />
 		<Unit filename="session.cpp" />
 		<Unit filename="session.hpp" />
-		<Unit filename="upload.hpp" />
 		<Unit filename="utility.cpp" />
 		<Unit filename="utility.hpp" />
 		<Extensions>

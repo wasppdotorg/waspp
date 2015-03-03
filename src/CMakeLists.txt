@@ -21,6 +21,7 @@ add_executable (
 	logger.hpp
 	mime_types.hpp
 	mysqlpp.hpp
+	multipart.hpp
 	request.hpp
 	request_handler.hpp
 	request_parser.hpp
@@ -40,7 +41,6 @@ add_executable (
 	mysqlpp_connection.cpp
 	mysqlpp_result.cpp
 	mysqlpp_statement.cpp
-	request.cpp
 	request_handler.cpp
 	request_parser.cpp
 	response.cpp
