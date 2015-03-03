@@ -8,7 +8,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_ROUTER_HPP
 #define WASPP_ROUTER_HPP
 
-#include <map>
 #include <string>
 
 #include "logger.hpp"

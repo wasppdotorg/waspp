@@ -5,7 +5,6 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <map>
 #include <string>
 
 #include <fstream>
@@ -115,13 +114,12 @@ namespace waspp
 			res.headers[1].value = mime_types::extension_to_type(res.content_extension);
 
 			std::string cookie;
-			std::map<std::string, std::string>::iterator i;
-			for (i = res.cookies.begin(); i != res.cookies.end(); ++i)
+			for (std::size_t i = 0; i < res.cookies.size(); ++i)
 			{
 				cookie.clear();
-				cookie.append(i->first);
+				cookie.append(res.cookies[i].name);
 				cookie.append("=");
-				cookie.append(i->second);
+				cookie.append(res.cookies[i].value);
 				cookie.append("; path=/");
 
 				res.headers.push_back(name_value("Set-Cookie", cookie));

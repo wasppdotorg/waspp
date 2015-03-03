@@ -8,7 +8,6 @@
 #ifndef WASPP_REQUEST_HANDLER_HPP
 #define WASPP_REQUEST_HANDLER_HPP
 
-#include <map>
 #include <string>
 
 #include <boost/noncopyable.hpp>

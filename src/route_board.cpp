@@ -33,19 +33,6 @@ namespace waspp
 				res.content_extension = "html";
 				res.content = "OK";
 
-				/*
-				res.content_length = boost::lexical_cast<std::string>(res.content.length);
-				res.headers.resize(0);
-				res.headers.push_back(name_value("Content-Length", "2"));
-				res.headers.push_back(name_value("Content-Type", mime_types::extension_to_type("html")));
-
-				std::map<std::string, std::string>::iterator i;
-				for (i = cookie_.all().begin(); i != cookie_.all().end(); ++i)
-				{
-				res.headers.push_back(name_value("Set-Cookie", cookie_.str(i)));
-				}
-				*/
-
 				db->free("db_index", db_index);
 				db->free_shard(userid, db_shard);
 			}

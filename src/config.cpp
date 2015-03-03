@@ -5,7 +5,6 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#include <map>
 #include <string>
 
 #include <boost/lexical_cast.hpp>
@@ -20,6 +19,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>
 
+#include "name_value.hpp"
 #include "logger.hpp"
 #include "config.hpp"
 
@@ -52,21 +52,22 @@ namespace waspp
 
 			BOOST_FOREACH(boost::property_tree::ptree::value_type const& item_, pt.get_child(""))
 			{
-				std::map<std::string, std::string> i;
+				std::vector<name_value> i;
 				BOOST_FOREACH(boost::property_tree::ptree::value_type const& pair_, item_.second)
 				{
-					i.insert(std::make_pair(pair_.first, pair_.second.get_value<std::string>()));
+					i.push_back(name_value(pair_.first, pair_.second.get_value<std::string>()));
 				}
 
-				cfg_.insert(std::make_pair(item_.first, i));
+				cfg_.push_back(cfgpair(item_.first, i));
 			}
 
 			std::vector<std::string> keys;
-			std::map< std::string, std::map<std::string, std::string> >::iterator found;
+			std::vector<cfgpair>::iterator found1;
+			std::vector<name_value>::iterator found2;
 
-			found = cfg_.find("log");
+			found1 = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, "log"));
 			{
-				if (found == cfg_.end())
+				if (found1 == cfg_.end())
 				{
 					log->fatal("config::log not found");
 					return false;
@@ -80,20 +81,27 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					if ((found->second).find(keys[i]) == (found->second).end())
+					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+					if (found2 == found1->second.end())
 					{
 						log->fatal("config::element not found");
 						return false;
 					}
-				}
 
-				level = cfg_.at("log").at("level");
-				rotation = cfg_.at("log").at("rotation");
+					if (keys[i] == "level")
+					{
+						level = found2->value;
+					}
+					else if (keys[i] == "rotation")
+					{
+						rotation = found2->value;
+					}
+				}
 			}
 
-			found = cfg_.find("session");
+			found1 = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, "session"));
 			{
-				if (found == cfg_.end())
+				if (found1 == cfg_.end())
 				{
 					log->fatal("config::session not found");
 					return false;
@@ -111,24 +119,43 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					if ((found->second).find(keys[i]) == (found->second).end())
+					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+					if (found2 == found1->second.end())
 					{
 						log->fatal("config::element not found");
 						return false;
 					}
-				}
 
-				encrypt_key = cfg_.at("session").at("encrypt_key");
-				sess_cookie = cfg_.at("session").at("sess_cookie");
-				expiry_sec = boost::lexical_cast<double>(cfg_.at("session").at("expiry_sec"));
-				update_sec = boost::lexical_cast<double>(cfg_.at("session").at("update_sec"));
-				validate_ip = boost::lexical_cast<bool>(cfg_.at("session").at("validate_ip"));
-				validate_ua = boost::lexical_cast<bool>(cfg_.at("session").at("validate_ua"));
+					if (keys[i] == "encrypt_key")
+					{
+						encrypt_key = found2->value;
+					}
+					else if (keys[i] == "sess_cookie")
+					{
+						sess_cookie = found2->value;
+					}
+					else if (keys[i] == "expiry_sec")
+					{
+						expiry_sec = boost::lexical_cast<double>(found2->value);
+					}
+					else if (keys[i] == "update_sec")
+					{
+						update_sec = boost::lexical_cast<double>(found2->value);
+					}
+					else if (keys[i] == "validate_ip")
+					{
+						validate_ip = boost::lexical_cast<bool>(found2->value);
+					}
+					else if (keys[i] == "validate_ua")
+					{
+						validate_ua = boost::lexical_cast<bool>(found2->value);
+					}
+				}
 			}
 
-			found = cfg_.find(server_id);
+			found1 = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, server_id));
 			{
-				if (found == cfg_.end())
+				if (found1 == cfg_.end())
 				{
 					log->fatal("config::server_id not found");
 					return false;
@@ -144,17 +171,30 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					if ((found->second).find(keys[i]) == (found->second).end())
+					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+					if (found2 == found1->second.end())
 					{
 						log->fatal("config::element not found");
 						return false;
 					}
-				}
 
-				address = cfg_.at(server_id).at("address");
-				port = cfg_.at(server_id).at("port");
-				doc_root = cfg_.at(server_id).at("doc_root");
-				num_threads = boost::lexical_cast<std::size_t>(cfg_.at(server_id).at("num_threads"));
+					if (keys[i] == "address")
+					{
+						address = found2->value;
+					}
+					else if (keys[i] == "port")
+					{
+						port = found2->value;
+					}
+					else if (keys[i] == "doc_root")
+					{
+						doc_root = found2->value;
+					}
+					else if (keys[i] == "num_threads")
+					{
+						num_threads = boost::lexical_cast<std::size_t>(found2->value);
+					}
+				}
 			}
 
 			return true;
@@ -167,11 +207,11 @@ namespace waspp
 		return false;
 	}
 
-	std::map<std::string, std::string>& config::get(const std::string& item)
+	std::vector<name_value>& config::get(const std::string& item)
 	{
-		std::map< std::string, std::map<std::string, std::string> >::iterator found;
-		found = cfg_.find(item);
-
+		std::vector<cfgpair>::iterator found;
+		found = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, item));
+		
 		if (found == cfg_.end())
 		{
 			throw std::runtime_error("config::get failed");

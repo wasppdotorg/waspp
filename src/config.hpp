@@ -8,13 +8,28 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_CONFIG_HPP
 #define WASPP_CONFIG_HPP
 
-#include <map>
 #include <string>
 
+#include "name_value.hpp"
 #include "utility.hpp"
 
 namespace waspp
 {
+
+	struct cfgpair
+	{
+		cfgpair(const std::string& first_, std::vector<name_value> second_) : first(first_), second(second_)
+		{
+		}
+
+		bool compare_first(const std::string& first_)
+		{
+			return first == first_;
+		}
+
+		std::string first;
+		std::vector<name_value> second;
+	};
 
 	class config
 		: public singleton<config>
@@ -24,7 +39,7 @@ namespace waspp
 		~config();
 
 		bool init(const std::string& file, const std::string& server_id);
-		std::map<std::string, std::string>& get(const std::string& item);
+		std::vector<name_value>& get(const std::string& item);
 
 		// logger
 		std::string level, rotation;
@@ -39,7 +54,7 @@ namespace waspp
 		std::size_t num_threads;
 
 	private:
-		std::map< std::string, std::map<std::string, std::string> > cfg_;
+		std::vector<cfgpair> cfg_;
 
 	};
 

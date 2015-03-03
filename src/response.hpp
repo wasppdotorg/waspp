@@ -8,9 +8,9 @@
 #ifndef WASPP_RESPONSE_HPP
 #define WASPP_RESPONSE_HPP
 
-#include <map>
 #include <vector>
 
+#include <boost/bind.hpp>
 #include <boost/asio.hpp>
 
 #include "name_value.hpp"
@@ -44,7 +44,16 @@ namespace waspp
 
 		void set_cookie(const std::string& name, const std::string& value)
 		{
-			cookies[name] = value;
+			std::vector<name_value>::iterator found;
+			found = std::find_if(cookies.begin(), cookies.end(), boost::bind(&name_value::compare_name, _1, name));
+
+			if (found == cookies.end())
+			{
+				cookies.push_back(name_value(name, std::string()));
+				found = cookies.end() - 1;
+			}
+
+			found->value = value;
 		}
 
 		void delete_cookie(const std::string& name)
@@ -61,7 +70,7 @@ namespace waspp
 		std::string content;
 		std::string content_extension;
 
-		std::map<std::string, std::string> cookies;
+		std::vector<name_value> cookies;
 
 		/// Convert the response into a vector of buffers. The buffers do not own the
 		/// underlying memory blocks, therefore the response object must remain valid and

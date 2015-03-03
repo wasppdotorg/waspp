@@ -8,11 +8,10 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_SESSION_HPP
 #define WASPP_SESSION_HPP
 
-#include <map>
 #include <string>
 
 #include <boost/serialization/serialization.hpp>
-#include <boost/serialization/map.hpp>
+#include <boost/serialization/vector.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
@@ -44,11 +43,11 @@ namespace waspp
 		std::string get_curr_tm();
 		std::time_t get_last_tm();
 
-		std::string get_curr_ip();
-		std::string get_last_ip();
+		std::string& get_curr_ip();
+		std::string& get_last_ip();
 
 		std::string get_curr_ua();
-		std::string get_last_ua();
+		std::string& get_last_ua();
 
 		void serialize_and_set();
 
@@ -57,7 +56,7 @@ namespace waspp
 		request* req;
 		response* res;
 
-		std::map<std::string, std::string> session_;
+		std::vector<name_value> session_;
 
 	};
 

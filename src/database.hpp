@@ -8,7 +8,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_DATABASE_HPP
 #define WASPP_DATABASE_HPP
 
-#include <map>
 #include <vector>
 #include <string>
 
@@ -20,6 +19,21 @@ namespace waspp
 {
 
 	typedef boost::shared_ptr<dbconn_pool> dbpool_ptr;
+
+	struct dbpair
+	{
+		dbpair(const std::string& first_, dbpool_ptr second_) : first(first_), second(second_)
+		{
+		}
+
+		bool compare_first(const std::string& first_)
+		{
+			return first == first_;
+		}
+
+		std::string first;
+		dbpool_ptr second;
+	};
 
 	class database
 		: public singleton<database>
@@ -79,7 +93,7 @@ namespace waspp
 		unsigned int shard_count;
 		std::string shard_format;
 
-		std::map<std::string, dbpool_ptr> db_;
+		std::vector<dbpair> db_;
 
 	};
 

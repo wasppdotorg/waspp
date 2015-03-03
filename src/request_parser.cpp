@@ -111,7 +111,7 @@ namespace waspp
 		std::string name = data.substr(space_count, pos - space_count);
 		std::string value = data.substr(++pos);
 
-		req.cookies[name] = value;
+		req.cookies.push_back(name_value(name, value));
 	}
 
 	/* -*-mode:c++; c-file-style: "gnu";-*- */

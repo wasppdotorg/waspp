@@ -8,7 +8,6 @@
 #ifndef WASPP_REQUEST_HPP
 #define WASPP_REQUEST_HPP
 
-#include <map>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -25,14 +24,15 @@ namespace waspp
 	/// A request received from a client.
 	struct request
 	{
-		std::string header(const std::string& name)
+		std::string& header(const std::string& name)
 		{
 			std::vector<name_value>::iterator found;
 			found = std::find_if(headers.begin(), headers.end(), boost::bind(&name_value::compare_name, _1, name));
 
 			if (found == headers.end())
 			{
-				return std::string();
+				headers.push_back(name_value(name, std::string()));
+				found = headers.end() - 1;
 			}
 
 			return found->value;
@@ -40,17 +40,27 @@ namespace waspp
 
 		std::string& cookie(const std::string& name)
 		{
-			return cookies[name];
+			std::vector<name_value>::iterator found;
+			found = std::find_if(cookies.begin(), cookies.end(), boost::bind(&name_value::compare_name, _1, name));
+
+			if (found == cookies.end())
+			{
+				cookies.push_back(name_value(name, std::string()));
+				found = cookies.end() - 1;
+			}
+
+			return found->value;
 		}
 
-		std::string param(const std::string& name)
+		std::string& param(const std::string& name)
 		{
 			std::vector<name_value>::iterator found;
 			found = std::find_if(params.begin(), params.end(), boost::bind(&name_value::compare_name, _1, name));
 
 			if (found == params.end())
 			{
-				return std::string();
+				params.push_back(name_value(name, std::string()));
+				found = params.end() - 1;
 			}
 
 			return found->value;
@@ -66,7 +76,7 @@ namespace waspp
 		std::string content;
 		std::size_t content_length;
 
-		std::map<std::string, std::string> cookies;
+		std::vector<name_value> cookies;
 		std::vector<name_value> params;
 		std::vector<upload> uploads;
 	};

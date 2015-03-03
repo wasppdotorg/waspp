@@ -28,6 +28,13 @@ namespace waspp
 			return name == name_;
 		}
 
+		template<typename Archive>
+		void serialize(Archive& ar, const unsigned int version)
+		{
+			ar & name;
+			ar & value;
+		}
+		
 		std::string name;
 		std::string value;
 	};

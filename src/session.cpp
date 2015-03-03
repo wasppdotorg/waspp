@@ -7,7 +7,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <ctime>
 
-#include <map>
 #include <vector>
 #include <string>
 
@@ -46,12 +45,30 @@ namespace waspp
 
 	std::string& session::get_sess(const std::string& name)
 	{
-		return session_[name];
+		std::vector<name_value>::iterator found;
+		found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
+
+		if (found == session_.end())
+		{
+			session_.push_back(name_value(name, std::string()));
+			found = session_.end() - 1;
+		}
+
+		return found->value;
 	}
 
 	void session::set_sess(const std::string& name, const std::string& value)
 	{
-		session_[name] = value;
+		std::vector<name_value>::iterator found;
+		found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
+
+		if (found == session_.end())
+		{
+			session_.push_back(name_value(name, std::string()));
+			found = session_.end() - 1;
+		}
+
+		found->value = value;
 	}
 
 	bool session::load()
@@ -88,9 +105,11 @@ namespace waspp
 				keys.push_back("last_ua");
 			}
 
+			std::vector<name_value>::iterator found;
 			for (std::size_t i = 0; i < keys.size(); ++i)
 			{
-				if (session_.find(keys[i]) == session_.end())
+				found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+				if (found == session_.end())
 				{
 					res->delete_cookie(cfg->sess_cookie);
 					return false;
@@ -129,10 +148,10 @@ namespace waspp
 		std::string sess_id = md5_digest(get_uuid());
 
 		session_.clear();
-		session_.insert(std::make_pair("sess_id", sess_id));
-		session_.insert(std::make_pair("last_tm", get_curr_tm()));
-		session_.insert(std::make_pair("last_ip", get_curr_ip()));
-		session_.insert(std::make_pair("last_ua", get_curr_ua()));
+		session_.push_back(name_value("sess_id", sess_id));
+		session_.push_back(name_value("last_tm", get_curr_tm()));
+		session_.push_back(name_value("last_ip", get_curr_ip()));
+		session_.push_back(name_value("last_ua", get_curr_ua()));
 
 		serialize_and_set();
 	}
@@ -147,8 +166,8 @@ namespace waspp
 		std::string new_sess_id(get_uuid());
 		new_sess_id.append(get_curr_ip());
 
-		session_.at("sess_id") = md5_digest(new_sess_id);
-		session_.at("last_tm") = get_curr_tm();
+		set_sess("sess_id", md5_digest(new_sess_id));
+		set_sess("last_tm", get_curr_tm());
 
 		serialize_and_set();
 	}
@@ -169,17 +188,17 @@ namespace waspp
 
 	std::time_t session::get_last_tm()
 	{
-		return boost::lexical_cast<std::time_t>(session_.at("last_tm"));
+		return boost::lexical_cast<std::time_t>(get_sess("last_tm"));
 	}
 
-	std::string session::get_curr_ip()
+	std::string& session::get_curr_ip()
 	{
 		return req->remote_addr;
 	}
 
-	std::string session::get_last_ip()
+	std::string& session::get_last_ip()
 	{
-		return session_.at("last_ip");
+		return get_sess("last_ip");
 	}
 
 	std::string session::get_curr_ua()
@@ -190,9 +209,9 @@ namespace waspp
 		return user_agent;
 	}
 
-	std::string session::get_last_ua()
+	std::string& session::get_last_ua()
 	{
-		return session_.at("last_ua");
+		return get_sess("last_ua");
 	}
 
 	void session::serialize_and_set()

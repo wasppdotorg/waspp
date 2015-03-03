@@ -21,7 +21,7 @@ namespace waspp
 	{
 	}
 
-	bool dbconn_pool::init_pool(const std::map<std::string, std::string>& cfg)
+	bool dbconn_pool::init_pool(std::vector<name_value>& cfg)
 	{
 		std::vector<std::string> keys;
 		{
@@ -34,22 +34,44 @@ namespace waspp
 			keys.push_back("timeout_sec");
 		}
 
+		std::vector<name_value>::iterator found;
 		for (std::size_t i = 0; i < keys.size(); ++i)
 		{
-			if (cfg.find(keys[i]) == cfg.end())
+			found = std::find_if(cfg.begin(), cfg.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+			if (found == cfg.end())
 			{
 				return false;
 			}
+
+			if (keys[i] == "host")
+			{
+				host = found->value;
+			}
+			else if (keys[i] == "userid")
+			{
+				userid = found->value;
+			}
+			else if (keys[i] == "passwd")
+			{
+				passwd = found->value;
+			}
+			else if (keys[i] == "database")
+			{
+				database = found->value;
+			}
+			else if (keys[i] == "port")
+			{
+				port = boost::lexical_cast<unsigned int>(found->value);
+			}
+			else if (keys[i] == "pool_size")
+			{
+				pool_size = boost::lexical_cast<std::size_t>(found->value);
+			}
+			else if (keys[i] == "timeout_sec")
+			{
+				timeout_sec = boost::lexical_cast<double>(found->value);
+			}
 		}
-
-		host = cfg.at("host");
-		userid = cfg.at("userid");
-		passwd = cfg.at("passwd");
-		database = cfg.at("database");
-
-		port = boost::lexical_cast<unsigned int>(cfg.at("port"));
-		pool_size = boost::lexical_cast<std::size_t>(cfg.at("pool_size"));
-		timeout_sec = boost::lexical_cast<double>(cfg.at("timeout_sec"));
 
 		return true;
 	}
