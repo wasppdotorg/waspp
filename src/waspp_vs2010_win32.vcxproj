@@ -78,7 +78,6 @@
     <ClCompile Include="mysqlpp_connection.cpp" />
     <ClCompile Include="mysqlpp_result.cpp" />
     <ClCompile Include="mysqlpp_statement.cpp" />
-    <ClCompile Include="request.cpp" />
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />
@@ -104,6 +103,7 @@
     <ClInclude Include="router.hpp" />
     <ClInclude Include="server.hpp" />
     <ClInclude Include="session.hpp" />
+    <ClInclude Include="upload.hpp" />
     <ClInclude Include="utility.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

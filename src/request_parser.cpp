@@ -9,6 +9,7 @@
 
 #include "utility.hpp"
 #include "part_header.hpp"
+#include "upload.hpp"
 #include "request_parser.hpp"
 #include "request.hpp"
 
@@ -23,6 +24,20 @@ namespace waspp
 	void request_parser::reset()
 	{
 		state_ = method_start;
+	}
+
+	void request_parser::decode_param(request& req)
+	{
+		if (req.params.size() == 0)
+		{
+			return;
+		}
+
+		for (std::size_t i = 0; i < req.params.size(); ++i)
+		{
+			req.params[i].name = url_decode(req.params[i].name);
+			req.params[i].value = url_decode(req.params[i].value);
+		}
 	}
 
 	/* -*-mode:c++; c-file-style: "gnu";-*- */
@@ -48,20 +63,6 @@ namespace waspp
 	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
 	*
 	*/
-
-	void request_parser::decode_param(request& req)
-	{
-		if (req.params.size() == 0)
-		{
-			return;
-		}
-
-		for (std::size_t i = 0; i < req.params.size(); ++i)
-		{
-			req.params[i].name = url_decode(req.params[i].name);
-			req.params[i].value = url_decode(req.params[i].value);
-		}
-	}
 
 	void request_parser::parse_cookies(request& req)
 	{
@@ -136,9 +137,9 @@ namespace waspp
 	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
 	*/
 
-	void request_parser::parse_content(request& req, std::string& data, int i)
+	void request_parser::parse_content(request& req)
 	{
-		if (data.empty())
+		if (req.content.empty())
 		{
 			return;
 		}
@@ -155,15 +156,15 @@ namespace waspp
 
 			while (true)
 			{
-				pos = data.find_first_not_of("&=", old_pos);
+				pos = req.content.find_first_not_of("&=", old_pos);
 				if (pos == std::string::npos)
 				{
 					break;
 				}
 
-				if (data.at(pos) == '&')
+				if (req.content.at(pos) == '&')
 				{
-					const char* c_str_ = data.c_str() + old_pos;
+					const char* c_str_ = req.content.c_str() + old_pos;
 					while (*c_str_ == '&')
 					{
 						++c_str_;
@@ -176,17 +177,17 @@ namespace waspp
 						continue;
 					}
 
-					name = url_decode(data.substr(old_pos, pos - old_pos));
+					name = url_decode(req.content.substr(old_pos, pos - old_pos));
 					req.params.push_back(name_value(name, std::string()));
 					old_pos = ++pos;
 					continue;
 				}
 
-				name = url_decode(data.substr(old_pos, pos - old_pos));
+				name = url_decode(req.content.substr(old_pos, pos - old_pos));
 				old_pos = ++pos;
 
-				pos = data.find_first_of(";&", old_pos);
-				value = url_decode(data.substr(old_pos, pos - old_pos));
+				pos = req.content.find_first_of(";&", old_pos);
+				value = url_decode(req.content.substr(old_pos, pos - old_pos));
 				req.params.push_back(name_value(name, value));
 
 				if (pos == std::string::npos)
@@ -218,27 +219,71 @@ namespace waspp
 			sep2.append("--\r\n");
 			sep2.insert(0, "--");
 
-			std::string::size_type start = data.find(sep1);
+			std::string::size_type start = req.content.find(sep1);
 			std::string::size_type sep_size = sep1.size();
 			std::string::size_type old_pos = start + sep_size;
 
 			while (true)
 			{
-				pos = data.find(sep1, old_pos);
+				pos = req.content.find(sep1, old_pos);
 				if (pos == std::string::npos)
 				{
 					break;
 				}
 
-				parse_part_content(req, data.substr(old_pos, pos - old_pos));
+				parse_part_content(req, req.content.substr(old_pos, pos - old_pos));
 				old_pos = pos + sep_size;
 			}
 
-			pos = data.find(sep2, old_pos);
+			pos = req.content.find(sep2, old_pos);
 			if (pos != std::string::npos)
 			{
-				parse_part_content(req, data.substr(old_pos, pos - old_pos));
+				parse_part_content(req, req.content.substr(old_pos, pos - old_pos));
 			}
+		}
+	}
+
+	part_header request_parser::parse_part_header(request& req, const std::string& data)
+	{
+		std::string disposition;
+		disposition = __extract_between(data, "Content-Disposition: ", ";");
+  
+		std::string name;
+		name = __extract_between(data, "name=\"", "\"");
+  
+		std::string filename;
+		filename = __extract_between(data, "filename=\"", "\"");
+
+		std::string c_type;
+		c_type = __extract_between(data, "Content-Type: ", "\r\n\r\n");
+
+		filename = url_decode(filename);
+		
+		return part_header(disposition, name, filename, c_type);
+	}
+
+	void request_parser::parse_part_content(request& req, const std::string& data)
+	{
+		std::string end = "\r\n\r\n";
+
+		std::string::size_type head_limit = data.find(end, 0);
+		if (head_limit == std::string::npos)
+		{
+			throw std::runtime_error("invalid part header");
+		}
+
+		std::string::size_type value_start = head_limit + end.size();
+		std::string value = data.substr(value_start, data.size() - value_start - 2);
+
+		part_header head = parse_part_header(req, data.substr(0, value_start));
+
+		if (head.filename.empty())
+		{
+			req.params.push_back(name_value(head.name, value));
+		}
+		else
+		{
+			req.uploads.push_back(upload(head.name, head.filename, head.filetype, value));
 		}
 	}
 

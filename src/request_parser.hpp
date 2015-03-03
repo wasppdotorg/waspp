@@ -100,9 +100,10 @@ namespace waspp
 		*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
 		*/
 
-		void parse_part_content(request& req, std::string data);
+		void parse_content(request& req);
+		
 		part_header parse_part_header(request& req, const std::string& data);
-		void parse_content(request& req, std::string& data);
+		void parse_part_content(request& req, const std::string& data);
 
 	private:
 		/// Handle the next character of input.

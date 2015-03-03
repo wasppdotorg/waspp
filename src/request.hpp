@@ -17,6 +17,7 @@
 #include <boost/algorithm/string.hpp>
 
 #include "name_value.hpp"
+#include "upload.hpp"
 
 namespace waspp
 {
@@ -67,6 +68,7 @@ namespace waspp
 
 		std::map<std::string, std::string> cookies;
 		std::vector<name_value> params;
+		std::vector<upload> uploads;
 	};
 
 } // namespace waspp
