@@ -11,7 +11,7 @@
 #include <boost/logic/tribool.hpp>
 #include <boost/tuple/tuple.hpp>
 
-#include "part_header.hpp"
+#include "multipart.hpp"
 
 namespace waspp
 {
@@ -49,7 +49,7 @@ namespace waspp
 			return boost::make_tuple(result, begin);
 		}
 
-		void decode_param(request& req);
+		void decode_params(request& req);
 
 		/* -*-mode:c++; c-file-style: "gnu";-*- */
 		/*
@@ -102,8 +102,8 @@ namespace waspp
 
 		void parse_content(request& req);
 		
-		part_header parse_part_header(request& req, const std::string& data);
-		void parse_part_content(request& req, const std::string& data);
+		multipart_header parse_multipart_header(request& req, const std::string& data);
+		void parse_multipart_content(request& req, const std::string& data);
 
 	private:
 		/// Handle the next character of input.

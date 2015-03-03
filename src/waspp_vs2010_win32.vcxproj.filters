@@ -119,7 +119,7 @@
     <ClInclude Include="name_value.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="upload.hpp">
+    <ClInclude Include="multipart.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

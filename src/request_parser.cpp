@@ -8,8 +8,6 @@
 #include <boost/lexical_cast.hpp>
 
 #include "utility.hpp"
-#include "part_header.hpp"
-#include "upload.hpp"
 #include "request_parser.hpp"
 #include "request.hpp"
 
@@ -26,7 +24,7 @@ namespace waspp
 		state_ = method_start;
 	}
 
-	void request_parser::decode_param(request& req)
+	void request_parser::decode_params(request& req)
 	{
 		if (req.params.size() == 0)
 		{
@@ -231,19 +229,19 @@ namespace waspp
 					break;
 				}
 
-				parse_part_content(req, req.content.substr(old_pos, pos - old_pos));
+				parse_multipart_content(req, req.content.substr(old_pos, pos - old_pos));
 				old_pos = pos + sep_size;
 			}
 
 			pos = req.content.find(sep2, old_pos);
 			if (pos != std::string::npos)
 			{
-				parse_part_content(req, req.content.substr(old_pos, pos - old_pos));
+				parse_multipart_content(req, req.content.substr(old_pos, pos - old_pos));
 			}
 		}
 	}
 
-	part_header request_parser::parse_part_header(request& req, const std::string& data)
+	multipart_header request_parser::parse_multipart_header(request& req, const std::string& data)
 	{
 		std::string disposition;
 		disposition = __extract_between(data, "Content-Disposition: ", ";");
@@ -259,10 +257,10 @@ namespace waspp
 
 		filename = url_decode(filename);
 		
-		return part_header(disposition, name, filename, c_type);
+		return multipart_header(disposition, name, filename, c_type);
 	}
 
-	void request_parser::parse_part_content(request& req, const std::string& data)
+	void request_parser::parse_multipart_content(request& req, const std::string& data)
 	{
 		std::string end = "\r\n\r\n";
 
@@ -275,7 +273,7 @@ namespace waspp
 		std::string::size_type value_start = head_limit + end.size();
 		std::string value = data.substr(value_start, data.size() - value_start - 2);
 
-		part_header head = parse_part_header(req, data.substr(0, value_start));
+		multipart_header head = parse_multipart_header(req, data.substr(0, value_start));
 
 		if (head.filename.empty())
 		{
@@ -283,7 +281,7 @@ namespace waspp
 		}
 		else
 		{
-			req.uploads.push_back(upload(head.name, head.filename, head.filetype, value));
+			req.uploads.push_back(multipart_content(head.name, head.filename, head.filetype, value));
 		}
 	}
 

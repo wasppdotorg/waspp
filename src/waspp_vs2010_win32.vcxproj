@@ -103,7 +103,7 @@
     <ClInclude Include="router.hpp" />
     <ClInclude Include="server.hpp" />
     <ClInclude Include="session.hpp" />
-    <ClInclude Include="upload.hpp" />
+    <ClInclude Include="multipart.hpp" />
     <ClInclude Include="utility.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
