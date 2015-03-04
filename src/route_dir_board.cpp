@@ -16,20 +16,37 @@ namespace waspp
 {
 	namespace dir_board
 	{
-		namespace index
+
+		void index_html(logger* log, config* cfg, database* db, request& req, response& res)
+		{
+			router::res_file(res, cfg->doc_root + "/dir_board_index.html");
+		}
+
+		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 
-			void html(logger* log, config* cfg, database* db, request& req, response& res)
-			{
-				router::res_file(res, cfg->doc_root + "/dir_board_index.html");
-			}
+		}
 
-			void jsonp(logger* log, config* cfg, database* db, request& req, response& res)
-			{
+		void show_html(logger* log, config* cfg, database* db, request& req, response& res)
+		{
+			router::res_file(res, cfg->doc_root + "/dir_board_show.html");
+		}
 
-			}
+		void show_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
+		{
 
-		} // namespace index
+		}
+
+		void form_html(logger* log, config* cfg, database* db, request& req, response& res)
+		{
+			router::res_file(res, cfg->doc_root + "/dir_board_form.html");
+		}
+
+		void form_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
+		{
+
+		}
+
 
 	} // namespace dir_board
 

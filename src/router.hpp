@@ -21,30 +21,21 @@ namespace waspp
 
 	namespace dir_board
 	{
+		void index_html(logger* log, config* cfg, database* db, request& req, response& res);
+		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res);
 
-		namespace index
-		{
-			void html(logger* log, config* cfg, database* db, request& req, response& res);
-			void jsonp(logger* log, config* cfg, database* db, request& req, response& res);
+		void show_html(logger* log, config* cfg, database* db, request& req, response& res);
+		void show_jsonp(logger* log, config* cfg, database* db, request& req, response& res);
 
-		} // namespace index
+		void form_html(logger* log, config* cfg, database* db, request& req, response& res);
+		void form_jsonp(logger* log, config* cfg, database* db, request& req, response& res);
 
 	} // namespace board
 
 	namespace dir_user
 	{
-
-		namespace signin
-		{
-			void html(logger* log, config* cfg, database* db, request& req, response& res);
-
-		} // namespace signin
-
-		namespace signup
-		{
-			void html(logger* log, config* cfg, database* db, request& req, response& res);
-
-		} // namespace signup
+		void signin_html(logger* log, config* cfg, database* db, request& req, response& res);
+		void signup_html(logger* log, config* cfg, database* db, request& req, response& res);
 
 	} // namespace dir_user
 

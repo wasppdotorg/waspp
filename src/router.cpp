@@ -17,19 +17,16 @@ namespace waspp
 
 		route routes[] =
 		{
-			{ "/dir/board/index/", &dir_board::index::html },
-			{ "/_/dir/board/index/", &dir_board::index::jsonp },
+			{ "/dir/board/index/", &dir_board::index_html },
+			{ "/_/dir/board/index/", &dir_board::index_jsonp },
+
+			{ "/dir/board/show/", &dir_board::show_html },
+			{ "/_/dir/board/show/", &dir_board::show_jsonp },
+
+			{ "/dir/board/form/", &dir_board::form_html },
+			{ "/_/dir/board/form/", &dir_board::form_jsonp },
 
 			/*
-			{ "/dir/board/show/", &dir_board::show::html },
-			{ "/_/dir/board/show/", &dir_board::show::jsonp },
-
-			{ "/dir/board/form/", &dir_board::form::html },
-			{ "/_/dir/board/form/", &dir_board::form::jsonp },
-
-			{ "/dir/board/remove/", &dir_board::remove::html },
-			{ "/_/dir/board/remove/", &dir_board::remove::jsonp },
-
 			{ "/dir/board/post/", &dir_board::post::html },
 			{ "/_/dir/board/post/", &dir_board::post::jsonp },
 
