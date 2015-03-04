@@ -62,33 +62,10 @@ namespace waspp
 				request_uri += "index.html";
 			}
 
-			// Determine the file extension.
-			std::size_t last_slash_pos = request_uri.find_last_of("/");
-			std::size_t last_dot_pos = request_uri.find_last_of(".");
-			if (last_dot_pos != std::string::npos && last_dot_pos > last_slash_pos)
-			{
-				res.content_extension = request_uri.substr(last_dot_pos + 1);
-			}
-
 			// Open the file to send back.
-			std::string full_path = doc_root + request_uri;
-			std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
-			if (is)
+			router::res_file(res, doc_root + request_uri);
+			if (res.finished) 
 			{
-				// Fill out the response to be sent to the client.
-				res.status = response::ok;
-				char buf[512];
-				while (is.read(buf, sizeof(buf)).gcount() > 0)
-				{
-					res.content.append(buf, is.gcount());
-				}
-
-				res.headers.resize(2);
-				res.headers[0].name = "Content-Length";
-				res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
-				res.headers[1].name = "Content-Type";
-				res.headers[1].value = mime_types::extension_to_type(res.content_extension);
-
 				return;
 			}
 
@@ -106,6 +83,10 @@ namespace waspp
 			}
 
 			func(log, cfg, db, req, res);
+			if (res.finished)
+			{
+				return;
+			}
 
 			res.headers.resize(2);
 			res.headers[0].name = "Content-Length";

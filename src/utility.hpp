@@ -165,6 +165,9 @@ namespace waspp
 	// md5
 	std::string md5_digest(const std::string& str_);
 
+	// extension
+	std::string get_extension(const std::string& path);
+
 } // namespace waspp
 
 #endif // WASPP_UTILITY_HPP

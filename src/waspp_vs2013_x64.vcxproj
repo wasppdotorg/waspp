@@ -142,7 +142,8 @@
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />
     <ClCompile Include="router.cpp" />
-    <ClCompile Include="route_board.cpp" />
+    <ClCompile Include="route_dir_board.cpp" />
+    <ClCompile Include="route_dir_user.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="session.cpp" />
     <ClCompile Include="utility.cpp" />

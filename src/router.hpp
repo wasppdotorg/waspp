@@ -19,7 +19,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	namespace board
+	namespace dir_board
 	{
 
 		namespace index
@@ -30,6 +30,23 @@ namespace waspp
 		} // namespace index
 
 	} // namespace board
+
+	namespace dir_user
+	{
+
+		namespace signin
+		{
+			void html(logger* log, config* cfg, database* db, request& req, response& res);
+
+		} // namespace signin
+
+		namespace signup
+		{
+			void html(logger* log, config* cfg, database* db, request& req, response& res);
+
+		} // namespace signup
+
+	} // namespace dir_user
 
 	typedef void(*func_ptr)(logger*, config*, database* db, request&, response&);
 
@@ -43,6 +60,7 @@ namespace waspp
 		};
 
 		func_ptr get_func(const std::string& request_uri);
+		void res_file(response& res, const std::string& full_path);
 
 	} // namespace router
 

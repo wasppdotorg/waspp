@@ -36,9 +36,6 @@
     <ClCompile Include="response.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="route_board.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="router.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -67,6 +64,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="utility.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="route_dir_board.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="route_dir_user.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
