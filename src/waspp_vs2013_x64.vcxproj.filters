@@ -122,5 +122,8 @@
     <ClInclude Include="part_header.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="multipart.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
