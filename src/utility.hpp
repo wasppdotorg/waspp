@@ -109,7 +109,7 @@ namespace waspp
 	*/
 
 	bool __strings_are_equal(const std::string& s1, const std::string& s2);
-	bool __strings_are_equal(const std::string& s1, const std::string& s2, size_t n);
+	bool __strings_are_equal(const std::string& s1, const std::string& s2, std::size_t n);
 
 	std::string __extract_between(const std::string& data, const std::string& separator1, const std::string& separator2);
 	std::string __extract_between(const std::string& datas, const std::string& separators);

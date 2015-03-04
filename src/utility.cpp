@@ -57,7 +57,7 @@ namespace waspp
 	}
 
 	// case-insensitive string comparison
-	bool __strings_are_equal(const std::string& s1, const std::string& s2, size_t n)
+	bool __strings_are_equal(const std::string& s1, const std::string& s2, std::size_t n)
 	{
 		std::string::const_iterator p1 = s1.begin();
 		std::string::const_iterator p2 = s2.begin();

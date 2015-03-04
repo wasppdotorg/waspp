@@ -157,7 +157,6 @@
     <ClInclude Include="multipart.hpp" />
     <ClInclude Include="mysqlpp.hpp" />
     <ClInclude Include="name_value.hpp" />
-    <ClInclude Include="part_header.hpp" />
     <ClInclude Include="request.hpp" />
     <ClInclude Include="request_handler.hpp" />
     <ClInclude Include="request_parser.hpp" />
