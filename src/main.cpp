@@ -6,12 +6,7 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <iostream>
-#include <sstream>
 #include <string>
-
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
 
 #include "logger.hpp"
 #include "config.hpp"

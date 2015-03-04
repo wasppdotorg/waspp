@@ -9,11 +9,9 @@
 #define WASPP_SERVER_HPP
 
 #include <string>
-#include <vector>
 
-#include <boost/asio.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/shared_ptr.hpp>
+#include <boost/asio.hpp>
 
 #include "connection.hpp"
 #include "request_handler.hpp"

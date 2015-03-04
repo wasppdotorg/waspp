@@ -6,22 +6,18 @@
 //
 
 #include <string>
-
-#include <fstream>
 #include <sstream>
 
 #include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/property_tree/ptree.hpp>
 
 #include "request_handler.hpp"
-#include "mime_types.hpp"
+#include "request.hpp"
+#include "response.hpp"
 #include "logger.hpp"
 #include "config.hpp"
 #include "database.hpp"
-#include "response.hpp"
-#include "request.hpp"
 #include "router.hpp"
+#include "mime_types.hpp"
 
 namespace waspp
 {
@@ -64,7 +60,7 @@ namespace waspp
 
 			// Open the file to send back.
 			router::res_file(res, doc_root + request_uri);
-			if (res.finished) 
+			if (res.finished)
 			{
 				return;
 			}

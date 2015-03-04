@@ -7,8 +7,8 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <boost/lexical_cast.hpp>
 
-#include "mime_types.hpp"
 #include "router.hpp"
+#include "mime_types.hpp"
 
 namespace waspp
 {

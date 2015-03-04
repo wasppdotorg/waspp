@@ -5,16 +5,12 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#include <boost/lexical_cast.hpp>
-
-#include "request_handler.hpp"
+#include "router.hpp"
 #include "logger.hpp"
 #include "config.hpp"
 #include "database.hpp"
 #include "request.hpp"
 #include "response.hpp"
-#include "mime_types.hpp"
-#include "router.hpp"
 
 namespace waspp
 {

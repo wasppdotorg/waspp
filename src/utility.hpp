@@ -13,11 +13,9 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <openssl/md5.h>
 
-#include <vector>
 #include <string>
 
 #include <boost/atomic.hpp>
-#include <boost/thread.hpp>
 
 namespace waspp
 {
@@ -113,7 +111,7 @@ namespace waspp
 
 	std::string __extract_between(const std::string& data, const std::string& separator1, const std::string& separator2);
 	std::string __extract_between(const std::string& datas, const std::string& separators);
-	
+
 	std::string __char2hex(char c);
 	char __hex2char(char first, char second);
 
@@ -149,7 +147,7 @@ namespace waspp
 	// this is NOT the original source code.
 	// updated the function base64_encode to get string input.
 
-	static const std::string base64_chars = 
+	static const std::string base64_chars =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 		"abcdefghijklmnopqrstuvwxyz"
 		"0123456789+/";

@@ -8,10 +8,11 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 #include <string>
 
+#include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "config.hpp"
 #include "database.hpp"
+#include "config.hpp"
 #include "dbconn_pool.hpp"
 
 namespace waspp
@@ -82,7 +83,7 @@ namespace waspp
 	{
 		std::vector<dbpair>::iterator found;
 		found = std::find_if(db_.begin(), db_.end(), boost::bind(&dbpair::compare_first, _1, dbname));
-		
+
 		if (found == db_.end())
 		{
 			throw std::runtime_error("invalid dbname");

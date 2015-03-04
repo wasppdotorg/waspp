@@ -11,9 +11,9 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 #include <string>
 
+#include "dbconn_pool.hpp"
 #include "utility.hpp"
 #include "config.hpp"
-#include "dbconn_pool.hpp"
 
 namespace waspp
 {

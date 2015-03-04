@@ -8,12 +8,11 @@
 #ifndef WASPP_REQUEST_HPP
 #define WASPP_REQUEST_HPP
 
-#include <vector>
 #include <string>
+#include <vector>
 #include <algorithm>
 
 #include <boost/bind.hpp>
-#include <boost/algorithm/string.hpp>
 
 #include "name_value.hpp"
 #include "multipart.hpp"

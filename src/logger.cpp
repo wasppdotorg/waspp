@@ -5,6 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#include <boost/filesystem.hpp>
+
 #include "logger.hpp"
 
 namespace waspp
@@ -186,7 +188,7 @@ namespace waspp
 		// Pass the work of opening the file to the background thread.
 		log_service_.post(boost::bind(&logger::log_impl, this, line));
 	}
-	
+
 	void logger::log_rotate(const std::tm& time)
 	{
 		char datetime[32] = {0};

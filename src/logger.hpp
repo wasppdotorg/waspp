@@ -11,14 +11,10 @@
 #include <ctime>
 
 #include <fstream>
-#include <sstream>
 #include <string>
 
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
-#include <boost/bind.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/filesystem.hpp>
 
 #include "utility.hpp"
 

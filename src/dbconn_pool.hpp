@@ -12,13 +12,13 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <vector>
 
-#include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/scoped_ptr.hpp>
+#include <boost/noncopyable.hpp>
 
+#include "mysqlpp.hpp"
 #include "name_value.hpp"
 #include "utility.hpp"
-#include "mysqlpp.hpp"
 
 namespace waspp
 {

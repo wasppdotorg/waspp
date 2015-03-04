@@ -8,8 +8,8 @@
 #ifndef WASPP_REQUEST_PARSER_HPP
 #define WASPP_REQUEST_PARSER_HPP
 
-#include <boost/logic/tribool.hpp>
 #include <boost/tuple/tuple.hpp>
+#include <boost/logic/tribool.hpp>
 
 #include "multipart.hpp"
 
@@ -101,7 +101,7 @@ namespace waspp
 		*/
 
 		void parse_content(request& req);
-		
+
 		multipart_header parse_multipart_header(request& req, const std::string& data);
 		void parse_multipart_content(request& req, const std::string& data);
 

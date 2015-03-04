@@ -7,23 +7,22 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <ctime>
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include <sstream>
 #include <algorithm>
 
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
 #include <boost/uuid/uuid.hpp>
+#include <boost/algorithm/string.hpp>
 
+#include "session.hpp"
 #include "logger.hpp"
 #include "config.hpp"
 #include "request.hpp"
 #include "response.hpp"
-#include "utility.hpp"
-#include "session.hpp"
 
 namespace waspp
 {

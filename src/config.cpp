@@ -7,7 +7,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <string>
 
-#include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 
 // when using both boost asio and boost ptree on win32
@@ -18,10 +17,11 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
 
-#include "name_value.hpp"
-#include "logger.hpp"
 #include "config.hpp"
+#include "logger.hpp"
+#include "name_value.hpp"
 
 namespace waspp
 {
@@ -211,7 +211,7 @@ namespace waspp
 	{
 		std::vector<cfgpair>::iterator found;
 		found = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, item));
-		
+
 		if (found == cfg_.end())
 		{
 			throw std::runtime_error("config::get failed");

@@ -7,9 +7,9 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include "utility.hpp"
 #include "request_parser.hpp"
 #include "request.hpp"
+#include "utility.hpp"
 
 namespace waspp
 {
@@ -245,10 +245,10 @@ namespace waspp
 	{
 		std::string disposition;
 		disposition = __extract_between(data, "Content-Disposition: ", ";");
-  
+
 		std::string name;
 		name = __extract_between(data, "name=\"", "\"");
-  
+
 		std::string filename;
 		filename = __extract_between(data, "filename=\"", "\"");
 
@@ -256,7 +256,7 @@ namespace waspp
 		c_type = __extract_between(data, "Content-Type: ", "\r\n\r\n");
 
 		filename = url_decode(filename);
-		
+
 		return multipart_header(disposition, name, filename, c_type);
 	}
 
