@@ -47,6 +47,15 @@ namespace waspp
 
 		}
 
+		void remove(logger* log, config* cfg, database* db, request& req, response& res)
+		{
+
+		}
+
+		void post(logger* log, config* cfg, database* db, request& req, response& res)
+		{
+
+		}
 
 	} // namespace dir_board
 

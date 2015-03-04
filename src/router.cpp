@@ -26,16 +26,14 @@ namespace waspp
 			{ "/dir/board/form/", &dir_board::form_html },
 			{ "/_/dir/board/form/", &dir_board::form_jsonp },
 
-			/*
-			{ "/dir/board/post/", &dir_board::post::html },
-			{ "/_/dir/board/post/", &dir_board::post::jsonp },
+			{ "/dir/board/remove/", &dir_board::remove },
+			{ "/_/dir/board/post/", &dir_board::post },
 
-			{ "/dir/user/signin/", &dir_user::signin::html },
-			{ "/_/dir/user/signin/", &dir_user::signin::jsonp },
+			{ "/dir/user/signin/", &dir_user::signin_html },
+			{ "/dir/user/auth/", &dir_user::auth },
 
-			{ "/dir/user/signup/", &dir_user::signup::html },
-			{ "/_/dir/user/signup/", &dir_user::signup::jsonp },
-			*/
+			{ "/dir/user/signup/", &dir_user::signup_html },
+			{ "/dir/user/post/", &dir_user::post },
 
 			{ 0, 0 } // Marks end of list.
 		};

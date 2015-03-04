@@ -30,12 +30,18 @@ namespace waspp
 		void form_html(logger* log, config* cfg, database* db, request& req, response& res);
 		void form_jsonp(logger* log, config* cfg, database* db, request& req, response& res);
 
+		void remove(logger* log, config* cfg, database* db, request& req, response& res);
+		void post(logger* log, config* cfg, database* db, request& req, response& res);
+
 	} // namespace board
 
 	namespace dir_user
 	{
 		void signin_html(logger* log, config* cfg, database* db, request& req, response& res);
 		void signup_html(logger* log, config* cfg, database* db, request& req, response& res);
+
+		void auth(logger* log, config* cfg, database* db, request& req, response& res);
+		void post(logger* log, config* cfg, database* db, request& req, response& res);
 
 	} // namespace dir_user
 
