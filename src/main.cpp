@@ -23,14 +23,16 @@ int main(int argc, char* argv[])
 	{
 		if (argc != 3)
 		{
-			std::cerr << "Usage: ./waspp develop 00 &\n";
-			return 1;
-
-			argv[1] = "develop";
-			argv[2] = "00";
+			std::cerr << "Usage: ./waspp develop 00 &" << std::endl;
 		}
 
-		std::string phase(argv[1]), server_seq(argv[2]);
+		std::string phase("develop"), server_seq("00");
+		if (argc == 3)
+		{
+			phase = argv[1];
+			server_seq = argv[2];
+		}
+		
 		std::string log_file, cfg_file, server_id;
 		{
 			log_file.append("../log/");
@@ -54,7 +56,7 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		if (!log->init(phase, cfg->level, cfg->rotation))
+		if (!log->init(cfg->level, cfg->rotation))
 		{
 			log->fatal("logger::init failed");
 			return 1;

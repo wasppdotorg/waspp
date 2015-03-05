@@ -22,7 +22,6 @@ namespace waspp
 		std::time_t time_ = std::time(0);
 		file_created_ = *std::localtime(&time_);
 
-		phase_ = develop;
 		level_ = log_debug;
 		rotation_ = rotate_minutely;
 	}
@@ -49,27 +48,8 @@ namespace waspp
 	/// output file for all logger instances, and so the impl parameter is not
 	/// actually needed. It is retained here to illustrate how service functions
 	/// are typically defined.
-	bool logger::init(const std::string& phase, const std::string& level, const std::string& rotation)
+	bool logger::init(const std::string& level, const std::string& rotation)
 	{
-		phase_type phase_type_ = develop;
-
-		if (phase == "develop")
-		{
-			phase_type_ = develop;
-		}
-		else if (phase == "testing")
-		{
-			phase_type_ = testing;
-		}
-		else if (phase == "product")
-		{
-			phase_type_ = product;
-		}
-		else
-		{
-			return false;
-		}
-
 		log_level cfg_level = log_debug;
 
 		if (level == "debug")
@@ -112,7 +92,7 @@ namespace waspp
 			return false;
 		}
 
-		log_service_.post(boost::bind(&logger::init_impl, this, phase_type_, cfg_level, cfg_rotation));
+		log_service_.post(boost::bind(&logger::init_impl, this, cfg_level, cfg_rotation));
 		return true;
 	}
 
@@ -230,9 +210,8 @@ namespace waspp
 		ofstream_.open(file_.c_str(), std::fstream::app);
 	}
 
-	void logger::init_impl(phase_type phase, log_level level, rotation_type rotation)
+	void logger::init_impl(log_level level, rotation_type rotation)
 	{
-		phase_ = phase;
 		level_ = level;
 		rotation_ = rotation;
 	}
@@ -242,11 +221,6 @@ namespace waspp
 	void logger::log_impl(const std::string& line)
 	{
 		ofstream_ << line << std::endl;
-
-		if (phase_ == develop)
-		{
-			std::cout << line;
-		}
 	}
 
 	void logger::log_rotate_impl(const std::string& file_to)
