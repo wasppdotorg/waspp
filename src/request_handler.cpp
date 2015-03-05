@@ -8,6 +8,7 @@
 #include <string>
 #include <sstream>
 
+#include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include "request_handler.hpp"
@@ -22,8 +23,7 @@
 namespace waspp
 {
 
-	request_handler::request_handler(const std::string& doc_root_)
-		: doc_root(doc_root_)
+	request_handler::request_handler()
 	{
 	}
 
@@ -58,17 +58,11 @@ namespace waspp
 				request_uri += "index.html";
 			}
 
-			// Open the file to send back.
-			router::res_file(res, doc_root + request_uri);
-			if (res.finished)
+			std::string full_path = cfg->doc_root + request_uri;
+			if (boost::filesystem::exists(full_path))
 			{
+				router::res_file(res, full_path);
 				return;
-			}
-
-			// to make router::get_func to work correctly
-			if (request_uri[request_uri.size() - 1] != '/')
-			{
-				request_uri += "/";
 			}
 
 			func_ptr func = router::get_func(request_uri);

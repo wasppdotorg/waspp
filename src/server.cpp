@@ -16,12 +16,12 @@ namespace waspp
 {
 
 	server::server(const std::string& address, const std::string& port,
-		const std::string& doc_root, std::size_t thread_pool_size)
+		std::size_t thread_pool_size)
 		: thread_pool_size_(thread_pool_size),
 		signals_(io_service_),
 		acceptor_(io_service_),
 		new_connection_(),
-		request_handler_(doc_root)
+		request_handler_()
 	{
 		// Register to handle the signals that indicate when the server should exit.
 		// It is safe to register for the same signal multiple times in a program,

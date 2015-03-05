@@ -38,8 +38,14 @@ namespace waspp
 			{ 0, 0 } // Marks end of list.
 		};
 
-		func_ptr get_func(const std::string& request_uri)
+		func_ptr get_func(std::string& request_uri)
 		{
+			// to make router::get_func to work correctly
+			if (request_uri[request_uri.size() - 1] != '/')
+			{
+				request_uri += "/";
+			}
+
 			for (route* r = routes; r->uri; ++r)
 			{
 				if (!request_uri.find(r->uri))
@@ -51,11 +57,12 @@ namespace waspp
 			return 0;
 		}
 
-		void res_file(response& res, const std::string& full_path)
+		void res_file(response& res, std::string& full_path)
 		{
 			std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
 			if (!is)
 			{
+				res = response::static_response(response::not_found);
 				return;
 			}
 

@@ -24,6 +24,7 @@ int main(int argc, char* argv[])
 		if (argc != 3)
 		{
 			std::cerr << "Usage: ./waspp develop 00 &" << std::endl;
+			//return 1;
 		}
 
 		std::string phase("develop"), server_seq("00");
@@ -78,7 +79,7 @@ int main(int argc, char* argv[])
 
 		log->info("waspp starting..");
 
-		waspp::server s(cfg->address, cfg->port, cfg->doc_root, cfg->num_threads);
+		waspp::server s(cfg->address, cfg->port, cfg->num_threads);
 		s.run();
 
 		log->info("waspp stopped");
