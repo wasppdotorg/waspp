@@ -21,17 +21,17 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		if (0)
-		//if (argc != 3)
+		if (argc != 3)
 		{
 			std::cerr << "Usage: ./waspp develop 00 &\n";
 			return 1;
+
+			argv[1] = "develop";
+			argv[2] = "00";
 		}
 
-		//std::string phase(argv[1]), server_seq(argv[2]);
-		std::string phase("develop"), server_seq("00");
+		std::string phase(argv[1]), server_seq(argv[2]);
 		std::string log_file, cfg_file, server_id;
-		if (0)
 		{
 			log_file.append("../log/");
 			log_file.append(phase);
@@ -45,9 +45,6 @@ int main(int argc, char* argv[])
 			server_id.append("server");
 			server_id.append(server_seq);
 		}
-		log_file.append("../log/develop00.csv");
-		cfg_file.append("../cfg/develop.json");
-		server_id.append("server00");
 
 		log->file(log_file);
 

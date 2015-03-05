@@ -27,7 +27,7 @@ namespace waspp
 			{ "/_/dir/board/form/", &dir_board::form_jsonp },
 
 			{ "/dir/board/remove/", &dir_board::remove },
-			{ "/_/dir/board/post/", &dir_board::post },
+			{ "/dir/board/post/", &dir_board::post },
 
 			{ "/dir/user/signin/", &dir_user::signin_html },
 			{ "/dir/user/auth/", &dir_user::auth },
