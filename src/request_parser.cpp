@@ -7,6 +7,7 @@
 
 #include <cctype>
 
+#include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include "request_parser.hpp"
@@ -26,8 +27,23 @@ namespace waspp
 		state_ = method_start;
 	}
 
-	void request_parser::decode_params(request& req)
+	void request_parser::parse_params(request& req)
 	{
+		std::string request_uri = url_decode(req.uri);
+
+		// If path ends in slash (i.e. is a directory) then add "index.html".
+		if (request_uri[request_uri.size() - 1] == '/')
+		{
+			request_uri += "index.html";
+		}
+
+		std::vector<std::string> rest_params;
+		boost::split(rest_params, request_uri, boost::is_any_of("/"));
+		rest_params.erase(rest_params.begin());
+
+		req.uri = request_uri;
+		req.rest_params = rest_params;
+		
 		if (req.params.size() == 0)
 		{
 			return;

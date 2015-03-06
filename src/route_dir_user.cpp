@@ -19,6 +19,8 @@ namespace waspp
 
 		void signin_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
+			std::string full_path(cfg->doc_root + "/dir_user_signin.html");
+			router::res_file(res, full_path);
 		}
 
 		void auth(logger* log, config* cfg, database* db, request& req, response& res)
@@ -28,10 +30,8 @@ namespace waspp
 			unsigned int userid = 1;
 			dbconn_ptr db_shard = db->get_shard(userid);
 
-
-			res.status = response::ok;
-			res.content_extension = "html";
 			res.content = "OK";
+			res.content_extension = "html";
 
 			db->free("db_index", db_index);
 			db->free_shard(userid, db_shard);
@@ -39,6 +39,8 @@ namespace waspp
 
 		void signup_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
+			std::string full_path(cfg->doc_root + "/dir_user_signup.html");
+			router::res_file(res, full_path);
 		}
 
 		void post(logger* log, config* cfg, database* db, request& req, response& res)
@@ -49,12 +51,18 @@ namespace waspp
 			dbconn_ptr db_shard = db->get_shard(userid);
 
 
-			res.status = response::ok;
 			res.content_extension = "html";
 			res.content = "OK";
 
 			db->free("db_index", db_index);
 			db->free_shard(userid, db_shard);
+		}
+
+		void signout(logger* log, config* cfg, database* db, request& req, response& res)
+		{
+			res.status = response::ok;
+			res.content_extension = "html";
+			res.content = "OK";
 		}
 
 	} // namespace dir_user

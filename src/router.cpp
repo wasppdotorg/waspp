@@ -35,6 +35,8 @@ namespace waspp
 			{ "/dir/user/signup/", &dir_user::signup_html },
 			{ "/dir/user/post/", &dir_user::post },
 
+			{ "/dir/user/signout/", &dir_user::signout },
+
 			{ 0, 0 } // Marks end of list.
 		};
 

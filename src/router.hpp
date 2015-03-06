@@ -38,10 +38,12 @@ namespace waspp
 	namespace dir_user
 	{
 		void signin_html(logger* log, config* cfg, database* db, request& req, response& res);
-		void signup_html(logger* log, config* cfg, database* db, request& req, response& res);
-
 		void auth(logger* log, config* cfg, database* db, request& req, response& res);
+
+		void signup_html(logger* log, config* cfg, database* db, request& req, response& res);
 		void post(logger* log, config* cfg, database* db, request& req, response& res);
+		
+		void signout(logger* log, config* cfg, database* db, request& req, response& res);
 
 	} // namespace dir_user
 

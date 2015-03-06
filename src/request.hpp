@@ -77,6 +77,7 @@ namespace waspp
 
 		std::vector<name_value> cookies;
 		std::vector<name_value> params;
+		std::vector<std::string> rest_params;
 		std::vector<multipart_content> uploads;
 	};
 

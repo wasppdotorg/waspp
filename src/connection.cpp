@@ -49,7 +49,7 @@ namespace waspp
 
 			if (result)
 			{
-				request_parser_.decode_params(request_);
+				request_parser_.parse_params(request_);
 				request_parser_.parse_cookies(request_);
 				request_parser_.parse_content(request_);
 

@@ -49,7 +49,7 @@ namespace waspp
 			return boost::make_tuple(result, begin);
 		}
 
-		void decode_params(request& req);
+		void parse_params(request& req);
 
 		/* -*-mode:c++; c-file-style: "gnu";-*- */
 		/*

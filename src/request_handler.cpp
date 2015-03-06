@@ -35,37 +35,22 @@ namespace waspp
 
 		try
 		{
-			// Decode url to path.
-			std::string request_uri;
-			if (!url_validate_decode(req.uri, request_uri))
-			{
-				res = response::static_response(response::bad_request);
-				return;
-			}
-			req.uri = request_uri;
-
 			// Request path must be absolute and not contain "..".
-			if (request_uri.empty() || request_uri[0] != '/'
-				|| request_uri.find("..") != std::string::npos)
+			if (req.uri.empty() || req.uri[0] != '/'
+				|| req.uri.find("..") != std::string::npos)
 			{
 				res = response::static_response(response::bad_request);
 				return;
 			}
 
-			// If path ends in slash (i.e. is a directory) then add "index.html".
-			if (request_uri[request_uri.size() - 1] == '/')
-			{
-				request_uri += "index.html";
-			}
-
-			std::string full_path = cfg->doc_root + request_uri;
+			std::string full_path = cfg->doc_root + req.uri;
 			if (boost::filesystem::exists(full_path))
 			{
 				router::res_file(res, full_path);
 				return;
 			}
 
-			func_ptr func = router::get_func(request_uri);
+			func_ptr func = router::get_func(req.uri);
 			if (func == 0)
 			{
 				res = response::static_response(response::not_found);
@@ -77,6 +62,8 @@ namespace waspp
 			{
 				return;
 			}
+
+			res.status = response::ok;
 
 			res.headers.resize(2);
 			res.headers[0].name = "Content-Length";
@@ -146,45 +133,6 @@ namespace waspp
 			res.headers.push_back(name_value("Content-Type", mime_types::extension_to_type("json")));
 
 			*/
-	}
-
-	bool request_handler::url_validate_decode(const std::string& in, std::string& out)
-	{
-		out.clear();
-		out.reserve(in.size());
-		for (std::size_t i = 0; i < in.size(); ++i)
-		{
-			if (in[i] == '%')
-			{
-				if (i + 3 <= in.size())
-				{
-					int value = 0;
-					std::istringstream is(in.substr(i + 1, 2));
-					if (is >> std::hex >> value)
-					{
-						out += static_cast<char>(value);
-						i += 2;
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					return false;
-				}
-			}
-			else if (in[i] == '+')
-			{
-				out += ' ';
-			}
-			else
-			{
-				out += in[i];
-			}
-		}
-		return true;
 	}
 
 } // namespace waspp
