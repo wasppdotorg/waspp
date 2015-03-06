@@ -47,7 +47,7 @@ namespace waspp
 
 	} // namespace dir_user
 
-	typedef void(*func_ptr)(logger*, config*, database* db, request&, response&);
+	typedef void(*func_ptr)(logger* log, config* cfg, database* db, request& req, response& res);
 
 	namespace router
 	{

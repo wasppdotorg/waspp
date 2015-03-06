@@ -50,9 +50,8 @@ namespace waspp
 			unsigned int userid = 1;
 			dbconn_ptr db_shard = db->get_shard(userid);
 
-
-			res.content_extension = "html";
 			res.content = "OK";
+			res.content_extension = "html";
 
 			db->free("db_index", db_index);
 			db->free_shard(userid, db_shard);
@@ -60,9 +59,8 @@ namespace waspp
 
 		void signout(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			res.status = response::ok;
-			res.content_extension = "html";
 			res.content = "OK";
+			res.content_extension = "html";
 		}
 
 	} // namespace dir_user

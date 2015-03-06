@@ -70,6 +70,7 @@ namespace waspp
 
 			// Fill out the response to be sent to the client.
 			res.status = response::ok;
+
 			char buf[512];
 			while (is.read(buf, sizeof(buf)).gcount() > 0)
 			{
