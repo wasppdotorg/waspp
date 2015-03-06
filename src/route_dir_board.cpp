@@ -21,6 +21,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "database.hpp"
 #include "request.hpp"
 #include "response.hpp"
+#include "session.hpp"
 
 namespace waspp
 {
@@ -29,6 +30,8 @@ namespace waspp
 
 		void index_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
+			session session_(cfg, req, res);
+
 			if (req.cookie(cfg->sess_cookie).empty())
 			{
 				return;

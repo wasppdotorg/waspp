@@ -15,7 +15,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
-#include "logger.hpp"
 #include "config.hpp"
 #include "request.hpp"
 #include "response.hpp"
@@ -26,7 +25,7 @@ namespace waspp
 	class session
 	{
 	public:
-		session(logger* log_, config* cfg_, request* req_, response* res_);
+		session(config* cfg_, request* req_, response* res_);
 		~session();
 
 		std::string& get_sess(const std::string& name);
@@ -51,7 +50,6 @@ namespace waspp
 
 		void serialize_and_set();
 
-		logger* log;
 		config* cfg;
 		request* req;
 		response* res;

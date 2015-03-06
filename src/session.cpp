@@ -19,7 +19,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/algorithm/string.hpp>
 
 #include "session.hpp"
-#include "logger.hpp"
 #include "config.hpp"
 #include "request.hpp"
 #include "response.hpp"
@@ -27,7 +26,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	session::session(logger* log_, config* cfg_, request* req_, response* res_) : log(log_), cfg(cfg_), req(req_), res(res_)
+	session::session(config* cfg_, request* req_, response* res_) : cfg(cfg_), req(req_), res(res_)
 	{
 		if (!load())
 		{
