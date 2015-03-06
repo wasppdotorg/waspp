@@ -54,8 +54,8 @@ namespace waspp
 
 			if (found == cookies.end())
 			{
-				cookies.push_back(name_value(name, std::string()));
-				found = cookies.end() - 1;
+				cookies.push_back(name_value(name, value));
+				return;
 			}
 
 			found->value = value;
@@ -71,12 +71,11 @@ namespace waspp
 
 		/// The headers to be included in the response.
 		std::vector<name_value> headers;
+		std::vector<name_value> cookies;
 
 		/// The content to be sent in the response.
 		std::string content;
 		std::string content_extension;
-
-		std::vector<name_value> cookies;
 
 		/// Convert the response into a vector of buffers. The buffers do not own the
 		/// underlying memory blocks, therefore the response object must remain valid and

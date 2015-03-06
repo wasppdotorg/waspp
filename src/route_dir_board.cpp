@@ -29,13 +29,18 @@ namespace waspp
 
 		void index_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
+			if (req.cookie(cfg->sess_cookie).empty())
+			{
+				return;
+			}
+
 			std::string full_path(cfg->doc_root + "/dir_board_index.html");
 			router::res_file(res, full_path);
 		}
 
 		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			boost::property_tree::ptree pt, status, session, param, params;
+			boost::property_tree::ptree json, status, session, param, params;
 
 			status.put("code", 2000);
 			status.put("message", "OKAY");
@@ -50,12 +55,12 @@ namespace waspp
 				params.push_back(std::make_pair("", param));
 			}
 
-			pt.put_child("status", status);
-			pt.put_child("session", session);
-			pt.put_child("params", params);
+			json.put_child("status", status);
+			json.put_child("session", session);
+			json.put_child("params", params);
 
 			std::stringstream ss;
-			write_json(ss, pt, false);
+			write_json(ss, json, false);
 
 			res.content = ss.str();
 			res.content_extension = "json";
