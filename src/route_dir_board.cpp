@@ -30,10 +30,10 @@ namespace waspp
 
 		void index_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			session session_(cfg, req, res);
-
-			if (req.cookie(cfg->sess_cookie).empty())
+			waspp::session sess(cfg, &req, &res);
+			if (sess.get_sess("userid").empty())
 			{
+				res.redirect_to("/dir/user/signin");
 				return;
 			}
 
@@ -44,6 +44,23 @@ namespace waspp
 		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 			boost::property_tree::ptree json, status, session, param, params;
+
+			waspp::session sess(cfg, &req, &res);
+			if (sess.get_sess("userid").empty())
+			{
+				status.put("code", 4000);
+				status.put("message", "");
+
+				std::stringstream ss;
+				write_json(ss, json, false);
+
+				res.content = ss.str();
+				res.content_extension = "json";
+
+				return;
+			}
+
+			
 
 			status.put("code", 2000);
 			status.put("message", "OKAY");

@@ -42,7 +42,7 @@ namespace waspp
 			service_unavailable = 503
 		};
 
-		response() : finished(false)
+		response() : finished(false), headers(0), cookies(0)
 		{
 
 		}
@@ -64,6 +64,14 @@ namespace waspp
 		void delete_cookie(const std::string& name)
 		{
 			set_cookie(name, std::string());
+		}
+
+		void redirect_to(const std::string& url)
+		{
+			headers.push_back(name_value("Refresh", "0; url=" + url));
+
+			content = " ";
+			content_extension = "html";
 		}
 
 		bool finished;

@@ -65,11 +65,8 @@ namespace waspp
 
 			res.status = response::ok;
 
-			res.headers.resize(2);
-			res.headers[0].name = "Content-Length";
-			res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
-			res.headers[1].name = "Content-Type";
-			res.headers[1].value = mime_types::extension_to_type(res.content_extension);
+			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
+			res.headers.push_back(name_value("Content-Type", mime_types::extension_to_type(res.content_extension)));
 
 			std::string cookie;
 			for (std::size_t i = 0; i < res.cookies.size(); ++i)

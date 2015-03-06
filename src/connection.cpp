@@ -88,9 +88,10 @@ namespace waspp
 		if (!e)
 		{
 			// Initiate graceful connection closure.
-			//boost::system::error_code ignored_ec;
-			//socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
+			boost::system::error_code ignored_ec;
+			socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
 
+			/*
 			request_parser_.reset();
 			response_ = response();
 			request_ = request();
@@ -100,6 +101,7 @@ namespace waspp
 				boost::bind(&connection::handle_read, shared_from_this(),
 				boost::asio::placeholders::error,
 				boost::asio::placeholders::bytes_transferred)));
+				*/
 		}
 
 		// No new asynchronous operations are started. This means that all shared_ptr
