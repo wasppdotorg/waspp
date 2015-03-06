@@ -221,7 +221,7 @@ namespace waspp
 			oar << session_;
 		}
 
-		std::string cookie_value(oss.str());
+		std::string cookie_value(url_encode(oss.str()));
 		cookie_value.append(md5_digest(cookie_value + cfg->encrypt_key));
 
 		res->set_cookie(cfg->sess_cookie, cookie_value);

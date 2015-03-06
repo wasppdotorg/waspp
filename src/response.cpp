@@ -247,11 +247,13 @@ namespace waspp
 		res.status = status;
 		res.content = static_responses::to_string(status);
 
-		res.headers.resize(2);
+		res.headers.resize(3);
 		res.headers[0].name = "Content-Length";
 		res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
 		res.headers[1].name = "Content-Type";
 		res.headers[1].value = "text/html";
+		res.headers[2].name = "Keep-Alive";
+		res.headers[2].value = "timeout=0, max=0";
 
 		return res;
 	}

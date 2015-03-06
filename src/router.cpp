@@ -59,7 +59,7 @@ namespace waspp
 			return 0;
 		}
 
-		void res_file(response& res, std::string& full_path)
+		void res_file(request& req, response& res, std::string& full_path)
 		{
 			std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
 			if (!is)
@@ -77,11 +77,20 @@ namespace waspp
 				res.content.append(buf, is.gcount());
 			}
 
-			res.headers.resize(2);
+			std::string jsonp_request_uri("__WASPP_JSONP_REQUEST_URI__");
+			std::size_t found = res.content.find(jsonp_request_uri);
+			if (found != std::string::npos)
+			{
+				res.content.replace(found, jsonp_request_uri.size(), "/_" + req.uri);
+			}
+			
+			res.headers.resize(3);
 			res.headers[0].name = "Content-Length";
 			res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
 			res.headers[1].name = "Content-Type";
 			res.headers[1].value = mime_types::extension_to_type(get_extension(full_path));
+			res.headers[2].name = "Keep-Alive";
+			res.headers[2].value = "timeout=0, max=0";
 
 			res.finished = true;
 		}

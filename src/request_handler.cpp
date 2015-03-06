@@ -46,7 +46,7 @@ namespace waspp
 			std::string full_path = cfg->doc_root + req.uri;
 			if (boost::filesystem::exists(full_path))
 			{
-				router::res_file(res, full_path);
+				router::res_file(req, res, full_path);
 				return;
 			}
 
@@ -67,6 +67,7 @@ namespace waspp
 
 			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
 			res.headers.push_back(name_value("Content-Type", mime_types::extension_to_type(res.content_extension)));
+			res.headers.push_back(name_value("Keep-Alive", "timeout=0, max=0"));
 
 			std::string cookie;
 			for (std::size_t i = 0; i < res.cookies.size(); ++i)

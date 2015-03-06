@@ -38,7 +38,7 @@ namespace waspp
 			}
 
 			std::string full_path(cfg->doc_root + "/dir_board_index.html");
-			router::res_file(res, full_path);
+			router::res_file(req, res, full_path);
 		}
 
 		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
@@ -89,7 +89,7 @@ namespace waspp
 		void show_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 			std::string full_path(cfg->doc_root + "/dir_board_show.html");
-			router::res_file(res, full_path);
+			router::res_file(req, res, full_path);
 		}
 
 		void show_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
@@ -100,7 +100,7 @@ namespace waspp
 		void form_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 			std::string full_path(cfg->doc_root + "/dir_board_form.html");
-			router::res_file(res, full_path);
+			router::res_file(req, res, full_path);
 		}
 
 		void form_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
