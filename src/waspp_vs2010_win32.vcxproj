@@ -93,6 +93,7 @@
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="database.hpp" />
     <ClInclude Include="dbconn_pool.hpp" />
+    <ClInclude Include="msgpack_lite.hpp" />
     <ClInclude Include="name_value.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mime_types.hpp" />
