@@ -27,6 +27,11 @@ namespace waspp
 {
 	namespace dir_board
 	{
+		struct msgpack_test
+		{
+			double b;
+			std::string c;
+		};
 
 		void index_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
@@ -51,6 +56,8 @@ namespace waspp
 				status.put("code", 4000);
 				status.put("message", "");
 
+				json.put_child("status", status);
+
 				std::stringstream ss;
 				write_json(ss, json, false);
 
@@ -59,8 +66,6 @@ namespace waspp
 
 				return;
 			}
-
-			
 
 			status.put("code", 2000);
 			status.put("message", "OKAY");
