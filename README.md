@@ -73,6 +73,7 @@ Run
 ---
 * cd ../bin
 * sudo ./develop_start.sh
+* sudo tail -f ../log/develop00
 * Go to http://127.0.0.1:8000/
 
 Run on Windows
