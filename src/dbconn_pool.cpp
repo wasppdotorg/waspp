@@ -156,7 +156,7 @@ namespace waspp
 		}
 		catch (...)
 		{
-
+			throw;
 		}
 
 		return false;

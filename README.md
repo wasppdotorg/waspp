@@ -96,15 +96,25 @@ cd .\bin
 Add Your Own Route
 ------------------
 * cd ../src
-* sudo cp route_board.cpp route_test.cpp
-* sudo vi route_test.cpp
+* sudo cp route_board.cpp route_notice.cpp
+* sudo vi route_notice.cpp
+* sudo vi router.hpp
+```
+namespace dir_notice
+{
+	void index_html(logger* log, config* cfg, database* db, request& req, response& res);
+	void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res);
+	
+} // namespace dir_notice
+```
+
 * sudo vi router.cpp
 ```
 route routes[] =
 {
 	..
-	{ "/test/index/", &test::index::html },
-	{ "/?/test/index/", &test::index::jsonp },
+	{ "/notice/index/", &notice::index::html },
+	{ "/?/notice/index/", &notice::index::jsonp },
 	..
 ```
 
@@ -115,7 +125,7 @@ add_executable (
 	waspp
 	
 	..
-	route_test.cpp
+	route_notice.cpp
 	..
 )
 ```
@@ -127,6 +137,7 @@ Memory Leak Check
 * sudo apt-get install valgrind
 * valgrind --leak-check=full ./waspp develop 00
 
+<!--
 Test with Google Test
 ---------------------
 * sudo apt-get install libgtest-dev
@@ -134,3 +145,4 @@ Test with Google Test
 * sudo cmake CMakeLists.txt
 * sudo make
 * sudo cp *.a /usr/lib
+-->

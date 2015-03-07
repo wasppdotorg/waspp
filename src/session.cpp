@@ -90,7 +90,7 @@ namespace waspp
 
 			// deserialize
 			{
-				std::istringstream iss(session_str);
+				std::istringstream iss(url_decode(session_str));
 				boost::archive::text_iarchive iar(iss, boost::archive::no_tracking);
 				iar >> session_;
 			}
@@ -136,6 +136,7 @@ namespace waspp
 		}
 		catch (...)
 		{
+			throw;
 		}
 
 		return false;
