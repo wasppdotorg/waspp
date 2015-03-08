@@ -59,7 +59,7 @@ namespace waspp
 			return 0;
 		}
 
-		void res_file(request& req, response& res, std::string& full_path)
+		void get_file(response& res, std::string& full_path)
 		{
 			std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
 			if (!is)
@@ -68,15 +68,15 @@ namespace waspp
 				return;
 			}
 
-			// Fill out the response to be sent to the client.
-			res.status = response::ok;
-
 			char buf[512];
 			while (is.read(buf, sizeof(buf)).gcount() > 0)
 			{
 				res.content.append(buf, is.gcount());
 			}
 
+			res.content_extension = get_extension(full_path);
+
+			/*
 			std::string jsonp_request_uri("__WASPP_JSONP_REQUEST_URI__");
 			std::size_t found = res.content.find(jsonp_request_uri);
 			if (found != std::string::npos)
@@ -92,7 +92,9 @@ namespace waspp
 			res.headers[2].name = "Keep-Alive";
 			res.headers[2].value = "timeout=0, max=0";
 
-			res.finished = true;
+			//res.finished = true;
+			
+			*/
 		}
 
 	} // namespace router

@@ -20,7 +20,7 @@ namespace waspp
 		void signin_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 			std::string full_path(cfg->doc_root + "/dir_user_signin.html");
-			router::res_file(req, res, full_path);
+			router::get_file(res, full_path);
 		}
 
 		void auth(logger* log, config* cfg, database* db, request& req, response& res)
@@ -40,7 +40,7 @@ namespace waspp
 		void signup_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 			std::string full_path(cfg->doc_root + "/dir_user_signup.html");
-			router::res_file(req, res, full_path);
+			router::get_file(res, full_path);
 		}
 
 		void post(logger* log, config* cfg, database* db, request& req, response& res)

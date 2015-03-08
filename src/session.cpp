@@ -25,6 +25,9 @@ http://www.boost.org/LICENSE_1_0.txt
 
 namespace waspp
 {
+	// this code is based on
+	// the session library of php framework called codeigniter
+	// codeigniter/system/libraries/Session.php
 
 	session::session(config* cfg_, request* req_, response* res_) : cfg(cfg_), req(req_), res(res_)
 	{

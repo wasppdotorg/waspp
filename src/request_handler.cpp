@@ -35,34 +35,45 @@ namespace waspp
 
 		try
 		{
-			// Request path must be absolute and not contain "..".
-			if (req.uri.empty() || req.uri[0] != '/'
-				|| req.uri.find("..") != std::string::npos)
+			std::string request_uri;
+			if (!url_validate_decode(req.uri, request_uri))
 			{
 				res = response::static_response(response::bad_request);
 				return;
 			}
 
-			std::string full_path = cfg->doc_root + req.uri;
+			// Request path must be absolute and not contain "..".
+			if (request_uri.empty() || request_uri[0] != '/'
+				|| request_uri.find("..") != std::string::npos)
+			{
+				res = response::static_response(response::bad_request);
+				return;
+			}
+
+			// If path ends in slash (i.e. is a directory) then add "index.html".
+			if (request_uri[request_uri.size() - 1] == '/')
+			{
+				request_uri += "index.html";
+			}
+
+			std::string full_path = cfg->doc_root + request_uri;
 			if (boost::filesystem::exists(full_path))
 			{
-				router::res_file(req, res, full_path);
-				return;
+				router::get_file(res, full_path);
 			}
-
-			func_ptr func = router::get_func(req.uri);
-			if (func == 0)
+			else
 			{
-				res = response::static_response(response::not_found);
-				return;
+				func_ptr func = router::get_func(request_uri);
+				if (func == 0)
+				{
+					res = response::static_response(response::not_found);
+					return;
+				}
+
+				func(log, cfg, db, req, res);
 			}
 
-			func(log, cfg, db, req, res);
-			if (res.finished)
-			{
-				return;
-			}
-
+			// Fill out the response to be sent to the client.
 			res.status = response::ok;
 
 			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
@@ -86,6 +97,45 @@ namespace waspp
 			log->fatal(e.what());
 			res = response::static_response(response::internal_server_error);
 		}
+	}
+
+	bool request_handler::url_validate_decode(const std::string& in, std::string& out)
+	{
+		out.clear();
+		out.reserve(in.size());
+		for (std::size_t i = 0; i < in.size(); ++i)
+		{
+			if (in[i] == '%')
+			{
+				if (i + 3 <= in.size())
+				{
+					int value = 0;
+					std::istringstream is(in.substr(i + 1, 2));
+					if (is >> std::hex >> value)
+					{
+						out += static_cast<char>(value);
+						i += 2;
+					}
+					else
+					{
+						return false;
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else if (in[i] == '+')
+			{
+				out += ' ';
+			}
+			else
+			{
+				out += in[i];
+			}
+		}
+		return true;
 	}
 
 } // namespace waspp

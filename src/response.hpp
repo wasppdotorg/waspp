@@ -42,11 +42,6 @@ namespace waspp
 			service_unavailable = 503
 		};
 
-		response() : finished(false), headers(0), cookies(0)
-		{
-
-		}
-
 		void set_cookie(const std::string& name, const std::string& value)
 		{
 			std::vector<name_value>::iterator found;
@@ -74,7 +69,6 @@ namespace waspp
 			content_extension = "html";
 		}
 
-		bool finished;
 		status_type status;
 
 		/// The headers to be included in the response.

@@ -31,17 +31,10 @@ namespace waspp
 	{
 		std::string request_uri = url_decode(req.uri);
 
-		// If path ends in slash (i.e. is a directory) then add "index.html".
-		if (request_uri[request_uri.size() - 1] == '/')
-		{
-			request_uri += "index.html";
-		}
-
 		std::vector<std::string> rest_params;
 		boost::split(rest_params, request_uri, boost::is_any_of("/"));
 		rest_params.erase(rest_params.begin());
 
-		req.uri = request_uri;
 		req.rest_params = rest_params;
 		
 		if (req.params.size() == 0)
@@ -337,6 +330,7 @@ namespace waspp
 			if (input == '?')
 			{
 				state_ = param_name_start;
+				req.uri.push_back(input);
 				return boost::indeterminate;
 			}
 			else if (input == ' ')
@@ -365,9 +359,10 @@ namespace waspp
 			}
 			else
 			{
+				state_ = param_name;
+				req.uri.push_back(input);
 				req.params.push_back(name_value());
 				req.params.back().name.push_back(input);
-				state_ = param_name;
 				return boost::indeterminate;
 			}
 		case param_name:
@@ -379,6 +374,7 @@ namespace waspp
 			else if (input == '=')
 			{
 				state_ = param_value;
+				req.uri.push_back(input);
 				return boost::indeterminate;
 			}
 			else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
@@ -387,6 +383,7 @@ namespace waspp
 			}
 			else
 			{
+				req.uri.push_back(input);
 				req.params.back().name.push_back(input);
 				return boost::indeterminate;
 			}
@@ -399,6 +396,7 @@ namespace waspp
 			else if (input == '&')
 			{
 				state_ = param_name_start;
+				req.uri.push_back(input);
 				return boost::indeterminate;
 			}
 			else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
@@ -407,6 +405,7 @@ namespace waspp
 			}
 			else
 			{
+				req.uri.push_back(input);
 				req.params.back().value.push_back(input);
 				return boost::indeterminate;
 			}
