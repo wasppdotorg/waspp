@@ -8,7 +8,6 @@
 #include <string>
 #include <sstream>
 
-#include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include "request_handler.hpp"
@@ -50,18 +49,8 @@ namespace waspp
 				return;
 			}
 
-			// If path ends in slash (i.e. is a directory) then add "index.html".
-			if (request_uri[request_uri.size() - 1] == '/')
-			{
-				request_uri += "index.html";
-			}
-
 			std::string full_path = cfg->doc_root + request_uri;
-			if (boost::filesystem::exists(full_path))
-			{
-				router::get_file(res, full_path);
-			}
-			else
+			if (!router::get_file(res, full_path))
 			{
 				func_ptr func = router::get_func(request_uri);
 				if (func == 0)

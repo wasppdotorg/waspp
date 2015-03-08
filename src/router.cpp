@@ -59,13 +59,18 @@ namespace waspp
 			return 0;
 		}
 
-		void get_file(response& res, std::string& full_path)
+		bool get_file(response& res, std::string& full_path)
 		{
+			// If path ends in slash (i.e. is a directory) then add "index.html".
+			if (full_path[full_path.size() - 1] == '/')
+			{
+				full_path += "index.html";
+			}
+
 			std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
 			if (!is)
 			{
-				res = response::static_response(response::not_found);
-				return;
+				return false;
 			}
 
 			char buf[512];
@@ -73,28 +78,9 @@ namespace waspp
 			{
 				res.content.append(buf, is.gcount());
 			}
-
 			res.content_extension = get_extension(full_path);
 
-			/*
-			std::string jsonp_request_uri("__WASPP_JSONP_REQUEST_URI__");
-			std::size_t found = res.content.find(jsonp_request_uri);
-			if (found != std::string::npos)
-			{
-				res.content.replace(found, jsonp_request_uri.size(), "/_" + req.uri);
-			}
-			
-			res.headers.resize(3);
-			res.headers[0].name = "Content-Length";
-			res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
-			res.headers[1].name = "Content-Type";
-			res.headers[1].value = mime_types::extension_to_type(get_extension(full_path));
-			res.headers[2].name = "Keep-Alive";
-			res.headers[2].value = "timeout=0, max=0";
-
-			//res.finished = true;
-			
-			*/
+			return true;
 		}
 
 	} // namespace router

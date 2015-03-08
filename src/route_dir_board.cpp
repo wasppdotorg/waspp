@@ -27,12 +27,6 @@ namespace waspp
 {
 	namespace dir_board
 	{
-		struct msgpack_test
-		{
-			double b;
-			std::string c;
-		};
-
 		void index_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 			waspp::session sess(cfg, &req, &res);

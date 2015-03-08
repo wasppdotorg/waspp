@@ -59,7 +59,7 @@ namespace waspp
 		};
 
 		func_ptr get_func(std::string& request_uri);
-		void get_file(response& res, std::string& full_path);
+		bool get_file(response& res, std::string& full_path);
 
 	} // namespace router
 
