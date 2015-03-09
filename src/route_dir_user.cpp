@@ -46,6 +46,12 @@ namespace waspp
 		void post(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 			dbconn_ptr db_index = db->get("db_index");
+			statement_ptr stmt(db_index->prepare("CALL USP_GET_UNIQUE_KEYS(?, ?)"));
+			{
+				stmt->param("user_idx");
+				stmt->param(1);
+			}
+			stmt->execute();
 
 			unsigned int userid = 1;
 			dbconn_ptr db_shard = db->get_shard(userid);
