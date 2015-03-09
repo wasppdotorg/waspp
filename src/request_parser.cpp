@@ -165,7 +165,7 @@ namespace waspp
 
 			while (true)
 			{
-				pos = req.content.find_first_not_of("&=", old_pos);
+				pos = req.content.find_first_of("&=", old_pos);
 				if (pos == std::string::npos)
 				{
 					break;
