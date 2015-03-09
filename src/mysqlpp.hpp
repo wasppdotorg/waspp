@@ -241,7 +241,7 @@ namespace mysqlpp
 			return &released;
 		}
 
-		void set_released(std::tm released_)
+		void set_released(const std::tm& released_)
 		{
 			released = released_;
 		}
