@@ -83,7 +83,7 @@ namespace waspp
 		}
 		catch (std::exception& e)
 		{
-			log->fatal(e.what());
+			log->fatal(__FILE__, __LINE__, e.what());
 			res = response::static_response(response::internal_server_error);
 		}
 	}

@@ -52,7 +52,7 @@ namespace waspp
 		void info(const std::string& message);
 		void warn(const std::string& message);
 		void error(const std::string& message);
-		void fatal(const std::string& message);
+		void fatal(const char* file, int line, const std::string& message);
 
 	private:
 		void log(const std::string& log_type, const std::string& message);

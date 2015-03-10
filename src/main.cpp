@@ -53,13 +53,13 @@ int main(int argc, char* argv[])
 
 		if (!cfg->init(cfg_file, server_id))
 		{
-			log->fatal("config::init failed");
+			log->fatal(__FILE__, __LINE__, "config::init failed");
 			return 1;
 		}
 
 		if (!log->init(cfg->level, cfg->rotation))
 		{
-			log->fatal("logger::init failed");
+			log->fatal(__FILE__, __LINE__, "logger::init failed");
 			return 1;
 		}
 
@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
 
 		if (!db->init(cfg, dbnames))
 		{
-			log->fatal("database::init failed");
+			log->fatal(__FILE__, __LINE__, "database::init failed");
 			return 1;
 		}
 
@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 	}
 	catch (std::exception& e)
 	{
-		log->fatal(e.what());
+		log->fatal(__FILE__, __LINE__, e.what());
 		return 1;
 	}
 

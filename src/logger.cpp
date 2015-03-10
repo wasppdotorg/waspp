@@ -5,6 +5,9 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#include <iostream>
+#include <sstream>
+
 #include <boost/filesystem.hpp>
 
 #include "logger.hpp"
@@ -137,14 +140,17 @@ namespace waspp
 		log("ERROR,", message);
 	}
 
-	void logger::fatal(const std::string& message)
+	void logger::fatal(const char* file, int line, const std::string& message)
 	{
 		if (level_ > log_fatal)
 		{
 			return;
 		}
 
-		log("FATAL,", message);
+		std::ostringstream oss;
+		oss << file << ":" << line << " " << message;
+
+		log("FATAL,", oss.str());
 	}
 
 	void logger::log(const std::string& log_type, const std::string& message)

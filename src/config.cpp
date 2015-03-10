@@ -43,7 +43,7 @@ namespace waspp
 			std::ifstream is(file.c_str(), std::ios::in | std::ios::binary);
 			if (!is)
 			{
-				log->fatal("config::file not found");
+				log->fatal(__FILE__, __LINE__, "config::file not found");
 				return false;
 			}
 
@@ -69,7 +69,7 @@ namespace waspp
 			{
 				if (found1 == cfg_.end())
 				{
-					log->fatal("config::log not found");
+					log->fatal(__FILE__, __LINE__, "config::log not found");
 					return false;
 				}
 
@@ -84,7 +84,7 @@ namespace waspp
 					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
 					if (found2 == found1->second.end())
 					{
-						log->fatal("config::element not found");
+						log->fatal(__FILE__, __LINE__, "config::element not found");
 						return false;
 					}
 
@@ -103,7 +103,7 @@ namespace waspp
 			{
 				if (found1 == cfg_.end())
 				{
-					log->fatal("config::session not found");
+					log->fatal(__FILE__, __LINE__, "config::session not found");
 					return false;
 				}
 
@@ -122,7 +122,7 @@ namespace waspp
 					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
 					if (found2 == found1->second.end())
 					{
-						log->fatal("config::element not found");
+						log->fatal(__FILE__, __LINE__, "config::element not found");
 						return false;
 					}
 
@@ -157,7 +157,7 @@ namespace waspp
 			{
 				if (found1 == cfg_.end())
 				{
-					log->fatal("config::server_id not found");
+					log->fatal(__FILE__, __LINE__, "config::server_id not found");
 					return false;
 				}
 
@@ -174,7 +174,7 @@ namespace waspp
 					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
 					if (found2 == found1->second.end())
 					{
-						log->fatal("config::element not found");
+						log->fatal(__FILE__, __LINE__, "config::element not found");
 						return false;
 					}
 
