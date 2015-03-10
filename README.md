@@ -7,6 +7,7 @@ Built with
 * Codeblocks 13.12 - Ubuntu Linux 14.04 LTS
 * Visual Studio 2010 Express - Windows 7
 * Visual Studio 2013 Professional - Windows 7
+* Xcode 6.1 - MacOS X 10.9
 
 Install MariaDB
 ---------------
@@ -149,7 +150,7 @@ For Windows
 * Win64OpenSSL-1_0_1L.exe (Win32OpenSSL_Light-1_0_1L.exe)
 
 For MacOS X
--------
+-----------
 * install macports (http://www.macports.org)
 * sudo port install boost
 * sudo port install mariadb
