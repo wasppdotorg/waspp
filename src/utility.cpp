@@ -40,7 +40,7 @@ namespace waspp
 	// case-insensitive string comparison
 	// This code based on code from 
 	// "The C++ Programming Language, Third Edition" by Bjarne Stroustrup
-	bool __strings_are_equal(const std::string& s1, const std::string& s2)
+	bool strings_are_equal(const std::string& s1, const std::string& s2)
 	{
 		std::string::const_iterator p1 = s1.begin();
 		std::string::const_iterator p2 = s2.begin();
@@ -59,7 +59,7 @@ namespace waspp
 	}
 
 	// case-insensitive string comparison
-	bool __strings_are_equal(const std::string& s1, const std::string& s2, std::size_t n)
+	bool strings_are_equal(const std::string& s1, const std::string& s2, std::size_t n)
 	{
 		std::string::const_iterator p1 = s1.begin();
 		std::string::const_iterator p2 = s2.begin();
@@ -78,7 +78,7 @@ namespace waspp
 		return good;
 	}
 
-	std::string __extract_between(const std::string& data, const std::string& separator1, const std::string& separator2)
+	std::string extract_between(const std::string& data, const std::string& separator1, const std::string& separator2)
 	{
 		std::string result;
 		std::string::size_type start, limit;
@@ -97,12 +97,12 @@ namespace waspp
 		return result;
 	}
 
-	std::string __extract_between(const std::string& datas, const std::string& separators)
+	std::string extract_between(const std::string& datas, const std::string& separators)
 	{
-		return __extract_between(datas, separators, separators);
+		return extract_between(datas, separators, separators);
 	}
 
-	std::string __char2hex(char c)
+	std::string char2hex(char c)
 	{
 		std::string result;
 		char first, second;
@@ -118,7 +118,7 @@ namespace waspp
 		return result;
 	}
 
-	char __hex2char(char first, char second)
+	char hex2char(char first, char second)
 	{
 		int digit;
 
@@ -161,7 +161,7 @@ namespace waspp
 				// escape
 			default:
 				result.append(1, '%');
-				result.append(__char2hex(*iter));
+				result.append(char2hex(*iter));
 				break;
 			}
 		}
@@ -189,7 +189,7 @@ namespace waspp
 					std::isxdigit(*(iter + 2)))
 				{
 					c = *++iter;
-					result.append(1, __hex2char(c, *++iter));
+					result.append(1, hex2char(c, *++iter));
 				}
 				// Just pass the % through untouched
 				else
@@ -300,7 +300,7 @@ namespace waspp
 		unsigned char char_array_4[4], char_array_3[3];
 		std::string ret;
 
-		while (in_len-- && (encoded_string[in_] != '=') && __is_base64(encoded_string[in_]))
+		while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_]))
 		{
 			char_array_4[i++] = encoded_string[in_];
 			++in_;

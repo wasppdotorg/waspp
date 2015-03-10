@@ -106,14 +106,14 @@ namespace waspp
 	*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
 	*/
 
-	bool __strings_are_equal(const std::string& s1, const std::string& s2);
-	bool __strings_are_equal(const std::string& s1, const std::string& s2, std::size_t n);
+	bool strings_are_equal(const std::string& s1, const std::string& s2);
+	bool strings_are_equal(const std::string& s1, const std::string& s2, std::size_t n);
 
-	std::string __extract_between(const std::string& data, const std::string& separator1, const std::string& separator2);
-	std::string __extract_between(const std::string& datas, const std::string& separators);
+	std::string extract_between(const std::string& data, const std::string& separator1, const std::string& separator2);
+	std::string extract_between(const std::string& datas, const std::string& separators);
 
-	std::string __char2hex(char c);
-	char __hex2char(char first, char second);
+	std::string char2hex(char c);
+	char hex2char(char first, char second);
 
 	std::string url_encode(const std::string& src);
 	std::string url_decode(const std::string& src);
@@ -152,7 +152,7 @@ namespace waspp
 		"abcdefghijklmnopqrstuvwxyz"
 		"0123456789+/";
 
-	static inline bool __is_base64(unsigned char c)
+	static inline bool is_base64(unsigned char c)
 	{
 		return (isalnum(c) || (c == '+') || (c == '/'));
 	}

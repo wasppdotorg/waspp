@@ -14,6 +14,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "request.hpp"
 #include "response.hpp"
 #include "utility.hpp"
+#include "session.hpp"
 
 namespace waspp
 {
@@ -28,15 +29,81 @@ namespace waspp
 
 		void auth(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			dbconn_ptr db_index = db->get("db_index");
-
-			unsigned int userid = 1;
-			dbconn_ptr db_shard = db->get_shard(userid);
-
-			res.content = "OK";
 			res.content_extension = "html";
 
+			unsigned int userid;
+			std::string username;
+			std::string passwd;
+
+			// param check
+			{
+				if (req.param("username").empty())
+				{
+					res.content = "username is required";
+					return;
+				}
+				username = req.param("username");
+
+				if (req.param("passwd").empty())
+				{
+					res.content = "passwd is required";
+					return;
+				}
+				passwd = md5_digest(req.param("passwd"));
+			}
+
+			dbconn_ptr db_index = db->get("db_index");
+			try
+			{
+				stmt_ptr stmt(db_index->prepare("SELECT userid FROM users_idx WHERE username = ?"));
+				{
+					stmt->param(username);
+				}
+
+				res_ptr r(stmt->query());
+				if (r->num_rows() == 0)
+				{
+					res.content = "auth failed";
+					db->free("db_index", db_index);
+					return;
+				}
+				userid = r->get<unsigned int>("userid");
+			}
+			catch (...)
+			{
+				db->free("db_index", db_index);
+				throw;
+			}
 			db->free("db_index", db_index);
+
+			dbconn_ptr db_shard = db->get_shard(userid);
+			try
+			{
+				stmt_ptr stmt(db_shard->prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
+				{
+					stmt->param(userid);
+					stmt->param(passwd);
+				}
+				
+				res_ptr r(stmt->query());
+				if (r->num_rows() == 0)
+				{
+					res.content = "auth failed";
+					db->free_shard(userid, db_shard);
+					return;
+				}
+
+				waspp::session sess(cfg, &req, &res);
+				sess.set_sess("userid", boost::lexical_cast<std::string>(userid));
+				sess.set_sess("username", username);
+
+				res.redirect_to("/dir/board/index");
+			}
+			catch (...)
+			{
+				db->free_shard(userid, db_shard);
+				throw;
+			}
 			db->free_shard(userid, db_shard);
 		}
 
@@ -113,6 +180,7 @@ namespace waspp
 				{
 					userid = r->get<unsigned int>("last_key");
 				}
+				platformid = boost::lexical_cast<std::string>(userid);
 
 				stmt.reset(db_index->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
 				{
@@ -138,12 +206,12 @@ namespace waspp
 			dbconn_ptr db_shard = db->get_shard(userid);
 			try
 			{
-				stmt_ptr insert_shard(db_shard->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
+				stmt_ptr stmt(db_shard->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
 				{
-					insert_shard->param(userid);
-					insert_shard->param(passwd);
+					stmt->param(userid);
+					stmt->param(passwd);
 				}
-				unsigned long long int affected_rows = insert_shard->execute();
+				unsigned long long int affected_rows = stmt->execute();
 
 				if (affected_rows == 0)
 				{

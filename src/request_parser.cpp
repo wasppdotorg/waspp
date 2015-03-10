@@ -157,7 +157,7 @@ namespace waspp
 		std::string multipart_type = "multipart/form-data";
 
 		std::string content_type = req.header("Content-Type");
-		if (content_type.empty() || __strings_are_equal(content_type, standard_type, standard_type.size()))
+		if (content_type.empty() || strings_are_equal(content_type, standard_type, standard_type.size()))
 		{
 			std::string name, value;
 			std::string::size_type pos;
@@ -207,7 +207,7 @@ namespace waspp
 				old_pos = ++pos;
 			}
 		}
-		else if (__strings_are_equal(multipart_type, content_type, multipart_type.size()))
+		else if (strings_are_equal(multipart_type, content_type, multipart_type.size()))
 		{
 			std::string b_type = "boundary=";
 			std::string::size_type pos = content_type.find(b_type);
@@ -255,16 +255,16 @@ namespace waspp
 	multipart_header request_parser::parse_multipart_header(request& req, const std::string& data)
 	{
 		std::string disposition;
-		disposition = __extract_between(data, "Content-Disposition: ", ";");
+		disposition = extract_between(data, "Content-Disposition: ", ";");
 
 		std::string name;
-		name = __extract_between(data, "name=\"", "\"");
+		name = extract_between(data, "name=\"", "\"");
 
 		std::string filename;
-		filename = __extract_between(data, "filename=\"", "\"");
+		filename = extract_between(data, "filename=\"", "\"");
 
 		std::string c_type;
-		c_type = __extract_between(data, "Content-Type: ", "\r\n\r\n");
+		c_type = extract_between(data, "Content-Type: ", "\r\n\r\n");
 
 		filename = url_decode(filename);
 
