@@ -110,7 +110,7 @@ route routes[] =
 {
 	..
 	{ "/notice/index/", &notice::index::html },
-	{ "/?/notice/index/", &notice::index::jsonp },
+	{ "/_/notice/index/", &notice::index::jsonp },
 	..
 ```
 
