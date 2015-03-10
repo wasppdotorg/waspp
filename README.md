@@ -152,6 +152,7 @@ For MacOS X
 -------
 * install macports (http://www.macports.org)
 * sudo port install boost
+* sudo port install mariadb
 * Xcode > Build Settings > Header Search Paths : /opt/local/include
 * Xcode > Build Phases > Link Binary With Libraries : /opt/local/lib
-
+* libmysqlclient.a libssl.a libboost_thread-mt.a libboost_system-mt.a libboost_serialization-mt.a libcrypto.a libboost_filesystem-mt.a
