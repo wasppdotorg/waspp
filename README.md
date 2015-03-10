@@ -14,6 +14,13 @@ For Windows
 * mariadb-10.0.16-winx64.msi (mariadb-10.0.16-win32.msi)
 * Win64OpenSSL-1_0_1L.exe (Win32OpenSSL_Light-1_0_1L.exe)
 
+For Mac
+-------
+* install macports (http://www.macports.org)
+* sudo port install boost
+* xcode > build settings > Header Search Paths : /opt/local/include
+* xcode > build phases > link binary with libraries : /opt/local/lib
+
 Install MariaDB
 ---------------
 * sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
