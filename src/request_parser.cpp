@@ -31,12 +31,9 @@ namespace waspp
 	{
 		std::string request_uri = url_decode(req.uri);
 
-		std::vector<std::string> rest_params;
-		boost::split(rest_params, request_uri, boost::is_any_of("/"));
-		rest_params.erase(rest_params.begin());
+		boost::split(req.rest_params, request_uri, boost::is_any_of("/"));
+		req.rest_params.erase(req.rest_params.begin());
 
-		req.rest_params = rest_params;
-		
 		if (req.params.size() == 0)
 		{
 			return;
