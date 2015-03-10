@@ -1,0 +1,387 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7B87049E1AAEB37400ADC708 /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87047A1AAEB37400ADC708 /* config.cpp */; };
+		7B87049F1AAEB37400ADC708 /* connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87047C1AAEB37400ADC708 /* connection.cpp */; };
+		7B8704A01AAEB37400ADC708 /* database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87047E1AAEB37400ADC708 /* database.cpp */; };
+		7B8704A11AAEB37400ADC708 /* dbconn_pool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704801AAEB37400ADC708 /* dbconn_pool.cpp */; };
+		7B8704A21AAEB37400ADC708 /* logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704821AAEB37400ADC708 /* logger.cpp */; };
+		7B8704A31AAEB37400ADC708 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704841AAEB37400ADC708 /* main.cpp */; };
+		7B8704A41AAEB37400ADC708 /* mime_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704851AAEB37400ADC708 /* mime_types.cpp */; };
+		7B8704A51AAEB37400ADC708 /* mysqlpp_connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704881AAEB37400ADC708 /* mysqlpp_connection.cpp */; };
+		7B8704A61AAEB37400ADC708 /* mysqlpp_result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704891AAEB37400ADC708 /* mysqlpp_result.cpp */; };
+		7B8704A71AAEB37400ADC708 /* mysqlpp_statement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87048A1AAEB37400ADC708 /* mysqlpp_statement.cpp */; };
+		7B8704A81AAEB37400ADC708 /* request_handler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87048D1AAEB37400ADC708 /* request_handler.cpp */; };
+		7B8704A91AAEB37400ADC708 /* request_parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87048F1AAEB37400ADC708 /* request_parser.cpp */; };
+		7B8704AA1AAEB37400ADC708 /* response.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704921AAEB37400ADC708 /* response.cpp */; };
+		7B8704AB1AAEB37400ADC708 /* route_dir_board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704941AAEB37400ADC708 /* route_dir_board.cpp */; };
+		7B8704AC1AAEB37400ADC708 /* route_dir_user.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704951AAEB37400ADC708 /* route_dir_user.cpp */; };
+		7B8704AD1AAEB37400ADC708 /* router.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704961AAEB37400ADC708 /* router.cpp */; };
+		7B8704AE1AAEB37400ADC708 /* server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704981AAEB37400ADC708 /* server.cpp */; };
+		7B8704AF1AAEB37400ADC708 /* session.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87049A1AAEB37400ADC708 /* session.cpp */; };
+		7B8704B01AAEB37400ADC708 /* utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87049C1AAEB37400ADC708 /* utility.cpp */; };
+		7B8704B21AAEB41B00ADC708 /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8704B11AAEB41B00ADC708 /* libboost_system-mt.a */; };
+		7B8704B41AAEB42B00ADC708 /* libboost_thread-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8704B31AAEB42B00ADC708 /* libboost_thread-mt.a */; };
+		7B8704B61AAEB43B00ADC708 /* libboost_filesystem-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8704B51AAEB43B00ADC708 /* libboost_filesystem-mt.a */; };
+		7B8704B81AAEB44F00ADC708 /* libboost_serialization-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8704B71AAEB44F00ADC708 /* libboost_serialization-mt.a */; };
+		7B8704BA1AAEB47400ADC708 /* libmysqlclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8704B91AAEB47400ADC708 /* libmysqlclient.a */; };
+		7B8704BC1AAEB49400ADC708 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8704BB1AAEB49400ADC708 /* libcrypto.a */; };
+		7B8704BE1AAEB4A300ADC708 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8704BD1AAEB4A300ADC708 /* libssl.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7B87046E1AAEB31400ADC708 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7B8704701AAEB31400ADC708 /* waspp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = waspp; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B87047A1AAEB37400ADC708 /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
+		7B87047B1AAEB37400ADC708 /* config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config.hpp; sourceTree = "<group>"; };
+		7B87047C1AAEB37400ADC708 /* connection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = connection.cpp; sourceTree = "<group>"; };
+		7B87047D1AAEB37400ADC708 /* connection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = connection.hpp; sourceTree = "<group>"; };
+		7B87047E1AAEB37400ADC708 /* database.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = database.cpp; sourceTree = "<group>"; };
+		7B87047F1AAEB37400ADC708 /* database.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = database.hpp; sourceTree = "<group>"; };
+		7B8704801AAEB37400ADC708 /* dbconn_pool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dbconn_pool.cpp; sourceTree = "<group>"; };
+		7B8704811AAEB37400ADC708 /* dbconn_pool.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = dbconn_pool.hpp; sourceTree = "<group>"; };
+		7B8704821AAEB37400ADC708 /* logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = logger.cpp; sourceTree = "<group>"; };
+		7B8704831AAEB37400ADC708 /* logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = logger.hpp; sourceTree = "<group>"; };
+		7B8704841AAEB37400ADC708 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7B8704851AAEB37400ADC708 /* mime_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mime_types.cpp; sourceTree = "<group>"; };
+		7B8704861AAEB37400ADC708 /* mime_types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mime_types.hpp; sourceTree = "<group>"; };
+		7B8704871AAEB37400ADC708 /* multipart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = multipart.hpp; sourceTree = "<group>"; };
+		7B8704881AAEB37400ADC708 /* mysqlpp_connection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mysqlpp_connection.cpp; sourceTree = "<group>"; };
+		7B8704891AAEB37400ADC708 /* mysqlpp_result.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mysqlpp_result.cpp; sourceTree = "<group>"; };
+		7B87048A1AAEB37400ADC708 /* mysqlpp_statement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mysqlpp_statement.cpp; sourceTree = "<group>"; };
+		7B87048B1AAEB37400ADC708 /* mysqlpp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mysqlpp.hpp; sourceTree = "<group>"; };
+		7B87048C1AAEB37400ADC708 /* name_value.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = name_value.hpp; sourceTree = "<group>"; };
+		7B87048D1AAEB37400ADC708 /* request_handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = request_handler.cpp; sourceTree = "<group>"; };
+		7B87048E1AAEB37400ADC708 /* request_handler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = request_handler.hpp; sourceTree = "<group>"; };
+		7B87048F1AAEB37400ADC708 /* request_parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = request_parser.cpp; sourceTree = "<group>"; };
+		7B8704901AAEB37400ADC708 /* request_parser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = request_parser.hpp; sourceTree = "<group>"; };
+		7B8704911AAEB37400ADC708 /* request.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = request.hpp; sourceTree = "<group>"; };
+		7B8704921AAEB37400ADC708 /* response.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = response.cpp; sourceTree = "<group>"; };
+		7B8704931AAEB37400ADC708 /* response.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = response.hpp; sourceTree = "<group>"; };
+		7B8704941AAEB37400ADC708 /* route_dir_board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = route_dir_board.cpp; sourceTree = "<group>"; };
+		7B8704951AAEB37400ADC708 /* route_dir_user.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = route_dir_user.cpp; sourceTree = "<group>"; };
+		7B8704961AAEB37400ADC708 /* router.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = router.cpp; sourceTree = "<group>"; };
+		7B8704971AAEB37400ADC708 /* router.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = router.hpp; sourceTree = "<group>"; };
+		7B8704981AAEB37400ADC708 /* server.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = server.cpp; sourceTree = "<group>"; };
+		7B8704991AAEB37400ADC708 /* server.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = server.hpp; sourceTree = "<group>"; };
+		7B87049A1AAEB37400ADC708 /* session.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = session.cpp; sourceTree = "<group>"; };
+		7B87049B1AAEB37400ADC708 /* session.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = session.hpp; sourceTree = "<group>"; };
+		7B87049C1AAEB37400ADC708 /* utility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utility.cpp; sourceTree = "<group>"; };
+		7B87049D1AAEB37400ADC708 /* utility.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = utility.hpp; sourceTree = "<group>"; };
+		7B8704B11AAEB41B00ADC708 /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "../../../../../opt/local/lib/libboost_system-mt.a"; sourceTree = "<group>"; };
+		7B8704B31AAEB42B00ADC708 /* libboost_thread-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_thread-mt.a"; path = "../../../../../opt/local/lib/libboost_thread-mt.a"; sourceTree = "<group>"; };
+		7B8704B51AAEB43B00ADC708 /* libboost_filesystem-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-mt.a"; path = "../../../../../opt/local/lib/libboost_filesystem-mt.a"; sourceTree = "<group>"; };
+		7B8704B71AAEB44F00ADC708 /* libboost_serialization-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_serialization-mt.a"; path = "../../../../../opt/local/lib/libboost_serialization-mt.a"; sourceTree = "<group>"; };
+		7B8704B91AAEB47400ADC708 /* libmysqlclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmysqlclient.a; path = ../../../../../opt/local/lib/mariadb/mysql/libmysqlclient.a; sourceTree = "<group>"; };
+		7B8704BB1AAEB49400ADC708 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../opt/local/lib/libcrypto.a; sourceTree = "<group>"; };
+		7B8704BD1AAEB4A300ADC708 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../../../opt/local/lib/libssl.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7B87046D1AAEB31400ADC708 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B8704BE1AAEB4A300ADC708 /* libssl.a in Frameworks */,
+				7B8704BC1AAEB49400ADC708 /* libcrypto.a in Frameworks */,
+				7B8704BA1AAEB47400ADC708 /* libmysqlclient.a in Frameworks */,
+				7B8704B81AAEB44F00ADC708 /* libboost_serialization-mt.a in Frameworks */,
+				7B8704B61AAEB43B00ADC708 /* libboost_filesystem-mt.a in Frameworks */,
+				7B8704B41AAEB42B00ADC708 /* libboost_thread-mt.a in Frameworks */,
+				7B8704B21AAEB41B00ADC708 /* libboost_system-mt.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7B8704671AAEB31400ADC708 = {
+			isa = PBXGroup;
+			children = (
+				7B8704BD1AAEB4A300ADC708 /* libssl.a */,
+				7B8704BB1AAEB49400ADC708 /* libcrypto.a */,
+				7B8704B91AAEB47400ADC708 /* libmysqlclient.a */,
+				7B8704B71AAEB44F00ADC708 /* libboost_serialization-mt.a */,
+				7B8704B51AAEB43B00ADC708 /* libboost_filesystem-mt.a */,
+				7B8704B31AAEB42B00ADC708 /* libboost_thread-mt.a */,
+				7B8704B11AAEB41B00ADC708 /* libboost_system-mt.a */,
+				7B87047A1AAEB37400ADC708 /* config.cpp */,
+				7B87047B1AAEB37400ADC708 /* config.hpp */,
+				7B87047C1AAEB37400ADC708 /* connection.cpp */,
+				7B87047D1AAEB37400ADC708 /* connection.hpp */,
+				7B87047E1AAEB37400ADC708 /* database.cpp */,
+				7B87047F1AAEB37400ADC708 /* database.hpp */,
+				7B8704801AAEB37400ADC708 /* dbconn_pool.cpp */,
+				7B8704811AAEB37400ADC708 /* dbconn_pool.hpp */,
+				7B8704821AAEB37400ADC708 /* logger.cpp */,
+				7B8704831AAEB37400ADC708 /* logger.hpp */,
+				7B8704841AAEB37400ADC708 /* main.cpp */,
+				7B8704851AAEB37400ADC708 /* mime_types.cpp */,
+				7B8704861AAEB37400ADC708 /* mime_types.hpp */,
+				7B8704871AAEB37400ADC708 /* multipart.hpp */,
+				7B8704881AAEB37400ADC708 /* mysqlpp_connection.cpp */,
+				7B8704891AAEB37400ADC708 /* mysqlpp_result.cpp */,
+				7B87048A1AAEB37400ADC708 /* mysqlpp_statement.cpp */,
+				7B87048B1AAEB37400ADC708 /* mysqlpp.hpp */,
+				7B87048C1AAEB37400ADC708 /* name_value.hpp */,
+				7B87048D1AAEB37400ADC708 /* request_handler.cpp */,
+				7B87048E1AAEB37400ADC708 /* request_handler.hpp */,
+				7B87048F1AAEB37400ADC708 /* request_parser.cpp */,
+				7B8704901AAEB37400ADC708 /* request_parser.hpp */,
+				7B8704911AAEB37400ADC708 /* request.hpp */,
+				7B8704921AAEB37400ADC708 /* response.cpp */,
+				7B8704931AAEB37400ADC708 /* response.hpp */,
+				7B8704941AAEB37400ADC708 /* route_dir_board.cpp */,
+				7B8704951AAEB37400ADC708 /* route_dir_user.cpp */,
+				7B8704961AAEB37400ADC708 /* router.cpp */,
+				7B8704971AAEB37400ADC708 /* router.hpp */,
+				7B8704981AAEB37400ADC708 /* server.cpp */,
+				7B8704991AAEB37400ADC708 /* server.hpp */,
+				7B87049A1AAEB37400ADC708 /* session.cpp */,
+				7B87049B1AAEB37400ADC708 /* session.hpp */,
+				7B87049C1AAEB37400ADC708 /* utility.cpp */,
+				7B87049D1AAEB37400ADC708 /* utility.hpp */,
+				7B8704711AAEB31400ADC708 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7B8704711AAEB31400ADC708 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B8704701AAEB31400ADC708 /* waspp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7B87046F1AAEB31400ADC708 /* waspp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B8704771AAEB31400ADC708 /* Build configuration list for PBXNativeTarget "waspp" */;
+			buildPhases = (
+				7B87046C1AAEB31400ADC708 /* Sources */,
+				7B87046D1AAEB31400ADC708 /* Frameworks */,
+				7B87046E1AAEB31400ADC708 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = waspp;
+			productName = waspp;
+			productReference = 7B8704701AAEB31400ADC708 /* waspp */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7B8704681AAEB31400ADC708 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = waspp;
+				TargetAttributes = {
+					7B87046F1AAEB31400ADC708 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 7B87046B1AAEB31400ADC708 /* Build configuration list for PBXProject "waspp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7B8704671AAEB31400ADC708;
+			productRefGroup = 7B8704711AAEB31400ADC708 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7B87046F1AAEB31400ADC708 /* waspp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7B87046C1AAEB31400ADC708 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B8704B01AAEB37400ADC708 /* utility.cpp in Sources */,
+				7B8704A61AAEB37400ADC708 /* mysqlpp_result.cpp in Sources */,
+				7B8704AE1AAEB37400ADC708 /* server.cpp in Sources */,
+				7B8704AF1AAEB37400ADC708 /* session.cpp in Sources */,
+				7B8704AC1AAEB37400ADC708 /* route_dir_user.cpp in Sources */,
+				7B87049E1AAEB37400ADC708 /* config.cpp in Sources */,
+				7B8704A11AAEB37400ADC708 /* dbconn_pool.cpp in Sources */,
+				7B8704A81AAEB37400ADC708 /* request_handler.cpp in Sources */,
+				7B8704A31AAEB37400ADC708 /* main.cpp in Sources */,
+				7B8704A21AAEB37400ADC708 /* logger.cpp in Sources */,
+				7B8704A51AAEB37400ADC708 /* mysqlpp_connection.cpp in Sources */,
+				7B8704A71AAEB37400ADC708 /* mysqlpp_statement.cpp in Sources */,
+				7B8704AB1AAEB37400ADC708 /* route_dir_board.cpp in Sources */,
+				7B8704AA1AAEB37400ADC708 /* response.cpp in Sources */,
+				7B8704A91AAEB37400ADC708 /* request_parser.cpp in Sources */,
+				7B8704AD1AAEB37400ADC708 /* router.cpp in Sources */,
+				7B87049F1AAEB37400ADC708 /* connection.cpp in Sources */,
+				7B8704A01AAEB37400ADC708 /* database.cpp in Sources */,
+				7B8704A41AAEB37400ADC708 /* mime_types.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		7B8704751AAEB31400ADC708 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7B8704761AAEB31400ADC708 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		7B8704781AAEB31400ADC708 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include,
+					/opt/local/include/mariadb,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+					/opt/local/lib/mariadb/mysql,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7B8704791AAEB31400ADC708 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include,
+					/opt/local/include/mariadb,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+					/opt/local/lib/mariadb/mysql,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7B87046B1AAEB31400ADC708 /* Build configuration list for PBXProject "waspp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B8704751AAEB31400ADC708 /* Debug */,
+				7B8704761AAEB31400ADC708 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B8704771AAEB31400ADC708 /* Build configuration list for PBXNativeTarget "waspp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B8704781AAEB31400ADC708 /* Debug */,
+				7B8704791AAEB31400ADC708 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7B8704681AAEB31400ADC708 /* Project object */;
+}
