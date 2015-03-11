@@ -47,7 +47,7 @@ namespace waspp
 		// session
 		std::string encrypt_key, sess_cookie;
 		double expiry_sec, update_sec;
-		bool validate_ip, validate_ua;
+		bool validate_ep, validate_ua;
 
 		// server
 		std::string address, port, doc_root;

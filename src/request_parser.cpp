@@ -14,6 +14,7 @@
 #include "request.hpp"
 #include "utility.hpp"
 
+#include <iostream>
 namespace waspp
 {
 
@@ -77,7 +78,7 @@ namespace waspp
 		{
 			return;
 		}
-
+		
 		std::string::size_type pos;
 		std::string::size_type old_pos = 0;
 

@@ -60,6 +60,7 @@ namespace waspp
 
 		func_ptr get_func(std::string& request_uri);
 		bool get_file(response& res, std::string& full_path);
+		void err_msg(response& res, const std::string& message, database* db, const std::string& dbname, dbconn_ptr dbconn);
 
 	} // namespace router
 

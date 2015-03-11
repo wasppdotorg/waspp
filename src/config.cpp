@@ -26,7 +26,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	config::config() : expiry_sec(0), update_sec(0), validate_ip(false), validate_ua(false), num_threads(0)
+	config::config() : expiry_sec(0), update_sec(0), validate_ep(false), validate_ua(false), num_threads(0)
 	{
 	}
 
@@ -113,7 +113,7 @@ namespace waspp
 					keys.push_back("sess_cookie");
 					keys.push_back("expiry_sec");
 					keys.push_back("update_sec");
-					keys.push_back("validate_ip");
+					keys.push_back("validate_ep");
 					keys.push_back("validate_ua");
 				}
 
@@ -142,9 +142,9 @@ namespace waspp
 					{
 						update_sec = boost::lexical_cast<double>(found2->value);
 					}
-					else if (keys[i] == "validate_ip")
+					else if (keys[i] == "validate_ep")
 					{
-						validate_ip = boost::lexical_cast<bool>(found2->value);
+						validate_ep = boost::lexical_cast<bool>(found2->value);
 					}
 					else if (keys[i] == "validate_ua")
 					{

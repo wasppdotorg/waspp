@@ -29,8 +29,6 @@ namespace waspp
 
 		void auth(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			res.content_extension = "html";
-
 			unsigned int userid;
 			std::string username;
 			std::string passwd;
@@ -39,21 +37,20 @@ namespace waspp
 			{
 				if (req.param("username").empty())
 				{
-					res.content = "username is required";
+					router::err_msg(res, "username is required", 0, "", 0);
 					return;
 				}
 				username = req.param("username");
 
 				if (req.param("passwd").empty())
 				{
-					res.content = "passwd is required";
+					router::err_msg(res, "passwd is required", 0, "", 0);
 					return;
 				}
 				passwd = md5_digest(req.param("passwd"));
 			}
 
 			dbconn_ptr db_index = db->get("db_index");
-			try
 			{
 				stmt_ptr stmt(db_index->prepare("SELECT userid FROM users_idx WHERE username = ?"));
 				{
@@ -63,21 +60,18 @@ namespace waspp
 				res_ptr r(stmt->query());
 				if (r->num_rows() == 0)
 				{
-					res.content = "auth failed";
-					db->free("db_index", db_index);
+					router::err_msg(res, "auth failed(1)", db, "db_index", db_index);
 					return;
 				}
-				userid = r->get<unsigned int>("userid");
-			}
-			catch (...)
-			{
-				db->free("db_index", db_index);
-				throw;
+
+				if (r->fetch())
+				{
+					userid = r->get<unsigned int>("userid");
+				}
 			}
 			db->free("db_index", db_index);
 
 			dbconn_ptr db_shard = db->get_shard(userid);
-			try
 			{
 				stmt_ptr stmt(db_shard->prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
 				{
@@ -88,23 +82,17 @@ namespace waspp
 				res_ptr r(stmt->query());
 				if (r->num_rows() == 0)
 				{
-					res.content = "auth failed";
-					db->free_shard(userid, db_shard);
+					router::err_msg(res, "auth failed(2)", db, "db_shard", db_shard);
 					return;
 				}
 
 				waspp::session sess(cfg, &req, &res);
 				sess.set_sess("userid", boost::lexical_cast<std::string>(userid));
 				sess.set_sess("username", username);
-
-				res.redirect_to("/dir/board/index");
-			}
-			catch (...)
-			{
-				db->free_shard(userid, db_shard);
-				throw;
 			}
 			db->free_shard(userid, db_shard);
+
+			res.redirect_to("/dir/board/index");
 		}
 
 		void signup_html(logger* log, config* cfg, database* db, request& req, response& res)
@@ -115,8 +103,6 @@ namespace waspp
 
 		void post(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			res.content_extension = "html";
-
 			unsigned int userid;
 
 			int platformtype;
@@ -129,35 +115,34 @@ namespace waspp
 			{
 				if (req.param("platformtype").empty())
 				{
-					res.content = "platformtype is required";
+					router::err_msg(res, "platformtype is required", 0, "", 0);
 					return;
 				}
 				platformtype = boost::lexical_cast<int>(req.param("platformtype"));
 
 				if (req.param("platformid").empty())
 				{
-					res.content = "platformid is required";
+					router::err_msg(res, "platformid is required", 0, "", 0);
 					return;
 				}
 				platformid = req.param("platformid");
 
 				if (req.param("username").empty())
 				{
-					res.content = "username is required";
+					router::err_msg(res, "username is required", 0, "", 0);
 					return;
 				}
 				username = req.param("username");
 
 				if (req.param("passwd").empty())
 				{
-					res.content = "passwd is required";
+					router::err_msg(res, "passwd is required", 0, "", 0);
 					return;
 				}
 				passwd = md5_digest(req.param("passwd"));
 			}
 
 			dbconn_ptr db_index = db->get("db_index");
-			try
 			{
 				stmt_ptr stmt(db_index->prepare("SELECT userid FROM users_idx WHERE username = ?"));
 				{
@@ -167,7 +152,8 @@ namespace waspp
 				res_ptr r(stmt->query());
 				if (r->num_rows() != 0)
 				{
-					throw std::runtime_error("username not available");
+					router::err_msg(res, "username not available", db, "db_index", db_index);
+					return;
 				}
 
 				stmt.reset(db_index->prepare("CALL USP_GET_UNIQUE_KEYS('users_idx', ?)"));
@@ -193,18 +179,12 @@ namespace waspp
 				unsigned long long int affected_rows = stmt->execute();
 				if (affected_rows == 0)
 				{
-					throw std::runtime_error("insert_index failed");
+					router::err_msg(res, "insert_index failed", db, "db_index", db_index);
 				}
-			}
-			catch (...)
-			{
-				db->free("db_index", db_index);
-				throw;
 			}
 			db->free("db_index", db_index);
 
 			dbconn_ptr db_shard = db->get_shard(userid);
-			try
 			{
 				stmt_ptr stmt(db_shard->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
 				{
@@ -215,13 +195,9 @@ namespace waspp
 
 				if (affected_rows == 0)
 				{
-					throw std::runtime_error("insert_shard failed");
+					router::err_msg(res, "insert_shard failed", db, "db_shard", db_shard);
+					return;
 				}
-			}
-			catch (...)
-			{
-				db->free_shard(userid, db_shard);
-				throw;
 			}
 			db->free_shard(userid, db_shard);
 			
@@ -230,8 +206,8 @@ namespace waspp
 
 		void signout(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			res.content = "OK";
-			res.content_extension = "html";
+			res.delete_cookie(cfg->sess_cookie);
+			res.redirect_to("/dir/user/signin");
 		}
 
 	} // namespace dir_user

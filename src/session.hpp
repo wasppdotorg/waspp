@@ -45,8 +45,8 @@ namespace waspp
 		std::string get_curr_tm();
 		std::time_t get_last_tm();
 
-		std::string& get_curr_ip();
-		std::string& get_last_ip();
+		std::string& get_curr_ep();
+		std::string& get_last_ep();
 
 		std::string get_curr_ua();
 		std::string& get_last_ua();

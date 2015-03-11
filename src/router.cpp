@@ -8,7 +8,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/lexical_cast.hpp>
 
 #include "router.hpp"
-#include "mime_types.hpp"
+#include "database.hpp"
 
 namespace waspp
 {
@@ -81,6 +81,17 @@ namespace waspp
 			res.content_extension = get_extension(full_path);
 
 			return true;
+		}
+
+		void err_msg(response& res, const std::string& message, database* db, const std::string& dbname, dbconn_ptr dbconn)
+		{
+			res.content = message;
+			res.content_extension = "html";
+
+			if (!db)
+			{
+				db->free(dbname, dbconn);
+			}
 		}
 
 	} // namespace router

@@ -29,7 +29,7 @@ namespace waspp
 
 	void connection::start()
 	{
-		request_.remote_addr = boost::lexical_cast<std::string>(socket_.remote_endpoint());
+		request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.remote_endpoint());
 
 		socket_.async_read_some(boost::asio::buffer(buffer_),
 			strand_.wrap(
