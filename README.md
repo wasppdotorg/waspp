@@ -47,6 +47,26 @@ Install Boost, MariaDBClient, GnuTLS and TCMalloc
 * sudo apt-get install libgnutls-dev
 * sudo apt-get install libgoogle-perftools-dev
 
+Increase open file limit
+------------------------
+* ulimit -n
+* sudo vi /etc/sysctl.conf
+```
+fs.file-max = 65536
+```
+
+* sudo vi /etc/security/limits.conf
+```
+* hard nofile 65535
+* soft nofile 65535
+root hard nofile 65535
+root soft nofile 65535
+```
+
+* exit
+* ssh your@server
+* ulimit -n
+
 Install waspp
 -------------
 * cd /var/
