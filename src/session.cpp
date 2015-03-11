@@ -87,7 +87,8 @@ namespace waspp
 			std::string session_md5 = session_cookie.substr(session_cookie.size() - 32);
 			std::string session_str = session_cookie.substr(0, session_cookie.size() - 32);
 
-			if (session_md5 != md5_digest(session_str + cfg->encrypt_key))
+			md5 md5_;
+			if (session_md5 != md5_.digest(session_str + cfg->encrypt_key))
 			{
 				res->delete_cookie(cfg->sess_cookie);
 				return false;
@@ -149,7 +150,8 @@ namespace waspp
 
 	void session::create()
 	{
-		std::string sess_id = md5_digest(get_uuid());
+		md5 md5_;
+		std::string sess_id = md5_.digest(get_uuid());
 
 		session_.clear();
 		session_.push_back(name_value("sess_id", sess_id));
@@ -170,7 +172,8 @@ namespace waspp
 		std::string new_sess_id(get_uuid());
 		new_sess_id.append(get_curr_ep());
 
-		set_sess("sess_id", md5_digest(new_sess_id));
+		md5 md5_;
+		set_sess("sess_id", md5_.digest(new_sess_id));
 		set_sess("last_tm", get_curr_tm());
 
 		serialize_and_set();
@@ -226,9 +229,10 @@ namespace waspp
 			boost::archive::text_oarchive oar(oss, boost::archive::no_tracking);
 			oar << session_;
 		}
-
 		std::string cookie_value(url_encode(oss.str()));
-		cookie_value.append(md5_digest(cookie_value + cfg->encrypt_key));
+
+		md5 md5_;
+		cookie_value.append(md5_.digest(cookie_value + cfg->encrypt_key));
 
 		res->set_cookie(cfg->sess_cookie, cookie_value);
 	}

@@ -33,21 +33,23 @@ namespace waspp
 			std::string username;
 			std::string passwd;
 
+			md5 md5_;
+
 			// param check
 			{
 				if (req.param("username").empty())
 				{
-					router::err_msg(res, "username is required", 0, "", 0);
+					router::err_msg(res, "username is required", false);
 					return;
 				}
 				username = req.param("username");
 
 				if (req.param("passwd").empty())
 				{
-					router::err_msg(res, "passwd is required", 0, "", 0);
+					router::err_msg(res, "passwd is required", false);
 					return;
 				}
-				passwd = md5_digest(req.param("passwd"));
+				passwd = md5_.digest(req.param("passwd"));
 			}
 
 			dbconn_ptr db_index = db->get("db_index");
@@ -78,7 +80,7 @@ namespace waspp
 					stmt->param(userid);
 					stmt->param(passwd);
 				}
-				
+
 				res_ptr r(stmt->query());
 				if (r->num_rows() == 0)
 				{
@@ -111,35 +113,37 @@ namespace waspp
 			std::string username;
 			std::string passwd;
 
+			md5 md5_;
+
 			// param check
 			{
 				if (req.param("platformtype").empty())
 				{
-					router::err_msg(res, "platformtype is required", 0, "", 0);
+					router::err_msg(res, "platformtype is required", false);
 					return;
 				}
 				platformtype = boost::lexical_cast<int>(req.param("platformtype"));
 
 				if (req.param("platformid").empty())
 				{
-					router::err_msg(res, "platformid is required", 0, "", 0);
+					router::err_msg(res, "platformid is required", false);
 					return;
 				}
 				platformid = req.param("platformid");
 
 				if (req.param("username").empty())
 				{
-					router::err_msg(res, "username is required", 0, "", 0);
+					router::err_msg(res, "username is required", false);
 					return;
 				}
 				username = req.param("username");
 
 				if (req.param("passwd").empty())
 				{
-					router::err_msg(res, "passwd is required", 0, "", 0);
+					router::err_msg(res, "passwd is required", false);
 					return;
 				}
-				passwd = md5_digest(req.param("passwd"));
+				passwd = md5_.digest(req.param("passwd"));
 			}
 
 			dbconn_ptr db_index = db->get("db_index");
@@ -191,8 +195,8 @@ namespace waspp
 					stmt->param(userid);
 					stmt->param(passwd);
 				}
-				unsigned long long int affected_rows = stmt->execute();
 
+				unsigned long long int affected_rows = stmt->execute();
 				if (affected_rows == 0)
 				{
 					router::err_msg(res, "insert_shard failed", db, "db_shard", db_shard);
@@ -200,7 +204,7 @@ namespace waspp
 				}
 			}
 			db->free_shard(userid, db_shard);
-			
+
 			res.redirect_to("/dir/user/signin");
 		}
 

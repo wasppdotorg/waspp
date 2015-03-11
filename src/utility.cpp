@@ -38,7 +38,7 @@ namespace waspp
 	*/
 
 	// case-insensitive string comparison
-	// This code based on code from 
+	// This code based on code from
 	// "The C++ Programming Language, Third Edition" by Bjarne Stroustrup
 	bool strings_are_equal(const std::string& s1, const std::string& s2)
 	{
@@ -347,26 +347,6 @@ namespace waspp
 		}
 
 		return ret;
-	}
-
-	// md5
-	std::string md5_digest(const std::string& str_)
-	{
-		unsigned char digest_[16];
-		char* c_str_ = const_cast<char*>(str_.c_str());
-
-		MD5_CTX ctx;
-		MD5_Init(&ctx);
-		MD5_Update(&ctx, c_str_, strlen(c_str_));
-		MD5_Final(digest_, &ctx);
-
-		char md_str[33];
-		for (int i = 0; i < 16; ++i)
-		{
-			sprintf(&md_str[i * 2], "%02x", (unsigned int)digest_[i]);
-		}
-
-		return std::string(md_str);
 	}
 
 	// extension

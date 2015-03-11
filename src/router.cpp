@@ -83,15 +83,19 @@ namespace waspp
 			return true;
 		}
 
+		void err_msg(response& res, const std::string& message, bool has_db)
+		{
+			if (!has_db)
+			{
+				res.content = message;
+				res.content_extension = "html";
+			}
+		}
+
 		void err_msg(response& res, const std::string& message, database* db, const std::string& dbname, dbconn_ptr dbconn)
 		{
-			res.content = message;
-			res.content_extension = "html";
-
-			if (!db)
-			{
-				db->free(dbname, dbconn);
-			}
+			err_msg(res, message, false);
+			db->free(dbname, dbconn);
 		}
 
 	} // namespace router

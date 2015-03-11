@@ -42,7 +42,7 @@ namespace waspp
 
 		void signup_html(logger* log, config* cfg, database* db, request& req, response& res);
 		void post(logger* log, config* cfg, database* db, request& req, response& res);
-		
+
 		void signout(logger* log, config* cfg, database* db, request& req, response& res);
 
 	} // namespace dir_user
@@ -60,6 +60,7 @@ namespace waspp
 
 		func_ptr get_func(std::string& request_uri);
 		bool get_file(response& res, std::string& full_path);
+		void err_msg(response& res, const std::string& message, bool has_db);
 		void err_msg(response& res, const std::string& message, database* db, const std::string& dbname, dbconn_ptr dbconn);
 
 	} // namespace router
