@@ -83,35 +83,6 @@ namespace waspp
 	template<typename T> T* singleton<T>::instance_ = 0;
 	template<typename T> spinlock singleton<T>::lock;
 
-	class md5
-	{
-	public:
-		md5() {}
-		~md5() {}
-
-		std::string digest(const std::string& str_)
-		{
-			char* c_str_ = const_cast<char*>(str_.c_str());
-
-			MD5_CTX ctx;
-			MD5_Init(&ctx);
-			MD5_Update(&ctx, c_str_, strlen(c_str_));
-			MD5_Final(digest_, &ctx);
-
-			char md_str[33];
-			for (int i = 0; i < 16; ++i)
-			{
-				sprintf(&md_str[i * 2], "%02x", (unsigned int)digest_[i]);
-			}
-
-			return std::string(md_str);
-		}
-
-	private:
-		unsigned char digest_[16];
-
-	};
-
 	/* -*-mode:c++; c-file-style: "gnu";-*- */
 	/*
 	*  $Id: CgiUtils.h,v 1.17 2014/04/23 20:55:03 sebdiaz Exp $
@@ -191,6 +162,9 @@ namespace waspp
 
 	// extension
 	std::string get_extension(const std::string& path);
+
+	// md5
+	std::string md5_digest(const std::string& str_);
 
 } // namespace waspp
 

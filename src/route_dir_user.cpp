@@ -33,8 +33,6 @@ namespace waspp
 			std::string username;
 			std::string passwd;
 
-			md5 md5_;
-
 			// param check
 			{
 				if (req.param("username").empty())
@@ -49,7 +47,7 @@ namespace waspp
 					router::err_msg(res, "passwd is required", false);
 					return;
 				}
-				passwd = md5_.digest(req.param("passwd"));
+				passwd = md5_digest(req.param("passwd"));
 			}
 
 			dbconn_ptr db_index = db->get("db_index");
@@ -113,8 +111,6 @@ namespace waspp
 			std::string username;
 			std::string passwd;
 
-			md5 md5_;
-
 			// param check
 			{
 				if (req.param("platformtype").empty())
@@ -143,7 +139,7 @@ namespace waspp
 					router::err_msg(res, "passwd is required", false);
 					return;
 				}
-				passwd = md5_.digest(req.param("passwd"));
+				passwd = md5_digest(req.param("passwd"));
 			}
 
 			dbconn_ptr db_index = db->get("db_index");
@@ -166,7 +162,7 @@ namespace waspp
 				}
 
 				r.reset(stmt->query());
-				if (r->fetch_proc_result())
+				if (r->fetch(true))
 				{
 					userid = r->get<unsigned int>("last_key");
 				}
