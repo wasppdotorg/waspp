@@ -248,11 +248,7 @@ namespace waspp
 			}
 
 			unsigned int userid = boost::lexical_cast<unsigned int>(sess.get("userid"));
-			std::string& username = sess.get("username");
-			
-			unsigned int seq(0);
-			std::string* title(0);
-			std::string* content(0);
+			unsigned int seq = 0;
 			
 			// param check
 			{
@@ -266,14 +262,12 @@ namespace waspp
 					router::err_msg(res, "title is required", false);
 					return;
 				}
-				*title = req.param("title");
 
 				if (req.param("content").empty())
 				{
 					router::err_msg(res, "content is required", false);
 					return;
 				}
-				*content = req.param("content");
 			}
 
 			dbconn_ptr db_etc = db->get("db_etc");
@@ -294,12 +288,12 @@ namespace waspp
 					stmt.reset(db_etc->prepare("INSERT INTO board(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
 					{
 						stmt->param(seq);
-						stmt->param(*title);
-						stmt->param(*content);
+						stmt->param(req.param("title"));
+						stmt->param(req.param("content"));
 						stmt->param("");
 						stmt->param("");
 						stmt->param(userid);
-						stmt->param(username);
+						stmt->param(sess.get("username"));
 					}
 
 					unsigned long long int affected_rows = stmt->execute();
@@ -313,11 +307,11 @@ namespace waspp
 				{
 					stmt_ptr stmt(db_etc->prepare("UPDATE board SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
 					{
-						stmt->param(*title);
-						stmt->param(*content);
+						stmt->param(req.param("title"));
+						stmt->param(req.param("content"));
 						stmt->param("");
 						stmt->param("");
-						stmt->param(username);
+						stmt->param(req.param("username"));
 						stmt->param(seq);
 						stmt->param(userid);
 					}

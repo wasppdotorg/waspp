@@ -31,7 +31,6 @@ namespace waspp
 		void auth(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 			unsigned int userid;
-			std::string* username(0);
 			std::string passwd;
 
 			// param check
@@ -41,7 +40,6 @@ namespace waspp
 					router::err_msg(res, "username is required", false);
 					return;
 				}
-				*username = req.param("username");
 
 				if (req.param("passwd").empty())
 				{
@@ -55,7 +53,7 @@ namespace waspp
 			{
 				stmt_ptr stmt(db_index->prepare("SELECT userid FROM users_idx WHERE username = ?"));
 				{
-					stmt->param(*username);
+					stmt->param(req.param("username"));
 				}
 
 				res_ptr r(stmt->query());
@@ -89,7 +87,7 @@ namespace waspp
 
 				waspp::session sess(cfg, &req, &res);
 				sess.put("userid", boost::lexical_cast<std::string>(userid));
-				sess.put("username", *username);
+				sess.put("username", req.param("username"));
 			}
 			db->free_shard(userid, db_shard);
 
@@ -107,9 +105,7 @@ namespace waspp
 			unsigned int userid;
 
 			int platformtype;
-			std::string* platformid;
-
-			std::string* username(0);
+			std::string platformid;
 			std::string passwd;
 
 			// param check
@@ -126,14 +122,12 @@ namespace waspp
 					router::err_msg(res, "platformid is required", false);
 					return;
 				}
-				*platformid = req.param("platformid");
 
 				if (req.param("username").empty())
 				{
 					router::err_msg(res, "username is required", false);
 					return;
 				}
-				*username = req.param("username");
 
 				if (req.param("passwd").empty())
 				{
@@ -153,7 +147,7 @@ namespace waspp
 			{
 				stmt_ptr stmt(db_index->prepare("SELECT userid FROM users_idx WHERE username = ?"));
 				{
-					stmt->param(*username);
+					stmt->param(req.param("username"));
 				}
 
 				res_ptr r(stmt->query());
@@ -173,14 +167,14 @@ namespace waspp
 				{
 					userid = r->get<unsigned int>("last_key");
 				}
-				*platformid = boost::lexical_cast<std::string>(userid);
+				platformid = boost::lexical_cast<std::string>(userid);
 
 				stmt.reset(db_index->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
 				{
 					stmt->param(userid);
 					stmt->param(platformtype);
-					stmt->param(*platformid);
-					stmt->param(*username);
+					stmt->param(platformid);
+					stmt->param(req.param("username"));
 				}
 
 				unsigned long long int affected_rows = stmt->execute();
