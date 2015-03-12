@@ -2,62 +2,71 @@
 
 <html>
 <head>
-  <title>WASPP : Web Application Server written in C++</title>
-  <meta charset='utf-8'>
-  <meta name='viewport' content='initial-scale=1'>
-  <style type='text/css'>
-    body {
-      background-color:#fff; color:#666;
-      font-size:.8em; font-family:tahoma, geneva, sans-serif;
-    }
+	<title>WASPP : Web Application Server written in C++</title>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='initial-scale=1'>
+	<style type='text/css'>
+		body
+		{
+			background-color:#fff; color:#666;
+			font-size:.8em; font-family:tahoma, geneva, sans-serif;
+		}
 
-    .root { width:770px }
+		.root { width:770px }
 
-    .left { float:left }
-    .right { float:right }
-    .clear { clear:both }
+		.left { float:left }
+		.right { float:right }
+		.clear { clear:both }
 
-    a { color:#06c; text-decoration:none }
-    a:hover { color:#06c; text-decoration:underline }
+		a { color:#06c; text-decoration:none }
+		a:hover { color:#06c; text-decoration:underline }
 
-    h2 { color:#666; font-weight:normal }
+		h2 { color:#666; font-weight:normal }
 
-    form { clear:both; margin:0 }
-    fieldset {
-      border:1px solid #eee; padding-left:1.5em; padding-bottom:1.5em
-    }
-    label {
-      margin-top:1.2em; margin-bottom:.2em; display:block; font-weight:bold
-    }
+		form { clear:both; margin:0 }
+		fieldset
+		{
+			border:1px solid #eee; padding-left:1.5em; padding-bottom:1.5em
+		}
+		
+		label
+		{
+			margin-top:1.2em; margin-bottom:.2em; display:block; font-weight:bold
+		}
 
-    input { font-family:tahoma, geneva, sans-serif }
-    .input-text { width:400px; }
-    select { font-family:tahoma, geneva, sans-serif }
+		input { font-family:tahoma, geneva, sans-serif }
+		.input-text { width:400px; }
+		select { font-family:tahoma, geneva, sans-serif }
 
-    textarea {
-      width:740px; height:300px; font-size:1em;
-      font-family:tahoma, geneva, sans-serif
-    }
+		textarea
+		{
+			width:740px; height:300px; font-size:1em;
+			font-family:tahoma, geneva, sans-serif
+		}
 
-    .nav-top { margin-bottom:.5em }
-    .nav-bottom { margin-top:.5em }
+		.nav-top { margin-bottom:.5em }
+		.nav-bottom { margin-top:.5em }
 
-    table { width:100%; border:1px solid #ddd; border-collapse:collapse }
-    .hover tr:hover { background-color:#eee }
+		table { width:100%; border:1px solid #ddd; border-collapse:collapse }
+		.hover tr:hover { background-color:#eee }
 
-    th {
-      background-color:#eee;
-      border:1px solid #ddd; border-collapse:collapse; padding:.5em
-    }
-    td { border:1px solid #ddd; border-collapse:collapse; padding:.5em }
-    .th-fixed-width { width:150px }
+		th
+		{
+			background-color:#eee;
+			border:1px solid #ddd; border-collapse:collapse; padding:.5em
+		}
+		
+		td { border:1px solid #ddd; border-collapse:collapse; padding:.5em }
+		.th-fixed-width { width:150px }
 
-    .pagination {
-       border-bottom:1px solid #ddd;
-       margin-top:.5em; padding-bottom:.8em; text-align:center
-    }
-    .history_go { border:0; background-color:#fff; color:#06c }
-  </style>
+		.pagination
+		{
+			 border-bottom:1px solid #ddd;
+			 margin-top:.5em; padding-bottom:.8em; text-align:center
+		}
+		
+		.history_go { border:0; background-color:#fff; color:#06c }
+	</style>
 </head>
 
 <body>
@@ -69,152 +78,151 @@
 
 <form id='form_search' action='/dir/board/index'>
 <div class='nav-top'>
-  <select name='field'>
-    <option value='2' >Title</option>
-    <option value='3' >Content</option>
-    <option value='4' >File1</option>
-    <option value='5' >File2</option>
-    <option value='6' >Username</option>
-  </select>
-  <input type='text' name='keyword' value=''>
-  <input type='submit' value='Search'>
-  <span class='right'>
-    <a href='/dir/board/form'>New</a>
-  </span>
+	<select name='field'>
+		<option value='2' >Title</option>
+		<option value='3' >Content</option>
+		<option value='4' >File1</option>
+		<option value='5' >File2</option>
+		<option value='6' >Username</option>
+	</select>
+	<input type='text' name='keyword' value=''>
+	<input type='submit' value='Search'>
+	<span class='right'>
+		<a href='/dir/board/form'>New</a>
+	</span>
 </div>
 </form>
 
 <form id='form_batch' method='post' action='/dir/board/batch'>
 <table class='hover'>
-  <tr>
-    <th>
-      <input type='checkbox' name='check_all'>
-      Seq.
-    </th>
-    <th>Title</th>
-    <th>Username</th>
-    <th>UpdateTime</th>
-    <th>Show | Update | Delete</th>
-  </tr>
+	<tr>
+		<th>
+			<input type='checkbox' name='check_all'>
+			Seq.
+		</th>
+		<th>Title</th>
+		<th>Username</th>
+		<th>UpdateTime</th>
+		<th>Show | Update | Delete</th>
+	</tr>
 
 
 </table>
 
 <div>
-  <span class='left'><input type='checkbox' name='check_all'></span>
-  <div class='pagination'></div>
+	<span class='left'><input type='checkbox' name='check_all'></span>
+	<div class='pagination'></div>
 </div>
 
 <div class='nav-bottom'>
-  <input type='submit' name='delete_multiple' value='Delete'>
-  <span class='right'>
+	<input type='submit' name='delete_multiple' value='Delete'>
+	<span class='right'>
 
-    Prev |
+		Prev |
 
-    Next
+		Next
 
-  </span>
+	</span>
 </div>
 </form>
 
 </div>
 
 <script type='text/javascript'>
-window.onload = function() {
-  if ('function' !== typeof document.getElementsByClassName) {
-    document.getElementsByClassName = function(class_name) {
-      var elems = new Array();
+window.onload = function()
+{
+	document.getElementById('form_search').onsubmit = function()
+	{
+		window.location.href = '/dir/board/index/1/' + this.field.value + '/' + this.keyword.value;
+		return false;
+	}
 
-      var tags = document.getElementsByTagName('*');
-      for (var i = 0; i < tags.length; ++i) {
-        var classes = ' ' + tags[i].getAttribute('class') + ' ';
-        if (-1 != classes.indexOf(class_name)) {
-          elems.push(tags[i]);
-        }
-      }
+	var CheckAll = function(checked)
+	{
+		var inputs = document.getElementsByTagName('input');
+		for (var i = 0; i < inputs.length; ++i)
+		{
+			if ('checkbox' != inputs[i].type)
+			{
+				continue;
+			}
+			inputs[i].checked = checked;
+		}
+	}
 
-      return elems;
-    }
-  }
+	var checkall_checkboxes = document.getElementsByName('check_all');
+	for (var i = 0; i < checkall_checkboxes.length; ++i)
+	{
+		checkall_checkboxes[i].onclick = function()
+		{
+			CheckAll(this.checked);
+		}
+	}
 
-  document.getElementById('form_search').onsubmit = function() {
-    window.location.href = '/dir/board/index/1/' + this.field.value + '/' + this.keyword.value;
-    return false;
-  }
+	var Pagination = function()
+	{
+		var paginations = document.getElementsByClassName('pagination');
+		var pagination = paginations[0];
 
-  var CheckAll = function(checked) {
-    var inputs = document.getElementsByTagName('input');
-    for (var i = 0; i < inputs.length; ++i) {
-      if ('checkbox' != inputs[i].type) continue;
-      inputs[i].checked = checked;
-    }
-  }
+		var form_search = document.getElementById('form_search');
+		var field = form_search.field.value;
+		var keyword = form_search.keyword.value;
 
-  var checkall_checkboxes = document.getElementsByName('check_all');
-  for (var i = 0; i < checkall_checkboxes.length; ++i) {
-    checkall_checkboxes[i].onclick = function() {
-      CheckAll(this.checked);
-    }
-  }
+		var page = 1;
+		var page_count = 1;
+		var link_count = 10;
+		var i = parseInt((page - 1) / link_count) * link_count + 1;
 
-  var Pagination = function() {
-    var paginations = document.getElementsByClassName('pagination');
-    var pagination = paginations[0];
+		if (i > link_count)
+		{
+			var a_first = document.createElement('a');
+			a_first.setAttribute('href', '/dir/board/index/1/' + field + '/' + keyword);
+			a_first.appendChild(document.createTextNode('1'));
+			pagination.appendChild(a_first);
+			pagination.appendChild(document.createTextNode(' \u00a0'));
 
-    var form_search = document.getElementById('form_search');
-    var field = form_search.field.value;
-    var keyword = form_search.keyword.value;
+			var a_prev = document.createElement('a');
+			a_prev.setAttribute('href', '/dir/board/index/' + (i - 1) + '/' + field + '/' + keyword);
+			a_prev.appendChild(document.createTextNode('<<'));
+			pagination.appendChild(a_prev);
+			pagination.appendChild(document.createTextNode(' \u00a0'));
+		}
 
-    var page = 1;
-    var page_count = 1;
-    var link_count = 10;
-    var i = parseInt((page - 1) / link_count) * link_count + 1;
+		for (var j = 0; i <= page_count && j < link_count; ++i, ++j)
+		{
+			if (i == page)
+			{
+				var b_page = document.createElement('b');
+				b_page.appendChild(document.createTextNode(i));
+				pagination.appendChild(b_page);
+				pagination.appendChild(document.createTextNode(' \u00a0'));
+			}
+			else
+			{
+				var a_page = document.createElement('a');
+				a_page.setAttribute('href', '/dir/board/index/' + i + '/' + field + '/' + keyword);
+				a_page.appendChild(document.createTextNode(i));
+				pagination.appendChild(a_page);
+				pagination.appendChild(document.createTextNode(' \u00a0'));
+			}
+		}
 
-    if (i > link_count) {
-      var a_first = document.createElement('a');
-      a_first.setAttribute('href', '/dir/board/index/1/' + field + '/' + keyword);
-      a_first.appendChild(document.createTextNode('1'));
-      pagination.appendChild(a_first);
-      pagination.appendChild(document.createTextNode(' \u00a0'));
+		if (i <= page_count)
+		{
+			var a_next = document.createElement('a');
+			a_next.setAttribute('href', '/dir/board/index/' + i + '/' + field + '/' + keyword);
+			a_next.appendChild(document.createTextNode('>>'));
+			pagination.appendChild(a_next);
+			pagination.appendChild(document.createTextNode(' \u00a0'));
 
-      var a_prev = document.createElement('a');
-      a_prev.setAttribute('href', '/dir/board/index/' + (i - 1) + '/' + field + '/' + keyword);
-      a_prev.appendChild(document.createTextNode('<<'));
-      pagination.appendChild(a_prev);
-      pagination.appendChild(document.createTextNode(' \u00a0'));
-    }
+			var a_last = document.createElement('a');
+			a_last.setAttribute('href', '/dir/board/index/' + page_count + '/' + field + '/' + keyword);
+			a_last.appendChild(document.createTextNode(page_count));
+			pagination.appendChild(a_last);
+			pagination.appendChild(document.createTextNode(' \u00a0'));
+		}
+	}
 
-    for (var j = 0; i <= page_count && j < link_count; ++i, ++j) {
-      if (i == page) {
-        var b_page = document.createElement('b');
-        b_page.appendChild(document.createTextNode(i));
-        pagination.appendChild(b_page);
-        pagination.appendChild(document.createTextNode(' \u00a0'));
-      }
-      else {
-        var a_page = document.createElement('a');
-        a_page.setAttribute('href', '/dir/board/index/' + i + '/' + field + '/' + keyword);
-        a_page.appendChild(document.createTextNode(i));
-        pagination.appendChild(a_page);
-        pagination.appendChild(document.createTextNode(' \u00a0'));
-      }
-    }
-
-    if (i <= page_count) {
-      var a_next = document.createElement('a');
-      a_next.setAttribute('href', '/dir/board/index/' + i + '/' + field + '/' + keyword);
-      a_next.appendChild(document.createTextNode('>>'));
-      pagination.appendChild(a_next);
-      pagination.appendChild(document.createTextNode(' \u00a0'));
-
-      var a_last = document.createElement('a');
-      a_last.setAttribute('href', '/dir/board/index/' + page_count + '/' + field + '/' + keyword);
-      a_last.appendChild(document.createTextNode(page_count));
-      pagination.appendChild(a_last);
-      pagination.appendChild(document.createTextNode(' \u00a0'));
-    }
-  }
-
-  Pagination();
+	Pagination();
 }
 </script>

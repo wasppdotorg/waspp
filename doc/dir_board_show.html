@@ -2,62 +2,71 @@
 
 <html>
 <head>
-  <title>WASPP : Web Application Server written in C++</title>
-  <meta charset='utf-8'>
-  <meta name='viewport' content='initial-scale=1'>
-  <style type='text/css'>
-    body {
-      background-color:#fff; color:#666;
-      font-size:.8em; font-family:tahoma, geneva, sans-serif;
-    }
+	<title>WASPP : Web Application Server written in C++</title>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='initial-scale=1'>
+	<style type='text/css'>
+		body
+		{
+			background-color:#fff; color:#666;
+			font-size:.8em; font-family:tahoma, geneva, sans-serif;
+		}
 
-    .root { width:770px }
+		.root { width:770px }
 
-    .left { float:left }
-    .right { float:right }
-    .clear { clear:both }
+		.left { float:left }
+		.right { float:right }
+		.clear { clear:both }
 
-    a { color:#06c; text-decoration:none }
-    a:hover { color:#06c; text-decoration:underline }
+		a { color:#06c; text-decoration:none }
+		a:hover { color:#06c; text-decoration:underline }
 
-    h2 { color:#666; font-weight:normal }
+		h2 { color:#666; font-weight:normal }
 
-    form { clear:both; margin:0 }
-    fieldset {
-      border:1px solid #eee; padding-left:1.5em; padding-bottom:1.5em
-    }
-    label {
-      margin-top:1.2em; margin-bottom:.2em; display:block; font-weight:bold
-    }
+		form { clear:both; margin:0 }
+		fieldset
+		{
+			border:1px solid #eee; padding-left:1.5em; padding-bottom:1.5em
+		}
+		
+		label
+		{
+			margin-top:1.2em; margin-bottom:.2em; display:block; font-weight:bold
+		}
 
-    input { font-family:tahoma, geneva, sans-serif }
-    .input-text { width:400px; }
-    select { font-family:tahoma, geneva, sans-serif }
+		input { font-family:tahoma, geneva, sans-serif }
+		.input-text { width:400px; }
+		select { font-family:tahoma, geneva, sans-serif }
 
-    textarea {
-      width:740px; height:300px; font-size:1em;
-      font-family:tahoma, geneva, sans-serif
-    }
+		textarea
+		{
+			width:740px; height:300px; font-size:1em;
+			font-family:tahoma, geneva, sans-serif
+		}
 
-    .nav-top { margin-bottom:.5em }
-    .nav-bottom { margin-top:.5em }
+		.nav-top { margin-bottom:.5em }
+		.nav-bottom { margin-top:.5em }
 
-    table { width:100%; border:1px solid #ddd; border-collapse:collapse }
-    .hover tr:hover { background-color:#eee }
+		table { width:100%; border:1px solid #ddd; border-collapse:collapse }
+		.hover tr:hover { background-color:#eee }
 
-    th {
-      background-color:#eee;
-      border:1px solid #ddd; border-collapse:collapse; padding:.5em
-    }
-    td { border:1px solid #ddd; border-collapse:collapse; padding:.5em }
-    .th-fixed-width { width:150px }
+		th
+		{
+			background-color:#eee;
+			border:1px solid #ddd; border-collapse:collapse; padding:.5em
+		}
+		
+		td { border:1px solid #ddd; border-collapse:collapse; padding:.5em }
+		.th-fixed-width { width:150px }
 
-    .pagination {
-       border-bottom:1px solid #ddd;
-       margin-top:.5em; padding-bottom:.8em; text-align:center
-    }
-    .history_go { border:0; background-color:#fff; color:#06c }
-  </style>
+		.pagination
+		{
+			 border-bottom:1px solid #ddd;
+			 margin-top:.5em; padding-bottom:.8em; text-align:center
+		}
+		
+		.history_go { border:0; background-color:#fff; color:#06c }
+	</style>
 </head>
 
 <body>
@@ -69,53 +78,56 @@
 
 <form method='post'>
 <table>
-  <tr>
-    <th class='th-fixed-width'>Title</th>
-    <td>test</td>
-  </tr>
-  <tr>
-    <td colspan='2'>test</td>
-  </tr>
-  <tr>
-    <th>File1</th>
-    <td>
-    </td>
-  </tr>
-  <tr>
-    <th>File2</th>
-    <td>
-    </td>
-  </tr>
-  <tr>
-    <th>Username</th>
-    <td>test</td>
-  </tr>
-  <tr>
-    <th>InsertTime</th>
-    <td>2015-03-04 14:42:04</td>
-  </tr>
-  <tr>
-    <th>UpdateTime</th>
-    <td>2015-03-04 14:42:04</td>
-  </tr>
+	<tr>
+		<th class='th-fixed-width'>Title</th>
+		<td>test</td>
+	</tr>
+	<tr>
+		<td colspan='2'>test</td>
+	</tr>
+	<tr>
+		<th>File1</th>
+		<td>
+		</td>
+	</tr>
+	<tr>
+		<th>File2</th>
+		<td>
+		</td>
+	</tr>
+	<tr>
+		<th>Username</th>
+		<td>test</td>
+	</tr>
+	<tr>
+		<th>InsertTime</th>
+		<td>2015-03-04 14:42:04</td>
+	</tr>
+	<tr>
+		<th>UpdateTime</th>
+		<td>2015-03-04 14:42:04</td>
+	</tr>
 </table>
 
 <div class='nav-bottom'>
-  <span class='right'>
-    <input type='button' name='list' class='history_go' value='List'>
-  </span>
+	<span class='right'>
+		<input type='button' name='list' class='history_go' value='List'>
+	</span>
 </div>
 
 </form>
 </div>
 
 <script type='text/javascript'>
-window.onload = function() {
-  var list_buttons = document.getElementsByName('list');
-  for (var i = 0; i < list_buttons.length; ++i) {
-    list_buttons[i].onclick = function() {
-      history.go(-1);
-    }
-  }
+window.onload = function()
+{
+	var list_buttons = document.getElementsByName('list');
+	for (var i = 0; i < list_buttons.length; ++i)
+	{
+		list_buttons[i].onclick = function()
+		{
+			history.go(-1);
+		}
+	}
 }
 </script>

@@ -207,7 +207,7 @@ USE `product_waspp_etc`;
 	DELIMITER ;
 
 	CREATE TABLE `board` (
-	  `boardseq` int(11) unsigned NOT NULL,
+	  `seq` int(11) unsigned NOT NULL,
 	  `title` varchar(128) NOT NULL,
 	  `content` text NOT NULL,
 	  `file1` varchar(64) NOT NULL,
@@ -216,5 +216,5 @@ USE `product_waspp_etc`;
 	  `username` varchar(64) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
-	  PRIMARY KEY (`boardseq`)
+	  PRIMARY KEY (`seq`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
