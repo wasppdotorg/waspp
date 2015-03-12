@@ -181,23 +181,23 @@ namespace waspp
 
 		if (rotation_ == rotate_minutely && time.tm_min != file_created_.tm_min)
 		{
-			std::strftime(datetime, sizeof(datetime), "%Y-%m-%d_%H%M_", &file_created_);
+			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d_%H%M", &file_created_);
 		}
 		else if (rotation_ == rotate_hourly && time.tm_hour != file_created_.tm_hour)
 		{
-			std::strftime(datetime, sizeof(datetime), "%Y-%m-%d_%H_", &file_created_);
+			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d_%H", &file_created_);
 		}
 		else if (rotation_ == rotate_daily && time.tm_mday != file_created_.tm_mday)
 		{
-			std::strftime(datetime, sizeof(datetime), "%Y-%m-%d_", &file_created_);
+			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d", &file_created_);
 		}
 		else
 		{
 			return;
 		}
 
-		std::string file_to(datetime);
-		file_to.append(file_);
+		std::string file_to(file_);
+		file_to.append(datetime);
 
 		log_service_.post(boost::bind(&logger::log_rotate_impl, this, file_to));
 	}
