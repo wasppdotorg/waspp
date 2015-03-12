@@ -83,7 +83,7 @@ namespace waspp
 			return true;
 		}
 
-		void put_foot(request& req, response& res)
+		void put_jsonp(request& req, response& res)
 		{
 			res.content.append("\n<script src='/_.js'></script>\n<script src='/_");
 			res.content.append(req.uri);

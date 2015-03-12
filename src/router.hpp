@@ -60,7 +60,7 @@ namespace waspp
 
 		func_ptr get_func(std::string& request_uri);
 		bool get_file(response& res, std::string& full_path);
-		void put_foot(request& req, response& res);
+		void put_jsonp(request& req, response& res);
 		void err_msg(response& res, const std::string& message, bool has_db);
 		void err_msg(response& res, const std::string& message, database* db, const std::string& dbname, dbconn_ptr dbconn);
 		void err_msg(response& res, const std::string& message, database* db, unsigned int shard_key, dbconn_ptr dbconn);

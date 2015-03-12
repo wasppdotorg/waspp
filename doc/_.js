@@ -4,6 +4,4 @@ var _ = function(json)
 	{
 		return;
 	}
-	
-	alert(1);
 };
