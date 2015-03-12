@@ -83,6 +83,13 @@ namespace waspp
 			return true;
 		}
 
+		void put_foot(request& req, response& res)
+		{
+			res.content.append("\n<script src='/_.js'></script>\n<script src='/_");
+			res.content.append(req.uri);
+			res.content.append("'></script>\n\n</body>\n</html>");
+		}
+
 		void err_msg(response& res, const std::string& message, bool has_db)
 		{
 			if (!has_db)

@@ -38,6 +38,7 @@ namespace waspp
 
 			std::string full_path(cfg->doc_root + "/dir_board_index.html");
 			router::get_file(res, full_path);
+			router::put_foot(req, res);
 		}
 
 		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
@@ -55,8 +56,10 @@ namespace waspp
 				std::stringstream ss;
 				write_json(ss, json, false);
 
-				res.content = ss.str();
-				res.content_extension = "json";
+				res.content.append("_(");
+				res.content.append(ss.str());
+				res.content.append(")");
+				res.content_extension = "js";
 
 				return;
 			}
@@ -81,8 +84,10 @@ namespace waspp
 			std::stringstream ss;
 			write_json(ss, json, false);
 
-			res.content = ss.str();
-			res.content_extension = "json";
+			res.content.append("_(");
+			res.content.append(ss.str());
+			res.content.append(");");
+			res.content_extension = "js";
 		}
 
 		void show_html(logger* log, config* cfg, database* db, request& req, response& res)
