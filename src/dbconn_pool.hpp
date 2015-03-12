@@ -46,6 +46,7 @@ namespace waspp
 
 		std::string host, userid, passwd, database;
 		unsigned int port;
+		std::string charset;
 
 		std::size_t pool_size;
 		double timeout_sec;

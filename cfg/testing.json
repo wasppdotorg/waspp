@@ -37,6 +37,7 @@
 			"passwd" : "1235",
 			"database" : "testing_waspp_idx",
 			"port" : 3306,
+			"charset" : "utf8",
 			"pool_size" : 16,
 			"timeout_sec" : 259200
 		},
@@ -48,6 +49,7 @@
 			"passwd" : "1235",
 			"database" : "testing_waspp_000",
 			"port" : 3306,
+			"charset" : "utf8",
 			"pool_size" : 16,
 			"timeout_sec" : 259200
 		},
@@ -60,6 +62,7 @@
 			"passwd" : "1235",
 			"database" : "testing_waspp_001",
 			"port" : 3306,
+			"charset" : "utf8",
 			"pool_size" : 16,
 			"timeout_sec" : 259200
 		},
@@ -71,6 +74,7 @@
 			"passwd" : "1235",
 			"database" : "testing_waspp_etc",
 			"port" : 3306,
+			"charset" : "utf8",
 			"pool_size" : 16,
 			"timeout_sec" : 259200
 		},

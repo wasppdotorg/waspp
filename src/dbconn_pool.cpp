@@ -31,6 +31,7 @@ namespace waspp
 			keys.push_back("passwd");
 			keys.push_back("database");
 			keys.push_back("port");
+			keys.push_back("charset");
 			keys.push_back("pool_size");
 			keys.push_back("timeout_sec");
 		}
@@ -63,6 +64,10 @@ namespace waspp
 			else if (keys[i] == "port")
 			{
 				port = boost::lexical_cast<unsigned int>(found->value);
+			}
+			else if (keys[i] == "charset")
+			{
+				charset = found->value;
 			}
 			else if (keys[i] == "pool_size")
 			{
@@ -142,7 +147,7 @@ namespace waspp
 
 	dbconn_ptr dbconn_pool::connect(bool pooled_)
 	{
-		return dbconn_ptr(new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, pooled_));
+		return dbconn_ptr(new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, charset.c_str(), pooled_));
 	}
 
 	bool dbconn_pool::validate(dbconn_ptr dbconn)
