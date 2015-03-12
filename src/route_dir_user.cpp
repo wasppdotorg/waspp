@@ -15,6 +15,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "response.hpp"
 #include "utility.hpp"
 #include "session.hpp"
+#include "jsonp.hpp"
 
 namespace waspp
 {
@@ -60,7 +61,7 @@ namespace waspp
 				res_ptr r(stmt->query());
 				if (r->num_rows() == 0)
 				{
-					router::err_msg(res, "auth failed(1)", db, "db_index", db_index);
+					router::err_msg(res, "username not found", db, "db_index", db_index);
 					return;
 				}
 
@@ -82,13 +83,13 @@ namespace waspp
 				res_ptr r(stmt->query());
 				if (r->num_rows() == 0)
 				{
-					router::err_msg(res, "auth failed(2)", db, "db_shard", db_shard);
+					router::err_msg(res, "auth failed", db, userid, db_shard);
 					return;
 				}
 
 				waspp::session sess(cfg, &req, &res);
-				sess.set_sess("userid", boost::lexical_cast<std::string>(userid));
-				sess.set_sess("username", username);
+				sess.put("userid", boost::lexical_cast<std::string>(userid));
+				sess.put("username", username);
 			}
 			db->free_shard(userid, db_shard);
 
@@ -201,7 +202,7 @@ namespace waspp
 				unsigned long long int affected_rows = stmt->execute();
 				if (affected_rows == 0)
 				{
-					router::err_msg(res, "insert_shard failed", db, "db_shard", db_shard);
+					router::err_msg(res, "insert_shard failed", db, userid, db_shard);
 					return;
 				}
 			}

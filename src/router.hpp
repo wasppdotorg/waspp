@@ -63,6 +63,7 @@ namespace waspp
 		void put_foot(request& req, response& res);
 		void err_msg(response& res, const std::string& message, bool has_db);
 		void err_msg(response& res, const std::string& message, database* db, const std::string& dbname, dbconn_ptr dbconn);
+		void err_msg(response& res, const std::string& message, database* db, unsigned int shard_key, dbconn_ptr dbconn);
 
 	} // namespace router
 

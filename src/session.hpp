@@ -31,8 +31,8 @@ namespace waspp
 		session(config* cfg_, request* req_, response* res_);
 		~session();
 
-		std::string& get_sess(const std::string& name);
-		void set_sess(const std::string& name, const std::string& value);
+		std::string& get(const std::string& name);
+		void put(const std::string& name, const std::string& value);
 
 	private:
 		bool load();

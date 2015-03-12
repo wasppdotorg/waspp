@@ -105,6 +105,12 @@ namespace waspp
 			db->free(dbname, dbconn);
 		}
 
+		void err_msg(response& res, const std::string& message, database* db, unsigned int shard_key, dbconn_ptr dbconn)
+		{
+			err_msg(res, message, false);
+			db->free_shard(shard_key, dbconn);
+		}
+
 	} // namespace router
 
 } // namespace waspp

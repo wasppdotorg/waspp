@@ -22,6 +22,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "request.hpp"
 #include "response.hpp"
 #include "session.hpp"
+#include "jsonp.hpp"
 
 namespace waspp
 {
@@ -30,7 +31,7 @@ namespace waspp
 		void index_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 			waspp::session sess(cfg, &req, &res);
-			if (sess.get_sess("userid").empty())
+			if (sess.get("userid").empty())
 			{
 				res.redirect_to("/dir/user/signin");
 				return;
@@ -43,32 +44,37 @@ namespace waspp
 
 		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
+			jsonp_status_type status_code = status_error;
 			boost::property_tree::ptree json, status, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);
-			if (sess.get_sess("userid").empty())
+			if (sess.get("userid").empty())
 			{
-				status.put("code", 4000);
-				status.put("message", "");
+				status_code = status_unauthorized;
+
+				status.put("code", status_code);
+				status.put("message", jsonp_status::str(status_code));
 
 				json.put_child("status", status);
 
 				std::stringstream ss;
 				write_json(ss, json, false);
 
-				res.content.append("_(");
+				res.content.append(jsonp_start);
 				res.content.append(ss.str());
-				res.content.append(")");
+				res.content.append(jsonp_end);
 				res.content_extension = "js";
 
 				return;
 			}
 
-			status.put("code", 2000);
-			status.put("message", "OKAY");
+			status_code = status_okay;
 
-			session.put("userid", "steve");
-			session.put("username", "steve yune");
+			status.put("code", status_code);
+			status.put("message", jsonp_status::str(status_code));
+
+			session.put("userid", sess.get("userid"));
+			session.put("username", sess.get("username"));
 
 			std::vector<std::string>::iterator i;
 			for (i = req.rest_params.begin(); i != req.rest_params.end(); ++i)
@@ -84,9 +90,9 @@ namespace waspp
 			std::stringstream ss;
 			write_json(ss, json, false);
 
-			res.content.append("_(");
+			res.content.append(jsonp_start);
 			res.content.append(ss.str());
-			res.content.append(");");
+			res.content.append(jsonp_end);
 			res.content_extension = "js";
 		}
 

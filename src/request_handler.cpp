@@ -49,11 +49,11 @@ namespace waspp
 				return;
 			}
 
+			std::string full_path = cfg->doc_root + request_uri;
 			func_ptr func = router::get_func(request_uri);
+
 			if (func == 0)
 			{
-				std::string full_path = cfg->doc_root + request_uri;
-				std::cout << full_path << std::endl;
 				if (!router::get_file(res, full_path))
 				{
 					res = response::static_response(response::not_found);
@@ -66,7 +66,7 @@ namespace waspp
 			}
 
 			// Fill out the response to be sent to the client.
-			res.status = response::ok;
+			res.http_status = response::ok;
 
 			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
 			res.headers.push_back(name_value("Content-Type", mime_types::extension_to_type(res.content_extension)));

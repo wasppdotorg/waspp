@@ -44,7 +44,7 @@ namespace waspp
 	{
 	}
 
-	std::string& session::get_sess(const std::string& name)
+	std::string& session::get(const std::string& name)
 	{
 		std::vector<name_value>::iterator found;
 		found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
@@ -58,7 +58,7 @@ namespace waspp
 		return found->value;
 	}
 
-	void session::set_sess(const std::string& name, const std::string& value)
+	void session::put(const std::string& name, const std::string& value)
 	{
 		std::vector<name_value>::iterator found;
 		found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
@@ -170,8 +170,8 @@ namespace waspp
 		std::string new_sess_id(get_uuid());
 		new_sess_id.append(get_curr_ep());
 
-		set_sess("sess_id", md5_digest(new_sess_id));
-		set_sess("last_tm", get_curr_tm());
+		put("sess_id", md5_digest(new_sess_id));
+		put("last_tm", get_curr_tm());
 
 		serialize_and_set();
 	}
@@ -192,7 +192,7 @@ namespace waspp
 
 	std::time_t session::get_last_tm()
 	{
-		return boost::lexical_cast<std::time_t>(get_sess("last_tm"));
+		return boost::lexical_cast<std::time_t>(get("last_tm"));
 	}
 
 	std::string& session::get_curr_ep()
@@ -202,7 +202,7 @@ namespace waspp
 
 	std::string& session::get_last_ep()
 	{
-		return get_sess("last_ep");
+		return get("last_ep");
 	}
 
 	std::string session::get_curr_ua()
@@ -215,7 +215,7 @@ namespace waspp
 
 	std::string& session::get_last_ua()
 	{
-		return get_sess("last_ua");
+		return get("last_ua");
 	}
 
 	void session::serialize_and_set()
