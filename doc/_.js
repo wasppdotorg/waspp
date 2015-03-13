@@ -6,12 +6,16 @@ var _ = function(json)
 		return;
 	}
 	
-	for (var sess in json.session)
+	for (var item in json.session)
 	{
-		var elems = document.getElementsByClassName('_' + sess);
-		for (var i = 0; i < elems.length; ++i)
+		var _sessions = document.getElementsByClassName('_session');
+		for (var i = 0; i < _sessions.length; ++i)
 		{
-			elems[i].appendChild(document.createTextNode(decodeURIComponent(escape(json.session[sess]))));
+			var _items = _sessions[i].getElementsByClassName('_' + item);
+			for (var j = 0; j < _items.length; ++j)
+			{
+				_items[j].appendChild(document.createTextNode(decodeURIComponent(escape(json.session[item]))));
+			}
 		}
 	}
 };
