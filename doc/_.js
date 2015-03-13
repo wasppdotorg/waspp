@@ -11,7 +11,7 @@ var _ = function(json)
 		var elems = document.getElementsByClassName('_' + sess);
 		for (var i = 0; i < elems.length; ++i)
 		{
-			elems[i].appendChild(document.createTextNode(json.session[sess]));
+			elems[i].appendChild(document.createTextNode(decodeURIComponent(escape(json.session[sess]))));
 		}
 	}
 };
