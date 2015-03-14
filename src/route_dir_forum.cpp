@@ -287,10 +287,10 @@ namespace waspp
 						stmt->param(1);
 					}
 
-					res_ptr r(stmt->query());
-					if (r->fetch(true))
+					rs_ptr rs(stmt->query());
+					if (rs->fetch(true))
 					{
-						seq = r->get<unsigned int>("last_key");
+						seq = rs->get<unsigned int>("last_key");
 					}
 
 					stmt.reset(db_etc->prepare("INSERT INTO forum(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));

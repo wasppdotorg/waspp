@@ -57,16 +57,16 @@ namespace waspp
 					stmt->param(req.param("username"));
 				}
 
-				res_ptr r(stmt->query());
-				if (r->num_rows() == 0)
+				rs_ptr rs(stmt->query());
+				if (rs->num_rows() == 0)
 				{
 					router::err_msg(cfg, res, status_username_not_found, db, "db_index", db_index);
 					return;
 				}
 
-				if (r->fetch())
+				if (rs->fetch())
 				{
-					userid = r->get<unsigned int>("userid");
+					userid = rs->get<unsigned int>("userid");
 				}
 			}
 			db->free("db_index", db_index);
@@ -79,8 +79,8 @@ namespace waspp
 					stmt->param(passwd);
 				}
 
-				res_ptr r(stmt->query());
-				if (r->num_rows() == 0)
+				rs_ptr rs(stmt->query());
+				if (rs->num_rows() == 0)
 				{
 					router::err_msg(cfg, res, status_auth_failed, db, userid, db_shard);
 					return;
@@ -151,8 +151,8 @@ namespace waspp
 					stmt->param(req.param("username"));
 				}
 
-				res_ptr r(stmt->query());
-				if (r->num_rows() != 0)
+				rs_ptr rs(stmt->query());
+				if (rs->num_rows() != 0)
 				{
 					router::err_msg(cfg, res, status_username_not_available, db, "db_index", db_index);
 					return;
@@ -163,10 +163,10 @@ namespace waspp
 					stmt->param(1);
 				}
 
-				r.reset(stmt->query());
-				if (r->fetch(true))
+				rs.reset(stmt->query());
+				if (rs->fetch(true))
 				{
-					userid = r->get<unsigned int>("last_key");
+					userid = rs->get<unsigned int>("last_key");
 				}
 				platformid = boost::lexical_cast<std::string>(userid);
 
