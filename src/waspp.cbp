@@ -70,7 +70,7 @@
 		<Unit filename="request_parser.hpp" />
 		<Unit filename="response.cpp" />
 		<Unit filename="response.hpp" />
-		<Unit filename="route_dir_board.cpp" />
+		<Unit filename="route_dir_forum.cpp" />
 		<Unit filename="route_dir_user.cpp" />
 		<Unit filename="router.cpp" />
 		<Unit filename="router.hpp" />

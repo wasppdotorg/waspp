@@ -48,10 +48,9 @@ namespace waspp
 				res = response::static_response(response::bad_request);
 				return;
 			}
-
 			std::string request_path(request_uri);
-			func_ptr func = router::get_func(request_uri);
 
+			func_ptr func = router::get_func(request_uri);
 			if (func == 0)
 			{
 				if (!router::get_file(cfg, res, request_path))

@@ -90,7 +90,7 @@ namespace waspp
 		{
 			res.content.append("\n<script src='/_.js'></script>\n<script src='/_");
 			res.content.append(req.uri);
-			res.content.append("'></script>\n\n</body>\n</html>");
+			res.content.append("'></script>\n");
 		}
 
 		void err_msg(response& res, const std::string& message, bool has_db)
