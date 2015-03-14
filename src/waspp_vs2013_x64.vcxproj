@@ -132,6 +132,7 @@
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="dbconn_pool.cpp" />
+    <ClCompile Include="jsonp.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mime_types.cpp" />
@@ -142,7 +143,7 @@
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />
     <ClCompile Include="router.cpp" />
-    <ClCompile Include="route_dir_board.cpp" />
+    <ClCompile Include="route_dir_forum.cpp" />
     <ClCompile Include="route_dir_user.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="session.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="database.hpp" />
     <ClInclude Include="dbconn_pool.hpp" />
+    <ClInclude Include="jsonp.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mime_types.hpp" />
     <ClInclude Include="multipart.hpp" />

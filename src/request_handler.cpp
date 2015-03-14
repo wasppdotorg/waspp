@@ -49,8 +49,8 @@ namespace waspp
 				return;
 			}
 
-			func_ptr func = router::get_func(request_uri);
 			std::string request_path(request_uri);
+			func_ptr func = router::get_func(request_uri);
 
 			if (func == 0)
 			{
