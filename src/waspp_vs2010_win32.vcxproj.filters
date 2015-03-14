@@ -69,7 +69,7 @@
     <ClCompile Include="route_dir_user.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jsonp.cpp">
+    <ClCompile Include="jsonp_status.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="route_dir_forum.cpp">
@@ -128,7 +128,7 @@
     <ClInclude Include="multipart.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jsonp.hpp">
+    <ClInclude Include="jsonp_status.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

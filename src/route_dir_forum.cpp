@@ -23,7 +23,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "request.hpp"
 #include "response.hpp"
 #include "session.hpp"
-#include "jsonp.hpp"
+#include "jsonp_status.hpp"
 
 namespace waspp
 {

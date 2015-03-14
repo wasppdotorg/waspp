@@ -50,8 +50,8 @@
 		<Unit filename="database.hpp" />
 		<Unit filename="dbconn_pool.cpp" />
 		<Unit filename="dbconn_pool.hpp" />
-		<Unit filename="jsonp.cpp" />
-		<Unit filename="jsonp.hpp" />
+		<Unit filename="jsonp_status.cpp" />
+		<Unit filename="jsonp_status.hpp" />
 		<Unit filename="logger.cpp" />
 		<Unit filename="logger.hpp" />
 		<Unit filename="main.cpp" />

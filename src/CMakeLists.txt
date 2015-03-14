@@ -17,7 +17,7 @@ add_executable (
 	connection.hpp
 	database.hpp
 	dbconn_pool.hpp
-	jsonp.hpp
+	jsonp_status.hpp
 	name_value.hpp
 	logger.hpp
 	mime_types.hpp
@@ -36,7 +36,7 @@ add_executable (
 	connection.cpp
 	database.cpp
 	dbconn_pool.cpp
-	jsonp.cpp
+	jsonp_status.cpp
 	logger.cpp
 	main.cpp
 	mime_types.cpp

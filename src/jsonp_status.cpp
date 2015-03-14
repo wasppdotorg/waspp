@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include "jsonp.hpp"
+#include "jsonp_status.hpp"
 
 namespace waspp
 {

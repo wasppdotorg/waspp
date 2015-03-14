@@ -12,9 +12,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 namespace waspp
 {
-	
-	const std::string jsonp_start = "_(";
-	const std::string jsonp_end = ");";
 
 	enum jsonp_status_type
 	{

@@ -72,7 +72,7 @@
     <ClCompile Include="route_dir_forum.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="jsonp.cpp">
+    <ClCompile Include="jsonp_status.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,7 +128,7 @@
     <ClInclude Include="multipart.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="jsonp.hpp">
+    <ClInclude Include="jsonp_status.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
