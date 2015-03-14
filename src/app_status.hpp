@@ -16,6 +16,8 @@ namespace waspp
 	enum app_status_type
 	{
 		status_okay = 0,
+		status_error = 1,
+
 		status_unauthorized = 1001,
 
 		status_username_required = 1101,
@@ -33,7 +35,7 @@ namespace waspp
 		status_content_required = 1202,
 		status_forum_insert_failed = 1203,
 
-		status_error = 9999
+		end = 9999
 	};
 
 } // namespace waspp
