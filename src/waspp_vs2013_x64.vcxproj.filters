@@ -66,10 +66,13 @@
     <ClCompile Include="utility.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="route_dir_board.cpp">
+    <ClCompile Include="route_dir_user.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="route_dir_user.cpp">
+    <ClCompile Include="route_dir_forum.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="jsonp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -123,6 +126,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="multipart.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="jsonp.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
