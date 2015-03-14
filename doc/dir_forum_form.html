@@ -72,46 +72,56 @@
 <body>
 <div class='root'>
 
-<h2 class='left'>Board :: Show</h2>
+<h2 class='left'>Forum :: Form</h2>
 
 <span class='right'><a href='/dir/user/signout'>SignOut</a></span>
 
-<form method='post'>
+<form method='post' action='/dir/forum/post' enctype='multipart/form-data'>
 <table>
 	<tr>
 		<th class='th-fixed-width'>Title</th>
-		<td>test</td>
+		<td>
+			<input type='hidden' name='seq' class='_seq'>
+			<input type='hidden' name='page' class='_page'>
+			<input type='text' name='title' class='input-text _title'>
+		</td>
 	</tr>
 	<tr>
-		<td colspan='2'>test</td>
+		<td colspan='2'><textarea name='content' class='_content' rows='20' cols='80'></textarea>
+		</td>
 	</tr>
 	<tr>
 		<th>File1</th>
 		<td>
+			<input type='file' name='file1'>
+			<a href='' class='_filelink1'><span class='_filename1'></span></a>
 		</td>
 	</tr>
 	<tr>
 		<th>File2</th>
 		<td>
+			<input type='file' name='file2'>
+			<a href='' class='_filelink2'><span class='_filename2'></span></a>
 		</td>
 	</tr>
 	<tr>
 		<th>Username</th>
-		<td>test</td>
+		<td class='_session'><span class='_username'></span></td>
 	</tr>
 	<tr>
 		<th>InsertTime</th>
-		<td>2015-03-04 14:42:04</td>
+		<td></td>
 	</tr>
 	<tr>
 		<th>UpdateTime</th>
-		<td>2015-03-04 14:42:04</td>
+		<td></td>
 	</tr>
 </table>
 
 <div class='nav-bottom'>
+	<input type='submit' value='Submit'>
 	<span class='right'>
-		<input type='button' name='list' class='history_go' value='List'>
+		<input type='button' name='cancel' class='history_go' value='Cancel'>
 	</span>
 </div>
 
@@ -121,10 +131,10 @@
 <script type='text/javascript'>
 window.onload = function()
 {
-	var list_buttons = document.getElementsByName('list');
-	for (var i = 0; i < list_buttons.length; ++i)
+	var cancel_buttons = document.getElementsByName('cancel');
+	for (var i = 0; i < cancel_buttons.length; ++i)
 	{
-		list_buttons[i].onclick = function()
+		cancel_buttons[i].onclick = function()
 		{
 			history.go(-1);
 		}

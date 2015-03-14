@@ -66,13 +66,13 @@
     <ClCompile Include="utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="route_dir_board.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="route_dir_user.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jsonp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="route_dir_forum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

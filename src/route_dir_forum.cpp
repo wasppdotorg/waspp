@@ -27,7 +27,7 @@ http://www.boost.org/LICENSE_1_0.txt
 
 namespace waspp
 {
-	namespace dir_board
+	namespace dir_forum
 	{
 		void index_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
@@ -38,8 +38,7 @@ namespace waspp
 				return;
 			}
 
-			std::string full_path(cfg->doc_root + "/dir_board_index.html");
-			router::get_file(res, full_path);
+			router::get_file(cfg, res, "dir_forum_index.html");
 			router::put_jsonp(req, res);
 		}
 
@@ -106,8 +105,7 @@ namespace waspp
 				return;
 			}
 
-			std::string full_path(cfg->doc_root + "/dir_board_show.html");
-			router::get_file(res, full_path);
+			router::get_file(cfg, res, "dir_forum_show.html");
 			router::put_jsonp(req, res);
 		}
 
@@ -174,8 +172,7 @@ namespace waspp
 				return;
 			}
 
-			std::string full_path(cfg->doc_root + "/dir_board_form.html");
-			router::get_file(res, full_path);
+			router::get_file(cfg, res, "dir_forum_form.html");
 			router::put_jsonp(req, res);
 		}
 
@@ -274,7 +271,7 @@ namespace waspp
 			{
 				if (seq == 0)
 				{
-					stmt_ptr stmt(db_etc->prepare("CALL USP_GET_UNIQUE_KEYS('board', ?)"));
+					stmt_ptr stmt(db_etc->prepare("CALL USP_GET_UNIQUE_KEYS('forum', ?)"));
 					{
 						stmt->param(1);
 					}
@@ -285,7 +282,7 @@ namespace waspp
 						seq = r->get<unsigned int>("last_key");
 					}
 
-					stmt.reset(db_etc->prepare("INSERT INTO board(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
+					stmt.reset(db_etc->prepare("INSERT INTO forum(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
 					{
 						stmt->param(seq);
 						stmt->param(req.param("title"));
@@ -305,7 +302,7 @@ namespace waspp
 				}
 				else
 				{
-					stmt_ptr stmt(db_etc->prepare("UPDATE board SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
+					stmt_ptr stmt(db_etc->prepare("UPDATE forum SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
 					{
 						stmt->param(req.param("title"));
 						stmt->param(req.param("content"));
@@ -320,9 +317,9 @@ namespace waspp
 			}
 			db->free("db_etc", db_etc);
 
-			res.redirect_to("/dir/board/index");
+			res.redirect_to("/dir/forum/index");
 		}
 
-	} // namespace dir_board
+	} // namespace dir_forum
 
 } // namespace waspp

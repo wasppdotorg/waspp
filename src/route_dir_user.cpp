@@ -24,8 +24,7 @@ namespace waspp
 
 		void signin_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			std::string full_path(cfg->doc_root + "/dir_user_signin.html");
-			router::get_file(res, full_path);
+			router::get_file(cfg, res, "dir_user_signin.html");
 		}
 
 		void auth(logger* log, config* cfg, database* db, request& req, response& res)
@@ -91,13 +90,12 @@ namespace waspp
 			}
 			db->free_shard(userid, db_shard);
 
-			res.redirect_to("/dir/board/index");
+			res.redirect_to("/dir/forum/index");
 		}
 
 		void signup_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			std::string full_path(cfg->doc_root + "/dir_user_signup.html");
-			router::get_file(res, full_path);
+			router::get_file(cfg, res, "dir_user_signup.html");
 		}
 
 		void post(logger* log, config* cfg, database* db, request& req, response& res)

@@ -189,6 +189,11 @@ namespace waspp
 					else if (keys[i] == "doc_root")
 					{
 						doc_root = found2->value;
+
+						if (doc_root[doc_root.size() - 1] != '/')
+						{
+							doc_root += "/";
+						}
 					}
 					else if (keys[i] == "num_threads")
 					{

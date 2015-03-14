@@ -49,12 +49,12 @@ namespace waspp
 				return;
 			}
 
-			std::string full_path = cfg->doc_root + request_uri;
 			func_ptr func = router::get_func(request_uri);
+			std::string request_path(request_uri);
 
 			if (func == 0)
 			{
-				if (!router::get_file(res, full_path))
+				if (!router::get_file(cfg, res, request_path))
 				{
 					res = response::static_response(response::not_found);
 					return;

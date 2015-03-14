@@ -8,6 +8,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/lexical_cast.hpp>
 
 #include "router.hpp"
+#include "config.hpp"
 #include "database.hpp"
 
 namespace waspp
@@ -17,17 +18,17 @@ namespace waspp
 
 		route routes[] =
 		{
-			{ "/dir/board/index/", &dir_board::index_html },
-			{ "/_/dir/board/index/", &dir_board::index_jsonp },
+			{ "/dir/forum/index/", &dir_forum::index_html },
+			{ "/_/dir/forum/index/", &dir_forum::index_jsonp },
 
-			{ "/dir/board/show/", &dir_board::show_html },
-			{ "/_/dir/board/show/", &dir_board::show_jsonp },
+			{ "/dir/forum/show/", &dir_forum::show_html },
+			{ "/_/dir/forum/show/", &dir_forum::show_jsonp },
 
-			{ "/dir/board/form/", &dir_board::form_html },
-			{ "/_/dir/board/form/", &dir_board::form_jsonp },
+			{ "/dir/forum/form/", &dir_forum::form_html },
+			{ "/_/dir/forum/form/", &dir_forum::form_jsonp },
 
-			{ "/dir/board/remove/", &dir_board::remove },
-			{ "/dir/board/post/", &dir_board::post },
+			{ "/dir/forum/remove/", &dir_forum::remove },
+			{ "/dir/forum/post/", &dir_forum::post },
 
 			{ "/dir/user/signin/", &dir_user::signin_html },
 			{ "/dir/user/auth/", &dir_user::auth },
@@ -59,8 +60,10 @@ namespace waspp
 			return 0;
 		}
 
-		bool get_file(response& res, std::string& full_path)
+		bool get_file(config* cfg, response& res, std::string request_path)
 		{
+			std::string full_path(cfg->doc_root + request_path);
+
 			// If path ends in slash (i.e. is a directory) then add "index.html".
 			if (full_path[full_path.size() - 1] == '/')
 			{

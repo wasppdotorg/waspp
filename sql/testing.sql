@@ -181,7 +181,7 @@ USE `testing_waspp_etc`;
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	LOCK TABLES `unique_keys` WRITE;
-	INSERT INTO `unique_keys` VALUES ('board',1,1);
+	INSERT INTO `unique_keys` VALUES ('forum',1,1);
 	UNLOCK TABLES;
 
 	DELIMITER ;;
@@ -206,7 +206,7 @@ USE `testing_waspp_etc`;
 		END ;;
 	DELIMITER ;
 
-	CREATE TABLE `board` (
+	CREATE TABLE `forum` (
 	  `seq` int(11) unsigned NOT NULL,
 	  `title` varchar(128) NOT NULL,
 	  `content` text NOT NULL,

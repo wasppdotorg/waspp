@@ -19,7 +19,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	namespace dir_board
+	namespace dir_forum
 	{
 		void index_html(logger* log, config* cfg, database* db, request& req, response& res);
 		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res);
@@ -33,7 +33,7 @@ namespace waspp
 		void remove(logger* log, config* cfg, database* db, request& req, response& res);
 		void post(logger* log, config* cfg, database* db, request& req, response& res);
 
-	} // namespace board
+	} // namespace dir_forum
 
 	namespace dir_user
 	{
@@ -59,7 +59,7 @@ namespace waspp
 		};
 
 		func_ptr get_func(std::string& request_uri);
-		bool get_file(response& res, std::string& full_path);
+		bool get_file(config* cfg, response& res, std::string full_path);
 		void put_jsonp(request& req, response& res);
 		void err_msg(response& res, const std::string& message, bool has_db);
 		void err_msg(response& res, const std::string& message, database* db, const std::string& dbname, dbconn_ptr dbconn);

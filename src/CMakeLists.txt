@@ -47,7 +47,7 @@ add_executable (
 	request_parser.cpp
 	response.cpp
 	
-	route_dir_board.cpp
+	route_dir_forum.cpp
 	route_dir_user.cpp
 	router.cpp
 	
