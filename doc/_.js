@@ -1,6 +1,6 @@
 var _ = function(json)
 {
-	if (json.status.code != 2000)
+	if (json.status.code != 20000)
 	{
 		alert(json.status.message);
 		return;

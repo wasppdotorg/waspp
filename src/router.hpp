@@ -15,6 +15,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "database.hpp"
 #include "request.hpp"
 #include "response.hpp"
+#include "app_status.hpp"
 
 namespace waspp
 {
@@ -47,7 +48,7 @@ namespace waspp
 
 	} // namespace dir_user
 
-	typedef void(*func_ptr)(logger* log, config* cfg, database* db, request& req, response& res);
+	typedef void(*func_ptr)(logger*, config*, database*, request&, response&);
 
 	const std::string jsonp_start = "_(";
 	const std::string jsonp_end = ");";
@@ -66,9 +67,9 @@ namespace waspp
 
 		void put_jsonp(request& req, response& res);
 
-		void err_msg(response& res, const std::string& message, bool has_db);
-		void err_msg(response& res, const std::string& message, database* db, const std::string& dbname, dbconn_ptr dbconn);
-		void err_msg(response& res, const std::string& message, database* db, unsigned int shard_key, dbconn_ptr dbconn);
+		void err_msg(config* cfg, response& res, app_status_type status_code, bool has_db);
+		void err_msg(config* cfg, response& res, app_status_type status_code, database* db, const std::string& dbname, dbconn_ptr dbconn);
+		void err_msg(config* cfg, response& res, app_status_type status_code, database* db, unsigned int shard_key, dbconn_ptr dbconn);
 
 	} // namespace router
 

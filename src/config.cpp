@@ -16,6 +16,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #endif
 
 #include <boost/property_tree/json_parser.hpp>
+#include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -40,8 +41,7 @@ namespace waspp
 
 		try
 		{
-			std::ifstream is(file.c_str(), std::ios::in | std::ios::binary);
-			if (!is)
+			if (!boost::filesystem::exists(file))
 			{
 				log->fatal(__FILE__, __LINE__, "config::file not found");
 				return false;
@@ -95,6 +95,35 @@ namespace waspp
 					else if (keys[i] == "rotation")
 					{
 						rotation = found2->value;
+					}
+				}
+			}
+
+			found1 = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, "locale"));
+			{
+				if (found1 == cfg_.end())
+				{
+					log->fatal(__FILE__, __LINE__, "config::locale not found");
+					return false;
+				}
+
+				keys.resize(0);
+				{
+					keys.push_back("msg_locale");
+				}
+
+				for (std::size_t i = 0; i < keys.size(); ++i)
+				{
+					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+					if (found2 == found1->second.end())
+					{
+						log->fatal(__FILE__, __LINE__, "config::element not found");
+						return false;
+					}
+
+					if (keys[i] == "msg_locale")
+					{
+						msg_locale = found2->value;
 					}
 				}
 			}
@@ -202,6 +231,27 @@ namespace waspp
 				}
 			}
 
+			std::string locale_file("../msg/");
+			{
+				locale_file.append(msg_locale);
+				locale_file.append(".json");
+			}
+
+			if (!boost::filesystem::exists(locale_file))
+			{
+				log->fatal(__FILE__, __LINE__, "config::locale_file not found");
+				return false;
+			}
+			
+			boost::property_tree::ptree locale_pt;
+			read_json(locale_file, locale_pt);
+
+			BOOST_FOREACH(boost::property_tree::ptree::value_type const& item_, locale_pt.get_child(""))
+			{
+				int status_code = boost::lexical_cast<int>(item_.first);
+				status_.push_back(statuspair(status_code, item_.second.get_value<std::string>()));
+			}
+
 			return true;
 		}
 		catch (...)
@@ -220,6 +270,22 @@ namespace waspp
 		if (found == cfg_.end())
 		{
 			throw std::runtime_error("config::get failed");
+		}
+
+		return found->second;
+	}
+
+	const std::string& config::msg(app_status_type status_code)
+	{
+		int status = static_cast<int>(status_code);
+
+		std::vector<statuspair>::iterator found;
+		found = std::find_if(status_.begin(), status_.end(), boost::bind(&statuspair::compare_first, _1, status));
+
+		if (found == status_.end())
+		{
+			status_.push_back(statuspair(status, "error"));
+			found = status_.end() - 1;
 		}
 
 		return found->second;

@@ -23,7 +23,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "request.hpp"
 #include "response.hpp"
 #include "session.hpp"
-#include "jsonp_status.hpp"
+#include "app_status.hpp"
 
 namespace waspp
 {
@@ -47,7 +47,7 @@ namespace waspp
 
 		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			jsonp_status_type status_code = status_error;
+			app_status_type status_code = status_error;
 			boost::property_tree::ptree json, status, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);
@@ -56,7 +56,7 @@ namespace waspp
 				status_code = status_unauthorized;
 
 				status.put("code", status_code);
-				status.put("message", jsonp_status::str(status_code));
+				status.put("message", cfg->msg(status_code));
 
 				json.put_child("status", status);
 
@@ -74,7 +74,7 @@ namespace waspp
 			status_code = status_okay;
 
 			status.put("code", status_code);
-			status.put("message", jsonp_status::str(status_code));
+			status.put("message", cfg->msg(status_code));
 
 			session.put("userid", sess.get("userid"));
 			session.put("username", sess.get("username"));
@@ -117,7 +117,7 @@ namespace waspp
 
 		void show_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			jsonp_status_type status_code = status_error;
+			app_status_type status_code = status_error;
 			boost::property_tree::ptree json, status, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);
@@ -126,7 +126,7 @@ namespace waspp
 				status_code = status_unauthorized;
 
 				status.put("code", status_code);
-				status.put("message", jsonp_status::str(status_code));
+				status.put("message", cfg->msg(status_code));
 
 				json.put_child("status", status);
 
@@ -144,7 +144,7 @@ namespace waspp
 			status_code = status_okay;
 
 			status.put("code", status_code);
-			status.put("message", jsonp_status::str(status_code));
+			status.put("message", cfg->msg(status_code));
 
 			session.put("userid", sess.get("userid"));
 			session.put("username", sess.get("username"));
@@ -187,7 +187,7 @@ namespace waspp
 
 		void form_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			jsonp_status_type status_code = status_error;
+			app_status_type status_code = status_error;
 			boost::property_tree::ptree json, status, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);
@@ -196,7 +196,7 @@ namespace waspp
 				status_code = status_unauthorized;
 
 				status.put("code", status_code);
-				status.put("message", jsonp_status::str(status_code));
+				status.put("message", cfg->msg(status_code));
 
 				json.put_child("status", status);
 
@@ -214,7 +214,7 @@ namespace waspp
 			status_code = status_okay;
 
 			status.put("code", status_code);
-			status.put("message", jsonp_status::str(status_code));
+			status.put("message", cfg->msg(status_code));
 
 			session.put("userid", sess.get("userid"));
 			session.put("username", sess.get("username"));
@@ -246,6 +246,8 @@ namespace waspp
 
 		void post(logger* log, config* cfg, database* db, request& req, response& res)
 		{
+			app_status_type status_code = status_error;
+
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
@@ -265,13 +267,13 @@ namespace waspp
 
 				if (req.param("title").empty())
 				{
-					router::err_msg(res, "title is required", false);
+					router::err_msg(cfg, res, status_title_required, false);
 					return;
 				}
 
 				if (req.param("content").empty())
 				{
-					router::err_msg(res, "content is required", false);
+					router::err_msg(cfg, res, status_content_required, false);
 					return;
 				}
 			}
@@ -305,7 +307,7 @@ namespace waspp
 					unsigned long long int affected_rows = stmt->execute();
 					if (affected_rows == 0)
 					{
-						router::err_msg(res, "insert_etc failed", db, "db_etc", db_etc);
+						router::err_msg(cfg, res, status_forum_insert_failed, db, "db_etc", db_etc);
 						return;
 					}
 				}

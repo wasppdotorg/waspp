@@ -132,7 +132,6 @@
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="dbconn_pool.cpp" />
-    <ClCompile Include="jsonp_status.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mime_types.cpp" />
@@ -150,11 +149,11 @@
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="app_status.hpp" />
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="database.hpp" />
     <ClInclude Include="dbconn_pool.hpp" />
-    <ClInclude Include="jsonp_status.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mime_types.hpp" />
     <ClInclude Include="multipart.hpp" />

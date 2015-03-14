@@ -15,7 +15,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "response.hpp"
 #include "utility.hpp"
 #include "session.hpp"
-#include "jsonp_status.hpp"
+#include "app_status.hpp"
 
 namespace waspp
 {
@@ -29,6 +29,8 @@ namespace waspp
 
 		void auth(logger* log, config* cfg, database* db, request& req, response& res)
 		{
+			app_status_type status_code = status_error;
+
 			unsigned int userid;
 			std::string passwd;
 
@@ -36,13 +38,13 @@ namespace waspp
 			{
 				if (req.param("username").empty())
 				{
-					router::err_msg(res, "username is required", false);
+					router::err_msg(cfg, res, status_username_required, false);
 					return;
 				}
 
 				if (req.param("passwd").empty())
 				{
-					router::err_msg(res, "passwd is required", false);
+					router::err_msg(cfg, res, status_passwd_required, false);
 					return;
 				}
 				passwd = md5_digest(req.param("passwd"));
@@ -58,7 +60,7 @@ namespace waspp
 				res_ptr r(stmt->query());
 				if (r->num_rows() == 0)
 				{
-					router::err_msg(res, "username not found", db, "db_index", db_index);
+					router::err_msg(cfg, res, status_username_not_found, db, "db_index", db_index);
 					return;
 				}
 
@@ -80,7 +82,7 @@ namespace waspp
 				res_ptr r(stmt->query());
 				if (r->num_rows() == 0)
 				{
-					router::err_msg(res, "auth failed", db, userid, db_shard);
+					router::err_msg(cfg, res, status_auth_failed, db, userid, db_shard);
 					return;
 				}
 
@@ -100,8 +102,9 @@ namespace waspp
 
 		void post(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			unsigned int userid;
+			app_status_type status_code = status_error;
 
+			unsigned int userid;
 			int platformtype;
 			std::string platformid;
 			std::string passwd;
@@ -110,32 +113,32 @@ namespace waspp
 			{
 				if (req.param("platformtype").empty())
 				{
-					router::err_msg(res, "platformtype is required", false);
+					router::err_msg(cfg, res, status_platformtype_required, false);
 					return;
 				}
 				platformtype = boost::lexical_cast<int>(req.param("platformtype"));
 
 				if (req.param("platformid").empty())
 				{
-					router::err_msg(res, "platformid is required", false);
+					router::err_msg(cfg, res, status_platformid_required, false);
 					return;
 				}
 
 				if (req.param("username").empty())
 				{
-					router::err_msg(res, "username is required", false);
+					router::err_msg(cfg, res, status_username_required, false);
 					return;
 				}
 
 				if (req.param("passwd").empty())
 				{
-					router::err_msg(res, "passwd is required", false);
+					router::err_msg(cfg, res, status_passwd_required, false);
 					return;
 				}
 
 				if (req.param("passwd") != req.param("retypepasswd"))
 				{
-					router::err_msg(res, "passwds are not identical", false);
+					router::err_msg(cfg, res, status_passwd_not_identical, false);
 					return;
 				}
 				passwd = md5_digest(req.param("passwd"));
@@ -151,7 +154,7 @@ namespace waspp
 				res_ptr r(stmt->query());
 				if (r->num_rows() != 0)
 				{
-					router::err_msg(res, "username not available", db, "db_index", db_index);
+					router::err_msg(cfg, res, status_username_not_available, db, "db_index", db_index);
 					return;
 				}
 
@@ -178,7 +181,7 @@ namespace waspp
 				unsigned long long int affected_rows = stmt->execute();
 				if (affected_rows == 0)
 				{
-					router::err_msg(res, "insert_index failed", db, "db_index", db_index);
+					router::err_msg(cfg, res, status_users_idx_insert_failed, db, "db_index", db_index);
 				}
 			}
 			db->free("db_index", db_index);
@@ -194,7 +197,7 @@ namespace waspp
 				unsigned long long int affected_rows = stmt->execute();
 				if (affected_rows == 0)
 				{
-					router::err_msg(res, "insert_shard failed", db, userid, db_shard);
+					router::err_msg(cfg, res, status_users_insert_failed, db, userid, db_shard);
 					return;
 				}
 			}

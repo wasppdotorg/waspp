@@ -42,6 +42,7 @@
 			<Add option="-lcrypto" />
 			<Add option="-lgnutls" />
 		</Linker>
+		<Unit filename="app_status.hpp" />
 		<Unit filename="config.cpp" />
 		<Unit filename="config.hpp" />
 		<Unit filename="connection.cpp" />
@@ -50,8 +51,6 @@
 		<Unit filename="database.hpp" />
 		<Unit filename="dbconn_pool.cpp" />
 		<Unit filename="dbconn_pool.hpp" />
-		<Unit filename="jsonp_status.cpp" />
-		<Unit filename="jsonp_status.hpp" />
 		<Unit filename="logger.cpp" />
 		<Unit filename="logger.hpp" />
 		<Unit filename="main.cpp" />

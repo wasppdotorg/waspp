@@ -11,7 +11,6 @@
 		7B87049F1AAEB37400ADC708 /* connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87047C1AAEB37400ADC708 /* connection.cpp */; };
 		7B8704A01AAEB37400ADC708 /* database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87047E1AAEB37400ADC708 /* database.cpp */; };
 		7B8704A11AAEB37400ADC708 /* dbconn_pool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704801AAEB37400ADC708 /* dbconn_pool.cpp */; };
-		7B8704A11AAEB37400ADC708 /* jsonp_status.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704801AAEB37400ADC708 /* jsonp_status.cpp */; };
 		7B8704A21AAEB37400ADC708 /* logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704821AAEB37400ADC708 /* logger.cpp */; };
 		7B8704A31AAEB37400ADC708 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704841AAEB37400ADC708 /* main.cpp */; };
 		7B8704A41AAEB37400ADC708 /* mime_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704851AAEB37400ADC708 /* mime_types.cpp */; };
@@ -50,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		7B8704701AAEB31400ADC708 /* waspp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = waspp; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B8704811AAEB37400ADC708 /* app_status.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = app_status.hpp; sourceTree = "<group>"; };
 		7B87047A1AAEB37400ADC708 /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
 		7B87047B1AAEB37400ADC708 /* config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config.hpp; sourceTree = "<group>"; };
 		7B87047C1AAEB37400ADC708 /* connection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = connection.cpp; sourceTree = "<group>"; };
@@ -58,8 +58,6 @@
 		7B87047F1AAEB37400ADC708 /* database.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = database.hpp; sourceTree = "<group>"; };
 		7B8704801AAEB37400ADC708 /* dbconn_pool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dbconn_pool.cpp; sourceTree = "<group>"; };
 		7B8704811AAEB37400ADC708 /* dbconn_pool.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = dbconn_pool.hpp; sourceTree = "<group>"; };
-		7B8704801AAEB37400ADC708 /* jsonp_status.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsonp_status.cpp; sourceTree = "<group>"; };
-		7B8704811AAEB37400ADC708 /* jsonp_status.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = jsonp_status.hpp; sourceTree = "<group>"; };
 		7B8704821AAEB37400ADC708 /* logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = logger.cpp; sourceTree = "<group>"; };
 		7B8704831AAEB37400ADC708 /* logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = logger.hpp; sourceTree = "<group>"; };
 		7B8704841AAEB37400ADC708 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -125,6 +123,7 @@
 				7B8704B51AAEB43B00ADC708 /* libboost_filesystem-mt.a */,
 				7B8704B31AAEB42B00ADC708 /* libboost_thread-mt.a */,
 				7B8704B11AAEB41B00ADC708 /* libboost_system-mt.a */,
+				7B8704811AAEB37400ADC708 /* app_status.hpp */,
 				7B87047A1AAEB37400ADC708 /* config.cpp */,
 				7B87047B1AAEB37400ADC708 /* config.hpp */,
 				7B87047C1AAEB37400ADC708 /* connection.cpp */,
@@ -133,8 +132,6 @@
 				7B87047F1AAEB37400ADC708 /* database.hpp */,
 				7B8704801AAEB37400ADC708 /* dbconn_pool.cpp */,
 				7B8704811AAEB37400ADC708 /* dbconn_pool.hpp */,
-				7B8704801AAEB37400ADC708 /* jsonp_status.cpp */,
-				7B8704811AAEB37400ADC708 /* jsonp_status.hpp */,
 				7B8704821AAEB37400ADC708 /* logger.cpp */,
 				7B8704831AAEB37400ADC708 /* logger.hpp */,
 				7B8704841AAEB37400ADC708 /* main.cpp */,
@@ -237,8 +234,7 @@
 				7B8704AF1AAEB37400ADC708 /* session.cpp in Sources */,
 				7B8704AC1AAEB37400ADC708 /* route_dir_user.cpp in Sources */,
 				7B87049E1AAEB37400ADC708 /* config.cpp in Sources */,
-				7B8704A11AAEB37400ADC708 /* dbconn_pool.cpp in Sources */,
-				7B8704A11AAEB37400ADC708 /* jsonp_status.cpp in Sources */,
+				7B8704A11AAEB37400ADC708 /* dbconn_pool.cpp in Sources */,				
 				7B8704A81AAEB37400ADC708 /* request_handler.cpp in Sources */,
 				7B8704A31AAEB37400ADC708 /* main.cpp in Sources */,
 				7B8704A21AAEB37400ADC708 /* logger.cpp in Sources */,

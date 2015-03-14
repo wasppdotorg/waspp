@@ -7,6 +7,13 @@
 			"level" : "debug",
 			"rotation" : "hourly"
 		},
+		
+	"//locale" : 0,
+	
+		"locale":
+		{
+			"msg_locale" : "en_us"
+		},
 
 	"//session" : 0,
 

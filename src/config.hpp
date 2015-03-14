@@ -9,8 +9,10 @@ http://www.boost.org/LICENSE_1_0.txt
 #define WASPP_CONFIG_HPP
 
 #include <string>
+#include <vector>
 
 #include "name_value.hpp"
+#include "app_status.hpp"
 #include "utility.hpp"
 
 namespace waspp
@@ -31,6 +33,21 @@ namespace waspp
 		std::vector<name_value> second;
 	};
 
+	struct statuspair
+	{
+		statuspair(int first_, const std::string& second_) : first(first_), second(second_)
+		{
+		}
+
+		bool compare_first(int first_)
+		{
+			return first == first_;
+		}
+
+		int first;
+		std::string second;
+	};
+
 	class config
 		: public singleton<config>
 	{
@@ -40,6 +57,7 @@ namespace waspp
 
 		bool init(const std::string& file, const std::string& server_id);
 		std::vector<name_value>& get(const std::string& item);
+		const std::string& msg(app_status_type status_code);
 
 		// logger
 		std::string level, rotation;
@@ -55,6 +73,10 @@ namespace waspp
 
 	private:
 		std::vector<cfgpair> cfg_;
+
+		// status messages
+		std::string msg_locale;
+		std::vector<statuspair> status_;
 
 	};
 
