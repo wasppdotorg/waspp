@@ -15,23 +15,23 @@ namespace waspp
 
 	enum app_status_type
 	{
-		status_okay = 2000,
-		status_unauthorized = 4001,
+		status_okay = 0,
+		status_unauthorized = 1001,
 
-		status_username_required = 6101,
-		status_passwd_required = 6102,
-		status_username_not_found = 6103,
-		status_auth_failed = 6104,
-		status_platformtype_required = 6105,
-		status_platformid_required = 6106,
-		status_passwd_not_identical = 6107,
-		status_username_not_available = 6108,
-		status_users_idx_insert_failed = 6109,
-		status_users_insert_failed = 6110,
+		status_username_required = 1101,
+		status_passwd_required = 1102,
+		status_username_not_found = 1103,
+		status_auth_failed = 1104,
+		status_platformtype_required = 1105,
+		status_platformid_required = 1106,
+		status_passwd_not_identical = 1107,
+		status_username_not_available = 1108,
+		status_users_idx_insert_failed = 1109,
+		status_users_insert_failed = 1110,
 
-		status_title_required = 6201,
-		status_content_required = 6202,
-		status_forum_insert_failed = 6203,
+		status_title_required = 1201,
+		status_content_required = 1202,
+		status_forum_insert_failed = 1203,
 
 		status_error = 9999
 	};

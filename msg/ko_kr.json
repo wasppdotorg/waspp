@@ -1,21 +1,22 @@
 {
-	"2000" : "okay",
-	"4001" : "unauthorized",
+	"0" : "okay",
 	
-	"6101" : "username required",
-	"6102" : "passwd required",
-	"6103" : "username not found",
-	"6104" : "auth failed",
-	"6105" : "platformtype required",
-	"6106" : "platformid required",
-	"6107" : "passwd not identical",
-	"6108" : "username not available",
-	"6109" : "users_idx insert failed",
-	"6110" : "users insert failed",
+	"1001" : "unauthorized",
 	
-	"6201" : "title required",
-	"6202" : "content required",
-	"6203" : "forum insert failed",
+	"1101" : "username required",
+	"1102" : "passwd required",
+	"1103" : "username not found",
+	"1104" : "auth failed",
+	"1105" : "platformtype required",
+	"1106" : "platformid required",
+	"1107" : "passwd not identical",
+	"1108" : "username not available",
+	"1109" : "users_idx insert failed",
+	"1110" : "users insert failed",
+	
+	"1201" : "title required",
+	"1202" : "content required",
+	"1203" : "forum insert failed",
 
 	"9999" : "error"
 }

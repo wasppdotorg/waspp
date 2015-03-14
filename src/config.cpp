@@ -6,6 +6,7 @@ http://www.boost.org/LICENSE_1_0.txt
 */
 
 #include <string>
+#include <map>
 
 #include <boost/property_tree/ptree.hpp>
 
@@ -246,10 +247,18 @@ namespace waspp
 			boost::property_tree::ptree locale_pt;
 			read_json(locale_file, locale_pt);
 
+			std::map<int, int> locale_validate;
 			BOOST_FOREACH(boost::property_tree::ptree::value_type const& item_, locale_pt.get_child(""))
 			{
 				int status_code = boost::lexical_cast<int>(item_.first);
 				status_.push_back(statuspair(status_code, item_.second.get_value<std::string>()));
+				locale_validate.insert(std::make_pair(status_code, 0));
+			}
+
+			if (locale_validate.size() != status_.size())
+			{
+				log->fatal(__FILE__, __LINE__, "config::locale_validate failed");
+				return false;
 			}
 
 			return true;
