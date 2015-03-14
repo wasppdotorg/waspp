@@ -29,8 +29,6 @@ namespace waspp
 
 		void auth(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			app_status_type status_code = status_error;
-
 			unsigned int userid;
 			std::string passwd;
 
@@ -102,8 +100,6 @@ namespace waspp
 
 		void post(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			app_status_type status_code = status_error;
-
 			unsigned int userid;
 			int platformtype;
 			std::string platformid;
