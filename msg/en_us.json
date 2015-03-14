@@ -17,7 +17,7 @@
 	
 	"1201" : "title required",
 	"1202" : "content required",
-	"1203" : "forum insert failed"
+	"1203" : "forum insert failed",
 	
 	"9999" : "end"
 }
