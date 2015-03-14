@@ -246,8 +246,6 @@ namespace waspp
 
 		void post(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			app_status_type status_code = status_error;
-
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
@@ -257,7 +255,7 @@ namespace waspp
 
 			unsigned int userid = boost::lexical_cast<unsigned int>(sess.get("userid"));
 			unsigned int seq = 0;
-			
+
 			// param check
 			{
 				if (!req.param("seq").empty())
