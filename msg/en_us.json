@@ -1,0 +1,21 @@
+{
+	"2000" : "okay",
+	"4001" : "unauthorized",
+	
+	"6101" : "username required",
+	"6102" : "passwd required",
+	"6103" : "username not found",
+	"6104" : "auth failed",
+	"6105" : "platformtype required",
+	"6106" : "platformid required",
+	"6107" : "passwd not identical",
+	"6108" : "username not available",
+	"6109" : "users_idx insert failed",
+	"6110" : "users insert failed",
+	
+	"6201" : "title required",
+	"6202" : "content required",
+	"6203" : "forum insert failed",
+
+	"9999" : "error"
+}
