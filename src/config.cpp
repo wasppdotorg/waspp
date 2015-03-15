@@ -6,7 +6,6 @@ http://www.boost.org/LICENSE_1_0.txt
 */
 
 #include <string>
-#include <map>
 
 #include <boost/property_tree/ptree.hpp>
 
@@ -232,32 +231,48 @@ namespace waspp
 				}
 			}
 
-			std::string locale_file("../msg/");
+			std::string msg_file("../msg/");
 			{
-				locale_file.append(msg_locale);
-				locale_file.append(".json");
+				msg_file.append(msg_locale);
+				msg_file.append(".json");
 			}
 
-			if (!boost::filesystem::exists(locale_file))
+			if (!boost::filesystem::exists(msg_file))
 			{
-				log->fatal(__FILE__, __LINE__, "config::locale_file not found");
+				log->fatal(__FILE__, __LINE__, "config::msg_file not found");
 				return false;
 			}
 			
-			boost::property_tree::ptree locale_pt;
-			read_json(locale_file, locale_pt);
+			read_json(msg_file, pt);
 
-			std::map<int, int> locale_validate;
-			BOOST_FOREACH(boost::property_tree::ptree::value_type const& item_, locale_pt.get_child(""))
+			int status_code = 0;
+			std::vector<statuspair>::iterator status_found;
+			BOOST_FOREACH(boost::property_tree::ptree::value_type const& item_, pt.get_child(""))
 			{
-				int status_code = boost::lexical_cast<int>(item_.first);
+				status_code = boost::lexical_cast<int>(item_.first);
+				status_found = std::find_if(status_.begin(), status_.end(), boost::bind(&statuspair::compare_first, _1, status_code));
+
+				if (status_found != status_.end())
+				{
+					log->fatal(__FILE__, __LINE__, "config - duplicated status_code:" + boost::lexical_cast<std::string>(status_code));
+					return false;
+				}
 				status_.push_back(statuspair(status_code, item_.second.get_value<std::string>()));
-				locale_validate.insert(std::make_pair(status_code, 0));
 			}
 
-			if (locale_validate.size() != status_.size())
+			int status_count = 0;
+			for (status_code = static_cast<int>(status_okay); status_code < static_cast<int>(status_end); ++status_code)
 			{
-				log->fatal(__FILE__, __LINE__, "config::locale_validate failed");
+				status_found = std::find_if(status_.begin(), status_.end(), boost::bind(&statuspair::compare_first, _1, status_code));
+				if (status_found != status_.end())
+				{
+					++status_count;
+				}
+			}
+
+			if (status_count != (status_.size() - 1))
+			{
+				log->fatal(__FILE__, __LINE__, "config::status_count not match");
 				return false;
 			}
 

@@ -95,11 +95,13 @@ namespace waspp
 
 		void err_msg(config* cfg, response& res, app_status_type status_code, bool has_db)
 		{
-			if (!has_db)
+			if (has_db)
 			{
-				res.content = cfg->msg(status_code);
-				res.content_extension = "html";
+				throw std::runtime_error("db must be free");
 			}
+
+			res.content = cfg->msg(status_code);
+			res.content_extension = "html";
 		}
 
 		void err_msg(config* cfg, response& res, app_status_type status_code, database* db, const std::string& dbname, dbconn_ptr dbconn)

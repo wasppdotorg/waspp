@@ -35,7 +35,7 @@ namespace waspp
 		status_content_required = 1202,
 		status_forum_insert_failed = 1203,
 
-		end = 9999
+		status_end
 	};
 
 } // namespace waspp
