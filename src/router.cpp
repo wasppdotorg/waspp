@@ -110,7 +110,7 @@ namespace waspp
 			db->free(dbname, dbconn);
 		}
 
-		void err_msg(config* cfg, response& res, app_status_type status_code, database* db, unsigned int shard_key, dbconn_ptr dbconn)
+		void err_msg_shard(config* cfg, response& res, app_status_type status_code, database* db, unsigned int shard_key, dbconn_ptr dbconn)
 		{
 			err_msg(cfg, res, status_code, false);
 			db->free_shard(shard_key, dbconn);

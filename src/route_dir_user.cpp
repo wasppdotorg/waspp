@@ -80,7 +80,7 @@ namespace waspp
 				rs_ptr rs(stmt->query());
 				if (rs->num_rows() == 0)
 				{
-					router::err_msg(cfg, res, status_auth_failed, db, userid, db_shard);
+					router::err_msg_shard(cfg, res, status_auth_failed, db, userid, db_shard);
 					return;
 				}
 
@@ -193,7 +193,7 @@ namespace waspp
 				unsigned long long int affected_rows = stmt->execute();
 				if (affected_rows == 0)
 				{
-					router::err_msg(cfg, res, status_users_insert_failed, db, userid, db_shard);
+					router::err_msg_shard(cfg, res, status_users_insert_failed, db, userid, db_shard);
 					return;
 				}
 			}
