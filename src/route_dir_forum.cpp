@@ -38,11 +38,11 @@ namespace waspp
 				return;
 			}
 
-			router::get_file(cfg, res, "dir_forum_header.html");
+			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_forum_index.html");
 
 			router::put_jsonp(req, res);
-			router::get_file(cfg, res, "dir_forum_footer.html");
+			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
 		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
@@ -108,11 +108,11 @@ namespace waspp
 				return;
 			}
 
-			router::get_file(cfg, res, "dir_forum_header.html");
+			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_forum_show.html");
 
 			router::put_jsonp(req, res);
-			router::get_file(cfg, res, "dir_forum_footer.html");
+			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
 		void show_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
@@ -178,11 +178,11 @@ namespace waspp
 				return;
 			}
 
-			router::get_file(cfg, res, "dir_forum_header.html");
+			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_forum_form.html");
 
 			router::put_jsonp(req, res);
-			router::get_file(cfg, res, "dir_forum_footer.html");
+			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
 		void form_jsonp(logger* log, config* cfg, database* db, request& req, response& res)

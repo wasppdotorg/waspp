@@ -97,10 +97,17 @@ namespace waspp
 		{
 			if (has_db)
 			{
-				throw std::runtime_error("db must be free");
+				throw std::runtime_error("db must be freed");
 			}
 
-			res.content = cfg->msg(status_code);
+			res.content.clear();
+			get_file(cfg, res, "dir_include_header.html");
+
+			res.content.append("<h2>Error : ");
+			res.content.append(cfg->msg(status_code));
+			res.content.append("</h2>");
+
+			get_file(cfg, res, "dir_include_footer.html");
 			res.content_extension = "html";
 		}
 

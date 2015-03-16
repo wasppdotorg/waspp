@@ -24,7 +24,9 @@ namespace waspp
 
 		void signin_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
+			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_user_signin.html");
+			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
 		void auth(logger* log, config* cfg, database* db, request& req, response& res)
@@ -95,7 +97,9 @@ namespace waspp
 
 		void signup_html(logger* log, config* cfg, database* db, request& req, response& res)
 		{
+			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_user_signup.html");
+			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
 		void post(logger* log, config* cfg, database* db, request& req, response& res)
