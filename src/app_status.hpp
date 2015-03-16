@@ -26,7 +26,7 @@ namespace waspp
 		status_auth_failed = 1104,
 		status_platformtype_required = 1105,
 		status_platformid_required = 1106,
-		status_passwd_not_identical = 1107,
+		status_passwds_not_identical = 1107,
 		status_username_not_available = 1108,
 		status_users_idx_insert_failed = 1109,
 		status_users_insert_failed = 1110,

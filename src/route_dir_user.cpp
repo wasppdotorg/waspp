@@ -134,7 +134,7 @@ namespace waspp
 
 				if (req.param("passwd") != req.param("retypepasswd"))
 				{
-					router::err_msg(cfg, res, status_passwd_not_identical, false);
+					router::err_msg(cfg, res, status_passwds_not_identical, false);
 					return;
 				}
 				passwd = md5_digest(req.param("passwd"));
