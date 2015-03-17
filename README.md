@@ -47,7 +47,7 @@ Install Boost, MariaDBClient, GnuTLS and TCMalloc
 * sudo apt-get install libgnutls-dev
 * sudo apt-get install libgoogle-perftools-dev
 
-Increase open file limit
+Increase Open File Limit
 ------------------------
 * ulimit -n
 * sudo vi /etc/sysctl.conf
@@ -151,7 +151,7 @@ add_executable (
 Memory Leak Check
 -----------------
 * sudo apt-get install valgrind
-* valgrind --leak-check=full ./waspp develop 00
+* valgrind ./waspp develop 00
 
 <!--
 Test with Google Test
