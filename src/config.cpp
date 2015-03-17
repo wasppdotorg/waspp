@@ -242,7 +242,7 @@ namespace waspp
 				log->fatal(__FILE__, __LINE__, "config::msg_file not found");
 				return false;
 			}
-			
+
 			read_json(msg_file, pt);
 
 			int status_code = 0;
@@ -260,7 +260,7 @@ namespace waspp
 				status_.push_back(statuspair(status_code, item_.second.get_value<std::string>()));
 			}
 
-			int status_count = 0;
+			unsigned int status_count = 0;
 			for (status_code = static_cast<int>(status_okay); status_code < static_cast<int>(status_end); ++status_code)
 			{
 				status_found = std::find_if(status_.begin(), status_.end(), boost::bind(&statuspair::compare_first, _1, status_code));
