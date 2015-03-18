@@ -50,7 +50,7 @@ namespace waspp
 		return std::string(md_str);
 	}
 
-	bool sync_http_query(http_method_type method, const std::string& host, const std::string& uri, std::string& result, const std::string& content)
+	bool sync_http_query(http_method_type method, const std::string& host, const std::string& uri, const std::string& content, std::string& result)
 	{
 		try
 		{
@@ -171,7 +171,7 @@ namespace waspp
 		return false;
 	}
 
-	bool sync_https_query(http_method_type method, const std::string& host, const std::string& uri, std::string& result, const std::string& content)
+	bool sync_https_query(http_method_type method, const std::string& host, const std::string& uri, const std::string& content, std::string& result)
 	{
 		try
 		{
