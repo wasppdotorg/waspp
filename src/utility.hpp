@@ -82,6 +82,19 @@ namespace waspp
 
 	template<typename T> T* singleton<T>::instance_ = 0;
 	template<typename T> spinlock singleton<T>::lock;
+	// end of thread-safe singleton
+
+	std::string get_extension(const std::string& path);
+	std::string md5_digest(const std::string& str_);
+
+	enum http_method_type
+	{
+		http_get = 1,
+		http_post = 2
+	};
+
+	void sync_http_query(http_method_type method, const std::string& host, const std::string& uri);
+	void sync_https_query(http_method_type method, const std::string& host, const std::string& uri);
 
 	/* -*-mode:c++; c-file-style: "gnu";-*- */
 	/*
@@ -159,12 +172,6 @@ namespace waspp
 
 	std::string base64_encode(std::string const& string_to_encode);
 	std::string base64_decode(std::string const& encoded_string);
-
-	// extension
-	std::string get_extension(const std::string& path);
-
-	// md5
-	std::string md5_digest(const std::string& str_);
 
 } // namespace waspp
 

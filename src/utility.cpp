@@ -9,10 +9,238 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <string>
 
+#include <boost/asio.hpp>
+#include <boost/asio/ssl.hpp>
+
 #include "utility.hpp"
 
 namespace waspp
 {
+
+	std::string get_extension(const std::string& path)
+	{
+		// Determine the file extension.
+		std::size_t last_slash_pos = path.find_last_of("/");
+		std::size_t last_dot_pos = path.find_last_of(".");
+
+		if (last_dot_pos != std::string::npos && last_dot_pos > last_slash_pos)
+		{
+			return path.substr(last_dot_pos + 1);
+		}
+
+		return std::string();
+	}
+
+	std::string md5_digest(const std::string& str_)
+	{
+		unsigned char digest_[16] = { 0 };
+		char* c_str_ = const_cast<char*>(str_.c_str());
+
+		MD5_CTX ctx;
+		MD5_Init(&ctx);
+		MD5_Update(&ctx, c_str_, strlen(c_str_));
+		MD5_Final(digest_, &ctx);
+
+		char md_str[33];
+		for (int i = 0; i < 16; ++i)
+		{
+			sprintf(&md_str[i * 2], "%02x", (unsigned int)digest_[i]);
+		}
+
+		return std::string(md_str);
+	}
+
+	bool sync_http_query(http_method_type method, const std::string& host, const std::string& uri, std::string& http_get_headers, std::string& http_get_content)
+	{
+		try
+		{
+			boost::asio::io_service io_service_;
+
+			// Get a list of endpoints corresponding to the server name.
+			boost::asio::ip::tcp::resolver resolver_(io_service_);
+			boost::asio::ip::tcp::resolver::query query_(host, "http");
+			boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
+
+			// Try each endpoint until we successfully establish a connection.
+			boost::asio::ip::tcp::socket socket_(io_service_);
+			boost::asio::connect(socket_, endpoint_iterator);
+
+			// Form the request. We specify the "Connection: close" header so that the
+			// server will close the socket after transmitting the response. This will
+			// allow us to treat all data up until the EOF as the content.
+			boost::asio::streambuf req_buf;
+			std::ostream req_stream(&req_buf);
+			req_stream << "GET " << uri << " HTTP/1.1\r\n";
+			req_stream << "Host: " << host << "\r\n";
+			req_stream << "Accept: */*\r\n";
+			req_stream << "Connection: close\r\n\r\n";
+
+			// Send the request.
+			boost::asio::write(socket_, req_buf);
+
+			// Read the response status line. The response streambuf will automatically
+			// grow to accommodate the entire line. The growth may be limited by passing
+			// a maximum size to the streambuf constructor.
+			boost::asio::streambuf res_buf;
+			boost::asio::read_until(socket_, res_buf, "\r\n");
+
+			// Check that response is OK.
+			std::istream res_stream(&res_buf);
+			std::string http_version;
+			res_stream >> http_version;
+			unsigned int status_code;
+			res_stream >> status_code;
+
+			std::string status_msg;
+			std::getline(res_stream, status_msg);
+
+			if (!res_stream || http_version.substr(0, 5) != "HTTP/")
+			{
+				return false;
+			}
+			if (status_code != 200)
+			{
+				return false;
+			}
+
+			// Read the response headers, which are terminated by a blank line.
+			boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
+
+			// Process the response headers.
+			while (std::getline(res_stream, http_get_headers) && http_get_headers != "\r")
+			{
+			}
+
+			// Write whatever content we already have to output.
+			std::ostringstream oss;
+			if (res_buf.size() > 0)
+			{
+				oss << &res_buf;
+			}
+
+			// Read until EOF, writing data to output as we go.
+			boost::system::error_code error;
+			while (boost::asio::read(socket_, res_buf,
+				boost::asio::transfer_at_least(1), error))
+			{
+				oss << &res_buf;
+			}
+
+			if (error != boost::asio::error::eof)
+			{
+				throw boost::system::system_error(error);
+			}
+
+			http_get_content = oss.str();
+
+			return true;
+		}
+		catch (...)
+		{
+			throw;
+		}
+
+		return false;
+	}
+
+	bool sync_https_query(http_method_type method, const std::string& host, const std::string& uri, std::string& https_get_headers, std::string& https_get_content)
+	{
+		try
+		{
+			boost::asio::io_service io_service_;
+
+			// Get a list of endpoints corresponding to the server name.
+			boost::asio::ip::tcp::resolver resolver_(io_service_);
+			boost::asio::ip::tcp::resolver::query query_(host, "https");
+			boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
+
+			boost::asio::ssl::context context_(io_service_, boost::asio::ssl::context::sslv23);
+			context_.set_verify_mode(boost::asio::ssl::verify_none);
+
+			// Try each endpoint until we successfully establish a connection.
+			boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket_(io_service_, context_);
+
+			boost::asio::connect(socket_.lowest_layer(), endpoint_iterator);
+			socket_.handshake(boost::asio::ssl::stream_base::client);
+
+			// Form the request. We specify the "Connection: close" header so that the
+			// server will close the socket after transmitting the response. This will
+			// allow us to treat all data up until the EOF as the content.
+			boost::asio::streambuf req_buf;
+			std::ostream req_stream(&req_buf);
+			req_stream << "GET " << uri << " HTTP/1.1\r\n";
+			req_stream << "Host: " << host << "\r\n";
+			req_stream << "Accept: */*\r\n";
+			req_stream << "Connection: close\r\n\r\n";
+
+			// Send the request.
+			boost::asio::write(socket_, req_buf);
+
+			// Read the response status line. The response streambuf will automatically
+			// grow to accommodate the entire line. The growth may be limited by passing
+			// a maximum size to the streambuf constructor.
+			boost::asio::streambuf res_buf;
+			boost::asio::read_until(socket_, res_buf, "\r\n");
+
+			// Check that response is OK.
+			std::istream res_stream(&res_buf);
+			std::string http_version;
+			res_stream >> http_version;
+			unsigned int status_code;
+			res_stream >> status_code;
+
+			std::string status_message;
+			std::getline(res_stream, status_message);
+
+			if (!res_stream || http_version.substr(0, 5) != "HTTP/")
+			{
+				return false;
+			}
+
+			if (status_code != 200)
+			{
+				return false;
+			}
+
+			// Read the response headers, which are terminated by a blank line.
+			boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
+
+			// Process the response headers.
+			while (std::getline(res_stream, https_get_headers) && https_get_headers != "\r")
+			{
+			}
+
+			// Write whatever content we already have to output.
+			std::ostringstream oss;
+			if (res_buf.size() > 0)
+			{
+				oss << &res_buf;
+			}
+
+			// Read until EOF, writing data to output as we go.
+			boost::system::error_code error;
+			while (boost::asio::read(socket_, res_buf,
+				boost::asio::transfer_at_least(1), error))
+			{
+				oss << &res_buf;
+			}
+
+			if (error != boost::asio::error::eof)
+			{
+				throw boost::system::system_error(error);
+			}
+
+			https_get_content = oss.str();
+
+			return true;
+		}
+		catch (...)
+		{
+			throw;
+		}
+
+		return false;
+	}
 
 	/* -*-mode:c++; c-file-style: "gnu";-*- */
 	/*
@@ -347,41 +575,6 @@ namespace waspp
 		}
 
 		return ret;
-	}
-
-	// extension
-	std::string get_extension(const std::string& path)
-	{
-		// Determine the file extension.
-		std::size_t last_slash_pos = path.find_last_of("/");
-		std::size_t last_dot_pos = path.find_last_of(".");
-
-		if (last_dot_pos != std::string::npos && last_dot_pos > last_slash_pos)
-		{
-			return path.substr(last_dot_pos + 1);
-		}
-
-		return std::string();
-	}
-
-	// md5
-	std::string md5_digest(const std::string& str_)
-	{
-		unsigned char digest_[16] = {0};
-		char* c_str_ = const_cast<char*>(str_.c_str());
-
-		MD5_CTX ctx;
-		MD5_Init(&ctx);
-		MD5_Update(&ctx, c_str_, strlen(c_str_));
-		MD5_Final(digest_, &ctx);
-
-		char md_str[33];
-		for (int i = 0; i < 16; ++i)
-		{
-			sprintf(&md_str[i * 2], "%02x", (unsigned int)digest_[i]);
-		}
-
-		return std::string(md_str);
 	}
 
 } // namespace waspp
