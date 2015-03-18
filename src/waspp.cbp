@@ -41,6 +41,7 @@
 			<Add option="-lmysqlclient" />
 			<Add option="-lcrypto" />
 			<Add option="-lgnutls" />
+			<Add option="-lssl" />
 		</Linker>
 		<Unit filename="app_status.hpp" />
 		<Unit filename="config.cpp" />
