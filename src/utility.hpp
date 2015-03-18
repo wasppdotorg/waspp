@@ -93,8 +93,8 @@ namespace waspp
 		http_post = 2
 	};
 
-	void sync_http_query(http_method_type method, const std::string& host, const std::string& uri);
-	void sync_https_query(http_method_type method, const std::string& host, const std::string& uri);
+	bool sync_http_query(http_method_type method, const std::string& host, const std::string& uri, std::string& result, const std::string& content = "");
+	bool sync_https_query(http_method_type method, const std::string& host, const std::string& uri, std::string& result, const std::string& content = "");
 
 	/* -*-mode:c++; c-file-style: "gnu";-*- */
 	/*

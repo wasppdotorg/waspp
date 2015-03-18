@@ -50,7 +50,7 @@ namespace waspp
 		return std::string(md_str);
 	}
 
-	bool sync_http_query(http_method_type method, const std::string& host, const std::string& uri, std::string& http_get_headers, std::string& http_get_content)
+	bool sync_http_query(http_method_type method, const std::string& host, const std::string& uri, std::string& result, const std::string& content)
 	{
 		try
 		{
@@ -70,10 +70,37 @@ namespace waspp
 			// allow us to treat all data up until the EOF as the content.
 			boost::asio::streambuf req_buf;
 			std::ostream req_stream(&req_buf);
-			req_stream << "GET " << uri << " HTTP/1.1\r\n";
+
+			if (method == http_get)
+			{
+				req_stream << "GET " << uri << " HTTP/1.1\r\n";
+			}
+			else if (method == http_post)
+			{
+				req_stream << "POST " << uri << " HTTP/1.1\r\n";
+			}
+			else
+			{
+				return false;
+			}
+
 			req_stream << "Host: " << host << "\r\n";
 			req_stream << "Accept: */*\r\n";
-			req_stream << "Connection: close\r\n\r\n";
+			req_stream << "Connection: close\r\n";
+
+			if (method == http_get)
+			{
+				req_stream << "\r\n";
+			}
+			else if (method == http_post && !content.empty())
+			{
+				req_stream << "Content-Length: " << content.size() << "\r\n";
+				req_stream << content;
+			}
+			else
+			{
+				return false;
+			}
 
 			// Send the request.
 			boost::asio::write(socket_, req_buf);
@@ -98,6 +125,7 @@ namespace waspp
 			{
 				return false;
 			}
+
 			if (status_code != 200)
 			{
 				return false;
@@ -107,7 +135,8 @@ namespace waspp
 			boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
 
 			// Process the response headers.
-			while (std::getline(res_stream, http_get_headers) && http_get_headers != "\r")
+			std::string headers;
+			while (std::getline(res_stream, headers) && headers != "\r")
 			{
 			}
 
@@ -131,8 +160,7 @@ namespace waspp
 				throw boost::system::system_error(error);
 			}
 
-			http_get_content = oss.str();
-
+			result = oss.str();
 			return true;
 		}
 		catch (...)
@@ -143,7 +171,7 @@ namespace waspp
 		return false;
 	}
 
-	bool sync_https_query(http_method_type method, const std::string& host, const std::string& uri, std::string& https_get_headers, std::string& https_get_content)
+	bool sync_https_query(http_method_type method, const std::string& host, const std::string& uri, std::string& result, const std::string& content)
 	{
 		try
 		{
@@ -168,10 +196,37 @@ namespace waspp
 			// allow us to treat all data up until the EOF as the content.
 			boost::asio::streambuf req_buf;
 			std::ostream req_stream(&req_buf);
-			req_stream << "GET " << uri << " HTTP/1.1\r\n";
+
+			if (method == http_get)
+			{
+				req_stream << "GET " << uri << " HTTP/1.1\r\n";
+			}
+			else if (method == http_post)
+			{
+				req_stream << "POST " << uri << " HTTP/1.1\r\n";
+			}
+			else
+			{
+				return false;
+			}
+
 			req_stream << "Host: " << host << "\r\n";
 			req_stream << "Accept: */*\r\n";
-			req_stream << "Connection: close\r\n\r\n";
+			req_stream << "Connection: close\r\n";
+
+			if (method == http_get)
+			{
+				req_stream << "\r\n";
+			}
+			else if (method == http_post && !content.empty())
+			{
+				req_stream << "Content-Length: " << content.size() << "\r\n\r\n";
+				req_stream << content;
+			}
+			else
+			{
+				return false;
+			}
 
 			// Send the request.
 			boost::asio::write(socket_, req_buf);
@@ -189,8 +244,8 @@ namespace waspp
 			unsigned int status_code;
 			res_stream >> status_code;
 
-			std::string status_message;
-			std::getline(res_stream, status_message);
+			std::string status_msg;
+			std::getline(res_stream, status_msg);
 
 			if (!res_stream || http_version.substr(0, 5) != "HTTP/")
 			{
@@ -206,7 +261,8 @@ namespace waspp
 			boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
 
 			// Process the response headers.
-			while (std::getline(res_stream, https_get_headers) && https_get_headers != "\r")
+			std::string headers;
+			while (std::getline(res_stream, headers) && headers != "\r")
 			{
 			}
 
@@ -230,8 +286,7 @@ namespace waspp
 				throw boost::system::system_error(error);
 			}
 
-			https_get_content = oss.str();
-
+			result = oss.str();
 			return true;
 		}
 		catch (...)
