@@ -9,13 +9,252 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <string>
 
-#include <boost/asio.hpp>
-#include <boost/asio/ssl.hpp>
-
 #include "utility.hpp"
 
 namespace waspp
 {
+
+	uri_conn::uri_conn(uri_request_type req_type_, const std::string& host_, const std::string& uri_) : req_type(req_type_), host(host_), uri(uri_), io_service_(), resolver_(io_service_)
+	{
+	}
+
+	uri_conn::~uri_conn()
+	{
+	}
+
+	void uri_conn::set_http_headers()
+	{
+	}
+
+	bool uri_conn::http_query(const std::string& postdata)
+	{
+		try
+		{
+			if (req_type == http_get || req_type == http_post)
+			{
+				// Get a list of endpoints corresponding to the server name.
+				boost::asio::ip::tcp::resolver::query query_(host, "http");
+				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
+
+				// Try each endpoint until we successfully establish a connection.
+				boost::asio::ip::tcp::socket socket_(io_service_);
+				boost::asio::connect(socket_, endpoint_iterator);
+
+				// Form the request. We specify the "Connection: close" header so that the
+				// server will close the socket after transmitting the response. This will
+				// allow us to treat all data up until the EOF as the content.
+				std::ostream req_stream(&req_buf);
+
+				if (req_type == http_get)
+				{
+					get(req_stream);
+				}
+				else if(req_type == http_post)
+				{
+					post(req_stream, postdata);
+				}
+
+				query(socket_);
+				return true;
+			}
+			else if (req_type == https_get || req_type == https_post)
+			{
+				// Get a list of endpoints corresponding to the server name.
+				boost::asio::ip::tcp::resolver::query query_(host, "https");
+				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
+
+				boost::asio::ssl::context context_(io_service_, boost::asio::ssl::context::sslv23);
+				context_.set_verify_mode(boost::asio::ssl::verify_none);
+
+				// Try each endpoint until we successfully establish a connection.
+				boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket_(io_service_, context_);
+
+				boost::asio::connect(socket_.lowest_layer(), endpoint_iterator);
+				socket_.handshake(boost::asio::ssl::stream_base::client);
+
+				// Form the request. We specify the "Connection: close" header so that the
+				// server will close the socket after transmitting the response. This will
+				// allow us to treat all data up until the EOF as the content.
+				std::ostream req_stream(&req_buf);
+
+				if (req_type == https_get)
+				{
+					get(req_stream);
+				}
+				else if (req_type == https_post)
+				{
+					post(req_stream, postdata);
+				}
+
+				query(socket_);
+				return true;
+			}
+		}
+		catch (...)
+		{
+			throw;
+		}
+
+		return false;
+	}
+
+	void uri_conn::get(std::ostream& req_stream)
+	{
+		req_stream << "GET " << uri << " HTTP/1.1\r\n";
+		req_stream << "Host: " << host << "\r\n";
+		req_stream << "Accept: */*\r\n";
+		req_stream << "Connection: close\r\n";
+		req_stream << "\r\n";
+	}
+
+	void uri_conn::post(std::ostream& req_stream, const std::string& postdata)
+	{
+		req_stream << "POST " << uri << " HTTP/1.1\r\n";
+		req_stream << "Host: " << host << "\r\n";
+		req_stream << "Accept: */*\r\n";
+		req_stream << "Connection: close\r\n";
+		req_stream << "\r\n";
+	}
+
+	bool uri_conn::query(boost::asio::ip::tcp::socket& socket_)
+	{
+		try
+		{
+			// Send the request.
+			boost::asio::write(socket_, req_buf);
+
+			// Read the response status line. The response streambuf will automatically
+			// grow to accommodate the entire line. The growth may be limited by passing
+			// a maximum size to the streambuf constructor.
+			boost::asio::read_until(socket_, res_buf, "\r\n");
+
+			// Check that response is OK.
+			std::istream res_stream(&res_buf);
+			if (!is_http_status_okay(res_stream))
+			{
+				return false;
+			}
+
+			// Read the response headers, which are terminated by a blank line.
+			boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
+
+			// Process the response headers.
+			while (std::getline(res_stream, headers_) && headers_ != "\r")
+			{
+			}
+
+			// Write whatever content we already have to output.
+			std::ostringstream oss;
+			if (res_buf.size() > 0)
+			{
+				oss << &res_buf;
+			}
+
+			// Read until EOF, writing data to output as we go.
+			boost::system::error_code error;
+			while (boost::asio::read(socket_, res_buf,
+				boost::asio::transfer_at_least(1), error))
+			{
+				oss << &res_buf;
+			}
+
+			if (error != boost::asio::error::eof)
+			{
+				throw boost::system::system_error(error);
+			}
+
+			content_ = oss.str();
+			return true;
+		}
+		catch (...)
+		{
+			throw;
+		}
+
+		return false;
+	}
+
+	bool uri_conn::query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_)
+	{
+		try
+		{
+			// Send the request.
+			boost::asio::write(socket_, req_buf);
+
+			// Read the response status line. The response streambuf will automatically
+			// grow to accommodate the entire line. The growth may be limited by passing
+			// a maximum size to the streambuf constructor.
+			boost::asio::read_until(socket_, res_buf, "\r\n");
+
+			// Check that response is OK.
+			std::istream res_stream(&res_buf);
+			if (!is_http_status_okay(res_stream))
+			{
+				return false;
+			}
+
+			// Read the response headers, which are terminated by a blank line.
+			boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
+
+			// Process the response headers.
+			while (std::getline(res_stream, headers_) && headers_ != "\r")
+			{
+			}
+
+			// Write whatever content we already have to output.
+			std::ostringstream oss;
+			if (res_buf.size() > 0)
+			{
+				oss << &res_buf;
+			}
+
+			// Read until EOF, writing data to output as we go.
+			boost::system::error_code error;
+			while (boost::asio::read(socket_, res_buf,
+				boost::asio::transfer_at_least(1), error))
+			{
+				oss << &res_buf;
+			}
+
+			if (error != boost::asio::error::eof)
+			{
+				throw boost::system::system_error(error);
+			}
+
+			content_ = oss.str();
+			return true;
+		}
+		catch (...)
+		{
+			throw;
+		}
+
+		return false;
+	}
+
+	bool uri_conn::is_http_status_okay(std::istream& res_stream)
+	{
+		std::string http_version;
+		res_stream >> http_version;
+
+		unsigned int status_code;
+		res_stream >> status_code;
+
+		std::string status_msg;
+		std::getline(res_stream, status_msg);
+
+		if (!res_stream || http_version.substr(0, 5) != "HTTP/")
+		{
+			return false;
+		}
+
+		if (status_code != 200)
+		{
+			return false;
+		}
+
+		return true;
+	}
 
 	std::string get_extension(const std::string& path)
 	{
@@ -31,270 +270,23 @@ namespace waspp
 		return std::string();
 	}
 
-	std::string md5_digest(const std::string& str_)
+	std::string md5_digest(const std::string& str)
 	{
-		unsigned char digest_[16] = { 0 };
-		char* c_str_ = const_cast<char*>(str_.c_str());
+		unsigned char digest[16] = {0};
+		char* c_str = const_cast<char*>(str.c_str());
 
 		MD5_CTX ctx;
 		MD5_Init(&ctx);
-		MD5_Update(&ctx, c_str_, strlen(c_str_));
-		MD5_Final(digest_, &ctx);
+		MD5_Update(&ctx, c_str, strlen(c_str));
+		MD5_Final(digest, &ctx);
 
 		char md_str[33];
 		for (int i = 0; i < 16; ++i)
 		{
-			sprintf(&md_str[i * 2], "%02x", (unsigned int)digest_[i]);
+			sprintf(&md_str[i * 2], "%02x", (unsigned int)digest[i]);
 		}
 
 		return std::string(md_str);
-	}
-
-	bool sync_http_query(http_method_type method, const std::string& host, const std::string& uri, const std::string& content, std::string& result)
-	{
-		try
-		{
-			boost::asio::io_service io_service_;
-
-			// Get a list of endpoints corresponding to the server name.
-			boost::asio::ip::tcp::resolver resolver_(io_service_);
-			boost::asio::ip::tcp::resolver::query query_(host, "http");
-			boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
-
-			// Try each endpoint until we successfully establish a connection.
-			boost::asio::ip::tcp::socket socket_(io_service_);
-			boost::asio::connect(socket_, endpoint_iterator);
-
-			// Form the request. We specify the "Connection: close" header so that the
-			// server will close the socket after transmitting the response. This will
-			// allow us to treat all data up until the EOF as the content.
-			boost::asio::streambuf req_buf;
-			std::ostream req_stream(&req_buf);
-
-			if (method == http_get)
-			{
-				req_stream << "GET " << uri << " HTTP/1.1\r\n";
-			}
-			else if (method == http_post)
-			{
-				req_stream << "POST " << uri << " HTTP/1.1\r\n";
-			}
-			else
-			{
-				return false;
-			}
-
-			req_stream << "Host: " << host << "\r\n";
-			req_stream << "Accept: */*\r\n";
-			req_stream << "Connection: close\r\n";
-
-			if (method == http_get)
-			{
-				req_stream << "\r\n";
-			}
-			else if (method == http_post && !content.empty())
-			{
-				req_stream << "Content-Length: " << content.size() << "\r\n";
-				req_stream << content;
-			}
-			else
-			{
-				return false;
-			}
-
-			// Send the request.
-			boost::asio::write(socket_, req_buf);
-
-			// Read the response status line. The response streambuf will automatically
-			// grow to accommodate the entire line. The growth may be limited by passing
-			// a maximum size to the streambuf constructor.
-			boost::asio::streambuf res_buf;
-			boost::asio::read_until(socket_, res_buf, "\r\n");
-
-			// Check that response is OK.
-			std::istream res_stream(&res_buf);
-			std::string http_version;
-			res_stream >> http_version;
-			unsigned int status_code;
-			res_stream >> status_code;
-
-			std::string status_msg;
-			std::getline(res_stream, status_msg);
-
-			if (!res_stream || http_version.substr(0, 5) != "HTTP/")
-			{
-				return false;
-			}
-
-			if (status_code != 200)
-			{
-				return false;
-			}
-
-			// Read the response headers, which are terminated by a blank line.
-			boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
-
-			// Process the response headers.
-			std::string headers;
-			while (std::getline(res_stream, headers) && headers != "\r")
-			{
-			}
-
-			// Write whatever content we already have to output.
-			std::ostringstream oss;
-			if (res_buf.size() > 0)
-			{
-				oss << &res_buf;
-			}
-
-			// Read until EOF, writing data to output as we go.
-			boost::system::error_code error;
-			while (boost::asio::read(socket_, res_buf,
-				boost::asio::transfer_at_least(1), error))
-			{
-				oss << &res_buf;
-			}
-
-			if (error != boost::asio::error::eof)
-			{
-				throw boost::system::system_error(error);
-			}
-
-			result = oss.str();
-			return true;
-		}
-		catch (...)
-		{
-			throw;
-		}
-
-		return false;
-	}
-
-	bool sync_https_query(http_method_type method, const std::string& host, const std::string& uri, const std::string& content, std::string& result)
-	{
-		try
-		{
-			boost::asio::io_service io_service_;
-
-			// Get a list of endpoints corresponding to the server name.
-			boost::asio::ip::tcp::resolver resolver_(io_service_);
-			boost::asio::ip::tcp::resolver::query query_(host, "https");
-			boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
-
-			boost::asio::ssl::context context_(io_service_, boost::asio::ssl::context::sslv23);
-			context_.set_verify_mode(boost::asio::ssl::verify_none);
-
-			// Try each endpoint until we successfully establish a connection.
-			boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket_(io_service_, context_);
-
-			boost::asio::connect(socket_.lowest_layer(), endpoint_iterator);
-			socket_.handshake(boost::asio::ssl::stream_base::client);
-
-			// Form the request. We specify the "Connection: close" header so that the
-			// server will close the socket after transmitting the response. This will
-			// allow us to treat all data up until the EOF as the content.
-			boost::asio::streambuf req_buf;
-			std::ostream req_stream(&req_buf);
-
-			if (method == http_get)
-			{
-				req_stream << "GET " << uri << " HTTP/1.1\r\n";
-			}
-			else if (method == http_post)
-			{
-				req_stream << "POST " << uri << " HTTP/1.1\r\n";
-			}
-			else
-			{
-				return false;
-			}
-
-			req_stream << "Host: " << host << "\r\n";
-			req_stream << "Accept: */*\r\n";
-			req_stream << "Connection: close\r\n";
-
-			if (method == http_get)
-			{
-				req_stream << "\r\n";
-			}
-			else if (method == http_post && !content.empty())
-			{
-				req_stream << "Content-Length: " << content.size() << "\r\n\r\n";
-				req_stream << content;
-			}
-			else
-			{
-				return false;
-			}
-
-			// Send the request.
-			boost::asio::write(socket_, req_buf);
-
-			// Read the response status line. The response streambuf will automatically
-			// grow to accommodate the entire line. The growth may be limited by passing
-			// a maximum size to the streambuf constructor.
-			boost::asio::streambuf res_buf;
-			boost::asio::read_until(socket_, res_buf, "\r\n");
-
-			// Check that response is OK.
-			std::istream res_stream(&res_buf);
-			std::string http_version;
-			res_stream >> http_version;
-			unsigned int status_code;
-			res_stream >> status_code;
-
-			std::string status_msg;
-			std::getline(res_stream, status_msg);
-
-			if (!res_stream || http_version.substr(0, 5) != "HTTP/")
-			{
-				return false;
-			}
-
-			if (status_code != 200)
-			{
-				return false;
-			}
-
-			// Read the response headers, which are terminated by a blank line.
-			boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
-
-			// Process the response headers.
-			std::string headers;
-			while (std::getline(res_stream, headers) && headers != "\r")
-			{
-			}
-
-			// Write whatever content we already have to output.
-			std::ostringstream oss;
-			if (res_buf.size() > 0)
-			{
-				oss << &res_buf;
-			}
-
-			// Read until EOF, writing data to output as we go.
-			boost::system::error_code error;
-			while (boost::asio::read(socket_, res_buf,
-				boost::asio::transfer_at_least(1), error))
-			{
-				oss << &res_buf;
-			}
-
-			if (error != boost::asio::error::eof)
-			{
-				throw boost::system::system_error(error);
-			}
-
-			result = oss.str();
-			return true;
-		}
-		catch (...)
-		{
-			throw;
-		}
-
-		return false;
 	}
 
 	/* -*-mode:c++; c-file-style: "gnu";-*- */

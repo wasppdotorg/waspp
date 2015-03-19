@@ -16,6 +16,8 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <string>
 
 #include <boost/atomic.hpp>
+#include <boost/asio.hpp>
+#include <boost/asio/ssl.hpp>
 
 namespace waspp
 {
@@ -84,17 +86,55 @@ namespace waspp
 	template<typename T> spinlock singleton<T>::lock;
 	// end of thread-safe singleton
 
-	std::string get_extension(const std::string& path);
-	std::string md5_digest(const std::string& str_);
-
-	enum http_method_type
+	enum uri_request_type
 	{
 		http_get = 1,
-		http_post = 2
+		http_post = 2,
+
+		https_get = 3,
+		https_post = 4
 	};
 
-	bool sync_http_query(http_method_type method, const std::string& host, const std::string& uri, const std::string& content, std::string& result);
-	bool sync_https_query(http_method_type method, const std::string& host, const std::string& uri, const std::string& content, std::string& result);
+	class uri_conn
+	{
+	public:
+		uri_conn(uri_request_type req_type, const std::string& host_, const std::string& uri_);
+		~uri_conn();
+
+		void set_http_headers();
+
+		bool http_query(const std::string& postdata);
+		bool http_query();
+
+		std::string& headers();
+		std::string& content();
+
+	private:
+		void get(std::ostream& req_stream);
+		void post(std::ostream& req_stream, const std::string& postdata);
+		
+		bool query(boost::asio::ip::tcp::socket& socket_);
+		bool query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_);
+
+		bool is_http_status_okay(std::istream& res_stream);
+		
+		uri_request_type req_type;
+
+		std::string host;
+		std::string uri;
+
+		boost::asio::io_service io_service_;
+		boost::asio::ip::tcp::resolver resolver_;
+
+		boost::asio::streambuf req_buf;
+		boost::asio::streambuf res_buf;
+
+		std::string headers_;
+		std::string content_;
+	};
+
+	std::string get_extension(const std::string& path);
+	std::string md5_digest(const std::string& str);
 
 	/* -*-mode:c++; c-file-style: "gnu";-*- */
 	/*
