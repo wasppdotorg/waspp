@@ -14,20 +14,20 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	uri_conn::uri_conn(uri_request_type req_type_, const std::string& host_, const std::string& uri_) : req_type(req_type_), host(host_), uri(uri_), io_service_(), resolver_(io_service_)
+	url_conn::url_conn(uri_request_type req_type_, const std::string& host_, const std::string& uri_) : req_type(req_type_), host(host_), uri(uri_), io_service_(), resolver_(io_service_)
 	{
 	}
 
-	uri_conn::~uri_conn()
+	url_conn::~url_conn()
 	{
 	}
 
-	void uri_conn::set_http_headers(const std::vector<name_value>& req_headers_)
+	void url_conn::set_http_headers(const std::vector<name_value>& req_headers_)
 	{
 		req_headers = req_headers_;
 	}
 
-	bool uri_conn::http_query(const std::string& postdata)
+	bool url_conn::http_query(const std::string& postdata)
 	{
 		try
 		{
@@ -99,7 +99,7 @@ namespace waspp
 		return false;
 	}
 
-	void uri_conn::get(std::ostream& req_stream)
+	void url_conn::get(std::ostream& req_stream)
 	{
 		req_stream << "GET " << uri << " HTTP/1.1\r\n";
 		req_stream << "Host: " << host << "\r\n";
@@ -115,7 +115,7 @@ namespace waspp
 		req_stream << "\r\n";
 	}
 
-	void uri_conn::post(std::ostream& req_stream, const std::string& postdata)
+	void url_conn::post(std::ostream& req_stream, const std::string& postdata)
 	{
 		req_stream << "POST " << uri << " HTTP/1.1\r\n";
 		req_stream << "Host: " << host << "\r\n";
@@ -132,7 +132,7 @@ namespace waspp
 		req_stream << postdata;
 	}
 
-	bool uri_conn::query(boost::asio::ip::tcp::socket& socket_)
+	bool url_conn::query(boost::asio::ip::tcp::socket& socket_)
 	{
 		try
 		{
@@ -190,7 +190,7 @@ namespace waspp
 		return false;
 	}
 
-	bool uri_conn::query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_)
+	bool url_conn::query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_)
 	{
 		try
 		{
@@ -248,7 +248,7 @@ namespace waspp
 		return false;
 	}
 
-	bool uri_conn::is_200(std::istream& res_stream)
+	bool url_conn::is_200(std::istream& res_stream)
 	{
 		std::string http_version;
 		res_stream >> http_version;

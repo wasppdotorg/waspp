@@ -98,11 +98,11 @@ namespace waspp
 		https_post = 4
 	};
 
-	class uri_conn
+	class url_conn
 	{
 	public:
-		uri_conn(uri_request_type req_type, const std::string& host_, const std::string& uri_);
-		~uri_conn();
+		url_conn(uri_request_type req_type, const std::string& host_, const std::string& uri_);
+		~url_conn();
 
 		void set_http_headers(const std::vector<name_value>& req_headers_);
 		
