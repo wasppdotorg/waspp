@@ -14,10 +14,13 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <openssl/md5.h>
 
 #include <string>
+#include <vector>
 
 #include <boost/atomic.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
+
+#include "name_value.hpp"
 
 namespace waspp
 {
@@ -101,8 +104,8 @@ namespace waspp
 		uri_conn(uri_request_type req_type, const std::string& host_, const std::string& uri_);
 		~uri_conn();
 
-		void set_http_headers();
-
+		void set_http_headers(const std::vector<name_value>& req_headers_);
+		
 		bool http_query(const std::string& postdata);
 		bool http_query();
 
@@ -116,12 +119,14 @@ namespace waspp
 		bool query(boost::asio::ip::tcp::socket& socket_);
 		bool query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_);
 
-		bool is_http_status_okay(std::istream& res_stream);
+		bool is_200(std::istream& res_stream);
 		
 		uri_request_type req_type;
 
 		std::string host;
 		std::string uri;
+
+		std::vector<name_value> req_headers;
 
 		boost::asio::io_service io_service_;
 		boost::asio::ip::tcp::resolver resolver_;

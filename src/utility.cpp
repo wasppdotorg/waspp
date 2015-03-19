@@ -22,8 +22,9 @@ namespace waspp
 	{
 	}
 
-	void uri_conn::set_http_headers()
+	void uri_conn::set_http_headers(const std::vector<name_value>& req_headers_)
 	{
+		req_headers = req_headers_;
 	}
 
 	bool uri_conn::http_query(const std::string& postdata)
@@ -104,6 +105,13 @@ namespace waspp
 		req_stream << "Host: " << host << "\r\n";
 		req_stream << "Accept: */*\r\n";
 		req_stream << "Connection: close\r\n";
+
+		for (std::size_t i = 0; i < req_headers.size(); ++i)
+		{
+			req_stream << req_headers[i].name << ": ";
+			req_stream << req_headers[i].value << "\r\n";
+		}
+
 		req_stream << "\r\n";
 	}
 
@@ -113,7 +121,15 @@ namespace waspp
 		req_stream << "Host: " << host << "\r\n";
 		req_stream << "Accept: */*\r\n";
 		req_stream << "Connection: close\r\n";
+
+		for (std::size_t i = 0; i < req_headers.size(); ++i)
+		{
+			req_stream << req_headers[i].name << ": ";
+			req_stream << req_headers[i].value << "\r\n";
+		}
+
 		req_stream << "\r\n";
+		req_stream << postdata;
 	}
 
 	bool uri_conn::query(boost::asio::ip::tcp::socket& socket_)
@@ -130,7 +146,7 @@ namespace waspp
 
 			// Check that response is OK.
 			std::istream res_stream(&res_buf);
-			if (!is_http_status_okay(res_stream))
+			if (!is_200(res_stream))
 			{
 				return false;
 			}
@@ -188,7 +204,7 @@ namespace waspp
 
 			// Check that response is OK.
 			std::istream res_stream(&res_buf);
-			if (!is_http_status_okay(res_stream))
+			if (!is_200(res_stream))
 			{
 				return false;
 			}
@@ -232,7 +248,7 @@ namespace waspp
 		return false;
 	}
 
-	bool uri_conn::is_http_status_okay(std::istream& res_stream)
+	bool uri_conn::is_200(std::istream& res_stream)
 	{
 		std::string http_version;
 		res_stream >> http_version;
