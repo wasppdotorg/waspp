@@ -50,9 +50,9 @@ namespace waspp
 				passwd = md5_digest(req.param("passwd"));
 			}
 
-			dbconn_ptr db_index = db->get("db_index");
+			dbconn_ptr db_idx = db->get("db_idx");
 			{
-				stmt_ptr stmt(db_index->prepare("SELECT userid FROM users_idx WHERE username = ?"));
+				stmt_ptr stmt(db_idx->prepare("SELECT userid FROM users_idx WHERE username = ?"));
 				{
 					stmt->param(req.param("username"));
 				}
@@ -60,7 +60,7 @@ namespace waspp
 				rs_ptr rs(stmt->query());
 				if (rs->num_rows() == 0)
 				{
-					router::err_msg(cfg, res, status_username_not_found, db, "db_index", db_index);
+					router::err_msg(cfg, res, status_username_not_found, db, "db_idx", db_idx);
 					return;
 				}
 
@@ -69,7 +69,7 @@ namespace waspp
 					userid = rs->get<unsigned int>("userid");
 				}
 			}
-			db->free("db_index", db_index);
+			db->free("db_idx", db_idx);
 
 			dbconn_ptr db_shard = db->get_shard(userid);
 			{
@@ -144,9 +144,9 @@ namespace waspp
 				passwd = md5_digest(req.param("passwd"));
 			}
 
-			dbconn_ptr db_index = db->get("db_index");
+			dbconn_ptr db_idx = db->get("db_idx");
 			{
-				stmt_ptr stmt(db_index->prepare("SELECT userid FROM users_idx WHERE username = ?"));
+				stmt_ptr stmt(db_idx->prepare("SELECT userid FROM users_idx WHERE username = ?"));
 				{
 					stmt->param(req.param("username"));
 				}
@@ -154,11 +154,11 @@ namespace waspp
 				rs_ptr rs(stmt->query());
 				if (rs->num_rows() != 0)
 				{
-					router::err_msg(cfg, res, status_username_not_available, db, "db_index", db_index);
+					router::err_msg(cfg, res, status_username_not_available, db, "db_idx", db_idx);
 					return;
 				}
 
-				stmt.reset(db_index->prepare("CALL USP_GET_UNIQUE_KEYS('users_idx', ?)"));
+				stmt.reset(db_idx->prepare("CALL USP_GET_UNIQUE_KEYS('users_idx', ?)"));
 				{
 					stmt->param(1);
 				}
@@ -170,7 +170,7 @@ namespace waspp
 				}
 				platformid = boost::lexical_cast<std::string>(userid);
 
-				stmt.reset(db_index->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
+				stmt.reset(db_idx->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
 				{
 					stmt->param(userid);
 					stmt->param(platformtype);
@@ -181,10 +181,10 @@ namespace waspp
 				unsigned long long int affected_rows = stmt->execute();
 				if (affected_rows == 0)
 				{
-					router::err_msg(cfg, res, status_users_idx_insert_failed, db, "db_index", db_index);
+					router::err_msg(cfg, res, status_users_idx_insert_failed, db, "db_idx", db_idx);
 				}
 			}
-			db->free("db_index", db_index);
+			db->free("db_idx", db_idx);
 
 			dbconn_ptr db_shard = db->get_shard(userid);
 			{
