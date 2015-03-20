@@ -175,3 +175,4 @@ For MacOS X
 * install macports (http://www.macports.org)
 * sudo port install boost
 * sudo port install mariadb
+* sudo port install openssl
