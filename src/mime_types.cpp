@@ -53,6 +53,24 @@ namespace waspp
 			return "application/octet-stream";
 		}
 
+		const char* compressible[] = { "css", "htm", "html", "js", "json", "txt", "xhtml", "xml", 0 };
+		
+		bool is_compressible(const std::string& extension)
+		{
+			int i = 0;
+			while (compressible[i] != '\0')
+			{
+				if (compressible[i] == extension)
+				{
+					return true;
+				}
+
+				++i;
+			}
+
+			return false;
+		}
+
 	} // namespace mime_types
 
 } // namespace waspp

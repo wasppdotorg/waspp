@@ -86,12 +86,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\OpenSSL-Win64\include;C:\Program Files\MariaDB 10.0\include;C:\local\boost_1_56_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\local\zlib-1.2.5;C:\OpenSSL-Win64\include;C:\Program Files\MariaDB 10.0\include;C:\local\boost_1_56_0</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_WIN32_WINNT=0x601;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\OpenSSL-Win64\lib;C:\Program Files\MariaDB 10.0\lib;C:\local\boost_1_56_0\lib64-msvc-12.0</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\local\zlib125dll\staticx64;C:\OpenSSL-Win64\lib;C:\Program Files\MariaDB 10.0\lib;C:\local\boost_1_56_0\lib64-msvc-12.0</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;libmysql.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

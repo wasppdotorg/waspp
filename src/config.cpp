@@ -27,7 +27,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	config::config() : expiry_sec(0), update_sec(0), validate_ep(false), validate_ua(false), num_threads(0)
+	config::config() : expiry_sec(0), update_sec(0), validate_ep(false), validate_ua(false), num_threads(0), compress(false)
 	{
 	}
 
@@ -196,6 +196,7 @@ namespace waspp
 					keys.push_back("port");
 					keys.push_back("doc_root");
 					keys.push_back("num_threads");
+					keys.push_back("compress");
 				}
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
@@ -227,6 +228,10 @@ namespace waspp
 					else if (keys[i] == "num_threads")
 					{
 						num_threads = boost::lexical_cast<std::size_t>(found2->value);
+					}
+					else if (keys[i] == "compress")
+					{
+						compress = boost::lexical_cast<bool>(found2->value);
 					}
 				}
 			}

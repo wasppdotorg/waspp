@@ -67,7 +67,6 @@ namespace waspp
 			// Fill out the response to be sent to the client.
 			res.http_status = response::ok;
 
-			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
 			res.headers.push_back(name_value("Content-Type", mime_types::extension_to_type(res.content_extension)));
 			res.headers.push_back(name_value("Keep-Alive", "timeout=0, max=0"));
 
@@ -82,6 +81,16 @@ namespace waspp
 
 				res.headers.push_back(name_value("Set-Cookie", cookie));
 			}
+
+			if (cfg->compress &&
+				req.header("Accept-Encoding").find("gzip") != std::string::npos &&
+				mime_types::is_compressible(res.content_extension.c_str()))
+			{
+				res.headers.push_back(name_value("Content-Encoding", "gzip, deflate"));
+				compress_str(res.content);
+			}
+
+			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
 		}
 		catch (std::exception& e)
 		{

@@ -93,7 +93,8 @@
 			"address" : "127.0.0.1",
 			"port" : 9000,
 			"doc_root" : "../doc",
-			"num_threads" : 8
+			"num_threads" : 8,
+			"compress" : 1
 		},
 
 		"server01":
@@ -101,7 +102,8 @@
 			"address" : "127.0.0.1",
 			"port" : 9001,
 			"doc_root" : "../doc",
-			"num_threads" : 8
+			"num_threads" : 8,
+			"compress" : 1
 		},
 		
 	"//end" : 0

@@ -70,6 +70,7 @@ namespace waspp
 		// server
 		std::string address, port, doc_root;
 		std::size_t num_threads;
+		bool compress;
 
 	private:
 		std::vector<cfgpair> cfg_;

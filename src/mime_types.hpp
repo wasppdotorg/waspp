@@ -19,6 +19,8 @@ namespace waspp
 		/// Convert a file extension into a MIME type.
 		std::string extension_to_type(const std::string& extension);
 
+		bool is_compressible(const std::string& extension);
+
 	} // namespace mime_types
 
 } // namespace waspp

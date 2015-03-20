@@ -11,6 +11,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <cstdio>
 #include <cstdlib>
 
+#include <zlib.h>
 #include <openssl/md5.h>
 
 #include <string>
@@ -140,6 +141,8 @@ namespace waspp
 
 	std::string get_extension(const std::string& path);
 	std::string md5_digest(const std::string& str);
+
+	void compress_str(std::string& str);
 
 	/* -*-mode:c++; c-file-style: "gnu";-*- */
 	/*
