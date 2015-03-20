@@ -62,12 +62,12 @@ namespace waspp
 			}
 
 			std::vector<std::string> keys;
-			std::vector<cfgpair>::iterator found1;
-			std::vector<name_value>::iterator found2;
+			std::vector<cfgpair>::iterator found_cp;
+			std::vector<name_value>::iterator found_nv;
 
-			found1 = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, "log"));
+			found_cp = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, "log"));
 			{
-				if (found1 == cfg_.end())
+				if (found_cp == cfg_.end())
 				{
 					log->fatal(__FILE__, __LINE__, "config::log not found");
 					return false;
@@ -81,8 +81,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
-					if (found2 == found1->second.end())
+					found_nv = std::find_if(found_cp->second.begin(), found_cp->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+					if (found_nv == found_cp->second.end())
 					{
 						log->fatal(__FILE__, __LINE__, "config::element not found");
 						return false;
@@ -90,18 +90,18 @@ namespace waspp
 
 					if (keys[i] == "level")
 					{
-						level = found2->value;
+						level = found_nv->value;
 					}
 					else if (keys[i] == "rotation")
 					{
-						rotation = found2->value;
+						rotation = found_nv->value;
 					}
 				}
 			}
 
-			found1 = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, "locale"));
+			found_cp = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, "locale"));
 			{
-				if (found1 == cfg_.end())
+				if (found_cp == cfg_.end())
 				{
 					log->fatal(__FILE__, __LINE__, "config::locale not found");
 					return false;
@@ -114,8 +114,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
-					if (found2 == found1->second.end())
+					found_nv = std::find_if(found_cp->second.begin(), found_cp->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+					if (found_nv == found_cp->second.end())
 					{
 						log->fatal(__FILE__, __LINE__, "config::element not found");
 						return false;
@@ -123,14 +123,14 @@ namespace waspp
 
 					if (keys[i] == "msg_locale")
 					{
-						msg_locale = found2->value;
+						msg_locale = found_nv->value;
 					}
 				}
 			}
 
-			found1 = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, "session"));
+			found_cp = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, "session"));
 			{
-				if (found1 == cfg_.end())
+				if (found_cp == cfg_.end())
 				{
 					log->fatal(__FILE__, __LINE__, "config::session not found");
 					return false;
@@ -148,8 +148,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
-					if (found2 == found1->second.end())
+					found_nv = std::find_if(found_cp->second.begin(), found_cp->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+					if (found_nv == found_cp->second.end())
 					{
 						log->fatal(__FILE__, __LINE__, "config::element not found");
 						return false;
@@ -157,34 +157,34 @@ namespace waspp
 
 					if (keys[i] == "encrypt_key")
 					{
-						encrypt_key = found2->value;
+						encrypt_key = found_nv->value;
 					}
 					else if (keys[i] == "sess_cookie")
 					{
-						sess_cookie = found2->value;
+						sess_cookie = found_nv->value;
 					}
 					else if (keys[i] == "expiry_sec")
 					{
-						expiry_sec = boost::lexical_cast<double>(found2->value);
+						expiry_sec = boost::lexical_cast<double>(found_nv->value);
 					}
 					else if (keys[i] == "update_sec")
 					{
-						update_sec = boost::lexical_cast<double>(found2->value);
+						update_sec = boost::lexical_cast<double>(found_nv->value);
 					}
 					else if (keys[i] == "validate_ep")
 					{
-						validate_ep = boost::lexical_cast<bool>(found2->value);
+						validate_ep = boost::lexical_cast<bool>(found_nv->value);
 					}
 					else if (keys[i] == "validate_ua")
 					{
-						validate_ua = boost::lexical_cast<bool>(found2->value);
+						validate_ua = boost::lexical_cast<bool>(found_nv->value);
 					}
 				}
 			}
 
-			found1 = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, server_id));
+			found_cp = std::find_if(cfg_.begin(), cfg_.end(), boost::bind(&cfgpair::compare_first, _1, server_id));
 			{
-				if (found1 == cfg_.end())
+				if (found_cp == cfg_.end())
 				{
 					log->fatal(__FILE__, __LINE__, "config::server_id not found");
 					return false;
@@ -201,8 +201,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					found2 = std::find_if(found1->second.begin(), found1->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
-					if (found2 == found1->second.end())
+					found_nv = std::find_if(found_cp->second.begin(), found_cp->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+					if (found_nv == found_cp->second.end())
 					{
 						log->fatal(__FILE__, __LINE__, "config::element not found");
 						return false;
@@ -210,15 +210,15 @@ namespace waspp
 
 					if (keys[i] == "address")
 					{
-						address = found2->value;
+						address = found_nv->value;
 					}
 					else if (keys[i] == "port")
 					{
-						port = found2->value;
+						port = found_nv->value;
 					}
 					else if (keys[i] == "doc_root")
 					{
-						doc_root = found2->value;
+						doc_root = found_nv->value;
 
 						if (doc_root[doc_root.size() - 1] != '/')
 						{
@@ -227,11 +227,11 @@ namespace waspp
 					}
 					else if (keys[i] == "num_threads")
 					{
-						num_threads = boost::lexical_cast<std::size_t>(found2->value);
+						num_threads = boost::lexical_cast<std::size_t>(found_nv->value);
 					}
 					else if (keys[i] == "compress")
 					{
-						compress = boost::lexical_cast<bool>(found2->value);
+						compress = boost::lexical_cast<bool>(found_nv->value);
 					}
 				}
 			}
