@@ -309,7 +309,7 @@ namespace waspp
 		return std::string(md_str);
 	}
 
-	void compress_str(std::string& str)
+	void gzip_str(std::string& str)
 	{
 		std::stringstream original;
 		original << str;
@@ -318,10 +318,10 @@ namespace waspp
 		buf.push(boost::iostreams::gzip_compressor(boost::iostreams::zlib::best_speed));
 		buf.push(original);
 
-		std::stringstream compressed;
-		boost::iostreams::copy(buf, compressed);
+		std::stringstream gzipped;
+		boost::iostreams::copy(buf, gzipped);
 
-		str = compressed.str();
+		str = gzipped.str();
 	}
 
 	/* -*-mode:c++; c-file-style: "gnu";-*- */

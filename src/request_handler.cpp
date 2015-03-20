@@ -83,11 +83,11 @@ namespace waspp
 			}
 
 			if (cfg->compress &&
-				req.header("Accept-Encoding").find("gzip") != std::string::npos &&
-				mime_types::is_compressible(res.content_extension.c_str()))
+				req.header("Accept-Encoding") == "gzip, deflate" &&
+				mime_types::is_compressible(res.content_extension))
 			{
-				res.headers.push_back(name_value("Content-Encoding", "gzip, deflate"));
-				compress_str(res.content);
+				res.headers.push_back(name_value("Content-Encoding", "gzip"));
+				gzip_str(res.content);
 			}
 
 			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));

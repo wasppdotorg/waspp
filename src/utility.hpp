@@ -141,7 +141,7 @@ namespace waspp
 	std::string get_extension(const std::string& path);
 	std::string md5_digest(const std::string& str);
 
-	void compress_str(std::string& str);
+	void gzip_str(std::string& str);
 
 	/* -*-mode:c++; c-file-style: "gnu";-*- */
 	/*
