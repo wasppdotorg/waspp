@@ -11,7 +11,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <cstdio>
 #include <cstdlib>
 
-#include <zlib.h>
 #include <openssl/md5.h>
 
 #include <string>

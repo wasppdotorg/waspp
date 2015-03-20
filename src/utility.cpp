@@ -10,7 +10,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <string>
 
 #include <boost/iostreams/filtering_streambuf.hpp>
-#include <boost/iostreams/filter/zlib.hpp>
+#include <boost/iostreams/filter/gzip.hpp>
 #include <boost/iostreams/copy.hpp>
 
 #include "utility.hpp"
@@ -315,7 +315,7 @@ namespace waspp
 		original << str;
 
 		boost::iostreams::filtering_streambuf<boost::iostreams::input> buf;
-		buf.push(boost::iostreams::zlib_compressor(boost::iostreams::zlib::best_compression));
+		buf.push(boost::iostreams::gzip_compressor(boost::iostreams::zlib::best_speed));
 		buf.push(original);
 
 		std::stringstream compressed;
