@@ -98,9 +98,9 @@
 			
 			"use_ssl" : 0,
 			"ssl_passwd" : "",
-			"ssl_cert_chain" : "../ssl/testing.chain",
-			"ssl_priv_key" : "../ssl/testing.key",
-			"ssl_ca_cert" : "../ssl/testing.cert"
+			"ssl_cert_chain" : "../ssl/product.cert",
+			"ssl_priv_key" : "../ssl/product.key",
+			"ssl_ca_cert" : ""
 		},
 
 		"server01":
@@ -113,9 +113,9 @@
 			
 			"use_ssl" : 0,
 			"ssl_passwd" : "",
-			"ssl_cert_chain" : "../ssl/testing.chain",
-			"ssl_priv_key" : "../ssl/testing.key",
-			"ssl_ca_cert" : "../ssl/testing.cert"
+			"ssl_cert_chain" : "../ssl/product.cert",
+			"ssl_priv_key" : "../ssl/product.key",
+			"ssl_ca_cert" : ""
 		},
 		
 	"//end" : 0
