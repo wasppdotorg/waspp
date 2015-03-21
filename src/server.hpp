@@ -13,6 +13,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/asio.hpp>
 
+#include "logger.hpp"
 #include "config.hpp"
 #include "connection.hpp"
 #include "request_handler.hpp"
@@ -27,7 +28,7 @@ namespace waspp
 	public:
 		/// Construct the server to listen on the specified TCP address and port, and
 		/// serve up files from the given directory.
-		explicit server(config* cfg_);
+		explicit server(logger* log_, config* cfg_);
 
 		/// Run the server's io_service loop.
 		void run();
@@ -42,6 +43,7 @@ namespace waspp
 		/// Handle a request to stop the server.
 		void handle_stop();
 
+		logger* log;
 		config* cfg;
 
 		/// The io_service used to perform asynchronous operations.

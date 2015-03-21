@@ -78,20 +78,16 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		log->info("waspp starting..");
-
 		if (cfg->use_ssl())
 		{
-			waspp::server_ssl s(cfg);
+			waspp::server_ssl s(log, cfg);
 			s.run();
 		}
 		else
 		{
-			waspp::server s(cfg);
+			waspp::server s(log, cfg);
 			s.run();
 		}
-
-		log->info("waspp stopped");
 	}
 	catch (std::exception& e)
 	{

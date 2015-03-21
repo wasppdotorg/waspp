@@ -199,10 +199,11 @@ namespace waspp
 					keys.push_back("compress");
 
 					keys.push_back("use_ssl");
-					keys.push_back("ssl_pwd");
-					keys.push_back("ssl_key");
-					keys.push_back("ssl_crt");
 					keys.push_back("ssl_port");
+					keys.push_back("ssl_passwd");
+					keys.push_back("ssl_cert_chain");
+					keys.push_back("ssl_priv_key");
+					keys.push_back("ssl_ca_cert");
 				}
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
@@ -243,21 +244,25 @@ namespace waspp
 					{
 						use_ssl_ = boost::lexical_cast<bool>(found_nv->value);
 					}
-					else if (keys[i] == "ssl_pwd")
-					{
-						ssl_pwd_ = found_nv->value;
-					}
-					else if (keys[i] == "ssl_key")
-					{
-						ssl_key_ = found_nv->value;
-					}
-					else if (keys[i] == "ssl_crt")
-					{
-						ssl_crt_ = found_nv->value;
-					}
 					else if (keys[i] == "ssl_port")
 					{
 						ssl_port_ = found_nv->value;
+					}
+					else if (keys[i] == "ssl_passwd")
+					{
+						ssl_passwd_ = found_nv->value;
+					}
+					else if (keys[i] == "ssl_cert_chain")
+					{
+						ssl_cert_chain_ = found_nv->value;
+					}
+					else if (keys[i] == "ssl_priv_key")
+					{
+						ssl_priv_key_ = found_nv->value;
+					}
+					else if (keys[i] == "ssl_ca_cert")
+					{
+						ssl_ca_cert_ = found_nv->value;
 					}
 				}
 			}

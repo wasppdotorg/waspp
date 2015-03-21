@@ -97,10 +97,11 @@
 			"compress" : 1,
 			
 			"use_ssl" : 0,
-			"ssl_pwd" : "waspp",
-			"ssl_key" : "../ssl/develop.key",
-			"ssl_crt" : "../ssl/develop.crt",
-			"ssl_port" : 8443
+			"ssl_port" : 8443,
+			"ssl_passwd" : "",
+			"ssl_cert_chain" : "../ssl/testing.chain",
+			"ssl_priv_key" : "../ssl/testing.key",
+			"ssl_ca_cert" : "../ssl/testing.cert"
 		},
 
 		"server01":
@@ -112,10 +113,11 @@
 			"compress" : 1,
 			
 			"use_ssl" : 0,
-			"ssl_pwd" : "waspp",
-			"ssl_key" : "../ssl/develop.key",
-			"ssl_crt" : "../ssl/develop.crt",
-			"ssl_port" : 8444
+			"ssl_port" : 8444,
+			"ssl_passwd" : "",
+			"ssl_cert_chain" : "../ssl/testing.chain",
+			"ssl_priv_key" : "../ssl/testing.key",
+			"ssl_ca_cert" : "../ssl/testing.cert"
 		},
 		
 	"//end" : 0
