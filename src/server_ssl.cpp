@@ -28,12 +28,13 @@ namespace waspp
 		{
 			context_.set_options(boost::asio::ssl::context::default_workarounds | boost::asio::ssl::context::no_sslv2);
 			context_.set_verify_mode(boost::asio::ssl::context::verify_peer);
-			context_.set_password_callback(boost::bind(&server_ssl::ssl_passwd, this));
 
-			context_.use_certificate_chain_file(cfg->ssl_cert_chain());
-			context_.use_private_key_file(cfg->ssl_priv_key(), boost::asio::ssl::context::pem);
+			if (!cfg->ssl_passwd().empty()) { context_.set_password_callback(boost::bind(&server_ssl::ssl_passwd, this)); }
 
-			context_.load_verify_file(cfg->ssl_ca_cert());
+			if (!cfg->ssl_cert_chain().empty()) { context_.use_certificate_chain_file(cfg->ssl_cert_chain()); }
+			if (!cfg->ssl_priv_key().empty()) { context_.use_private_key_file(cfg->ssl_priv_key(), boost::asio::ssl::context::pem); }
+
+			if (!cfg->ssl_ca_cert().empty()) { context_.load_verify_file(cfg->ssl_ca_cert()); }
 		}
 		catch (...)
 		{
