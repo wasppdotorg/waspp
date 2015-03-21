@@ -62,7 +62,7 @@ namespace waspp
 
 		bool get_file(config* cfg, response& res, std::string request_path)
 		{
-			std::string full_path(cfg->doc_root + request_path);
+			std::string full_path(cfg->doc_root() + request_path);
 
 			// If path ends in slash (i.e. is a directory) then add "index.html".
 			if (full_path[full_path.size() - 1] == '/')

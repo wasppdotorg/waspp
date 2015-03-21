@@ -94,7 +94,12 @@
 			"port" : 10000,
 			"doc_root" : "../doc",
 			"num_threads" : 16,
-			"compress" : 1
+			"compress" : 1,
+			
+			"use_ssl" : 0,
+			"ssl_pwd" : "waspp",
+			"ssl_key" : "../ssl/product.key",
+			"ssl_crt" : "../ssl/product.crt"
 		},
 
 		"server01":
@@ -103,7 +108,12 @@
 			"port" : 10001,
 			"doc_root" : "../doc",
 			"num_threads" : 16,
-			"compress" : 1
+			"compress" : 1,
+			
+			"use_ssl" : 0,
+			"ssl_pwd" : "waspp",
+			"ssl_key" : "../ssl/product.key",
+			"ssl_crt" : "../ssl/product.crt"
 		},
 		
 	"//end" : 0

@@ -78,7 +78,7 @@ namespace waspp
 	{
 		try
 		{
-			std::string session_cookie = req->cookie(cfg->sess_cookie);
+			std::string session_cookie = req->cookie(cfg->sess_cookie());
 			if (session_cookie.empty())
 			{
 				return false;
@@ -87,9 +87,9 @@ namespace waspp
 			std::string session_md5 = session_cookie.substr(session_cookie.size() - 32);
 			std::string session_str = session_cookie.substr(0, session_cookie.size() - 32);
 
-			if (session_md5 != md5_digest(session_str + cfg->encrypt_key))
+			if (session_md5 != md5_digest(session_str + cfg->encrypt_key()))
 			{
-				res->delete_cookie(cfg->sess_cookie);
+				res->delete_cookie(cfg->sess_cookie());
 				return false;
 			}
 
@@ -114,26 +114,26 @@ namespace waspp
 				found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
 				if (found == session_.end())
 				{
-					res->delete_cookie(cfg->sess_cookie);
+					res->delete_cookie(cfg->sess_cookie());
 					return false;
 				}
 			}
 
-			if (std::difftime(std::time(0), get_last_tm()) > cfg->expiry_sec)
+			if (std::difftime(std::time(0), get_last_tm()) > cfg->expiry_sec())
 			{
-				res->delete_cookie(cfg->sess_cookie);
+				res->delete_cookie(cfg->sess_cookie());
 				return false;
 			}
 
-			if (cfg->validate_ep && get_curr_ep() != get_last_ep())
+			if (cfg->validate_ep() && get_curr_ep() != get_last_ep())
 			{
-				res->delete_cookie(cfg->sess_cookie);
+				res->delete_cookie(cfg->sess_cookie());
 				return false;
 			}
 
-			if (cfg->validate_ua && get_curr_ua() != get_last_ua())
+			if (cfg->validate_ua() && get_curr_ua() != get_last_ua())
 			{
-				res->delete_cookie(cfg->sess_cookie);
+				res->delete_cookie(cfg->sess_cookie());
 				return false;
 			}
 
@@ -162,7 +162,7 @@ namespace waspp
 
 	void session::update()
 	{
-		if (std::difftime(std::time(0), get_last_tm()) < cfg->update_sec)
+		if (std::difftime(std::time(0), get_last_tm()) < cfg->update_sec())
 		{
 			return;
 		}
@@ -228,9 +228,9 @@ namespace waspp
 		}
 		std::string cookie_value(url_encode(oss.str()));
 
-		cookie_value.append(md5_digest(cookie_value + cfg->encrypt_key));
+		cookie_value.append(md5_digest(cookie_value + cfg->encrypt_key()));
 
-		res->set_cookie(cfg->sess_cookie, cookie_value);
+		res->set_cookie(cfg->sess_cookie(), cookie_value);
 	}
 
 } // namespace waspp

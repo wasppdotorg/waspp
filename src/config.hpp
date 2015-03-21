@@ -60,19 +60,48 @@ namespace waspp
 		const std::string& msg(app_status_type status_code);
 
 		// logger
-		std::string level, rotation;
+		const std::string& level() { return level_; }
+		const std::string& rotation() { return rotation_; }
 
 		// session
-		std::string encrypt_key, sess_cookie;
-		double expiry_sec, update_sec;
-		bool validate_ep, validate_ua;
+		const std::string& encrypt_key() { return encrypt_key_; }
+		const std::string& sess_cookie() { return sess_cookie_; }
+		double expiry_sec() { return expiry_sec_; }
+		double update_sec() { return update_sec_; }
+		bool validate_ep() { return validate_ep_; }
+		bool validate_ua() { return validate_ua_; }
 
 		// server
-		std::string address, port, doc_root;
-		std::size_t num_threads;
-		bool compress;
+		const std::string& address() { return address_; }
+		const std::string& port() { return port_; }
+		const std::string& doc_root() { return doc_root_; }
+		std::size_t num_threads() { return num_threads_; }
+		bool compress() { return compress_; }
+
+		// ssl
+		bool use_ssl() { return use_ssl_; }
+		const std::string& ssl_pwd() { return ssl_pwd_; }
+		const std::string& ssl_key() { return ssl_key_; }
+		const std::string& ssl_crt() { return ssl_crt_; }
 
 	private:
+		// logger
+		std::string level_, rotation_;
+
+		// session
+		std::string encrypt_key_, sess_cookie_;
+		double expiry_sec_, update_sec_;
+		bool validate_ep_, validate_ua_;
+
+		// server
+		std::string address_, port_, doc_root_;
+		std::size_t num_threads_;
+		bool compress_;
+
+		// ssl
+		bool use_ssl_;
+		std::string ssl_pwd_, ssl_key_, ssl_crt_;
+
 		std::vector<cfgpair> cfg_;
 
 		// status messages

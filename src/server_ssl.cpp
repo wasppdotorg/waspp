@@ -10,19 +10,28 @@
 #include <boost/bind.hpp>
 #include <boost/thread/thread.hpp>
 
-#include "server.hpp"
-#include "config.hpp"
+#include "server_ssl.hpp"
 
 namespace waspp
 {
 
-	server::server(config* cfg_)
+	server_ssl::server_ssl(config* cfg_)
 		: cfg(cfg_),
 		signals_(io_service_),
 		acceptor_(io_service_),
-		new_connection_(),
+		context_(boost::asio::ssl::context::sslv23),
+		new_connection_ssl_(),
 		request_handler_()
 	{
+		context_.set_options(
+			boost::asio::ssl::context::default_workarounds
+			| boost::asio::ssl::context::no_sslv2
+			| boost::asio::ssl::context::single_dh_use);
+		context_.set_password_callback(boost::bind(&server_ssl::get_pwd, this));
+		context_.use_certificate_chain_file(cfg->ssl_key());
+		context_.use_private_key_file(cfg->ssl_key(), boost::asio::ssl::context::pem);
+		context_.use_tmp_dh_file(cfg->ssl_crt());
+
 		// Register to handle the signals that indicate when the server should exit.
 		// It is safe to register for the same signal multiple times in a program,
 		// provided all registration for the specified signal is made through Asio.
@@ -31,7 +40,7 @@ namespace waspp
 #if defined(SIGQUIT)
 		signals_.add(SIGQUIT);
 #endif // defined(SIGQUIT)
-		signals_.async_wait(boost::bind(&server::handle_stop, this));
+		signals_.async_wait(boost::bind(&server_ssl::handle_stop, this));
 
 		// Open the acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
 		boost::asio::ip::tcp::resolver resolver(io_service_);
@@ -46,7 +55,12 @@ namespace waspp
 		start_accept();
 	}
 
-	void server::run()
+	std::string server_ssl::get_pwd()
+	{
+		return cfg->ssl_pwd();
+	}
+
+	void server_ssl::run()
 	{
 		// Create a pool of threads to run all of the io_services.
 		std::vector< boost::shared_ptr<boost::thread> > threads;
@@ -64,27 +78,28 @@ namespace waspp
 		}
 	}
 
-	void server::start_accept()
+	void server_ssl::start_accept()
 	{
-		new_connection_.reset(new connection(io_service_, request_handler_));
-		acceptor_.async_accept(new_connection_->socket(),
-			boost::bind(&server::handle_accept, this,
+		new_connection_ssl_.reset(new connection_ssl(io_service_, context_, request_handler_));
+		acceptor_.async_accept(new_connection_ssl_->socket().lowest_layer(),
+			boost::bind(&server_ssl::handle_accept, this,
 			boost::asio::placeholders::error));
 	}
 
-	void server::handle_accept(const boost::system::error_code& e)
+	void server_ssl::handle_accept(const boost::system::error_code& e)
 	{
 		if (!e)
 		{
-			new_connection_->start();
+			new_connection_ssl_->start();
 		}
 
 		start_accept();
 	}
 
-	void server::handle_stop()
+	void server_ssl::handle_stop()
 	{
 		io_service_.stop();
 	}
 
 } // namespace waspp
+

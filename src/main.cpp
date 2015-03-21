@@ -12,6 +12,7 @@
 #include "config.hpp"
 #include "database.hpp"
 #include "server.hpp"
+#include "server_ssl.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -57,7 +58,7 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		if (!log->init(cfg->level, cfg->rotation))
+		if (!log->init(cfg->level(), cfg->rotation()))
 		{
 			log->fatal(__FILE__, __LINE__, "logger::init failed");
 			return 1;
@@ -79,8 +80,16 @@ int main(int argc, char* argv[])
 
 		log->info("waspp starting..");
 
-		waspp::server s(cfg->address, cfg->port, cfg->num_threads);
-		s.run();
+		if (cfg->use_ssl())
+		{
+			waspp::server_ssl s(cfg);
+			s.run();
+		}
+		else
+		{
+			waspp::server s(cfg);
+			s.run();
+		}
 
 		log->info("waspp stopped");
 	}

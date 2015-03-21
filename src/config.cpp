@@ -27,7 +27,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	config::config() : expiry_sec(0), update_sec(0), validate_ep(false), validate_ua(false), num_threads(0), compress(false)
+	config::config() : expiry_sec_(0), update_sec_(0), validate_ep_(false), validate_ua_(false), num_threads_(0), compress_(false), use_ssl_(false)
 	{
 	}
 
@@ -90,11 +90,11 @@ namespace waspp
 
 					if (keys[i] == "level")
 					{
-						level = found_nv->value;
+						level_ = found_nv->value;
 					}
 					else if (keys[i] == "rotation")
 					{
-						rotation = found_nv->value;
+						rotation_ = found_nv->value;
 					}
 				}
 			}
@@ -157,27 +157,27 @@ namespace waspp
 
 					if (keys[i] == "encrypt_key")
 					{
-						encrypt_key = found_nv->value;
+						encrypt_key_ = found_nv->value;
 					}
 					else if (keys[i] == "sess_cookie")
 					{
-						sess_cookie = found_nv->value;
+						sess_cookie_ = found_nv->value;
 					}
 					else if (keys[i] == "expiry_sec")
 					{
-						expiry_sec = boost::lexical_cast<double>(found_nv->value);
+						expiry_sec_ = boost::lexical_cast<double>(found_nv->value);
 					}
 					else if (keys[i] == "update_sec")
 					{
-						update_sec = boost::lexical_cast<double>(found_nv->value);
+						update_sec_ = boost::lexical_cast<double>(found_nv->value);
 					}
 					else if (keys[i] == "validate_ep")
 					{
-						validate_ep = boost::lexical_cast<bool>(found_nv->value);
+						validate_ep_ = boost::lexical_cast<bool>(found_nv->value);
 					}
 					else if (keys[i] == "validate_ua")
 					{
-						validate_ua = boost::lexical_cast<bool>(found_nv->value);
+						validate_ua_ = boost::lexical_cast<bool>(found_nv->value);
 					}
 				}
 			}
@@ -197,6 +197,11 @@ namespace waspp
 					keys.push_back("doc_root");
 					keys.push_back("num_threads");
 					keys.push_back("compress");
+
+					keys.push_back("use_ssl");
+					keys.push_back("ssl_pwd");
+					keys.push_back("ssl_key");
+					keys.push_back("ssl_crt");
 				}
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
@@ -210,28 +215,44 @@ namespace waspp
 
 					if (keys[i] == "address")
 					{
-						address = found_nv->value;
+						address_ = found_nv->value;
 					}
 					else if (keys[i] == "port")
 					{
-						port = found_nv->value;
+						port_ = found_nv->value;
 					}
 					else if (keys[i] == "doc_root")
 					{
-						doc_root = found_nv->value;
+						doc_root_ = found_nv->value;
 
-						if (doc_root[doc_root.size() - 1] != '/')
+						if (doc_root_[doc_root_.size() - 1] != '/')
 						{
-							doc_root += "/";
+							doc_root_ += "/";
 						}
 					}
 					else if (keys[i] == "num_threads")
 					{
-						num_threads = boost::lexical_cast<std::size_t>(found_nv->value);
+						num_threads_ = boost::lexical_cast<std::size_t>(found_nv->value);
 					}
 					else if (keys[i] == "compress")
 					{
-						compress = boost::lexical_cast<bool>(found_nv->value);
+						compress_ = boost::lexical_cast<bool>(found_nv->value);
+					}
+					else if (keys[i] == "use_ssl")
+					{
+						use_ssl_ = boost::lexical_cast<bool>(found_nv->value);
+					}
+					else if (keys[i] == "ssl_pwd")
+					{
+						ssl_pwd_ = found_nv->value;
+					}
+					else if (keys[i] == "ssl_key")
+					{
+						ssl_key_ = found_nv->value;
+					}
+					else if (keys[i] == "ssl_crt")
+					{
+						ssl_crt_ = found_nv->value;
 					}
 				}
 			}

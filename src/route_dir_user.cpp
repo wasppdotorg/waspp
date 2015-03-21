@@ -208,7 +208,7 @@ namespace waspp
 
 		void signout(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			res.delete_cookie(cfg->sess_cookie);
+			res.delete_cookie(cfg->sess_cookie());
 			res.redirect_to("/dir/user/signin");
 		}
 

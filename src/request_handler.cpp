@@ -82,7 +82,7 @@ namespace waspp
 				res.headers.push_back(name_value("Set-Cookie", cookie));
 			}
 
-			if (cfg->compress &&
+			if (cfg->compress() &&
 				req.header("Accept-Encoding") == "gzip, deflate" &&
 				mime_types::is_compressible(res.content_extension))
 			{

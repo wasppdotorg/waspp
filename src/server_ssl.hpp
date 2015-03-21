@@ -5,8 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_SERVER_HPP
-#define WASPP_SERVER_HPP
+#ifndef WASPP_SERVER_SSL_HPP
+#define WASPP_SERVER_SSL_HPP
 
 #include <string>
 
@@ -14,20 +14,22 @@
 #include <boost/asio.hpp>
 
 #include "config.hpp"
-#include "connection.hpp"
+#include "connection_ssl.hpp"
 #include "request_handler.hpp"
 
 namespace waspp
 {
 
 	/// The top-level class of the HTTP server.
-	class server
+	class server_ssl
 		: private boost::noncopyable
 	{
 	public:
 		/// Construct the server to listen on the specified TCP address and port, and
 		/// serve up files from the given directory.
-		explicit server(config* cfg_);
+		explicit server_ssl(config* cfg_);
+
+		std::string get_pwd();
 
 		/// Run the server's io_service loop.
 		void run();
@@ -53,8 +55,10 @@ namespace waspp
 		/// Acceptor used to listen for incoming connections.
 		boost::asio::ip::tcp::acceptor acceptor_;
 
+		boost::asio::ssl::context context_;
+
 		/// The next connection to be accepted.
-		connection_ptr new_connection_;
+		connection_ssl_ptr new_connection_ssl_;
 
 		/// The handler for all incoming requests.
 		request_handler request_handler_;
@@ -63,4 +67,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_SERVER_HPP
+#endif // WASPP_SERVER_SSL_HPP

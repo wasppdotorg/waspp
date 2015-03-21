@@ -94,7 +94,12 @@
 			"port" : 9000,
 			"doc_root" : "../doc",
 			"num_threads" : 8,
-			"compress" : 1
+			"compress" : 1,
+			
+			"use_ssl" : 0,
+			"ssl_pwd" : "waspp",
+			"ssl_key" : "../ssl/testing.key",
+			"ssl_crt" : "../ssl/testing.crt"
 		},
 
 		"server01":
@@ -103,7 +108,12 @@
 			"port" : 9001,
 			"doc_root" : "../doc",
 			"num_threads" : 8,
-			"compress" : 1
+			"compress" : 1,
+			
+			"use_ssl" : 0,
+			"ssl_pwd" : "waspp",
+			"ssl_key" : "../ssl/testing.key",
+			"ssl_crt" : "../ssl/testing.crt"
 		},
 		
 	"//end" : 0
