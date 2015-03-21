@@ -96,11 +96,9 @@
 			"num_threads" : 4,
 			"compress" : 1,
 			
-			"use_ssl" : 1,
-			"ssl_passwd" : "",
-			"ssl_cert_chain" : "../ssl/develop.cert",
-			"ssl_priv_key" : "../ssl/develop.key",
-			"ssl_ca_cert" : "../ssl/develop.cert"
+			"ssl" : 1,
+			"ssl_crt" : "../ssl/develop.crt",
+			"ssl_key" : "../ssl/develop.key"
 		},
 
 		"server01":
@@ -111,11 +109,9 @@
 			"num_threads" : 4,
 			"compress" : 1,
 			
-			"use_ssl" : 0,
-			"ssl_passwd" : "",
-			"ssl_cert_chain" : "../ssl/develop.cert",
-			"ssl_priv_key" : "../ssl/develop.key",
-			"ssl_ca_cert" : ""
+			"ssl" : 0,
+			"ssl_crt" : "../ssl/develop.crt",
+			"ssl_key" : "../ssl/develop.key"
 		},
 		
 	"//end" : 0

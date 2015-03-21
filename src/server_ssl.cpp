@@ -15,9 +15,8 @@
 namespace waspp
 {
 
-	server_ssl::server_ssl(logger* log_, config* cfg_)
-		: log(log_),
-		cfg(cfg_),
+	server_ssl::server_ssl(config* cfg_)
+		: cfg(cfg_),
 		signals_(io_service_),
 		acceptor_(io_service_),
 		context_(boost::asio::ssl::context::sslv23),
@@ -26,15 +25,11 @@ namespace waspp
 	{
 		try
 		{
-			context_.set_options(boost::asio::ssl::context::default_workarounds | boost::asio::ssl::context::no_sslv2);
-			context_.set_verify_mode(boost::asio::ssl::context::verify_peer);
+			context_.set_default_verify_paths();
+			context_.set_options(boost::asio::ssl::context::default_workarounds);
 
-			if (!cfg->ssl_passwd().empty()) { context_.set_password_callback(boost::bind(&server_ssl::ssl_passwd, this)); }
-
-			if (!cfg->ssl_cert_chain().empty()) { context_.use_certificate_chain_file(cfg->ssl_cert_chain()); }
-			if (!cfg->ssl_priv_key().empty()) { context_.use_private_key_file(cfg->ssl_priv_key(), boost::asio::ssl::context::pem); }
-
-			if (!cfg->ssl_ca_cert().empty()) { context_.load_verify_file(cfg->ssl_ca_cert()); }
+			context_.use_certificate_chain_file(cfg->ssl_crt());
+			context_.use_private_key_file(cfg->ssl_key(), boost::asio::ssl::context::pem);
 		}
 		catch (...)
 		{
@@ -64,15 +59,8 @@ namespace waspp
 		start_accept();
 	}
 
-	std::string server_ssl::ssl_passwd()
-	{
-		return cfg->ssl_passwd();
-	}
-
 	void server_ssl::run()
 	{
-		log->info("server_ssl starting..");
-
 		// Create a pool of threads to run all of the io_services.
 		std::vector< boost::shared_ptr<boost::thread> > threads;
 		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
@@ -110,7 +98,6 @@ namespace waspp
 	void server_ssl::handle_stop()
 	{
 		io_service_.stop();
-		log->info("server_ssl stopped");
 	}
 
 } // namespace waspp

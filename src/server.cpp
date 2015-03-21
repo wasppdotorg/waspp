@@ -15,9 +15,8 @@
 namespace waspp
 {
 
-	server::server(logger* log_, config* cfg_)
-		: log(log_),
-		cfg(cfg_),
+	server::server(config* cfg_)
+		: cfg(cfg_),
 		signals_(io_service_),
 		acceptor_(io_service_),
 		new_connection_(),
@@ -48,8 +47,6 @@ namespace waspp
 
 	void server::run()
 	{
-		log->info("server starting..");
-
 		// Create a pool of threads to run all of the io_services.
 		std::vector< boost::shared_ptr<boost::thread> > threads;
 		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
@@ -87,7 +84,6 @@ namespace waspp
 	void server::handle_stop()
 	{
 		io_service_.stop();
-		log->info("server stopped");
 	}
 
 } // namespace waspp

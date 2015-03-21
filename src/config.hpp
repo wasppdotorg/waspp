@@ -79,11 +79,9 @@ namespace waspp
 		bool compress() { return compress_; }
 
 		// ssl
-		bool use_ssl() { return use_ssl_; }
-		const std::string& ssl_passwd() { return ssl_passwd_; }
-		const std::string& ssl_cert_chain() { return ssl_cert_chain_; }
-		const std::string& ssl_priv_key() { return ssl_priv_key_; }
-		const std::string& ssl_ca_cert() { return ssl_ca_cert_; }
+		bool ssl() { return ssl_; }
+		const std::string& ssl_crt() { return ssl_crt_; }
+		const std::string& ssl_key() { return ssl_key_; }
 		
 
 	private:
@@ -101,8 +99,8 @@ namespace waspp
 		bool compress_;
 
 		// ssl
-		bool use_ssl_;
-		std::string ssl_passwd_, ssl_cert_chain_, ssl_priv_key_, ssl_ca_cert_;
+		bool ssl_;
+		std::string ssl_crt_, ssl_key_;
 
 		std::vector<cfgpair> cfg_;
 

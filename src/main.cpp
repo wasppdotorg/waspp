@@ -78,14 +78,16 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		if (cfg->use_ssl())
+		if (cfg->ssl())
 		{
-			waspp::server_ssl s(log, cfg);
+			log->info("server_ssl starting..");
+			waspp::server_ssl s(cfg);
 			s.run();
 		}
 		else
 		{
-			waspp::server s(log, cfg);
+			log->info("server_ssl starting..");
+			waspp::server s(cfg);
 			s.run();
 		}
 	}
