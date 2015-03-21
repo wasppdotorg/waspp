@@ -72,6 +72,12 @@
     <ClCompile Include="route_dir_forum.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="connection_ssl.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="server_ssl.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp">
@@ -126,6 +132,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="app_status.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="connection_ssl.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="server_ssl.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
