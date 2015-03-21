@@ -149,6 +149,20 @@ add_executable (
 
 * sudo cmake .
 
+Enable SSL
+----------
+* cd ../ssl
+* sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./develop.key -out ./develop.crt
+* cd ../cfg
+* sudo vi develop.json
+```
+"ssl" : 1,
+```
+
+* cd ../bin
+* sudo ./develop_kill.sh
+* sudo ./develop_start.sh
+
 Memory Leak Check
 -----------------
 * sudo apt-get install valgrind
