@@ -30,7 +30,7 @@ namespace waspp
 		/// serve up files from the given directory.
 		explicit server_ssl(logger* log_, config* cfg_);
 
-		std::string get_ssl_passwd();
+		std::string ssl_passwd();
 
 		/// Run the server's io_service loop.
 		void run();

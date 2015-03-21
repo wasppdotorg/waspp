@@ -199,7 +199,6 @@ namespace waspp
 					keys.push_back("compress");
 
 					keys.push_back("use_ssl");
-					keys.push_back("ssl_port");
 					keys.push_back("ssl_passwd");
 					keys.push_back("ssl_cert_chain");
 					keys.push_back("ssl_priv_key");
@@ -243,10 +242,6 @@ namespace waspp
 					else if (keys[i] == "use_ssl")
 					{
 						use_ssl_ = boost::lexical_cast<bool>(found_nv->value);
-					}
-					else if (keys[i] == "ssl_port")
-					{
-						ssl_port_ = found_nv->value;
 					}
 					else if (keys[i] == "ssl_passwd")
 					{

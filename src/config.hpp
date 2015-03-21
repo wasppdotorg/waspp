@@ -80,7 +80,6 @@ namespace waspp
 
 		// ssl
 		bool use_ssl() { return use_ssl_; }
-		const std::string& ssl_port() { return ssl_port_; }
 		const std::string& ssl_passwd() { return ssl_passwd_; }
 		const std::string& ssl_cert_chain() { return ssl_cert_chain_; }
 		const std::string& ssl_priv_key() { return ssl_priv_key_; }
@@ -103,7 +102,7 @@ namespace waspp
 
 		// ssl
 		bool use_ssl_;
-		std::string ssl_port_, ssl_passwd_, ssl_cert_chain_, ssl_priv_key_, ssl_ca_cert_;
+		std::string ssl_passwd_, ssl_cert_chain_, ssl_priv_key_, ssl_ca_cert_;
 
 		std::vector<cfgpair> cfg_;
 
