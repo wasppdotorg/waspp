@@ -99,7 +99,8 @@
 			"use_ssl" : 0,
 			"ssl_pwd" : "waspp",
 			"ssl_key" : "../ssl/testing.key",
-			"ssl_crt" : "../ssl/testing.crt"
+			"ssl_crt" : "../ssl/testing.crt",
+			"ssl_port" : 9443
 		},
 
 		"server01":
@@ -113,7 +114,8 @@
 			"use_ssl" : 0,
 			"ssl_pwd" : "waspp",
 			"ssl_key" : "../ssl/testing.key",
-			"ssl_crt" : "../ssl/testing.crt"
+			"ssl_crt" : "../ssl/testing.crt",
+			"ssl_port" : 9444
 		},
 		
 	"//end" : 0

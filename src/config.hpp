@@ -83,6 +83,7 @@ namespace waspp
 		const std::string& ssl_pwd() { return ssl_pwd_; }
 		const std::string& ssl_key() { return ssl_key_; }
 		const std::string& ssl_crt() { return ssl_crt_; }
+		const std::string& ssl_port() { return ssl_port_; }
 
 	private:
 		// logger
@@ -100,7 +101,7 @@ namespace waspp
 
 		// ssl
 		bool use_ssl_;
-		std::string ssl_pwd_, ssl_key_, ssl_crt_;
+		std::string ssl_pwd_, ssl_key_, ssl_crt_, ssl_port_;
 
 		std::vector<cfgpair> cfg_;
 

@@ -202,6 +202,7 @@ namespace waspp
 					keys.push_back("ssl_pwd");
 					keys.push_back("ssl_key");
 					keys.push_back("ssl_crt");
+					keys.push_back("ssl_port");
 				}
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
@@ -253,6 +254,10 @@ namespace waspp
 					else if (keys[i] == "ssl_crt")
 					{
 						ssl_crt_ = found_nv->value;
+					}
+					else if (keys[i] == "ssl_port")
+					{
+						ssl_port_ = found_nv->value;
 					}
 				}
 			}

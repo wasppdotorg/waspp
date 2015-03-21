@@ -99,7 +99,8 @@
 			"use_ssl" : 0,
 			"ssl_pwd" : "waspp",
 			"ssl_key" : "../ssl/develop.key",
-			"ssl_crt" : "../ssl/develop.crt"
+			"ssl_crt" : "../ssl/develop.crt",
+			"ssl_port" : 8443
 		},
 
 		"server01":
@@ -113,7 +114,8 @@
 			"use_ssl" : 0,
 			"ssl_pwd" : "waspp",
 			"ssl_key" : "../ssl/develop.key",
-			"ssl_crt" : "../ssl/develop.crt"
+			"ssl_crt" : "../ssl/develop.crt",
+			"ssl_port" : 8444
 		},
 		
 	"//end" : 0
