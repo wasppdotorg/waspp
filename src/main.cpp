@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			log->info("server_ssl starting..");
+			log->info("server starting..");
 			waspp::server s(cfg);
 			s.run();
 		}
