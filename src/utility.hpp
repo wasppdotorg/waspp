@@ -18,7 +18,11 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <boost/atomic.hpp>
 #include <boost/asio.hpp>
+
+#define CHECK_MEMORY_LEAK_WITHOUT_SSL
+#ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
 #include <boost/asio/ssl.hpp>
+#endif
 
 #include "name_value.hpp"
 
@@ -117,7 +121,9 @@ namespace waspp
 		void post(std::ostream& req_stream, const std::string& postdata);
 		
 		bool query(boost::asio::ip::tcp::socket& socket_);
+#ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
 		bool query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_);
+#endif
 
 		bool is_200(std::istream& res_stream);
 		

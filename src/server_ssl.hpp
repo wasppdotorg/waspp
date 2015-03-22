@@ -8,6 +8,9 @@
 #ifndef WASPP_SERVER_SSL_HPP
 #define WASPP_SERVER_SSL_HPP
 
+#define CHECK_MEMORY_LEAK_WITHOUT_SSL
+#ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
+
 #include <string>
 
 #include <boost/noncopyable.hpp>
@@ -64,5 +67,7 @@ namespace waspp
 	};
 
 } // namespace waspp
+
+#endif // CHECK_MEMORY_LEAK_WITHOUT_SSL
 
 #endif // WASPP_SERVER_SSL_HPP

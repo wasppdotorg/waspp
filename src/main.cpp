@@ -80,9 +80,11 @@ int main(int argc, char* argv[])
 
 		if (cfg->ssl())
 		{
+#ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
 			log->info("server_ssl starting..");
 			waspp::server_ssl s(cfg);
 			s.run();
+#endif
 		}
 		else
 		{

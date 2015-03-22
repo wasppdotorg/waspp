@@ -8,6 +8,9 @@
 #ifndef WASPP_CONNECTION_SSL_HPP
 #define WASPP_CONNECTION_SSL_HPP
 
+#define CHECK_MEMORY_LEAK_WITHOUT_SSL
+#ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
+
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
 #include <boost/array.hpp>
@@ -75,5 +78,7 @@ namespace waspp
 	typedef boost::shared_ptr<connection_ssl> connection_ssl_ptr;
 
 } // namespace waspp
+
+#endif // CHECK_MEMORY_LEAK_WITHOUT_SSL
 
 #endif // WASPP_CONNECTION_SSL_HPP

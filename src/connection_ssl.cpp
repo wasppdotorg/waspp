@@ -11,6 +11,8 @@
 #include "connection_ssl.hpp"
 #include "request_handler.hpp"
 
+#ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
+
 namespace waspp
 {
 
@@ -121,3 +123,5 @@ namespace waspp
 	}
 
 } // namespace waspp
+
+#endif // CHECK_MEMORY_LEAK_WITHOUT_SSL
