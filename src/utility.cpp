@@ -8,6 +8,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <cctype>
 
 #include <string>
+#include <exception>
 
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/iostreams/filter/gzip.hpp>
@@ -18,27 +19,38 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	url_conn::url_conn(uri_request_type req_type_, const std::string& host_, const std::string& uri_) : req_type(req_type_), host(host_), uri(uri_), io_service_(), resolver_(io_service_)
+	uri_conn::uri_conn(uri_request_type req_type_, const std::string& host_, const std::string& port_) : req_type(req_type_), host(host_), port(port_), io_service_(), resolver_(io_service_)
+	{
+		if (port.empty())
+		{
+			if (req_type == http_get || req_type == http_post)
+			{
+				port = "http";
+			}
+			else if (req_type == https_get || req_type == https_post)
+			{
+				port = "https";
+			}
+		}
+	}
+
+	uri_conn::~uri_conn()
 	{
 	}
 
-	url_conn::~url_conn()
-	{
-	}
-
-	void url_conn::set_http_headers(const std::vector<name_value>& req_headers_)
+	void uri_conn::set_http_headers(const std::vector<name_value>& req_headers_)
 	{
 		req_headers = req_headers_;
 	}
 
-	bool url_conn::http_query(const std::string& postdata)
+	bool uri_conn::query(const std::string& uri, const std::string& data)
 	{
 		try
 		{
-			if (req_type == http_get || req_type == http_post)
+			if (req_type == tcp || req_type == http_get || req_type == http_post)
 			{
 				// Get a list of endpoints corresponding to the server name.
-				boost::asio::ip::tcp::resolver::query query_(host, "http");
+				boost::asio::ip::tcp::resolver::query query_(host, port);
 				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
 
 				// Try each endpoint until we successfully establish a connection.
@@ -50,23 +62,32 @@ namespace waspp
 				// allow us to treat all data up until the EOF as the content.
 				std::ostream req_stream(&req_buf);
 
-				if (req_type == http_get)
+				if (req_type == tcp)
 				{
-					get(req_stream);
+					return tcp_query(socket_, req_stream, data);
+				}
+				else if (req_type == http_get)
+				{
+					put_http_get(req_stream, uri);
+					return http_query(socket_);
 				}
 				else if (req_type == http_post)
 				{
-					post(req_stream, postdata);
+					put_http_post(req_stream, uri, data);
+					return http_query(socket_);
 				}
-
-				query(socket_);
+				else
+				{
+					return false;
+				}
+				
 				return true;
 			}
-			else if (req_type == https_get || req_type == https_post)
+			else if (req_type == ssl || req_type == https_get || req_type == https_post)
 			{
 #ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
 				// Get a list of endpoints corresponding to the server name.
-				boost::asio::ip::tcp::resolver::query query_(host, "https");
+				boost::asio::ip::tcp::resolver::query query_(host, port);
 				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
 
 				boost::asio::ssl::context context_(io_service_, boost::asio::ssl::context::sslv23);
@@ -83,29 +104,58 @@ namespace waspp
 				// allow us to treat all data up until the EOF as the content.
 				std::ostream req_stream(&req_buf);
 
-				if (req_type == https_get)
+				if (req_type == ssl)
 				{
-					get(req_stream);
+					return ssl_query(socket_, req_stream, data);
+				}
+				else if (req_type == https_get)
+				{
+					put_http_get(req_stream, uri);
+					return https_query(socket_);
 				}
 				else if (req_type == https_post)
 				{
-					post(req_stream, postdata);
+					put_http_post(req_stream, uri, data);
+					return https_query(socket_);
+				}
+				else
+				{
+					return false;
 				}
 
-				query(socket_);
 				return true;
 #endif // CHECK_MEMORY_LEAK_WITHOUT_SSL
 			}
 		}
 		catch (...)
 		{
-			throw;
+			
 		}
 
 		return false;
 	}
 
-	void url_conn::get(std::ostream& req_stream)
+	bool uri_conn::query(const std::string& uri)
+	{
+		return query(uri, std::string());
+	}
+
+	bool uri_conn::query()
+	{
+		return query(std::string());
+	}
+
+	const std::string& uri_conn::res_headers()
+	{
+		return res_headers_;
+	}
+
+	const std::string& uri_conn::res_content()
+	{
+		return res_content_;
+	}
+
+	void uri_conn::put_http_get(std::ostream& req_stream, const std::string& uri)
 	{
 		req_stream << "GET " << uri << " HTTP/1.1\r\n";
 		req_stream << "Host: " << host << "\r\n";
@@ -121,7 +171,7 @@ namespace waspp
 		req_stream << "\r\n";
 	}
 
-	void url_conn::post(std::ostream& req_stream, const std::string& postdata)
+	void uri_conn::put_http_post(std::ostream& req_stream, const std::string& uri, const std::string& data)
 	{
 		req_stream << "POST " << uri << " HTTP/1.1\r\n";
 		req_stream << "Host: " << host << "\r\n";
@@ -135,10 +185,44 @@ namespace waspp
 		}
 
 		req_stream << "\r\n";
-		req_stream << postdata;
+		req_stream << data;
 	}
 
-	bool url_conn::query(boost::asio::ip::tcp::socket& socket_)
+	bool uri_conn::tcp_query(boost::asio::ip::tcp::socket& socket_, std::ostream& req_stream, const std::string& data)
+	{
+		try
+		{
+			if (!data.empty())
+			{
+				req_stream << data;
+
+				// Send the request.
+				boost::asio::write(socket_, req_buf);
+			}
+
+			boost::system::error_code error;
+			boost::asio::read(socket_, res_buf, boost::asio::transfer_at_least(1), error);
+
+			if (error)
+			{
+				return false;
+			}
+
+			std::ostringstream oss;
+			oss << &res_buf;
+
+			res_content_ = oss.str();
+			return true;
+		}
+		catch (...)
+		{
+			
+		}
+
+		return false;
+	}
+
+	bool uri_conn::http_query(boost::asio::ip::tcp::socket& socket_)
 	{
 		try
 		{
@@ -161,7 +245,7 @@ namespace waspp
 			boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
 
 			// Process the response headers.
-			while (std::getline(res_stream, headers_) && headers_ != "\r")
+			while (std::getline(res_stream, res_headers_) && res_headers_ != "\r")
 			{
 			}
 
@@ -185,19 +269,53 @@ namespace waspp
 				throw boost::system::system_error(error);
 			}
 
-			content_ = oss.str();
+			res_content_ = oss.str();
 			return true;
 		}
 		catch (...)
 		{
-			throw;
+			
 		}
 
 		return false;
 	}
 
 #ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
-	bool url_conn::query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_)
+	bool uri_conn::ssl_query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_, std::ostream& req_stream, const std::string& data)
+	{
+		try
+		{
+			if (!data.empty())
+			{
+				req_stream << data;
+
+				// Send the request.
+				boost::asio::write(socket_, req_buf);
+			}
+
+			boost::system::error_code error;
+			boost::asio::read(socket_, res_buf, boost::asio::transfer_at_least(1), error);
+
+			if (error)
+			{
+				return false;
+			}
+
+			std::ostringstream oss;
+			oss << &res_buf;
+
+			res_content_ = oss.str();
+			return true;
+		}
+		catch (...)
+		{
+			
+		}
+
+		return false;
+	}
+
+	bool uri_conn::https_query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_)
 	{
 		try
 		{
@@ -220,7 +338,7 @@ namespace waspp
 			boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
 
 			// Process the response headers.
-			while (std::getline(res_stream, headers_) && headers_ != "\r")
+			while (std::getline(res_stream, res_headers_) && res_headers_ != "\r")
 			{
 			}
 
@@ -244,19 +362,19 @@ namespace waspp
 				throw boost::system::system_error(error);
 			}
 
-			content_ = oss.str();
+			res_content_ = oss.str();
 			return true;
 		}
 		catch (...)
 		{
-			throw;
+			
 		}
 
 		return false;
 	}
 #endif // CHECK_MEMORY_LEAK_WITHOUT_SSL
 
-	bool url_conn::is_200(std::istream& res_stream)
+	bool uri_conn::is_200(std::istream& res_stream)
 	{
 		std::string http_version;
 		res_stream >> http_version;
