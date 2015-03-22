@@ -155,7 +155,7 @@ Enable SSL
 * cd ../ssl
 * sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./develop.key -out ./develop.crt
 * cd ../src
-* sudo vi connection_ssl.hpp server_ssl.hpp utility.hpp
+* sudo vi connection_ssl.hpp server_http2.hpp server_ssl.hpp utility.hpp
 ```
 #define CHECK_MEMORY_LEAK_WITH_SSL
 ```
