@@ -68,12 +68,12 @@ namespace waspp
 				}
 				else if (req_type == http_get)
 				{
-					put_http_get(req_stream, uri);
+					set_http_get(req_stream, uri);
 					return http_query(socket_);
 				}
 				else if(req_type == http_post)
 				{
-					put_http_post(req_stream, uri, data);
+					set_http_post(req_stream, uri, data);
 					return http_query(socket_);
 				}
 				else
@@ -110,12 +110,12 @@ namespace waspp
 				}
 				else if (req_type == https_get)
 				{
-					put_http_get(req_stream, uri);
+					set_http_get(req_stream, uri);
 					return https_query(socket_);
 				}
 				else if (req_type == https_post)
 				{
-					put_http_post(req_stream, uri, data);
+					set_http_post(req_stream, uri, data);
 					return https_query(socket_);
 				}
 				else
@@ -155,7 +155,7 @@ namespace waspp
 		return res_content_;
 	}
 
-	void uri_conn::put_http_get(std::ostream& req_stream, const std::string& uri)
+	void uri_conn::set_http_get(std::ostream& req_stream, const std::string& uri)
 	{
 		req_stream << "GET " << uri << " HTTP/1.1\r\n";
 		req_stream << "Host: " << host << "\r\n";
@@ -171,7 +171,7 @@ namespace waspp
 		req_stream << "\r\n";
 	}
 
-	void uri_conn::put_http_post(std::ostream& req_stream, const std::string& uri, const std::string& data)
+	void uri_conn::set_http_post(std::ostream& req_stream, const std::string& uri, const std::string& data)
 	{
 		req_stream << "POST " << uri << " HTTP/1.1\r\n";
 		req_stream << "Host: " << host << "\r\n";
