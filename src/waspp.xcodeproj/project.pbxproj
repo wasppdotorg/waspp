@@ -25,6 +25,7 @@
 		7B8704AC1AAEB37400ADC708 /* route_dir_user.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704951AAEB37400ADC708 /* route_dir_user.cpp */; };
 		7B8704AD1AAEB37400ADC708 /* router.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704961AAEB37400ADC708 /* router.cpp */; };
 		7B8704AE1AAEB37400ADC708 /* server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704981AAEB37400ADC708 /* server.cpp */; };
+		7B8704AE1AAEB37400ADC708 /* server_http2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704981AAEB37400ADC708 /* server_http2.cpp */; };
 		7B8704AE1AAEB37400ADC708 /* server_ssl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8704981AAEB37400ADC708 /* server_ssl.cpp */; };
 		7B8704AF1AAEB37400ADC708 /* session.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87049A1AAEB37400ADC708 /* session.cpp */; };
 		7B8704B01AAEB37400ADC708 /* utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B87049C1AAEB37400ADC708 /* utility.cpp */; };
@@ -86,6 +87,8 @@
 		7B8704971AAEB37400ADC708 /* router.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = router.hpp; sourceTree = "<group>"; };
 		7B8704981AAEB37400ADC708 /* server.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = server.cpp; sourceTree = "<group>"; };
 		7B8704991AAEB37400ADC708 /* server.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = server.hpp; sourceTree = "<group>"; };
+		7B8704981AAEB37400ADC708 /* server_http2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = server_http2.cpp; sourceTree = "<group>"; };
+		7B8704991AAEB37400ADC708 /* server_http2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = server_http2.hpp; sourceTree = "<group>"; };
 		7B8704981AAEB37400ADC708 /* server_ssl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = server_ssl.cpp; sourceTree = "<group>"; };
 		7B8704991AAEB37400ADC708 /* server_ssl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = server_ssl.hpp; sourceTree = "<group>"; };
 		7B87049A1AAEB37400ADC708 /* session.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = session.cpp; sourceTree = "<group>"; };
@@ -164,6 +167,8 @@
 				7B8704971AAEB37400ADC708 /* router.hpp */,
 				7B8704981AAEB37400ADC708 /* server.cpp */,
 				7B8704991AAEB37400ADC708 /* server.hpp */,
+				7B8704981AAEB37400ADC708 /* server_http2.cpp */,
+				7B8704991AAEB37400ADC708 /* server_http2.hpp */,
 				7B8704981AAEB37400ADC708 /* server_ssl.cpp */,
 				7B8704991AAEB37400ADC708 /* server_ssl.hpp */,
 				7B87049A1AAEB37400ADC708 /* session.cpp */,
@@ -241,6 +246,7 @@
 				7B8704B01AAEB37400ADC708 /* utility.cpp in Sources */,
 				7B8704A61AAEB37400ADC708 /* mysqlpp_result.cpp in Sources */,
 				7B8704AE1AAEB37400ADC708 /* server.cpp in Sources */,
+				7B8704AE1AAEB37400ADC708 /* server_http2.cpp in Sources */,
 				7B8704AE1AAEB37400ADC708 /* server_ssl.cpp in Sources */,
 				7B8704AF1AAEB37400ADC708 /* session.cpp in Sources */,
 				7B8704AC1AAEB37400ADC708 /* route_dir_user.cpp in Sources */,

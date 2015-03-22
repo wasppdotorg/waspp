@@ -167,6 +167,14 @@ Enable SSL
 "ssl" : 1,
 ```
 
+Enable HTTP/2 (still working on..)
+-------------
+* enable ssl first
+* sudo vi develop.json
+```
+"http2" : 1
+```
+
 Check Memory Leak
 -----------------
 * sudo apt-get install valgrind
