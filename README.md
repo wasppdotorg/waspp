@@ -89,7 +89,7 @@ Run
 ---
 * cd ../bin
 * sudo ./develop_start.sh
-* sudo tail -f ../log/develop00
+* sudo tail -f ../log/develop00.csv
 * Go to http://127.0.0.1:8000/
 
 Run on Windows
@@ -148,6 +148,7 @@ add_executable (
 ```
 
 * sudo cmake .
+* sudo make
 
 Enable SSL
 ----------
