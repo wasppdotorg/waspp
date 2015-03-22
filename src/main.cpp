@@ -84,6 +84,9 @@ int main(int argc, char* argv[])
 			log->info("server_ssl starting..");
 			waspp::server_ssl s(cfg);
 			s.run();
+#else
+			log->fatal(__FILE__, __LINE__, "ssl disabled");
+			return 1;
 #endif
 		}
 		else

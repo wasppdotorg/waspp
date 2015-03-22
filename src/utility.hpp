@@ -95,34 +95,39 @@ namespace waspp
 
 	enum uri_request_type
 	{
-		http_get = 1,
-		http_post = 2,
+		tcp = 1,
+		http_get = 2,
+		http_post = 3,
 
-		https_get = 3,
-		https_post = 4
+		ssl = 4,
+		https_get = 5,
+		https_post = 6
 	};
 
-	class url_conn
+	class uri_conn
 	{
 	public:
-		url_conn(uri_request_type req_type, const std::string& host_, const std::string& uri_);
-		~url_conn();
+		uri_conn(uri_request_type req_type, const std::string& host_, const std::string& port_ = "");
+		~uri_conn();
 
 		void set_http_headers(const std::vector<name_value>& req_headers_);
-		
-		bool http_query(const std::string& postdata);
-		bool http_query();
+		bool query(const std::string& uri, const std::string& data);
+		bool query(const std::string& uri);
+		bool query();
 
-		std::string& headers();
-		std::string& content();
+		const std::string& res_headers();
+		const std::string& res_content();
 
 	private:
-		void get(std::ostream& req_stream);
-		void post(std::ostream& req_stream, const std::string& postdata);
+		void put_http_get(std::ostream& req_stream, const std::string& uri);
+		void put_http_post(std::ostream& req_stream, const std::string& uri, const std::string& data);
 		
-		bool query(boost::asio::ip::tcp::socket& socket_);
+		bool tcp_query(boost::asio::ip::tcp::socket& socket_, std::ostream& req_stream, const std::string& data);
+		bool http_query(boost::asio::ip::tcp::socket& socket_);
+
 #ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
-		bool query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_);
+		bool ssl_query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_, std::ostream& req_stream, const std::string& data);
+		bool https_query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_);
 #endif
 
 		bool is_200(std::istream& res_stream);
@@ -130,7 +135,7 @@ namespace waspp
 		uri_request_type req_type;
 
 		std::string host;
-		std::string uri;
+		std::string port;
 
 		std::vector<name_value> req_headers;
 
@@ -140,8 +145,8 @@ namespace waspp
 		boost::asio::streambuf req_buf;
 		boost::asio::streambuf res_buf;
 
-		std::string headers_;
-		std::string content_;
+		std::string res_headers_;
+		std::string res_content_;
 	};
 
 	std::string get_extension(const std::string& path);
