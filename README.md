@@ -1,8 +1,8 @@
 waspp
 =====
 
-Built with
-----------
+Build Tested With
+-----------------
 * CMake 2.8 - Ubuntu Linux 14.04 LTS
 * Codeblocks 13.12 - Ubuntu Linux 14.04 LTS
 * Visual Studio 2010 Express - Windows 7
@@ -113,7 +113,7 @@ cd .\bin
 Add Your Own Route
 ------------------
 * cd ../src
-* sudo cp route_board.cpp route_notice.cpp
+* sudo cp route_forum.cpp route_notice.cpp
 * sudo vi route_notice.cpp
 * sudo vi router.hpp
 ```
