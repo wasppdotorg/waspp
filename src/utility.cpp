@@ -54,7 +54,7 @@ namespace waspp
 				{
 					get(req_stream);
 				}
-				else if(req_type == http_post)
+				else if (req_type == http_post)
 				{
 					post(req_stream, postdata);
 				}
