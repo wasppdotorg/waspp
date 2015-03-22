@@ -166,7 +166,7 @@ Enable SSL
 "ssl" : 1,
 ```
 
-Memory Leak Check
+Check Memory Leak
 -----------------
 * sudo apt-get install valgrind
 * valgrind ./waspp develop 00
