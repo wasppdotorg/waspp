@@ -13,6 +13,7 @@
 #include "database.hpp"
 #include "server.hpp"
 #include "server_ssl.hpp"
+#include "server_http2.hpp"
 
 int main(int argc, char* argv[])
 {
