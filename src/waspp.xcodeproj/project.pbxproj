@@ -49,7 +49,7 @@
 
 /* Begin PBXFileReference section */
 		7B8704701AAEB31400ADC708 /* waspp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = waspp; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B8704811AAEB37400ADC708 /* app_status.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = app_status.hpp; sourceTree = "<group>"; };
+		7B8704811AAEB37400ADC708 /* status.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = status.hpp; sourceTree = "<group>"; };
 		7B87047A1AAEB37400ADC708 /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
 		7B87047B1AAEB37400ADC708 /* config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config.hpp; sourceTree = "<group>"; };
 		7B87047C1AAEB37400ADC708 /* connection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = connection.cpp; sourceTree = "<group>"; };
@@ -123,7 +123,7 @@
 				7B8704B51AAEB43B00ADC708 /* libboost_filesystem-mt.a */,
 				7B8704B31AAEB42B00ADC708 /* libboost_thread-mt.a */,
 				7B8704B11AAEB41B00ADC708 /* libboost_system-mt.a */,
-				7B8704811AAEB37400ADC708 /* app_status.hpp */,
+				7B8704811AAEB37400ADC708 /* status.hpp */,
 				7B87047A1AAEB37400ADC708 /* config.cpp */,
 				7B87047B1AAEB37400ADC708 /* config.hpp */,
 				7B87047C1AAEB37400ADC708 /* connection.cpp */,

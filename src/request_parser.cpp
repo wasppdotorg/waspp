@@ -10,8 +10,8 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "request_parser.hpp"
 #include "request.hpp"
+#include "request_parser.hpp"
 #include "utility.hpp"
 
 namespace waspp

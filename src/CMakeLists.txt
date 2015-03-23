@@ -14,7 +14,7 @@ add_executable (
 
 	waspp
 	
-	app_status.hpp
+	status.hpp
 	config.hpp
 	connection.hpp
 	database.hpp

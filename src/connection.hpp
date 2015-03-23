@@ -61,10 +61,16 @@ namespace waspp
 
 		void handle_handshake(const boost::system::error_code& e);
 
+		/// Strand to ensure the connection's handlers are not called concurrently.
+		boost::asio::io_service::strand strand_;
+
 		/// Socket for the connection.
 		boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket_;
 
 #else
+
+		/// Strand to ensure the connection's handlers are not called concurrently.
+		boost::asio::io_service::strand strand_;
 
 		/// Socket for the connection.
 		boost::asio::ip::tcp::socket socket_;
@@ -77,9 +83,6 @@ namespace waspp
 
 		/// Handle completion of a write operation.
 		void handle_write(const boost::system::error_code& e);
-
-		/// Strand to ensure the connection's handlers are not called concurrently.
-		boost::asio::io_service::strand strand_;
 
 		/// The handler used to process the incoming request.
 		request_handler& request_handler_;
