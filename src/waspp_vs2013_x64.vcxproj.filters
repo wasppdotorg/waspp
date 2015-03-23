@@ -78,6 +78,9 @@
     <ClCompile Include="server_ssl.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="server_http2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp">
@@ -138,6 +141,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="server_ssl.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="server_http2.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
