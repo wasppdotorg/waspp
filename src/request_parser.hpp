@@ -518,13 +518,12 @@ namespace waspp
 					}
 					else if (req.method == "POST" && input == '\n')
 					{
-						std::string content_length_str = req.header("Content-Length");
-						if (content_length_str.empty())
+						if (req.header("Content-Length").empty())
 						{
 							result = false;
 							break;
 						}
-						req.content_length = boost::lexical_cast<std::size_t>(content_length_str);
+						req.content_length = boost::lexical_cast<int>(req.header("Content-Length"));
 
 						state_ = content_start;
 						result = boost::indeterminate;
@@ -551,9 +550,11 @@ namespace waspp
 					}
 					else
 					{
+						--req.content_length;
 						req.content.push_back(input);
-						if (req.content.size() == req.content_length)
+						if (req.content_length == 0)
 						{
+							req.content_length = boost::lexical_cast<int>(req.header("Content-Length"));
 							result = true;
 							break;
 						}
@@ -568,9 +569,11 @@ namespace waspp
 					{
 						input = *begin++;
 
+						--req.content_length;
 						req.content.push_back(input);
-						if (req.content.size() == req.content_length)
+						if (req.content_length == 0)
 						{
+							req.content_length = boost::lexical_cast<int>(req.header("Content-Length"));
 							result = true;
 							break;
 						}

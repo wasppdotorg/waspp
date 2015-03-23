@@ -73,7 +73,7 @@ namespace waspp
 		std::vector<name_value> headers;
 
 		std::string content;
-		std::size_t content_length;
+		int content_length;
 
 		std::vector<name_value> cookies;
 		std::vector<name_value> params;
