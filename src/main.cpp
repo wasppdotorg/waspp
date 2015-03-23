@@ -82,6 +82,13 @@ int main(int argc, char* argv[])
 		{
 			log->fatal(__FILE__, __LINE__, "ssl disabled");
 		}
+		else
+		{
+			if (cfg->http2())
+			{
+				log->fatal(__FILE__, __LINE__, "enable ssl first");
+			}
+		}
 #endif
 
 		log->info("server starting..");
