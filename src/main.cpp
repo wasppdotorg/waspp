@@ -12,8 +12,6 @@
 #include "config.hpp"
 #include "database.hpp"
 #include "server.hpp"
-#include "server_ssl.hpp"
-#include "server_http2.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -79,32 +77,16 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
+#ifndef CHECK_MEMORY_LEAK_WITH_SSL
 		if (cfg->ssl())
 		{
-#ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
-			if (cfg->http2())
-			{
-				log->info("server_http2 starting..");
-				waspp::server_http2 s(cfg);
-				s.run();
-			}
-			else
-			{
-				log->info("server_ssl starting..");
-				waspp::server_ssl s(cfg);
-				s.run();
-			}
-#else
 			log->fatal(__FILE__, __LINE__, "ssl disabled");
-			return 1;
+		}
 #endif
-		}
-		else
-		{
-			log->info("server starting..");
-			waspp::server s(cfg);
-			s.run();
-		}
+
+		log->info("server starting..");
+		waspp::server s(cfg);
+		s.run();
 	}
 	catch (std::exception& e)
 	{

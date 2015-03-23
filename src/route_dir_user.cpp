@@ -15,7 +15,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "response.hpp"
 #include "utility.hpp"
 #include "session.hpp"
-#include "app_status.hpp"
+#include "status.hpp"
 
 namespace waspp
 {

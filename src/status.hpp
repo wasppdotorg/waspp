@@ -5,15 +5,15 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef WASPP_APP_STATUS_HPP
-#define WASPP_APP_STATUS_HPP
+#ifndef WASPP_STATUS_HPP
+#define WASPP_STATUS_HPP
 
 #include <string>
 
 namespace waspp
 {
 
-	enum app_status_type
+	enum status_type
 	{
 		status_okay = 0,
 		status_error = 1,
@@ -40,4 +40,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_APP_STATUS_HPP
+#endif // WASPP_STATUS_HPP

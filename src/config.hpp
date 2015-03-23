@@ -12,7 +12,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 
 #include "name_value.hpp"
-#include "app_status.hpp"
+#include "status.hpp"
 #include "utility.hpp"
 
 namespace waspp
@@ -57,7 +57,7 @@ namespace waspp
 
 		bool init(const std::string& file, const std::string& server_id);
 		std::vector<name_value>& get(const std::string& item);
-		const std::string& msg(app_status_type status_code);
+		const std::string& msg(status_type status_code);
 
 		// logger
 		const std::string& level() { return level_; }

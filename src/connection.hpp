@@ -9,6 +9,7 @@
 #define WASPP_CONNECTION_HPP
 
 #include <boost/asio.hpp>
+#include <boost/asio/ssl.hpp>
 #include <boost/array.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
@@ -28,6 +29,20 @@ namespace waspp
 		private boost::noncopyable
 	{
 	public:
+
+#define CHECK_MEMORY_LEAK_WITHOUT_SSL
+#ifdef  CHECK_MEMORY_LEAK_WITH_SSL
+
+		/// Construct a connection with the given io_service.
+		explicit connection(boost::asio::io_service& io_service,
+			boost::asio::ssl::context& context,
+			request_handler& handler);
+
+		/// Get the socket associated with the connection.
+		boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket();
+
+#else
+
 		/// Construct a connection with the given io_service.
 		explicit connection(boost::asio::io_service& io_service,
 			request_handler& handler);
@@ -35,10 +50,27 @@ namespace waspp
 		/// Get the socket associated with the connection.
 		boost::asio::ip::tcp::socket& socket();
 
+#endif
+
 		/// Start the first asynchronous operation for the connection.
 		void start();
 
 	private:
+
+#ifdef CHECK_MEMORY_LEAK_WITH_SSL
+
+		void handle_handshake(const boost::system::error_code& e);
+
+		/// Socket for the connection.
+		boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket_;
+
+#else
+
+		/// Socket for the connection.
+		boost::asio::ip::tcp::socket socket_;
+
+#endif
+
 		/// Handle completion of a read operation.
 		void handle_read(const boost::system::error_code& e,
 			std::size_t bytes_transferred);
@@ -48,9 +80,6 @@ namespace waspp
 
 		/// Strand to ensure the connection's handlers are not called concurrently.
 		boost::asio::io_service::strand strand_;
-
-		/// Socket for the connection.
-		boost::asio::ip::tcp::socket socket_;
 
 		/// The handler used to process the incoming request.
 		request_handler& request_handler_;

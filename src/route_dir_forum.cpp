@@ -23,7 +23,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "request.hpp"
 #include "response.hpp"
 #include "session.hpp"
-#include "app_status.hpp"
+#include "status.hpp"
 
 namespace waspp
 {
@@ -47,7 +47,7 @@ namespace waspp
 
 		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			app_status_type status_code = status_error;
+			status_type status_code = status_error;
 			boost::property_tree::ptree json, status, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);
@@ -117,7 +117,7 @@ namespace waspp
 
 		void show_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			app_status_type status_code = status_error;
+			status_type status_code = status_error;
 			boost::property_tree::ptree json, status, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);
@@ -187,7 +187,7 @@ namespace waspp
 
 		void form_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
-			app_status_type status_code = status_error;
+			status_type status_code = status_error;
 			boost::property_tree::ptree json, status, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);

@@ -85,7 +85,7 @@ namespace waspp
 			}
 			else if (req_type == ssl || req_type == https_get || req_type == https_post)
 			{
-#ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
+#ifdef CHECK_MEMORY_LEAK_WITH_SSL
 				// Get a list of endpoints corresponding to the server name.
 				boost::asio::ip::tcp::resolver::query query_(host, port);
 				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
@@ -124,7 +124,7 @@ namespace waspp
 				}
 
 				return true;
-#endif // CHECK_MEMORY_LEAK_WITHOUT_SSL
+#endif // CHECK_MEMORY_LEAK_WITH_SSL
 			}
 		}
 		catch (...)
@@ -280,7 +280,7 @@ namespace waspp
 		return false;
 	}
 
-#ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
+#ifdef CHECK_MEMORY_LEAK_WITH_SSL
 	bool uri_conn::ssl_query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_, std::ostream& req_stream, const std::string& data)
 	{
 		try
@@ -372,7 +372,7 @@ namespace waspp
 
 		return false;
 	}
-#endif // CHECK_MEMORY_LEAK_WITHOUT_SSL
+#endif // CHECK_MEMORY_LEAK_WITH_SSL
 
 	bool uri_conn::is_200(std::istream& res_stream)
 	{

@@ -53,6 +53,11 @@ namespace waspp
 		/// Acceptor used to listen for incoming connections.
 		boost::asio::ip::tcp::acceptor acceptor_;
 
+#define CHECK_MEMORY_LEAK_WITHOUT_SSL
+#ifdef  CHECK_MEMORY_LEAK_WITH_SSL
+		boost::asio::ssl::context context_;
+#endif
+
 		/// The next connection to be accepted.
 		connection_ptr new_connection_;
 

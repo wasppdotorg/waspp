@@ -14,6 +14,46 @@
 namespace waspp
 {
 
+#ifdef CHECK_MEMORY_LEAK_WITH_SSL
+
+	connection::connection(boost::asio::io_service& io_service,
+		boost::asio::ssl::context& context,
+		request_handler& handler)
+		: strand_(io_service),
+		socket_(io_service, context),
+		request_handler_(handler)
+	{
+	}
+
+	boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& connection::socket()
+	{
+		return socket_;
+	}
+
+	void connection::start()
+	{
+		request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.lowest_layer().remote_endpoint());
+
+		socket_.async_handshake(boost::asio::ssl::stream_base::server,
+			strand_.wrap(
+			boost::bind(&connection::handle_handshake, shared_from_this(),
+			boost::asio::placeholders::error)));
+	}
+
+	void connection::handle_handshake(const boost::system::error_code& e)
+	{
+		if (!e)
+		{
+			socket_.async_read_some(boost::asio::buffer(buffer_),
+				strand_.wrap(
+				boost::bind(&connection::handle_read, shared_from_this(),
+				boost::asio::placeholders::error,
+				boost::asio::placeholders::bytes_transferred)));
+		}
+	}
+
+#else
+
 	connection::connection(boost::asio::io_service& io_service,
 		request_handler& handler)
 		: strand_(io_service),
@@ -37,6 +77,8 @@ namespace waspp
 			boost::asio::placeholders::error,
 			boost::asio::placeholders::bytes_transferred)));
 	}
+
+#endif
 
 	void connection::handle_read(const boost::system::error_code& e,
 		std::size_t bytes_transferred)

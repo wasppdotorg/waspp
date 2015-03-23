@@ -17,7 +17,6 @@ add_executable (
 	app_status.hpp
 	config.hpp
 	connection.hpp
-	connection_ssl.hpp
 	database.hpp
 	dbconn_pool.hpp
 	name_value.hpp
@@ -31,14 +30,11 @@ add_executable (
 	response.hpp
 	router.hpp
 	server.hpp
-	server_http2.hpp
-	server_ssl.hpp
 	session.hpp
 	utility.hpp
 	
 	config.cpp
 	connection.cpp
-	connection_ssl.cpp
 	database.cpp
 	dbconn_pool.cpp
 	logger.cpp
@@ -56,8 +52,6 @@ add_executable (
 	router.cpp
 	
 	server.cpp
-	server_http2.cpp
-	server_ssl.cpp
 	session.cpp
 	utility.cpp
 

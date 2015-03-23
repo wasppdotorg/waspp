@@ -326,7 +326,7 @@ namespace waspp
 		return found->second;
 	}
 
-	const std::string& config::msg(app_status_type status_code)
+	const std::string& config::msg(status_type status_code)
 	{
 		int status = static_cast<int>(status_code);
 

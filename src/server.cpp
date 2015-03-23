@@ -15,6 +15,62 @@
 namespace waspp
 {
 
+#ifdef CHECK_MEMORY_LEAK_WITH_SSL
+
+	server::server(config* cfg_)
+		: cfg(cfg_),
+		signals_(io_service_),
+		acceptor_(io_service_),
+		context_(boost::asio::ssl::context::sslv23),
+		new_connection_(),
+		request_handler_()
+	{
+		try
+		{
+			context_.set_default_verify_paths();
+			context_.set_options(boost::asio::ssl::context::default_workarounds);
+
+			context_.use_certificate_chain_file(cfg->ssl_crt());
+			context_.use_private_key_file(cfg->ssl_key(), boost::asio::ssl::context::pem);
+		}
+		catch (...)
+		{
+
+		}
+
+		// Register to handle the signals that indicate when the server should exit.
+		// It is safe to register for the same signal multiple times in a program,
+		// provided all registration for the specified signal is made through Asio.
+		signals_.add(SIGINT);
+		signals_.add(SIGTERM);
+#if defined(SIGQUIT)
+		signals_.add(SIGQUIT);
+#endif // defined(SIGQUIT)
+		signals_.async_wait(boost::bind(&server::handle_stop, this));
+
+		// Open the acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
+		boost::asio::ip::tcp::resolver resolver(io_service_);
+		boost::asio::ip::tcp::resolver::query query(cfg->address(), cfg->port());
+		boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
+		acceptor_.open(endpoint.protocol());
+		acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
+		acceptor_.set_option(boost::asio::ip::tcp::acceptor::keep_alive(true));
+		acceptor_.bind(endpoint);
+		acceptor_.listen();
+
+		start_accept();
+	}
+
+	void server::start_accept()
+	{
+		new_connection_.reset(new connection(io_service_, context_, request_handler_));
+		acceptor_.async_accept(new_connection_->socket().lowest_layer(),
+			boost::bind(&server::handle_accept, this,
+			boost::asio::placeholders::error));
+	}
+
+#else
+
 	server::server(config* cfg_)
 		: cfg(cfg_),
 		signals_(io_service_),
@@ -45,6 +101,16 @@ namespace waspp
 		start_accept();
 	}
 
+	void server::start_accept()
+	{
+		new_connection_.reset(new connection(io_service_, request_handler_));
+		acceptor_.async_accept(new_connection_->socket(),
+			boost::bind(&server::handle_accept, this,
+			boost::asio::placeholders::error));
+	}
+
+#endif
+
 	void server::run()
 	{
 		// Create a pool of threads to run all of the io_services.
@@ -61,14 +127,6 @@ namespace waspp
 		{
 			threads[i]->join();
 		}
-	}
-
-	void server::start_accept()
-	{
-		new_connection_.reset(new connection(io_service_, request_handler_));
-		acceptor_.async_accept(new_connection_->socket(),
-			boost::bind(&server::handle_accept, this,
-			boost::asio::placeholders::error));
 	}
 
 	void server::handle_accept(const boost::system::error_code& e)
