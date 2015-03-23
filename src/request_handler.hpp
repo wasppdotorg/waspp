@@ -32,7 +32,7 @@ namespace waspp
 	private:
 		/// Perform URL-decoding on a string. Returns false if the encoding was
 		/// invalid.
-		static bool url_validate_decode(const std::string& in, std::string& out);
+		static bool percent_decode_and_validate(const std::string& in, std::string& out);
 
 	};
 

@@ -561,7 +561,7 @@ namespace waspp
 		return static_cast<char>(digit);
 	}
 
-	std::string url_encode(const std::string& src)
+	std::string percent_encode(const std::string& src)
 	{
 		std::string result;
 		std::string::const_iterator iter;
@@ -601,7 +601,7 @@ namespace waspp
 		return result;
 	}
 
-	std::string url_decode(const std::string& src)
+	std::string percent_decode(const std::string& src)
 	{
 		std::string result;
 		std::string::const_iterator iter;

@@ -29,7 +29,7 @@ namespace waspp
 
 	void request_parser::parse_params(request& req)
 	{
-		std::string request_uri = url_decode(req.uri);
+		std::string request_uri = percent_decode(req.uri);
 
 		boost::split(req.rest_params, request_uri, boost::is_any_of("/"));
 		req.rest_params.erase(req.rest_params.begin());
@@ -41,8 +41,8 @@ namespace waspp
 
 		for (std::size_t i = 0; i < req.params.size(); ++i)
 		{
-			req.params[i].name = url_decode(req.params[i].name);
-			req.params[i].value = url_decode(req.params[i].value);
+			req.params[i].name = percent_decode(req.params[i].name);
+			req.params[i].value = percent_decode(req.params[i].value);
 		}
 	}
 
@@ -183,17 +183,17 @@ namespace waspp
 						continue;
 					}
 
-					name = url_decode(req.content.substr(old_pos, pos - old_pos));
+					name = percent_decode(req.content.substr(old_pos, pos - old_pos));
 					req.params.push_back(name_value(name, std::string()));
 					old_pos = ++pos;
 					continue;
 				}
 
-				name = url_decode(req.content.substr(old_pos, pos - old_pos));
+				name = percent_decode(req.content.substr(old_pos, pos - old_pos));
 				old_pos = ++pos;
 
 				pos = req.content.find_first_of(";&", old_pos);
-				value = url_decode(req.content.substr(old_pos, pos - old_pos));
+				value = percent_decode(req.content.substr(old_pos, pos - old_pos));
 				req.params.push_back(name_value(name, value));
 
 				if (pos == std::string::npos)
@@ -263,7 +263,7 @@ namespace waspp
 		std::string c_type;
 		c_type = extract_between(data, "Content-Type: ", "\r\n\r\n");
 
-		filename = url_decode(filename);
+		filename = percent_decode(filename);
 
 		return multipart_header(disposition, name, filename, c_type);
 	}

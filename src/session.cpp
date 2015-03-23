@@ -95,7 +95,7 @@ namespace waspp
 
 			// deserialize
 			{
-				std::istringstream iss(url_decode(session_str));
+				std::istringstream iss(percent_decode(session_str));
 				boost::archive::text_iarchive iar(iss, boost::archive::no_tracking);
 				iar >> session_;
 			}
@@ -226,7 +226,7 @@ namespace waspp
 			boost::archive::text_oarchive oar(oss, boost::archive::no_tracking);
 			oar << session_;
 		}
-		std::string cookie_value(url_encode(oss.str()));
+		std::string cookie_value(percent_encode(oss.str()));
 
 		cookie_value.append(md5_digest(cookie_value + cfg->encrypt_key()));
 

@@ -186,8 +186,11 @@ namespace waspp
 	std::string char2hex(char c);
 	char hex2char(char first, char second);
 
-	std::string url_encode(const std::string& src);
-	std::string url_decode(const std::string& src);
+	// also known as url_encode
+	std::string percent_encode(const std::string& src);
+
+	// alow know as url_decode
+	std::string percent_decode(const std::string& src);
 
 	/*
 	base64.cpp and base64.h

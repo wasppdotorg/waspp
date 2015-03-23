@@ -35,7 +35,7 @@ namespace waspp
 		try
 		{
 			std::string request_uri;
-			if (!url_validate_decode(req.uri, request_uri))
+			if (!percent_decode_and_validate(req.uri, request_uri))
 			{
 				res = response::static_response(response::bad_request);
 				return;
@@ -99,7 +99,7 @@ namespace waspp
 		}
 	}
 
-	bool request_handler::url_validate_decode(const std::string& in, std::string& out)
+	bool request_handler::percent_decode_and_validate(const std::string& in, std::string& out)
 	{
 		out.clear();
 		out.reserve(in.size());
