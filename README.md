@@ -1,8 +1,8 @@
 waspp
 =====
 
-Built with
-----------
+Build Tested With
+-----------------
 * CMake 2.8 - Ubuntu Linux 14.04 LTS
 * Codeblocks 13.12 - Ubuntu Linux 14.04 LTS
 * Visual Studio 2010 Express - Windows 7
@@ -89,8 +89,8 @@ Run
 ---
 * cd ../bin
 * sudo ./develop_start.sh
-* sudo tail -f ../log/develop00
-* Go to http://127.0.0.1:8000/
+* sudo tail -f ../log/develop00.csv
+* Go to http://127.0.0.1:10080/
 
 Run on Windows
 --------------
@@ -113,7 +113,7 @@ cd .\bin
 Add Your Own Route
 ------------------
 * cd ../src
-* sudo cp route_board.cpp route_notice.cpp
+* sudo cp route_forum.cpp route_notice.cpp
 * sudo vi route_notice.cpp
 * sudo vi router.hpp
 ```
@@ -148,13 +148,14 @@ add_executable (
 ```
 
 * sudo cmake .
+* sudo make
 
 Enable SSL
 ----------
 * cd ../ssl
 * sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./develop.key -out ./develop.crt
 * cd ../src
-* sudo vi connection_ssl.hpp server_ssl.hpp utility.hpp
+* sudo vi connection_ssl.hpp server_http2.hpp server_ssl.hpp utility.hpp
 ```
 #define CHECK_MEMORY_LEAK_WITH_SSL
 ```
@@ -164,6 +165,14 @@ Enable SSL
 * sudo vi develop.json
 ```
 "ssl" : 1,
+```
+
+Enable HTTP/2 (still working on..)
+-------------
+* enable ssl first
+* sudo vi develop.json
+```
+"http2" : 1
 ```
 
 Check Memory Leak

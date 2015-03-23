@@ -119,8 +119,8 @@ namespace waspp
 		const std::string& res_content();
 
 	private:
-		void put_http_get(std::ostream& req_stream, const std::string& uri);
-		void put_http_post(std::ostream& req_stream, const std::string& uri, const std::string& data);
+		void set_http_get(std::ostream& req_stream, const std::string& uri);
+		void set_http_post(std::ostream& req_stream, const std::string& uri, const std::string& data);
 		
 		bool tcp_query(boost::asio::ip::tcp::socket& socket_, std::ostream& req_stream, const std::string& data);
 		bool http_query(boost::asio::ip::tcp::socket& socket_);

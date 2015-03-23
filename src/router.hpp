@@ -65,7 +65,7 @@ namespace waspp
 		func_ptr get_func(std::string& request_uri);
 		bool get_file(config* cfg, response& res, std::string full_path);
 
-		void put_jsonp(request& req, response& res);
+		void set_jsonp(request& req, response& res);
 
 		void err_msg(config* cfg, response& res, app_status_type status_code, bool has_db);
 		void err_msg(config* cfg, response& res, app_status_type status_code, database* db, const std::string& dbname, dbconn_ptr dbconn);

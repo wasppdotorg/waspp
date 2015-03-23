@@ -81,9 +81,18 @@ int main(int argc, char* argv[])
 		if (cfg->ssl())
 		{
 #ifndef CHECK_MEMORY_LEAK_WITHOUT_SSL
-			log->info("server_ssl starting..");
-			waspp::server_ssl s(cfg);
-			s.run();
+			if (cfg->http2())
+			{
+				log->info("server_http2 starting..");
+				waspp::server_http2 s(cfg);
+				s.run();
+			}
+			else
+			{
+				log->info("server_ssl starting..");
+				waspp::server_ssl s(cfg);
+				s.run();
+			}
 #else
 			log->fatal(__FILE__, __LINE__, "ssl disabled");
 			return 1;

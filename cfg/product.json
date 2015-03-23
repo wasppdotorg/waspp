@@ -91,27 +91,31 @@
 		"server00":
 		{
 			"address" : "127.0.0.1",
-			"port" : 10000,
+			"port" : 10100,
 			"doc_root" : "../doc",
 			"num_threads" : 16,
 			"compress" : 1,
 			
 			"ssl" : 0,
 			"ssl_crt" : "../ssl/product.crt",
-			"ssl_key" : "../ssl/product.key"
+			"ssl_key" : "../ssl/product.key",
+			
+			"http2" : 0
 		},
 
 		"server01":
 		{
 			"address" : "127.0.0.1",
-			"port" : 10001,
+			"port" : 10101,
 			"doc_root" : "../doc",
 			"num_threads" : 16,
 			"compress" : 1,
 			
 			"ssl" : 0,
 			"ssl_crt" : "../ssl/product.crt",
-			"ssl_key" : "../ssl/product.key"
+			"ssl_key" : "../ssl/product.key",
+			
+			"http2" : 0
 		},
 		
 	"//end" : 0

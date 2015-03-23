@@ -6,8 +6,8 @@ project (waspp)
 find_package (Threads)
 find_package (Boost 1.54.0 COMPONENTS system thread filesystem serialization iostreams)
 find_library (MySQLClient_LIBRARIES NAMES mysqlclient)
-find_library (Crypto_LIBRARIES NAMES crypto)
 find_library (SSL_LIBRARIES NAMES ssl)
+find_library (Crypto_LIBRARIES NAMES crypto)
 find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
 
 add_executable (
@@ -31,6 +31,7 @@ add_executable (
 	response.hpp
 	router.hpp
 	server.hpp
+	server_http2.hpp
 	server_ssl.hpp
 	session.hpp
 	utility.hpp
@@ -55,6 +56,7 @@ add_executable (
 	router.cpp
 	
 	server.cpp
+	server_http2.cpp
 	server_ssl.cpp
 	session.cpp
 	utility.cpp
@@ -64,7 +66,7 @@ add_executable (
 target_link_libraries (waspp ${Threads_LIBRARIES})
 target_link_libraries (waspp ${Boost_LIBRARIES})
 target_link_libraries (waspp ${MySQLClient_LIBRARIES})
-target_link_libraries (waspp ${Crypto_LIBRARIES})
 target_link_libraries (waspp ${SSL_LIBRARIES})
+target_link_libraries (waspp ${Crypto_LIBRARIES})
 target_link_libraries (waspp ${TCMalloc_LIBRARIES})
 
