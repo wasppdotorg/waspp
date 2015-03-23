@@ -43,7 +43,7 @@ namespace waspp
 		std::string filename;
 		std::string filetype;
 		std::string data;
-	};	
+	};
 
 } // namespace waspp
 

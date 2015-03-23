@@ -107,14 +107,14 @@ namespace waspp
 	{
 		lock.acquire();
 		//{
-			if (pool.empty())
-			{
-				lock.release();
-				return connect(false);
-			}
+		if (pool.empty())
+		{
+			lock.release();
+			return connect(false);
+		}
 
-			dbconn_ptr dbconn = *(pool.end() - 1);
-			pool.pop_back();
+		dbconn_ptr dbconn = *(pool.end() - 1);
+		pool.pop_back();
 		//}
 		lock.release();
 

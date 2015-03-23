@@ -48,8 +48,8 @@ namespace waspp
 		template<typename T>
 		dbconn_ptr get(T dbkey)
 		{
-			dbpool_ptr dbpool = get_dbpool(dbkey);
-			return dbpool->get_dbconn();
+		dbpool_ptr dbpool = get_dbpool(dbkey);
+		return dbpool->get_dbconn();
 		}
 		*/
 
@@ -69,8 +69,8 @@ namespace waspp
 		template<typename T>
 		void free(T dbkey, dbconn_ptr dbconn)
 		{
-			dbpool_ptr dbpool = get_dbpool(dbkey);
-			dbpool->free_dbconn(dbconn);
+		dbpool_ptr dbpool = get_dbpool(dbkey);
+		dbpool->free_dbconn(dbconn);
 		}
 		*/
 

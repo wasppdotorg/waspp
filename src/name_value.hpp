@@ -34,7 +34,7 @@ namespace waspp
 			ar & name;
 			ar & value;
 		}
-		
+
 		std::string name;
 		std::string value;
 	};

@@ -94,7 +94,7 @@ namespace waspp
 
 	dbpool_ptr database::get_dbpool(unsigned int shard_key)
 	{
-		char format[8] = {0};
+		char format[8] = { 0 };
 
 		int count = sprintf(format, shard_format.c_str(), shard_key % shard_count);
 		if (count == 0)

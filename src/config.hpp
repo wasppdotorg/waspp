@@ -82,7 +82,7 @@ namespace waspp
 		bool ssl() { return ssl_; }
 		const std::string& ssl_crt() { return ssl_crt_; }
 		const std::string& ssl_key() { return ssl_key_; }
-		
+
 		// http2
 		bool http2() { return http2_; }
 

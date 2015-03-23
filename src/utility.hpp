@@ -121,7 +121,7 @@ namespace waspp
 	private:
 		void set_http_get(std::ostream& req_stream, const std::string& uri);
 		void set_http_post(std::ostream& req_stream, const std::string& uri, const std::string& data);
-		
+
 		bool tcp_query(boost::asio::ip::tcp::socket& socket_, std::ostream& req_stream, const std::string& data);
 		bool http_query(boost::asio::ip::tcp::socket& socket_);
 
@@ -131,7 +131,7 @@ namespace waspp
 #endif
 
 		bool is_200(std::istream& res_stream);
-		
+
 		uri_request_type req_type;
 
 		std::string host;

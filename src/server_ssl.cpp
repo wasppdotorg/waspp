@@ -35,7 +35,7 @@ namespace waspp
 		}
 		catch (...)
 		{
-			
+
 		}
 
 		// Register to handle the signals that indicate when the server should exit.

@@ -54,7 +54,7 @@ namespace waspp
 		}
 
 		const char* compressible[] = { "css", "htm", "html", "js", "json", "txt", "xhtml", "xml", 0 };
-		
+
 		bool is_compressible(const std::string& extension)
 		{
 			int i = 0;

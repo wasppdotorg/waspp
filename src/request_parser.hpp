@@ -82,7 +82,7 @@ namespace waspp
 
 					} while (begin != end);
 					break;
-					
+
 				case uri:
 					do
 					{
@@ -137,7 +137,7 @@ namespace waspp
 						result = boost::indeterminate;
 						break;
 					}
-					
+
 				case param_name:
 					do
 					{
@@ -169,7 +169,7 @@ namespace waspp
 
 					} while (begin != end);
 					break;
-					
+
 				case param_value:
 					do
 					{
@@ -201,7 +201,7 @@ namespace waspp
 
 					} while (begin != end);
 					break;
-					
+
 				case http_version_h:
 					do
 					{
@@ -221,7 +221,7 @@ namespace waspp
 
 					} while (begin != end);
 					break;
-					
+
 
 				case http_version_t_1:
 					input = *begin++;
@@ -583,7 +583,7 @@ namespace waspp
 
 					} while (begin != end);
 					break;
-					
+
 				default:
 					result = false;
 					break;

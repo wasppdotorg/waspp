@@ -80,7 +80,7 @@ namespace waspp
 				{
 					return false;
 				}
-				
+
 				return true;
 			}
 			else if (req_type == ssl || req_type == https_get || req_type == https_post)
@@ -129,7 +129,7 @@ namespace waspp
 		}
 		catch (...)
 		{
-			
+
 		}
 
 		return false;
@@ -216,7 +216,7 @@ namespace waspp
 		}
 		catch (...)
 		{
-			
+
 		}
 
 		return false;
@@ -274,7 +274,7 @@ namespace waspp
 		}
 		catch (...)
 		{
-			
+
 		}
 
 		return false;
@@ -309,7 +309,7 @@ namespace waspp
 		}
 		catch (...)
 		{
-			
+
 		}
 
 		return false;
@@ -367,7 +367,7 @@ namespace waspp
 		}
 		catch (...)
 		{
-			
+
 		}
 
 		return false;
@@ -414,7 +414,7 @@ namespace waspp
 
 	std::string md5_digest(const std::string& str)
 	{
-		unsigned char digest[16] = {0};
+		unsigned char digest[16] = { 0 };
 		char* c_str = const_cast<char*>(str.c_str());
 
 		MD5_CTX ctx;

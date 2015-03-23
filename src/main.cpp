@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 			phase = argv[1];
 			server_seq = argv[2];
 		}
-		
+
 		std::string log_file, cfg_file, server_id;
 		{
 			log_file.append("../log/");
