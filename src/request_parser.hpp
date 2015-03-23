@@ -36,16 +36,562 @@ namespace waspp
 		boost::tuple<boost::tribool, InputIterator> parse(request& req,
 			InputIterator begin, InputIterator end)
 		{
+			char input;
+			boost::tribool result = boost::indeterminate;
+
 			while (begin != end)
 			{
-				boost::tribool result = consume(req, *begin++);
+				switch (state_)
+				{
+				case method_start:
+					input = *begin++;
+
+					if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+					{
+						result = false;
+						break;
+					}
+					else
+					{
+						state_ = method;
+						req.method.push_back(input);
+						result = boost::indeterminate;
+						break;
+					}
+
+				case method:
+					do
+					{
+						input = *begin++;
+
+						if (input == ' ')
+						{
+							state_ = uri;
+							result = boost::indeterminate;
+							break;
+						}
+						else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+						{
+							result = false;
+							break;
+						}
+						else
+						{
+							req.method.push_back(input);
+						}
+
+					} while (begin != end);
+					break;
+					
+				case uri:
+					do
+					{
+						input = *begin++;
+
+						if (input == '?')
+						{
+							state_ = param_name_start;
+							req.uri.push_back(input);
+							result = boost::indeterminate;
+							break;
+						}
+						else if (input == ' ')
+						{
+							state_ = http_version_h;
+							result = boost::indeterminate;
+							break;
+						}
+						else if (is_ctl(input))
+						{
+							result = false;
+							break;
+						}
+						else
+						{
+							req.uri.push_back(input);
+						}
+
+					} while (begin != end);
+					break;
+
+				case param_name_start:
+					input = *begin++;
+
+					if (input == ' ')
+					{
+						state_ = http_version_h;
+						result = boost::indeterminate;
+						break;
+					}
+					else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+					{
+						result = false;
+						break;
+					}
+					else
+					{
+						state_ = param_name;
+						req.uri.push_back(input);
+						req.params.push_back(name_value());
+						req.params.back().name.push_back(input);
+						result = boost::indeterminate;
+						break;
+					}
+					
+				case param_name:
+					do
+					{
+						input = *begin++;
+
+						if (input == ' ')
+						{
+							state_ = http_version_h;
+							result = boost::indeterminate;
+							break;
+						}
+						else if (input == '=')
+						{
+							state_ = param_value;
+							req.uri.push_back(input);
+							result = boost::indeterminate;
+							break;
+						}
+						else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+						{
+							result = false;
+							break;
+						}
+						else
+						{
+							req.uri.push_back(input);
+							req.params.back().name.push_back(input);
+						}
+
+					} while (begin != end);
+					break;
+					
+				case param_value:
+					do
+					{
+						input = *begin++;
+
+						if (input == ' ')
+						{
+							state_ = http_version_h;
+							result = boost::indeterminate;
+							break;
+						}
+						else if (input == '&')
+						{
+							state_ = param_name_start;
+							req.uri.push_back(input);
+							result = boost::indeterminate;
+							break;
+						}
+						else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+						{
+							result = false;
+							break;
+						}
+						else
+						{
+							req.uri.push_back(input);
+							req.params.back().value.push_back(input);
+						}
+
+					} while (begin != end);
+					break;
+					
+				case http_version_h:
+					do
+					{
+						input = *begin++;
+
+						if (input == 'H')
+						{
+							state_ = http_version_t_1;
+							result = boost::indeterminate;
+							break;
+						}
+						else
+						{
+							result = false;
+							break;
+						}
+
+					} while (begin != end);
+					break;
+					
+
+				case http_version_t_1:
+					input = *begin++;
+
+					if (input == 'T')
+					{
+						state_ = http_version_t_2;
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case http_version_t_2:
+					input = *begin++;
+
+					if (input == 'T')
+					{
+						state_ = http_version_p;
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case http_version_p:
+					input = *begin++;
+
+					if (input == 'P')
+					{
+						state_ = http_version_slash;
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case http_version_slash:
+					input = *begin++;
+
+					if (input == '/')
+					{
+						req.http_version_major = 0;
+						req.http_version_minor = 0;
+						state_ = http_version_major_start;
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case http_version_major_start:
+					input = *begin++;
+
+					if (is_digit(input))
+					{
+						req.http_version_major = req.http_version_major * 10 + input - '0';
+						state_ = http_version_major;
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case http_version_major:
+					input = *begin++;
+
+					if (input == '.')
+					{
+						state_ = http_version_minor_start;
+						result = boost::indeterminate;
+						break;
+					}
+					else if (is_digit(input))
+					{
+						req.http_version_major = req.http_version_major * 10 + input - '0';
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case http_version_minor_start:
+					input = *begin++;
+
+					if (is_digit(input))
+					{
+						req.http_version_minor = req.http_version_minor * 10 + input - '0';
+						state_ = http_version_minor;
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case http_version_minor:
+					input = *begin++;
+
+					if (input == '\r')
+					{
+						state_ = expecting_newline_1;
+						result = boost::indeterminate;
+						break;
+					}
+					else if (is_digit(input))
+					{
+						req.http_version_minor = req.http_version_minor * 10 + input - '0';
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case expecting_newline_1:
+					input = *begin++;
+
+					if (input == '\n')
+					{
+						state_ = header_line_start;
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case header_line_start:
+					input = *begin++;
+
+					if (input == '\r')
+					{
+						state_ = expecting_newline_3;
+						result = boost::indeterminate;
+						break;
+					}
+					else if (!req.headers.empty() && (input == ' ' || input == '\t'))
+					{
+						state_ = header_lws;
+						result = boost::indeterminate;
+						break;
+					}
+					else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+					{
+						result = false;
+						break;
+					}
+					else
+					{
+						req.headers.push_back(name_value());
+						req.headers.back().name.push_back(input);
+						state_ = header_name;
+						result = boost::indeterminate;
+						break;
+					}
+
+				case header_lws:
+					input = *begin++;
+
+					if (input == '\r')
+					{
+						state_ = expecting_newline_2;
+						result = boost::indeterminate;
+						break;
+					}
+					else if (input == ' ' || input == '\t')
+					{
+						result = boost::indeterminate;
+						break;
+					}
+					else if (is_ctl(input))
+					{
+						result = false;
+						break;
+					}
+					else
+					{
+						state_ = header_value;
+						req.headers.back().value.push_back(input);
+						result = boost::indeterminate;
+						break;
+					}
+
+				case header_name:
+					do
+					{
+						input = *begin++;
+
+						if (input == ':')
+						{
+							state_ = space_before_header_value;
+							result = boost::indeterminate;
+							break;
+						}
+						else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+						{
+							result = false;
+							break;
+						}
+						else
+						{
+							req.headers.back().name.push_back(input);
+						}
+
+					} while (begin != end);
+					break;
+
+				case space_before_header_value:
+					input = *begin++;
+
+					if (input == ' ')
+					{
+						state_ = header_value;
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case header_value:
+					do
+					{
+						input = *begin++;
+
+						if (input == '\r')
+						{
+							state_ = expecting_newline_2;
+							result = boost::indeterminate;
+							break;
+						}
+						else if (is_ctl(input))
+						{
+							result = false;
+							break;
+						}
+						else
+						{
+							req.headers.back().value.push_back(input);
+						}
+
+					} while (begin != end);
+					break;
+
+				case expecting_newline_2:
+					input = *begin++;
+
+					if (input == '\n')
+					{
+						state_ = header_line_start;
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case expecting_newline_3:
+					input = *begin++;
+
+					if (req.method == "GET" && input == '\n')
+					{
+						result = true;
+						break;
+					}
+					else if (req.method == "POST" && input == '\n')
+					{
+						std::string content_length_str = req.header("Content-Length");
+						if (content_length_str.empty())
+						{
+							result = false;
+							break;
+						}
+						req.content_length = boost::lexical_cast<std::size_t>(content_length_str);
+
+						state_ = content_start;
+						result = boost::indeterminate;
+						break;
+					}
+					else
+					{
+						result = false;
+						break;
+					}
+
+				case content_start:
+					input = *begin++;
+
+					if (!req.content.empty())
+					{
+						result = false;
+						break;
+					}
+					else if (!is_char(input) || is_ctl(input) || is_tspecial(input))
+					{
+						result = false;
+						break;
+					}
+					else
+					{
+						req.content.push_back(input);
+						if (req.content.size() == req.content_length)
+						{
+							result = true;
+							break;
+						}
+
+						state_ = content;
+						result = boost::indeterminate;
+						break;
+					}
+
+				case content:
+					do
+					{
+						input = *begin++;
+
+						req.content.push_back(input);
+						if (req.content.size() == req.content_length)
+						{
+							result = true;
+							break;
+						}
+
+						result = boost::indeterminate;
+						break;
+
+					} while (begin != end);
+					break;
+					
+				default:
+					result = false;
+					break;
+				}
+
 				if (result || !result)
 				{
 					return boost::make_tuple(result, begin);
 				}
 			}
 
-			boost::tribool result = boost::indeterminate;
 			return boost::make_tuple(result, begin);
 		}
 
@@ -106,9 +652,6 @@ namespace waspp
 		void parse_multipart_content(request& req, const std::string& data);
 
 	private:
-		/// Handle the next character of input.
-		boost::tribool consume(request& req, char input);
-
 		/// Check if a byte is an HTTP character.
 		static bool is_char(int c);
 
