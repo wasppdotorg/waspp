@@ -167,8 +167,14 @@ Enable SSL
 "ssl" : 1,
 ```
 
-Enable HTTP/2 (still working on..)
--------------
+Disable TCP Slow Start For HTTP/2
+---------------------------------
+* sudo sysctl net.ipv4.tcp_slow_start_after_idle
+* sudo sysctl -w net.ipv4.tcp_slow_start_after_idle=0
+* sudo sysctl net.ipv4.tcp_slow_start_after_idle
+
+Enable HTTP/2 (still working on)
+--------------------------------
 * enable ssl first
 * sudo vi develop.json
 ```
