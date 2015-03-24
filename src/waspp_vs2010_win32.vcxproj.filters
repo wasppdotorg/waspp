@@ -72,15 +72,6 @@
     <ClCompile Include="route_dir_forum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="server_ssl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="connection_ssl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="server_http2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp">
@@ -135,15 +126,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="app_status.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="server_ssl.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="connection_ssl.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="server_http2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
