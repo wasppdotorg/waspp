@@ -5,7 +5,7 @@ Build Tested With
 -----------------
 * CMake 2.8 - Ubuntu Linux 14.04 LTS
 * Codeblocks 13.12 - Ubuntu Linux 14.04 LTS
-* Visual Studio 2010 Express - Windows 7
+* Visual Studio 2010 Express - Windows 7 (Boost 1.54)
 * Visual Studio 2013 Professional - Windows 7
 * Xcode 6.1 - MacOS X 10.9
 
@@ -167,8 +167,14 @@ Enable SSL
 "ssl" : 1,
 ```
 
-Enable HTTP/2 (still working on..)
--------------
+Disable TCP Slow Start For HTTP/2
+---------------------------------
+* sudo sysctl net.ipv4.tcp_slow_start_after_idle
+* sudo sysctl -w net.ipv4.tcp_slow_start_after_idle=0
+* sudo sysctl net.ipv4.tcp_slow_start_after_idle
+
+Enable HTTP/2 (still working on)
+--------------------------------
 * enable ssl first
 * sudo vi develop.json
 ```
