@@ -125,7 +125,7 @@
     <ClInclude Include="multipart.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="app_status.hpp">
+    <ClInclude Include="status.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

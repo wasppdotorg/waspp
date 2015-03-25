@@ -89,7 +89,6 @@
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app_status.hpp" />
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="database.hpp" />
@@ -106,6 +105,7 @@
     <ClInclude Include="server.hpp" />
     <ClInclude Include="session.hpp" />
     <ClInclude Include="multipart.hpp" />
+    <ClInclude Include="status.hpp" />
     <ClInclude Include="utility.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
