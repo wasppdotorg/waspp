@@ -88,6 +88,7 @@ source /var/waspp/sql/develop.sql
 Run
 ---
 * cd ../bin
+* sudo chmod +x *.sh
 * sudo ./develop_start.sh
 * sudo tail -f ../log/develop00.csv
 * Go to http://127.0.0.1:10080/
