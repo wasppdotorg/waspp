@@ -48,7 +48,7 @@ namespace waspp
 		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
 		{
 			status_type status_code = status_error;
-			boost::property_tree::ptree json, status, session, param, params;
+			boost::property_tree::ptree json, status, session, board_search, board_count, board_item, board_index, page_count, link_count;
 
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
@@ -79,16 +79,53 @@ namespace waspp
 			session.put("userid", sess.get("userid"));
 			session.put("username", sess.get("username"));
 
-			std::vector<std::string>::iterator i;
-			for (i = req.rest_params.begin(); i != req.rest_params.end(); ++i)
+			std::string field, keyword;
+			if (req.rest_params.size() > 5)
 			{
-				param.put("", *i);
-				params.push_back(std::make_pair("", param));
+				field.append(req.rest_params[4]);
+				keyword.append(req.rest_params[5]);
 			}
+
+			board_search.put("field", field);
+			board_search.put("keyword", keyword);
+
+			dbconn_ptr db_etc = db->get("db_etc");
+			{
+				long long int board_count_ = 0;
+				stmt_ptr stmt(db_etc->prepare("SELECT COUNT(seq) AS board_count FROM forum"));
+				
+				rs_ptr rs(stmt->query());
+				if (rs->fetch())
+				{
+					board_count_ = rs->get<long long int>("board_count");
+				}
+				board_count.put("", board_count_);
+
+				stmt.reset(db_etc->prepare("SELECT * FROM forum"));
+				rs.reset(stmt->query());
+
+				while (rs->fetch())
+				{
+					board_item.put("seq", rs->get<long long int>("seq"));
+					board_item.put("title", rs->get<std::string>("title"));
+					board_item.put("username", rs->get<std::string>("username"));
+					board_item.put("updatetime", rs->get<std::string>("updatetime"));
+
+					board_index.push_back(std::make_pair("", board_item));
+				}
+			}
+			db->free("db_etc", db_etc);
+
+			page_count.put("", 10);
+			link_count.put("", 10);
 
 			json.put_child("status", status);
 			json.put_child("session", session);
-			json.put_child("params", params);
+			json.put_child("board_search", board_search);
+			json.put_child("board_index", board_index);
+			json.put_child("board_count", board_count);
+			json.put_child("page_count", page_count);
+			json.put_child("link_count", link_count);
 
 			std::stringstream ss;
 			write_json(ss, json, false);
