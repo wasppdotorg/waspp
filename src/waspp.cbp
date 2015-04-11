@@ -43,6 +43,8 @@
 			<Add option="-lcrypto" />
 			<Add option="-lgnutls" />
 			<Add option="-lssl" />
+			<Add option="-lhiredis" />
+			<Add option="-ltcmalloc" />
 		</Linker>
 		<Unit filename="config.cpp" />
 		<Unit filename="config.hpp" />
