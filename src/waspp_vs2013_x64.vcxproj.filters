@@ -72,6 +72,12 @@
     <ClCompile Include="server.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="redis.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="redis_pool.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp">
@@ -126,6 +132,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="status.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="redis.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="redis_pool.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="redis3m.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
