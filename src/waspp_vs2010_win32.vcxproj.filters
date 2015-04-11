@@ -128,5 +128,8 @@
     <ClInclude Include="status.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="redis.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

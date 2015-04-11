@@ -67,9 +67,7 @@ namespace waspp
 
 		void set_jsonp(request& req, response& res);
 
-		void err_msg(config* cfg, response& res, status_type status_code, bool has_db);
-		void err_msg(config* cfg, response& res, status_type status_code, database* db, const std::string& dbname, dbconn_ptr dbconn);
-		void err_msg_shard(config* cfg, response& res, status_type status_code, database* db, unsigned int shard_key, dbconn_ptr dbconn);
+		void err_msg(config* cfg, response& res, status_type status_code);
 
 	} // namespace router
 

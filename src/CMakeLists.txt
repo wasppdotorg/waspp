@@ -24,6 +24,7 @@ add_executable (
 	mime_types.hpp
 	mysqlpp.hpp
 	multipart.hpp
+	redis.hpp
 	request.hpp
 	request_handler.hpp
 	request_parser.hpp

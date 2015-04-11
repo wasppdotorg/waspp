@@ -34,63 +34,58 @@ namespace waspp
 			unsigned int userid;
 			std::string passwd;
 
-			// param check
+			if (req.param("username").empty())
 			{
-				if (req.param("username").empty())
-				{
-					router::err_msg(cfg, res, status_username_required, false);
-					return;
-				}
-
-				if (req.param("passwd").empty())
-				{
-					router::err_msg(cfg, res, status_passwd_required, false);
-					return;
-				}
-				passwd = md5_digest(req.param("passwd"));
+				router::err_msg(cfg, res, status_username_required);
+				return;
 			}
 
-			dbconn_ptr db_idx = db->get("db_idx");
+			if (req.param("passwd").empty())
 			{
-				stmt_ptr stmt(db_idx->prepare("SELECT userid FROM users_idx WHERE username = ?"));
-				{
-					stmt->param(req.param("username"));
-				}
-
-				rs_ptr rs(stmt->query());
-				if (rs->num_rows() == 0)
-				{
-					router::err_msg(cfg, res, status_username_not_found, db, "db_idx", db_idx);
-					return;
-				}
-
-				if (rs->fetch())
-				{
-					userid = rs->get<unsigned int>("userid");
-				}
+				router::err_msg(cfg, res, status_passwd_required);
+				return;
 			}
-			db->free("db_idx", db_idx);
+			passwd = md5_digest(req.param("passwd"));
 
-			dbconn_ptr db_shard = db->get_shard(userid);
+			database_guard db_idx_guard(db, "db_idx");
+			dbconn_ptr db_idx = db_idx_guard.get();
+
+			stmt_ptr stmt(db_idx->prepare("SELECT userid FROM users_idx WHERE username = ?"));
 			{
-				stmt_ptr stmt(db_shard->prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
-				{
-					stmt->param(userid);
-					stmt->param(passwd);
-				}
-
-				rs_ptr rs(stmt->query());
-				if (rs->num_rows() == 0)
-				{
-					router::err_msg_shard(cfg, res, status_auth_failed, db, userid, db_shard);
-					return;
-				}
-
-				waspp::session sess(cfg, &req, &res);
-				sess.put("userid", boost::lexical_cast<std::string>(userid));
-				sess.put("username", req.param("username"));
+				stmt->param(req.param("username"));
 			}
-			db->free_shard(userid, db_shard);
+
+			rs_ptr rs(stmt->query());
+			if (rs->num_rows() == 0)
+			{
+				router::err_msg(cfg, res, status_username_not_found);
+				return;
+			}
+
+			if (rs->fetch())
+			{
+				userid = rs->get<unsigned int>("userid");
+			}
+
+			database_guard db_shard_guard(db, userid);
+			dbconn_ptr db_shard = db_shard_guard.get();
+			
+			stmt.reset(db_shard->prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
+			{
+				stmt->param(userid);
+				stmt->param(passwd);
+			}
+
+			rs.reset(stmt->query());
+			if (rs->num_rows() == 0)
+			{
+				router::err_msg(cfg, res, status_auth_failed);
+				return;
+			}
+
+			waspp::session sess(cfg, &req, &res);
+			sess.put("userid", boost::lexical_cast<std::string>(userid));
+			sess.put("username", req.param("username"));
 
 			res.redirect_to("/dir/forum/index");
 		}
@@ -109,99 +104,95 @@ namespace waspp
 			std::string platformid;
 			std::string passwd;
 
-			// param check
+			if (req.param("platformtype").empty())
 			{
-				if (req.param("platformtype").empty())
-				{
-					router::err_msg(cfg, res, status_platformtype_required, false);
-					return;
-				}
-				platformtype = boost::lexical_cast<int>(req.param("platformtype"));
+				router::err_msg(cfg, res, status_platformtype_required);
+				return;
+			}
+			platformtype = boost::lexical_cast<int>(req.param("platformtype"));
 
-				if (req.param("platformid").empty())
-				{
-					router::err_msg(cfg, res, status_platformid_required, false);
-					return;
-				}
-
-				if (req.param("username").empty())
-				{
-					router::err_msg(cfg, res, status_username_required, false);
-					return;
-				}
-
-				if (req.param("passwd").empty())
-				{
-					router::err_msg(cfg, res, status_passwd_required, false);
-					return;
-				}
-
-				if (req.param("passwd") != req.param("retypepasswd"))
-				{
-					router::err_msg(cfg, res, status_passwds_not_identical, false);
-					return;
-				}
-				passwd = md5_digest(req.param("passwd"));
+			if (req.param("platformid").empty())
+			{
+				router::err_msg(cfg, res, status_platformid_required);
+				return;
 			}
 
-			dbconn_ptr db_idx = db->get("db_idx");
+			if (req.param("username").empty())
 			{
-				stmt_ptr stmt(db_idx->prepare("SELECT userid FROM users_idx WHERE username = ?"));
-				{
-					stmt->param(req.param("username"));
-				}
-
-				rs_ptr rs(stmt->query());
-				if (rs->num_rows() != 0)
-				{
-					router::err_msg(cfg, res, status_username_not_available, db, "db_idx", db_idx);
-					return;
-				}
-
-				stmt.reset(db_idx->prepare("CALL USP_GET_UNIQUE_KEYS('users_idx', ?)"));
-				{
-					stmt->param(1);
-				}
-
-				rs.reset(stmt->query());
-				if (rs->fetch(true))
-				{
-					userid = rs->get<unsigned int>("last_key");
-				}
-				platformid = boost::lexical_cast<std::string>(userid);
-
-				stmt.reset(db_idx->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
-				{
-					stmt->param(userid);
-					stmt->param(platformtype);
-					stmt->param(platformid);
-					stmt->param(req.param("username"));
-				}
-
-				unsigned long long int affected_rows = stmt->execute();
-				if (affected_rows == 0)
-				{
-					router::err_msg(cfg, res, status_users_idx_insert_failed, db, "db_idx", db_idx);
-				}
+				router::err_msg(cfg, res, status_username_required);
+				return;
 			}
-			db->free("db_idx", db_idx);
 
-			dbconn_ptr db_shard = db->get_shard(userid);
+			if (req.param("passwd").empty())
 			{
-				stmt_ptr stmt(db_shard->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
-				{
-					stmt->param(userid);
-					stmt->param(passwd);
-				}
-
-				unsigned long long int affected_rows = stmt->execute();
-				if (affected_rows == 0)
-				{
-					router::err_msg_shard(cfg, res, status_users_insert_failed, db, userid, db_shard);
-					return;
-				}
+				router::err_msg(cfg, res, status_passwd_required);
+				return;
 			}
-			db->free_shard(userid, db_shard);
+
+			if (req.param("passwd") != req.param("retypepasswd"))
+			{
+				router::err_msg(cfg, res, status_passwds_not_identical);
+				return;
+			}
+			passwd = md5_digest(req.param("passwd"));
+
+			database_guard db_idx_guard(db, "db_idx");
+			dbconn_ptr db_idx = db_idx_guard.get();
+
+			stmt_ptr stmt(db_idx->prepare("SELECT userid FROM users_idx WHERE username = ?"));
+			{
+				stmt->param(req.param("username"));
+			}
+
+			rs_ptr rs(stmt->query());
+			if (rs->num_rows() != 0)
+			{
+				router::err_msg(cfg, res, status_username_not_available);
+				return;
+			}
+
+			stmt.reset(db_idx->prepare("CALL USP_GET_UNIQUE_KEYS('users_idx', ?)"));
+			{
+				stmt->param(1);
+			}
+
+			rs.reset(stmt->query());
+			if (rs->fetch(true))
+			{
+				userid = rs->get<unsigned int>("last_key");
+			}
+			platformid = boost::lexical_cast<std::string>(userid);
+
+			stmt.reset(db_idx->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
+			{
+				stmt->param(userid);
+				stmt->param(platformtype);
+				stmt->param(platformid);
+				stmt->param(req.param("username"));
+			}
+
+			unsigned long long int affected_rows = stmt->execute();
+			if (affected_rows == 0)
+			{
+				router::err_msg(cfg, res, status_users_idx_insert_failed);
+				return;
+			}
+
+			database_guard db_shard_guard(db, userid);
+			dbconn_ptr db_shard = db_shard_guard.get();
+
+			stmt.reset(db_shard->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
+			{
+				stmt->param(userid);
+				stmt->param(passwd);
+			}
+
+			affected_rows = stmt->execute();
+			if (affected_rows == 0)
+			{
+				router::err_msg(cfg, res, status_users_insert_failed);
+				return;
+			}
 
 			res.redirect_to("/dir/user/signin");
 		}

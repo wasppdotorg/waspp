@@ -97,6 +97,7 @@
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mime_types.hpp" />
     <ClInclude Include="mysqlpp.hpp" />
+    <ClInclude Include="redis.hpp" />
     <ClInclude Include="request.hpp" />
     <ClInclude Include="request_handler.hpp" />
     <ClInclude Include="request_parser.hpp" />

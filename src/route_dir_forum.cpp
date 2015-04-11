@@ -89,32 +89,31 @@ namespace waspp
 			board_search.put("field", field);
 			board_search.put("keyword", keyword);
 
-			dbconn_ptr db_etc = db->get("db_etc");
-			{
-				long long int board_count_ = 0;
-				stmt_ptr stmt(db_etc->prepare("SELECT COUNT(seq) AS board_count FROM forum"));
+			database_guard db_etc_guard(db, "db_etc");
+			dbconn_ptr db_etc = db_etc_guard.get();
+
+			long long int board_count_ = 0;
+			stmt_ptr stmt(db_etc->prepare("SELECT COUNT(seq) AS board_count FROM forum"));
 				
-				rs_ptr rs(stmt->query());
-				if (rs->fetch())
-				{
-					board_count_ = rs->get<long long int>("board_count");
-				}
-				board_count.put("", board_count_);
-
-				stmt.reset(db_etc->prepare("SELECT * FROM forum"));
-				rs.reset(stmt->query());
-
-				while (rs->fetch())
-				{
-					board_item.put("seq", rs->get<long long int>("seq"));
-					board_item.put("title", rs->get<std::string>("title"));
-					board_item.put("username", rs->get<std::string>("username"));
-					board_item.put("updatetime", rs->get<std::string>("updatetime"));
-
-					board_index.push_back(std::make_pair("", board_item));
-				}
+			rs_ptr rs(stmt->query());
+			if (rs->fetch())
+			{
+				board_count_ = rs->get<long long int>("board_count");
 			}
-			db->free("db_etc", db_etc);
+			board_count.put("", board_count_);
+
+			stmt.reset(db_etc->prepare("SELECT * FROM forum"));
+			rs.reset(stmt->query());
+
+			while (rs->fetch())
+			{
+				board_item.put("seq", rs->get<long long int>("seq"));
+				board_item.put("title", rs->get<std::string>("title"));
+				board_item.put("username", rs->get<std::string>("username"));
+				board_item.put("updatetime", rs->get<std::string>("updatetime"));
+
+				board_index.push_back(std::make_pair("", board_item));
+			}
 
 			page_count.put("", 10);
 			link_count.put("", 10);
@@ -293,75 +292,77 @@ namespace waspp
 			unsigned int userid = boost::lexical_cast<unsigned int>(sess.get("userid"));
 			unsigned int seq = 0;
 
-			// param check
+			if (!req.param("seq").empty())
 			{
-				if (!req.param("seq").empty())
+				seq = boost::lexical_cast<unsigned int>(req.param("seq"));
+			}
+
+			if (req.param("title").empty())
+			{
+				router::err_msg(cfg, res, status_title_required);
+				return;
+			}
+
+			if (req.param("content").empty())
+			{
+				router::err_msg(cfg, res, status_content_required);
+				return;
+			}
+
+			std::cout << req.uploads.size() << std::endl;
+			for (std::size_t i = 0; i < req.uploads.size(); ++i)
+			{
+				std::cout << req.uploads[i].name << std::endl;
+			}
+
+			database_guard db_etc_guard(db, "db_etc");
+			dbconn_ptr db_etc = db_etc_guard.get();
+
+			if (seq == 0)
+			{
+				stmt_ptr stmt(db_etc->prepare("CALL USP_GET_UNIQUE_KEYS('forum', ?)"));
 				{
-					seq = boost::lexical_cast<unsigned int>(req.param("seq"));
+					stmt->param(1);
 				}
 
-				if (req.param("title").empty())
+				rs_ptr rs(stmt->query());
+				if (rs->fetch(true))
 				{
-					router::err_msg(cfg, res, status_title_required, false);
-					return;
+					seq = rs->get<unsigned int>("last_key");
 				}
 
-				if (req.param("content").empty())
+				stmt.reset(db_etc->prepare("INSERT INTO forum(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
 				{
-					router::err_msg(cfg, res, status_content_required, false);
+					stmt->param(seq);
+					stmt->param(req.param("title"));
+					stmt->param(req.param("content"));
+					stmt->param("");
+					stmt->param("");
+					stmt->param(userid);
+					stmt->param(sess.get("username"));
+				}
+
+				unsigned long long int affected_rows = stmt->execute();
+				if (affected_rows == 0)
+				{
+					router::err_msg(cfg, res, status_forum_insert_failed);
 					return;
 				}
 			}
-
-			dbconn_ptr db_etc = db->get("db_etc");
+			else
 			{
-				if (seq == 0)
+				stmt_ptr stmt(db_etc->prepare("UPDATE forum SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
 				{
-					stmt_ptr stmt(db_etc->prepare("CALL USP_GET_UNIQUE_KEYS('forum', ?)"));
-					{
-						stmt->param(1);
-					}
-
-					rs_ptr rs(stmt->query());
-					if (rs->fetch(true))
-					{
-						seq = rs->get<unsigned int>("last_key");
-					}
-
-					stmt.reset(db_etc->prepare("INSERT INTO forum(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
-					{
-						stmt->param(seq);
-						stmt->param(req.param("title"));
-						stmt->param(req.param("content"));
-						stmt->param("");
-						stmt->param("");
-						stmt->param(userid);
-						stmt->param(sess.get("username"));
-					}
-
-					unsigned long long int affected_rows = stmt->execute();
-					if (affected_rows == 0)
-					{
-						router::err_msg(cfg, res, status_forum_insert_failed, db, "db_etc", db_etc);
-						return;
-					}
+					stmt->param(req.param("title"));
+					stmt->param(req.param("content"));
+					stmt->param("");
+					stmt->param("");
+					stmt->param(req.param("username"));
+					stmt->param(seq);
+					stmt->param(userid);
 				}
-				else
-				{
-					stmt_ptr stmt(db_etc->prepare("UPDATE forum SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
-					{
-						stmt->param(req.param("title"));
-						stmt->param(req.param("content"));
-						stmt->param("");
-						stmt->param("");
-						stmt->param(req.param("username"));
-						stmt->param(seq);
-						stmt->param(userid);
-					}
-					stmt->execute();
-				}
+				stmt->execute();
 			}
-			db->free("db_etc", db_etc);
 
 			res.redirect_to("/dir/forum/index");
 		}

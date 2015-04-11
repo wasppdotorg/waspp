@@ -113,4 +113,46 @@ namespace waspp
 		return found->second;
 	}
 
+	database_guard::database_guard(database* db_, const std::string& dbname_) : db(db_), dbname(dbname_), shard_key(0)
+	{
+	}
+
+	database_guard::database_guard(database* db_, unsigned int shard_key_) : db(db_), dbname(std::string()), shard_key(shard_key_)
+	{
+	}
+
+	database_guard::~database_guard()
+	{
+		if (!dbname.empty())
+		{
+			dbpool_ptr dbpool = db->get_dbpool(dbname);
+			dbpool->free_dbconn(dbconn);
+		}
+		else if (shard_key != 0)
+		{
+			dbpool_ptr dbpool = db->get_dbpool(shard_key);
+			dbpool->free_dbconn(dbconn);
+		}
+	}
+
+	dbconn_ptr database_guard::get()
+	{
+		if (!dbname.empty())
+		{
+			dbpool_ptr dbpool = db->get_dbpool(dbname);
+			dbconn = dbpool->get_dbconn();
+		}
+		else if (shard_key != 0)
+		{
+			dbpool_ptr dbpool = db->get_dbpool(shard_key);
+			dbconn = dbpool->get_dbconn();
+		}
+		else
+		{
+			throw std::runtime_error("invalid dbkey");
+		}
+
+		return dbconn;
+	}
+
 } // namespace waspp
