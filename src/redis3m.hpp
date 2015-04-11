@@ -4,6 +4,7 @@
 #ifndef REDIS3M_HPP
 #define REDIS3M_HPP
 
+#ifndef _WIN32
 #include <hiredis/hiredis.h>
 
 #include <vector>
@@ -258,4 +259,5 @@ namespace redis3m
 
 } // namespace redis
 
+#endif // _WIN32
 #endif // REDIS3M_HPP

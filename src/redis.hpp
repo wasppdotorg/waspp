@@ -8,6 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_REDIS_HPP
 #define WASPP_REDIS_HPP
 
+#ifndef _WIN32
+
 #include <vector>
 #include <string>
 
@@ -71,4 +73,5 @@ namespace waspp
 
 } // namespace waspp
 
+#endif // _WIN32
 #endif // WASPP_REDIS_HPP
