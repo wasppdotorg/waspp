@@ -86,6 +86,16 @@
 			"timeout_sec" : 259200
 		},
 
+	"//redis" : 0,
+
+		"rd_idx":
+		{
+			"host" : "127.0.0.1",
+			"port" : 3306,
+			"pool_size" : 32,
+			"timeout_sec" : 259200
+		},
+
 	"//servers" : 0,
 
 		"server00":

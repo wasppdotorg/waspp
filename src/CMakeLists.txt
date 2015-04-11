@@ -26,6 +26,8 @@ add_executable (
 	mysqlpp.hpp
 	multipart.hpp
 	redis.hpp
+	redis3m.hpp
+	redis_pool.hpp
 	request.hpp
 	request_handler.hpp
 	request_parser.hpp
@@ -45,6 +47,8 @@ add_executable (
 	mysqlpp_connection.cpp
 	mysqlpp_result.cpp
 	mysqlpp_statement.cpp
+	redis.cpp
+	redis_pool.cpp
 	request_handler.cpp
 	request_parser.cpp
 	response.cpp

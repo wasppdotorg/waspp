@@ -13,7 +13,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
-#include <boost/scoped_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
 #include "redis3m.hpp"
@@ -35,19 +34,19 @@ namespace waspp
 		bool init_pool(std::vector<name_value>& cfg);
 		bool fill_pool();
 
-		redis_ptr get_redis();
-		void free_redis(redis_ptr r_conn);
+		rdconn_ptr get_rdconn();
+		void free_rdconn(rdconn_ptr rdconn);
 
 	private:
-		redis_ptr connect(bool pooled_ = true);
+		rdconn_ptr connect(bool pooled_ = true);
 
 		std::string host;
 		unsigned int port;
-		
+
 		std::size_t pool_size;
 		double timeout_sec;
 
-		std::vector<redis_ptr> pool;
+		std::vector<rdconn_ptr> pool;
 		spinlock lock;
 
 	};

@@ -11,7 +11,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 #include <string>
 
-#include "redis3m.hpp"
 #include "redis_pool.hpp"
 #include "utility.hpp"
 #include "config.hpp"
@@ -19,7 +18,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	typedef boost::shared_ptr<redis3m::redis_pool> redis_pool_ptr;
+	typedef boost::shared_ptr<redis_pool> rdpool_ptr;
 
 	struct rdpair
 	{
@@ -56,11 +55,11 @@ namespace waspp
 	{
 	public:
 		scoped_rd(redis* rd_, const std::string& rdname_);
-		
+
 		~scoped_rd();
 
 		rdconn_ptr get();
-		
+
 	private:
 		redis* rd;
 

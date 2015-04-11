@@ -11,6 +11,7 @@
 #include "logger.hpp"
 #include "config.hpp"
 #include "database.hpp"
+#include "redis.hpp"
 #include "server.hpp"
 
 int main(int argc, char* argv[])
@@ -18,6 +19,7 @@ int main(int argc, char* argv[])
 	waspp::logger* log = waspp::logger::instance();
 	waspp::config* cfg = waspp::config::instance();
 	waspp::database* db = waspp::database::instance();
+	waspp::redis* rd = waspp::redis::instance();
 
 	try
 	{
@@ -74,6 +76,17 @@ int main(int argc, char* argv[])
 		if (!db->init(cfg, dbnames))
 		{
 			log->fatal(__FILE__, __LINE__, "database::init failed");
+			return 1;
+		}
+
+		std::vector<std::string> rdnames;
+		{
+			rdnames.push_back("rd_idx");
+		}
+
+		if (!rd->init(cfg, rdnames))
+		{
+			log->fatal(__FILE__, __LINE__, "redis::init failed");
 			return 1;
 		}
 

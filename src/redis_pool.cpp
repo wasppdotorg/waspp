@@ -71,19 +71,19 @@ namespace waspp
 
 		for (std::size_t i = 0; i < pool_size; ++i)
 		{
-			redis_ptr r_conn = connect();
-			if (!r_conn->is_valid())
+			rdconn_ptr rdconn = connect();
+			if (!rdconn->is_valid())
 			{
 				return false;
 			}
 
-			pool.push_back(r_conn);
+			pool.push_back(rdconn);
 		}
 
 		return true;
 	}
 
-	redis_ptr redis_pool::get_redis()
+	rdconn_ptr redis_pool::get_rdconn()
 	{
 		lock.acquire();
 		//{
@@ -93,24 +93,24 @@ namespace waspp
 			return connect(false);
 		}
 
-		redis_ptr r_conn = *(pool.end() - 1);
+		rdconn_ptr rdconn = *(pool.end() - 1);
 		pool.pop_back();
 		//}
 		lock.release();
 
-		double diff = std::difftime(std::time(0), mktime(r_conn->last_released()));
+		double diff = std::difftime(std::time(0), mktime(rdconn->last_released()));
 
-		if (diff > timeout_sec && !r_conn->is_valid())
+		if (diff > timeout_sec && !rdconn->is_valid())
 		{
 			return connect();
 		}
 
-		return r_conn;
+		return rdconn;
 	}
 
-	void redis_pool::free_redis(redis_ptr r_conn)
+	void redis_pool::free_rdconn(rdconn_ptr rdconn)
 	{
-		if (!r_conn->is_pooled())
+		if (!rdconn->is_pooled())
 		{
 			return;
 		}
@@ -125,26 +125,9 @@ namespace waspp
 		lock.release();
 	}
 
-	rdconn_ptr rdconn_pool::connect(bool pooled_)
+	rdconn_ptr redis_pool::connect(bool pooled_)
 	{
-		return rdconn_ptr(new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, charset.c_str(), pooled_));
-	}
-
-	bool rdconn_pool::validate(rdconn_ptr rdconn)
-	{
-		try
-		{
-			boost::scoped_ptr<mysqlpp::statement> stmt(rdconn->prepare("DO 0"));
-			stmt->execute();
-
-			return true;
-		}
-		catch (...)
-		{
-			throw;
-		}
-
-		return false;
+		return redis3m::connection::connect(host.c_str(), port, pooled_);
 	}
 
 } // namespace waspp

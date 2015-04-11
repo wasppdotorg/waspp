@@ -32,9 +32,9 @@ namespace waspp
 		{
 			for (std::size_t i = 0; i < rdnames.size(); ++i)
 			{
-				redis_pool_ptr redis_pool(new redis_pool());
+				rdpool_ptr rdpool(new redis_pool());
 
-				if (!redis_pool->init_pool(cfg->get(rdnames[i])) || !redis_pool->fill_pool())
+				if (!rdpool->init_pool(cfg->get(rdnames[i])) || !rdpool->fill_pool())
 				{
 					return false;
 				}

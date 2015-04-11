@@ -135,16 +135,16 @@ namespace redis3m
 		: private boost::noncopyable
 	{
 	public:
-		typedef boost::shared_ptr<connection> redis_conn_ptr;
+		typedef boost::shared_ptr<connection> redis3m_ptr;
 
 		~connection()
 		{
 			redisFree(c);
 		}
 
-		static redis_conn_ptr connect(const std::string& host = "localhost", const unsigned int port = 6379)
+		static redis3m_ptr connect(const std::string& host = "localhost", const unsigned int port = 6379, bool pooled_ = false)
 		{
-			return redis_conn_ptr(new connection(host, port));
+			return redis3m_ptr(new connection(host, port, pooled_));
 		}
 
 		bool is_valid() const
@@ -214,8 +214,28 @@ namespace redis3m
 
 		redisContext* c_ptr() { return c; }
 
+		std::tm* last_released()
+		{
+			return &released;
+		}
+
+		void set_released(const std::tm& released_)
+		{
+			released = released_;
+		}
+
+		bool is_pooled()
+		{
+			return pooled;
+		}
+
+		void set_pooled(bool pooled_)
+		{
+			pooled = pooled_;
+		}
+
 	private:
-		connection(const std::string& host, const unsigned int port)
+		connection(const std::string& host, const unsigned int port, bool pooled_ = false)
 		{
 			c = redisConnect(host.c_str(), port);
 
@@ -223,27 +243,16 @@ namespace redis3m
 			{
 				throw std::runtime_error("redisConnect failed");
 			}
+
+			std::time_t time_ = std::time(0);
+			set_released(*std::localtime(&time_));
+			set_pooled(pooled_);
 		}
 
 		redisContext* c;
 
-	};
-
-	class scoped_rd
-	{
-	public:
-		scoped_rd(redis* rd_, const std::string& rdname_);
-		
-		~scoped_rd();
-
-		rdconn_ptr get();
-		
-	private:
-		redis* rd;
-
-		std::string rdname;
-
-		rdconn_ptr rdconn;
+		std::tm released;
+		bool pooled;
 
 	};
 

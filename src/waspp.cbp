@@ -63,6 +63,11 @@
 		<Unit filename="mysqlpp_result.cpp" />
 		<Unit filename="mysqlpp_statement.cpp" />
 		<Unit filename="name_value.hpp" />
+		<Unit filename="redis.cpp" />
+		<Unit filename="redis.hpp" />
+		<Unit filename="redis3m.hpp" />
+		<Unit filename="redis_pool.cpp" />
+		<Unit filename="redis_pool.hpp" />
 		<Unit filename="request.hpp" />
 		<Unit filename="request_handler.cpp" />
 		<Unit filename="request_handler.hpp" />
