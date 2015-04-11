@@ -55,13 +55,13 @@ namespace waspp
 
 	};
 
-	class database_guard
+	class scoped_db
 	{
 	public:
-		database_guard(database* db_, const std::string& dbname_);
-		database_guard(database* db_, unsigned int shard_key_);
+		scoped_db(database* db_, const std::string& dbname_);
+		scoped_db(database* db_, unsigned int shard_key_);
 		
-		~database_guard();
+		~scoped_db();
 
 		dbconn_ptr get();
 		

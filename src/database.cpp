@@ -113,15 +113,15 @@ namespace waspp
 		return found->second;
 	}
 
-	database_guard::database_guard(database* db_, const std::string& dbname_) : db(db_), dbname(dbname_), shard_key(0)
+	scoped_db::scoped_db(database* db_, const std::string& dbname_) : db(db_), dbname(dbname_), shard_key(0)
 	{
 	}
 
-	database_guard::database_guard(database* db_, unsigned int shard_key_) : db(db_), dbname(std::string()), shard_key(shard_key_)
+	scoped_db::scoped_db(database* db_, unsigned int shard_key_) : db(db_), dbname(std::string()), shard_key(shard_key_)
 	{
 	}
 
-	database_guard::~database_guard()
+	scoped_db::~scoped_db()
 	{
 		if (!dbname.empty())
 		{
@@ -135,7 +135,7 @@ namespace waspp
 		}
 	}
 
-	dbconn_ptr database_guard::get()
+	dbconn_ptr scoped_db::get()
 	{
 		if (!dbname.empty())
 		{

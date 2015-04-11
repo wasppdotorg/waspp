@@ -72,6 +72,12 @@
     <ClCompile Include="route_dir_forum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="redis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="redis_pool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp">
@@ -129,6 +135,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="redis.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="redis_pool.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="redis3m.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

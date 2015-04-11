@@ -47,8 +47,8 @@ namespace waspp
 			}
 			passwd = md5_digest(req.param("passwd"));
 
-			database_guard db_idx_guard(db, "db_idx");
-			dbconn_ptr db_idx = db_idx_guard.get();
+			scoped_db db_idx_(db, "db_idx");
+			dbconn_ptr db_idx = db_idx_.get();
 
 			stmt_ptr stmt(db_idx->prepare("SELECT userid FROM users_idx WHERE username = ?"));
 			{
@@ -67,8 +67,8 @@ namespace waspp
 				userid = rs->get<unsigned int>("userid");
 			}
 
-			database_guard db_shard_guard(db, userid);
-			dbconn_ptr db_shard = db_shard_guard.get();
+			scoped_db db_shard_(db, userid);
+			dbconn_ptr db_shard = db_shard_.get();
 			
 			stmt.reset(db_shard->prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
 			{
@@ -136,8 +136,8 @@ namespace waspp
 			}
 			passwd = md5_digest(req.param("passwd"));
 
-			database_guard db_idx_guard(db, "db_idx");
-			dbconn_ptr db_idx = db_idx_guard.get();
+			scoped_db db_idx_(db, "db_idx");
+			dbconn_ptr db_idx = db_idx_.get();
 
 			stmt_ptr stmt(db_idx->prepare("SELECT userid FROM users_idx WHERE username = ?"));
 			{
@@ -178,8 +178,8 @@ namespace waspp
 				return;
 			}
 
-			database_guard db_shard_guard(db, userid);
-			dbconn_ptr db_shard = db_shard_guard.get();
+			scoped_db db_shard_(db, userid);
+			dbconn_ptr db_shard = db_shard_.get();
 
 			stmt.reset(db_shard->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
 			{

@@ -5,236 +5,71 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef REDIS_HPP
-#define REDIS_HPP
-
-#ifndef _WIN32
-#include <hiredis/hiredis.h>
+#ifndef WASPP_REDIS_HPP
+#define WASPP_REDIS_HPP
 
 #include <vector>
 #include <string>
-#include <stdexcept>
 
-#include <boost/noncopyable.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
+#include "redis3m.hpp"
+#include "redis_pool.hpp"
+#include "utility.hpp"
+#include "config.hpp"
 
-// code from redis3m
-
-namespace redis
+namespace waspp
 {
 
-	enum type_t
+	typedef boost::shared_ptr<redis3m::redis_pool> redis_pool_ptr;
+
+	struct rdpair
 	{
-		STRING_ = 1,
-		ARRAY_ = 2,
-		INTEGER_ = 3,
-		NIL_ = 4,
-		STATUS_ = 5,
-		ERROR_ = 6
+		rdpair(const std::string& first_, rdpool_ptr second_) : first(first_), second(second_)
+		{
+		}
+
+		bool compare_first(const std::string& first_)
+		{
+			return first == first_;
+		}
+
+		std::string first;
+		rdpool_ptr second;
 	};
 
-	class reply
-	{
-	public:
-		type_t type() const { return type_; }
-		const std::string& str() const { return str_; }
-		long long int integer() const { return integer_; }
-		const std::vector<reply>& elements() const { return elements_; }
-
-		operator const std::string&() const { return str_; }
-		operator const long long int() const { return integer_; }
-		bool operator==(const std::string& rvalue) const
-		{
-			if (type_ == STRING_ || type_ == ERROR_ || type_ == STATUS_)
-			{
-				return str_ == rvalue;
-			}
-
-			return false;
-		}
-
-		bool operator==(const long long int rvalue) const
-		{
-			if (type_ == INTEGER_)
-			{
-				return integer_ == rvalue;
-			}
-
-			return false;
-		}
-
-	private:
-		reply(redisReply* rep) : type_(ERROR_), integer_(0)
-		{
-			type_ = static_cast<type_t>(rep->type);
-
-			switch (type_)
-			{
-			case ERROR_:
-			case STRING_:
-			case STATUS_:
-				str_ = std::string(rep->str, rep->len);
-				break;
-			case INTEGER_:
-				integer_ = rep->integer;
-				break;
-			case ARRAY_:
-				for (std::size_t i = 0; i < rep->elements; ++i)
-				{
-					elements_.push_back(reply(rep->element[i]));
-				}
-				break;
-			default:
-				break;
-			}
-		}
-
-		type_t type_;
-		std::string str_;
-		long long int integer_;
-		std::vector<reply> elements_;
-
-		friend class connection;
-
-	};
-
-	class command
+	class redis
+		: public singleton<redis>
 	{
 	public:
-		command()
-		{
+		redis();
+		~redis();
 
-		}
+		bool init(config* cfg, const std::vector<std::string>& rdnames);
 
-		command(std::string arg)
-		{
-			args.push_back(arg);
-		}
-
-		template<typename T>
-		command& operator<<(const T arg)
-		{
-			args.push_back(boost::lexical_cast<std::string>(arg));
-			return *this;
-		}
-
-		template<typename T>
-		command& operator()(const T arg)
-		{
-			args.push_back(boost::lexical_cast<std::string>(arg));
-			return *this;
-		}
-
-		operator const std::vector<std::string>&()
-		{
-			return args;
-		}
+		rdpool_ptr get_rdpool(const std::string& rdname);
 
 	private:
-		std::vector<std::string> args;
+		std::vector<rdpair> rd_;
 
 	};
 
-	class connection
-		: private boost::noncopyable
+	class scoped_rd
 	{
 	public:
-		typedef boost::shared_ptr<connection> redis_ptr;
+		scoped_rd(redis* rd_, const std::string& rdname_);
+		
+		~scoped_rd();
 
-		~connection()
-		{
-			redisFree(c);
-		}
-
-		static redis_ptr connect(const std::string& host = "localhost", const unsigned int port = 6379)
-		{
-			return redis_ptr(new connection(host, port));
-		}
-
-		bool is_valid() const
-		{
-			return c->err == REDIS_OK;
-		}
-
-		void append(const std::vector<std::string>& args)
-		{
-			std::vector<const char*> argv;
-			argv.reserve(args.size());
-
-			std::vector<std::size_t> argv_lengths;
-			argv_lengths.reserve(args.size());
-
-			std::vector<std::string>::const_iterator i;
-			for (i = args.begin(); i != args.end(); ++i)
-			{
-				argv.push_back(i->c_str());
-				argv_lengths.push_back(i->size());
-			}
-
-			int result = redisAppendCommandArgv(c, static_cast<int>(args.size()), argv.data(), argv_lengths.data());
-			if (result != REDIS_OK)
-			{
-				throw std::runtime_error("redisAppendCommandArgv failed");
-			}
-		}
-
-		reply get_reply()
-		{
-			redisReply* r;
-
-			int result = redisGetReply(c, reinterpret_cast<void**>(&r));
-			if (result != REDIS_OK)
-			{
-				throw std::runtime_error("redisGetReply failed");
-			}
-
-			reply rep(r);
-			freeReplyObject(r);
-
-			if (rep.type() == ERROR_ && (rep.str().find("READONLY") == 0))
-			{
-				throw std::runtime_error("read only");
-			}
-
-			return rep;
-		}
-
-		std::vector<reply> get_replies(unsigned int count)
-		{
-			std::vector<reply> replies;
-			for (unsigned int i = 0; i < count; ++i)
-			{
-				replies.push_back(get_reply());
-			}
-
-			return replies;
-		}
-
-		reply run(const std::vector<std::string>& args)
-		{
-			append(args);
-			return get_reply();
-		}
-
-		redisContext* c_ptr() { return c; }
-
+		rdconn_ptr get();
+		
 	private:
-		connection(const std::string& host, const unsigned int port)
-		{
-			c = redisConnect(host.c_str(), port);
+		redis* rd;
 
-			if (c->err != REDIS_OK)
-			{
-				throw std::runtime_error("redisConnect failed");
-			}
-		}
+		std::string rdname;
 
-		redisContext* c;
+		rdconn_ptr rdconn;
 
 	};
 
-} // namespace redis
+} // namespace waspp
 
-#endif // _WIN32
-#endif // REDIS_HPP
+#endif // WASPP_REDIS_HPP

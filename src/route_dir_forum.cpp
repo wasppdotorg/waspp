@@ -89,8 +89,8 @@ namespace waspp
 			board_search.put("field", field);
 			board_search.put("keyword", keyword);
 
-			database_guard db_etc_guard(db, "db_etc");
-			dbconn_ptr db_etc = db_etc_guard.get();
+			scoped_db db_etc_(db, "db_etc");
+			dbconn_ptr db_etc = db_etc_.get();
 
 			long long int board_count_ = 0;
 			stmt_ptr stmt(db_etc->prepare("SELECT COUNT(seq) AS board_count FROM forum"));
@@ -315,8 +315,8 @@ namespace waspp
 				std::cout << req.uploads[i].name << std::endl;
 			}
 
-			database_guard db_etc_guard(db, "db_etc");
-			dbconn_ptr db_etc = db_etc_guard.get();
+			scoped_db db_etc_(db, "db_etc");
+			dbconn_ptr db_etc = db_etc_.get();
 
 			if (seq == 0)
 			{
