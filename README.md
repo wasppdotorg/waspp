@@ -40,12 +40,21 @@ collation_server     = utf8_general_ci
 
 * sudo /etc/init.d/mysql restart
 
+Install Redis
+-------------
+* sudo apt-get update
+* sudo apt-get upgrade
+* sudo apt-get install redis-server
+* sudo /etc/init.d/redis-server restart
+
 Install Libraries
 -----------------
 * sudo apt-get install libboost-all-dev
 * sudo apt-get install libmariadbclient-dev
 * sudo apt-get install libssl-dev
 * sudo apt-get install libgnutls-dev
+* sudo apt-get install libhiredis0.10
+* sudo apt-get install libhiredis-dev
 * sudo apt-get install libgoogle-perftools-dev
 
 Increase Open File Limit
