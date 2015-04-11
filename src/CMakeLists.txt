@@ -8,6 +8,7 @@ find_package (Boost 1.54.0 COMPONENTS system thread filesystem serialization ios
 find_library (MySQLClient_LIBRARIES NAMES mysqlclient)
 find_library (SSL_LIBRARIES NAMES ssl)
 find_library (Crypto_LIBRARIES NAMES crypto)
+find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
 
 add_executable (
@@ -63,5 +64,5 @@ target_link_libraries (waspp ${Boost_LIBRARIES})
 target_link_libraries (waspp ${MySQLClient_LIBRARIES})
 target_link_libraries (waspp ${SSL_LIBRARIES})
 target_link_libraries (waspp ${Crypto_LIBRARIES})
+target_link_libraries (waspp ${HiRedis_LIBRARIES})
 target_link_libraries (waspp ${TCMalloc_LIBRARIES})
-
