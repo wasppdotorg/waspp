@@ -16,6 +16,12 @@
 #include <boost/lexical_cast.hpp>
 
 // code from redis3m
+/*
+connection::ptr_t conn = connection::create();
+        conn->run(command("SET") << "foo" << "bar" );
+        reply r = conn->run(command("GET") << "foo" );        
+        std::cout << "FOO is: " << r.str() << std::endl;
+*/
 
 namespace redis3m
 {
