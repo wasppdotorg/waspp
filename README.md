@@ -53,7 +53,6 @@ Install Libraries
 * sudo apt-get install libmariadbclient-dev
 * sudo apt-get install libssl-dev
 * sudo apt-get install libgnutls-dev
-* sudo apt-get install libhiredis0.10
 * sudo apt-get install libhiredis-dev
 * sudo apt-get install libgoogle-perftools-dev
 

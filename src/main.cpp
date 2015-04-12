@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	waspp::config* cfg = waspp::config::instance();
 	waspp::database* db = waspp::database::instance();
 #ifndef _WIN32
-	//waspp::redis* rd = waspp::redis::instance();
+	waspp::redis* rd = waspp::redis::instance();
 #endif // _WIN32
 
 	try
