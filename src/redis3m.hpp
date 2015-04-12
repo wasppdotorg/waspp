@@ -16,6 +16,12 @@
 #include <boost/lexical_cast.hpp>
 
 // code from redis3m
+/*
+redis3m::connection::redis3m_ptr rdconn = redis3m::connection::connect();
+rdconn->run(redis3m::command("SET") << "foo" << "bar");
+redis3m::reply r = rdconn->run(redis3m::command("GET") << "foo");
+std::cout << "foo is " << r.str() << std::endl;
+*/
 
 namespace redis3m
 {
@@ -257,7 +263,7 @@ namespace redis3m
 
 	};
 
-} // namespace redis
+} // namespace redis3m
 
 #endif // _WIN32
 #endif // REDIS3M_HPP
