@@ -92,7 +92,7 @@ namespace waspp
 		return found->second;
 	}
 
-	dbpool_ptr database::get_dbpool(unsigned int shard_key)
+	dbpool_ptr database::get_dbpool(unsigned long long int shard_key)
 	{
 		char format[8] = { 0 };
 
@@ -117,7 +117,7 @@ namespace waspp
 	{
 	}
 
-	scoped_db::scoped_db(database* db_, unsigned int shard_key_) : db(db_), dbname(std::string()), shard_key(shard_key_)
+	scoped_db::scoped_db(database* db_, unsigned long long int shard_key_) : db(db_), dbname(std::string()), shard_key(shard_key_)
 	{
 	}
 
@@ -137,21 +137,24 @@ namespace waspp
 
 	dbconn_ptr scoped_db::get()
 	{
-		if (!dbname.empty())
+		try
 		{
-			dbpool_ptr dbpool = db->get_dbpool(dbname);
-			dbconn = dbpool->get_dbconn();
+			if (!dbname.empty())
+			{
+				dbpool_ptr dbpool = db->get_dbpool(dbname);
+				dbconn = dbpool->get_dbconn();
+			}
+			else if (shard_key != 0)
+			{
+				dbpool_ptr dbpool = db->get_dbpool(shard_key);
+				dbconn = dbpool->get_dbconn();
+			}
 		}
-		else if (shard_key != 0)
+		catch (...)
 		{
-			dbpool_ptr dbpool = db->get_dbpool(shard_key);
-			dbconn = dbpool->get_dbconn();
+			throw;
 		}
-		else
-		{
-			throw std::runtime_error("invalid dbkey");
-		}
-
+		
 		return dbconn;
 	}
 

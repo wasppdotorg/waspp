@@ -79,14 +79,14 @@ namespace waspp
 
 	rdconn_ptr scoped_rd::get()
 	{
-		if (!rdname.empty())
+		try
 		{
 			rdpool_ptr rdpool = rd->get_rdpool(rdname);
 			rdconn = rdpool->get_rdconn();
 		}
-		else
+		catch (...)
 		{
-			throw std::runtime_error("invalid rdname");
+			throw;
 		}
 
 		return rdconn;

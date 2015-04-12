@@ -45,7 +45,7 @@ namespace waspp
 		bool init(config* cfg, const std::vector<std::string>& dbnames);
 
 		dbpool_ptr get_dbpool(const std::string& dbname);
-		dbpool_ptr get_dbpool(unsigned int shard_key);
+		dbpool_ptr get_dbpool(unsigned long long int shard_key);
 
 	private:
 		unsigned int shard_count;
@@ -59,7 +59,7 @@ namespace waspp
 	{
 	public:
 		scoped_db(database* db_, const std::string& dbname_);
-		scoped_db(database* db_, unsigned int shard_key_);
+		scoped_db(database* db_, unsigned long long int shard_key_);
 		
 		~scoped_db();
 
@@ -69,7 +69,7 @@ namespace waspp
 		database* db;
 
 		std::string dbname;
-		unsigned int shard_key;
+		unsigned long long int shard_key;
 
 		dbconn_ptr dbconn;
 

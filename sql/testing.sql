@@ -9,7 +9,7 @@ USE `testing_waspp_idx`;
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
 	  `incr_amount` int(11) unsigned NOT NULL,
-	  `last_key` int(11) unsigned NOT NULL,
+	  `last_key` bigint(20) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -40,7 +40,7 @@ USE `testing_waspp_idx`;
 	DELIMITER ;
 	
 	CREATE TABLE `users_idx` (
-	  `userid` int(11) unsigned NOT NULL,
+	  `userid` bigint(20) unsigned NOT NULL,
 	  `platformtype` int(11) NOT NULL,
 	  `platformid` varchar(64) NOT NULL,
 	  `username` varchar(64) NOT NULL,
@@ -56,7 +56,7 @@ USE `testing_waspp_000`;
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
 	  `incr_amount` int(11) unsigned NOT NULL,
-	  `last_key` int(11) unsigned NOT NULL,
+	  `last_key` bigint(20) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -88,7 +88,7 @@ USE `testing_waspp_000`;
 	DELIMITER ;
 	
 	CREATE TABLE `users` (
-	  `userid` int(11) unsigned NOT NULL,
+	  `userid` bigint(20) unsigned NOT NULL,
 	  `passwd` varchar(32) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
@@ -96,16 +96,16 @@ USE `testing_waspp_000`;
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE `characters` (
-	  `charid` int(11) unsigned NOT NULL,
-	  `userid` int(11) unsigned NOT NULL,
+	  `charid` bigint(20) unsigned NOT NULL,
+	  `userid` bigint(20) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
 	  PRIMARY KEY (`charid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE `char_inven` (
-	  `invenseq` int(11) unsigned NOT NULL,
-	  `charid` int(11) unsigned NOT NULL,
+	  `invenseq` bigint(20) unsigned NOT NULL,
+	  `charid` bigint(20) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
 	  PRIMARY KEY (`invenseq`)
@@ -116,7 +116,7 @@ USE `testing_waspp_001`;
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(32) NOT NULL,
 	  `incr_amount` int(11) unsigned NOT NULL,
-	  `last_key` int(11) unsigned NOT NULL,
+	  `last_key` bigint(20) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -148,7 +148,7 @@ USE `testing_waspp_001`;
 	DELIMITER ;
 	
 	CREATE TABLE `users` (
-	  `userid` int(11) unsigned NOT NULL,
+	  `userid` bigint(20) unsigned NOT NULL,
 	  `passwd` varchar(32) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
@@ -156,16 +156,16 @@ USE `testing_waspp_001`;
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE `characters` (
-	  `charid` int(11) unsigned NOT NULL,
-	  `userid` int(11) unsigned NOT NULL,
+	  `charid` bigint(20) unsigned NOT NULL,
+	  `userid` bigint(20) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
 	  PRIMARY KEY (`charid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE `char_inven` (
-	  `invenseq` int(11) unsigned NOT NULL,
-	  `charid` int(11) unsigned NOT NULL,
+	  `invenseq` bigint(20) unsigned NOT NULL,
+	  `charid` bigint(20) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
 	  PRIMARY KEY (`invenseq`)
@@ -176,7 +176,7 @@ USE `testing_waspp_etc`;
 	CREATE TABLE `unique_keys` (
 	  `table_id` varchar(16) NOT NULL,
 	  `incr_amount` int(11) unsigned NOT NULL,
-	  `last_key` int(11) unsigned NOT NULL,
+	  `last_key` bigint(20) unsigned NOT NULL,
 	  PRIMARY KEY (`table_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -207,7 +207,7 @@ USE `testing_waspp_etc`;
 	DELIMITER ;
 
 	CREATE TABLE `forum` (
-	  `seq` int(11) unsigned NOT NULL,
+	  `seq` bigint(20) unsigned NOT NULL,
 	  `title` varchar(128) NOT NULL,
 	  `content` text NOT NULL,
 	  `file1` varchar(64) NOT NULL,
