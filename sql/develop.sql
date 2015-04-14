@@ -212,7 +212,7 @@ USE `develop_waspp_etc`;
 	  `content` text NOT NULL,
 	  `file1` varchar(64) NOT NULL,
 	  `file2` varchar(64) NOT NULL,
-	  `userid` int(11) unsigned NOT NULL,
+	  `userid` bigint(20) unsigned NOT NULL,
 	  `username` varchar(64) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
