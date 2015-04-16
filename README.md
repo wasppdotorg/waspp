@@ -143,18 +143,6 @@ route routes[] =
 	..
 ```
 
-* sudo vi CMakeLists.txt
-```
-add_executable (
-
-	waspp
-	
-	..
-	route_notice.cpp
-	..
-)
-```
-
 * sudo cmake .
 * sudo make
 
