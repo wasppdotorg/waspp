@@ -14,6 +14,13 @@
 		{
 			"msg_locale" : "en_us"
 		},
+		
+	"//game_master_data" : 0,
+	
+		"game_master_data":
+		{
+			"gmd_seq" : "00"
+		},
 
 	"//session" : 0,
 
