@@ -11,57 +11,8 @@ find_library (Crypto_LIBRARIES NAMES crypto)
 find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
 
-add_executable (
-
-	waspp
-	
-	status.hpp
-	config.hpp
-	connection.hpp
-	database.hpp
-	dbconn_pool.hpp
-	name_value.hpp
-	logger.hpp
-	mime_types.hpp
-	mysqlpp.hpp
-	multipart.hpp
-	redis.hpp
-	redis3m.hpp
-	redis_pool.hpp
-	request.hpp
-	request_handler.hpp
-	request_parser.hpp
-	response.hpp
-	router.hpp
-	server.hpp
-	session.hpp
-	utility.hpp
-	
-	config.cpp
-	connection.cpp
-	database.cpp
-	dbconn_pool.cpp
-	logger.cpp
-	main.cpp
-	mime_types.cpp
-	mysqlpp_connection.cpp
-	mysqlpp_result.cpp
-	mysqlpp_statement.cpp
-	redis.cpp
-	redis_pool.cpp
-	request_handler.cpp
-	request_parser.cpp
-	response.cpp
-	
-	route_dir_forum.cpp
-	route_dir_user.cpp
-	router.cpp
-	
-	server.cpp
-	session.cpp
-	utility.cpp
-
-)
+aux_source_directory (. source_DIRECTORY)
+add_executable (waspp ${source_DIRECTORY})
 
 if (CMAKE_COMPILER_IS_GNUCXX)
 	set (CMAKE_CXX_FLAGS "-O2")
