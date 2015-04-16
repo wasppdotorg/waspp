@@ -91,7 +91,7 @@
 		"rd_idx":
 		{
 			"host" : "127.0.0.1",
-			"port" : 3306,
+			"port" : 26379,
 			"pool_size" : 32,
 			"timeout_sec" : 259200
 		},
