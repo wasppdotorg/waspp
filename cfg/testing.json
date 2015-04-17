@@ -46,7 +46,7 @@
 			"port" : 3306,
 			"charset" : "utf8",
 			"pool_size" : 16,
-			"timeout_sec" : 259200
+			"wait_timeout_sec" : 28800
 		},
 
 		"db_000":
@@ -58,7 +58,7 @@
 			"port" : 3306,
 			"charset" : "utf8",
 			"pool_size" : 16,
-			"timeout_sec" : 259200
+			"wait_timeout_sec" : 28800
 		},
 
 
@@ -71,7 +71,7 @@
 			"port" : 3306,
 			"charset" : "utf8",
 			"pool_size" : 16,
-			"timeout_sec" : 259200
+			"wait_timeout_sec" : 28800
 		},
 
 		"db_etc":
@@ -83,7 +83,7 @@
 			"port" : 3306,
 			"charset" : "utf8",
 			"pool_size" : 16,
-			"timeout_sec" : 259200
+			"wait_timeout_sec" : 28800
 		},
 
 	"//redis" : 0,
@@ -93,7 +93,7 @@
 			"host" : "127.0.0.1",
 			"port" : 26379,
 			"pool_size" : 16,
-			"timeout_sec" : 259200
+			"timeout_sec" : 28800
 		},
 
 	"//servers" : 0,

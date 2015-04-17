@@ -102,7 +102,7 @@ namespace waspp
 
 		double diff = std::difftime(std::time(0), mktime(rdconn->last_released()));
 
-		if (diff > timeout_sec && !rdconn->is_valid())
+		if (diff >= timeout_sec && !rdconn->is_valid())
 		{
 			return connect();
 		}

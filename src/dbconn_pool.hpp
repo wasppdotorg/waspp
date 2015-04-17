@@ -49,7 +49,7 @@ namespace waspp
 		std::string charset;
 
 		std::size_t pool_size;
-		double timeout_sec;
+		double wait_timeout_sec;
 
 		std::vector<dbconn_ptr> pool;
 		spinlock lock;

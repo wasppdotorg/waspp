@@ -87,6 +87,17 @@ wait_timeout = 28800
 "wait_timeout_sec" : 28800
 ```
 
+* cat /etc/redis/redis.cnf | grep timeout
+```
+timeout 0
+```
+
+* cat *.json | grep timeout
+```
+timeout_sec" : 0
+```
+
+* vi *.json (if different)
 * cd ../src
 * sudo apt-get install build-essential
 * sudo apt-get install cmake

@@ -14,7 +14,7 @@ namespace waspp
 {
 
 	dbconn_pool::dbconn_pool()
-		: port(0), pool_size(0), timeout_sec(0), pool(0)
+		: port(0), pool_size(0), wait_timeout_sec(0), pool(0)
 	{
 	}
 
@@ -33,7 +33,7 @@ namespace waspp
 			keys.push_back("port");
 			keys.push_back("charset");
 			keys.push_back("pool_size");
-			keys.push_back("timeout_sec");
+			keys.push_back("wait_timeout_sec");
 		}
 
 		std::vector<name_value>::iterator found;
@@ -73,9 +73,9 @@ namespace waspp
 			{
 				pool_size = boost::lexical_cast<std::size_t>(found->value);
 			}
-			else if (keys[i] == "timeout_sec")
+			else if (keys[i] == "wait_timeout_sec")
 			{
-				timeout_sec = boost::lexical_cast<double>(found->value);
+				wait_timeout_sec = boost::lexical_cast<double>(found->value);
 			}
 		}
 
@@ -120,7 +120,7 @@ namespace waspp
 
 		double diff = std::difftime(std::time(0), mktime(dbconn->last_released()));
 
-		if (diff > timeout_sec && !validate(dbconn))
+		if (diff >= wait_timeout_sec && !validate(dbconn))
 		{
 			return connect();
 		}
