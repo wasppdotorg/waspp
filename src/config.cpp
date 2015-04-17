@@ -201,8 +201,6 @@ namespace waspp
 					keys.push_back("ssl");
 					keys.push_back("ssl_crt");
 					keys.push_back("ssl_key");
-
-					keys.push_back("http2");
 				}
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
@@ -250,10 +248,6 @@ namespace waspp
 					else if (keys[i] == "ssl_key")
 					{
 						ssl_key_ = found_nv->value;
-					}
-					else if (keys[i] == "http2")
-					{
-						http2_ = boost::lexical_cast<bool>(found_nv->value);
 					}
 				}
 			}

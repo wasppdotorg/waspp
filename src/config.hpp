@@ -85,9 +85,6 @@ namespace waspp
 		const std::string& ssl_crt() { return ssl_crt_; }
 		const std::string& ssl_key() { return ssl_key_; }
 
-		// http2
-		bool http2() { return http2_; }
-
 	private:
 		// logger
 		std::string level_, rotation_;
@@ -105,9 +102,6 @@ namespace waspp
 		// ssl
 		bool ssl_;
 		std::string ssl_crt_, ssl_key_;
-
-		// http2
-		bool http2_;
 
 		// cfgpair
 		std::vector<cfgpair> cfg_;
