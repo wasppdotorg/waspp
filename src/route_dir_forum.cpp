@@ -309,12 +309,6 @@ namespace waspp
 				return;
 			}
 
-			std::cout << req.uploads.size() << std::endl;
-			for (std::size_t i = 0; i < req.uploads.size(); ++i)
-			{
-				std::cout << req.uploads[i].name << std::endl;
-			}
-
 			scoped_db db_etc_(db, "db_etc");
 			dbconn_ptr db_etc = db_etc_.get();
 
