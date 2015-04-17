@@ -108,9 +108,7 @@
 			
 			"ssl" : 0,
 			"ssl_crt" : "../ssl/testing.crt",
-			"ssl_key" : "../ssl/testing.key",
-			
-			"http2" : 0
+			"ssl_key" : "../ssl/testing.key"
 		},
 
 		"server01":
@@ -123,9 +121,7 @@
 			
 			"ssl" : 0,
 			"ssl_crt" : "../ssl/testing.crt",
-			"ssl_key" : "../ssl/testing.key",
-			
-			"http2" : 0
+			"ssl_key" : "../ssl/testing.key"
 		},
 		
 	"//end" : 0

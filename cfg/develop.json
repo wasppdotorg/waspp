@@ -115,9 +115,7 @@
 			
 			"ssl" : 0,
 			"ssl_crt" : "../ssl/develop.crt",
-			"ssl_key" : "../ssl/develop.key",
-			
-			"http2" : 0
+			"ssl_key" : "../ssl/develop.key"
 		},
 
 		"server01":
@@ -130,9 +128,7 @@
 			
 			"ssl" : 0,
 			"ssl_crt" : "../ssl/develop.crt",
-			"ssl_key" : "../ssl/develop.key",
-			
-			"http2" : 0
+			"ssl_key" : "../ssl/develop.key"
 		},
 		
 	"//end" : 0

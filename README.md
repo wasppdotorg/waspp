@@ -181,19 +181,21 @@ Enable SSL
 
 * sudo make
 
+<!--
 Disable TCP Slow Start For HTTP/2
 ---------------------------------
 * sudo sysctl net.ipv4.tcp_slow_start_after_idle
 * sudo sysctl -w net.ipv4.tcp_slow_start_after_idle=0
 * sudo sysctl net.ipv4.tcp_slow_start_after_idle
 
-Enable HTTP/2 (still working on)
+Enable HTTP/2
 --------------------------------
 * enable ssl first
 * sudo vi develop.json
 ```
 "http2" : 1
 ```
+-->
 
 Check Memory Leak
 -----------------
