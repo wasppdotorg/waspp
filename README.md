@@ -35,6 +35,27 @@ collation_server     = utf8_general_ci
 
 * sudo /etc/init.d/mysql restart
 
+<!--
+Install HandlerSocket
+---------------------
+* sudo vi /etc/mysql/my.cnf
+```
+[mysqld]
+..
+handlersocket_address = 127.0.0.1
+handlersocket_port = 9998
+handlersocket_port_wr = 9999
+```
+
+* mysql -u root -p
+* INSTALL PLUGIN handlersocket SONAME 'handlersocket.so';
+* exit
+* sudo /etc/init.d/mysql restart
+* mysql -u root -p
+* SHOW PROCESSLIST;
+* exit
+-->
+
 Install Redis
 -------------
 * sudo apt-get update
