@@ -94,7 +94,7 @@ timeout 0
 
 * cat develop.json | grep timeout
 ```
-timeout_sec" : 0
+"timeout_sec" : 0
 ```
 
 * vi develop.json (if different)
