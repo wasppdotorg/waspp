@@ -82,7 +82,7 @@ Install waspp
 wait_timeout = 28800
 ```
 
-* cat *.json | grep wait_timeout
+* cat develop.json | grep wait_timeout
 ```
 "wait_timeout_sec" : 28800
 ```
@@ -92,12 +92,12 @@ wait_timeout = 28800
 timeout 0
 ```
 
-* cat *.json | grep timeout
+* cat develop.json | grep timeout
 ```
 timeout_sec" : 0
 ```
 
-* vi *.json (if different)
+* vi develop.json (if different)
 * cd ../src
 * sudo apt-get install build-essential
 * sudo apt-get install cmake
@@ -167,17 +167,16 @@ Enable SSL
 ----------
 * cd ../ssl
 * sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./develop.key -out ./develop.crt
-* cd ../src
-* sudo vi connection.hpp server.hpp utility.hpp
-```
-#define CHECK_MEMORY_LEAK_WITH_SSL
-```
-
-* sudo make
 * cd ../cfg
 * sudo vi develop.json
 ```
 "ssl" : 1,
+```
+
+* cd ../src
+* sudo vi connection.hpp server.hpp utility.hpp
+```
+#define CHECK_MEMORY_LEAK_WITH_SSL
 ```
 
 Disable TCP Slow Start For HTTP/2
