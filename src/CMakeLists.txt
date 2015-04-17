@@ -11,8 +11,8 @@ find_library (Crypto_LIBRARIES NAMES crypto)
 find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
 
-aux_source_directory (. source_DIRECTORY)
-add_executable (waspp ${source_DIRECTORY})
+aux_source_directory (. Source_DIRECTORIES)
+add_executable (waspp ${Source_DIRECTORIES})
 
 if (CMAKE_COMPILER_IS_GNUCXX)
 	set (CMAKE_CXX_FLAGS "-O2")
