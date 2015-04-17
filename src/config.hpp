@@ -57,11 +57,13 @@ namespace waspp
 
 		bool init(const std::string& file, const std::string& server_id);
 		std::vector<name_value>& get(const std::string& item);
-		const std::string& msg(status_type status_code);
 
 		// logger
 		const std::string& level() { return level_; }
 		const std::string& rotation() { return rotation_; }
+
+		// message
+		const std::string& msg(status_type status_code);
 
 		// session
 		const std::string& encrypt_key() { return encrypt_key_; }
