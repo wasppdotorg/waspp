@@ -82,9 +82,9 @@ Install waspp
 wait_timeout = 28800
 ```
 
-* cat *.json | grep timeout_sec
+* cat *.json | grep wait_timeout
 ```
-"timeout_sec" : 28800
+"wait_timeout_sec" : 28800
 ```
 
 * cd ../src
