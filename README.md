@@ -179,6 +179,8 @@ Enable SSL
 #define CHECK_MEMORY_LEAK_WITH_SSL
 ```
 
+* sudo make
+
 Disable TCP Slow Start For HTTP/2
 ---------------------------------
 * sudo sysctl net.ipv4.tcp_slow_start_after_idle
