@@ -93,7 +93,7 @@
 			"host" : "127.0.0.1",
 			"port" : 26379,
 			"pool_size" : 16,
-			"timeout_sec" : 28800
+			"timeout_sec" : 0
 		},
 
 	"//servers" : 0,
