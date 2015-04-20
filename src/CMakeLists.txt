@@ -16,7 +16,7 @@ add_executable (waspp ${Source_DIRECTORIES})
 
 if (CMAKE_COMPILER_IS_GNUCXX)
 	set (CMAKE_CXX_FLAGS "-O2")
-	set (CMAKE_EXE_LINKER_FLAGS "-s")
+	#set (CMAKE_EXE_LINKER_FLAGS "-s")
 endif()
 
 target_link_libraries (waspp ${Threads_LIBRARIES})
