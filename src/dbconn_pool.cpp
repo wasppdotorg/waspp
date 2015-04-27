@@ -92,7 +92,7 @@ namespace waspp
 		for (std::size_t i = 0; i < pool_size; ++i)
 		{
 			dbconn_ptr dbconn = connect();
-			if (!validate(dbconn))
+			if (!dbconn->ping())
 			{
 				return false;
 			}
@@ -120,7 +120,7 @@ namespace waspp
 
 		double diff = std::difftime(std::time(0), mktime(dbconn->last_released()));
 
-		if (diff >= wait_timeout_sec && !validate(dbconn))
+		if (diff >= wait_timeout_sec && !dbconn->ping())
 		{
 			return connect();
 		}
@@ -148,23 +148,6 @@ namespace waspp
 	dbconn_ptr dbconn_pool::connect(bool pooled_)
 	{
 		return dbconn_ptr(new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, charset.c_str(), pooled_));
-	}
-
-	bool dbconn_pool::validate(dbconn_ptr dbconn)
-	{
-		try
-		{
-			boost::scoped_ptr<mysqlpp::statement> stmt(dbconn->prepare("DO 0"));
-			stmt->execute();
-
-			return true;
-		}
-		catch (...)
-		{
-			throw;
-		}
-
-		return false;
 	}
 
 } // namespace waspp

@@ -42,7 +42,6 @@ namespace waspp
 
 	private:
 		dbconn_ptr connect(bool pooled_ = true);
-		bool validate(dbconn_ptr dbconn);
 
 		std::string host, userid, passwd, database;
 		unsigned int port;
