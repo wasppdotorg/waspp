@@ -56,13 +56,13 @@ namespace waspp
 		void fatal(const char* file, int line, const std::string& message);
 
 	private:
-		void log(const std::string& log_type, const std::string& message);
-		void log_rotate(const std::tm& time);
+		void write(const std::string& log_type, const std::string& message);
+		void rotate(const std::tm& time);
 
 		void file_impl(const std::string& file);
 		void init_impl(log_level level, rotation_type rotation);
-		void log_impl(const std::string& line);
-		void log_rotate_impl(const std::string& file_to);
+		void write_impl(const std::string& line);
+		void rotate_impl(const std::string& file_to);
 
 		/// Private io_service used for performing logging operations.
 		boost::asio::io_service log_service_;

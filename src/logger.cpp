@@ -107,7 +107,7 @@ namespace waspp
 			return;
 		}
 
-		log("DEBUG,", message);
+		write("DEBUG,", message);
 	}
 
 	void logger::info(const std::string& message)
@@ -117,7 +117,7 @@ namespace waspp
 			return;
 		}
 
-		log("INFO,", message);
+		write("INFO,", message);
 	}
 
 	void logger::warn(const std::string& message)
@@ -127,7 +127,7 @@ namespace waspp
 			return;
 		}
 
-		log("WARN,", message);
+		write("WARN,", message);
 	}
 
 	void logger::error(const std::string& message)
@@ -137,7 +137,7 @@ namespace waspp
 			return;
 		}
 
-		log("ERROR,", message);
+		write("ERROR,", message);
 	}
 
 	void logger::fatal(const char* file, int line, const std::string& message)
@@ -150,16 +150,16 @@ namespace waspp
 		std::ostringstream oss;
 		oss << file << ":" << line << " " << message;
 
-		log("FATAL,", oss.str());
+		write("FATAL,", oss.str());
 	}
 
-	void logger::log(const std::string& log_type, const std::string& message)
+	void logger::write(const std::string& log_type, const std::string& message)
 	{
 		std::time_t time_ = std::time(0);
 		std::tm time = *std::localtime(&time_);
 
 		// rotate log file if necessary
-		log_rotate(time);
+		rotate(time);
 
 		// datetime for log message
 		char datetime[32] = { 0 };
@@ -172,10 +172,10 @@ namespace waspp
 		}
 
 		// Pass the work of opening the file to the background thread.
-		log_service_.post(boost::bind(&logger::log_impl, this, line));
+		log_service_.post(boost::bind(&logger::write_impl, this, line));
 	}
 
-	void logger::log_rotate(const std::tm& time)
+	void logger::rotate(const std::tm& time)
 	{
 		char datetime[32] = { 0 };
 
@@ -199,7 +199,7 @@ namespace waspp
 		std::string file_to(file_);
 		file_to.append(datetime);
 
-		log_service_.post(boost::bind(&logger::log_rotate_impl, this, file_to));
+		log_service_.post(boost::bind(&logger::rotate_impl, this, file_to));
 	}
 
 	/// Helper function used to open the output file from within the private
@@ -224,12 +224,12 @@ namespace waspp
 
 	/// Helper function used to log a message from within the private io_service's
 	/// thread.
-	void logger::log_impl(const std::string& line)
+	void logger::write_impl(const std::string& line)
 	{
 		ofstream_ << line << std::endl;
 	}
 
-	void logger::log_rotate_impl(const std::string& file_to)
+	void logger::rotate_impl(const std::string& file_to)
 	{
 		std::ifstream is(file_to.c_str(), std::ios::in | std::ios::binary);
 		if (is)
