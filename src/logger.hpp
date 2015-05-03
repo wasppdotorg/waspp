@@ -31,11 +31,11 @@ namespace waspp
 
 	enum log_level
 	{
-		log_debug = 1,
-		log_info = 2,
-		log_warn = 3,
-		log_error = 4,
-		log_fatal = 5
+		debug = 1,
+		info = 2,
+		warn = 3,
+		error = 4,
+		fatal = 5
 	};
 
 	class logger
@@ -45,18 +45,16 @@ namespace waspp
 		logger();
 		~logger();
 
+		log_level level() { return level_; }
+
 		void file(const std::string& file);
 		bool init(const std::string& level, const std::string& rotation);
 
 		/// Log a message.
-		void debug(const std::string& message);
-		void info(const std::string& message);
-		void warn(const std::string& message);
-		void error(const std::string& message);
-		void fatal(const char* file, int line, const std::string& message);
+		void write(const std::string& message);
 
 	private:
-		void write(const std::string& log_type, const std::string& message);
+		
 		void rotate(const std::tm& time);
 
 		void file_impl(const std::string& file);
@@ -84,6 +82,78 @@ namespace waspp
 		log_level level_;
 		rotation_type rotation_;
 
+	};
+
+	class log
+	{
+	public:
+		log(log_level level) : is_logging(false)
+		{
+			logger_ = logger::instance();
+
+			if (level >= logger_->level())
+			{
+				is_logging = true;
+			
+				// datetime for log message
+				std::time_t time_ = std::time(0);
+				std::tm time = *std::localtime(&time_);
+
+				char datetime[32] = { 0 };
+				std::strftime(datetime, sizeof(datetime), "%Y-%m-%d %H:%M:%S,", &time);
+
+				oss << datetime;
+
+				switch (level)
+				{
+				case debug:
+					oss << "DEBUG,";
+					break;
+				case info:
+					oss << "INFO,";
+					break;
+				case warn:
+					oss << "WARN,";
+					break;
+				case error:
+					oss << "ERROR,";
+					break;
+				case fatal:
+					oss << "FATAL,";
+					break;
+				default:
+					oss << "UNKNOWN,";
+					break;
+				}
+			}
+		}
+
+		~log()
+		{
+			if (is_logging)
+			{
+				logger_->write(oss.str());
+			}
+		}
+
+		template<typename T>
+		std::ostringstream& operator<<(T v)
+		{
+			if (is_logging)
+			{
+				oss << v;
+			}
+
+			return oss;
+		}
+
+	private:
+		log() {}
+
+		logger* logger_;
+		bool is_logging;
+
+		std::ostringstream oss;
 	};
 
 } // namespace waspp

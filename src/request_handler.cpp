@@ -28,7 +28,6 @@ namespace waspp
 
 	void request_handler::handle_request(request& req, response& res)
 	{
-		logger* log = logger::instance();
 		config* cfg = config::instance();
 		database* db = database::instance();
 
@@ -61,7 +60,7 @@ namespace waspp
 			}
 			else
 			{
-				func(log, cfg, db, req, res);
+				func(cfg, db, req, res);
 			}
 
 			// Fill out the response to be sent to the client.
@@ -94,7 +93,7 @@ namespace waspp
 		}
 		catch (std::exception& e)
 		{
-			log->fatal(__FILE__, __LINE__, e.what());
+			log(fatal) << e.what() << "," << __FILE__ << ":" << __LINE__;
 			res = response::static_response(response::internal_server_error);
 		}
 	}

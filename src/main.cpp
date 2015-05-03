@@ -20,7 +20,7 @@
 
 int main(int argc, char* argv[])
 {
-	waspp::logger* log = waspp::logger::instance();
+	waspp::logger* log_ = waspp::logger::instance();
 	waspp::config* cfg = waspp::config::instance();
 	waspp::database* db = waspp::database::instance();
 #ifndef _WIN32
@@ -57,17 +57,17 @@ int main(int argc, char* argv[])
 			server_id.append(server_seq);
 		}
 
-		log->file(log_file);
+		log_->file(log_file);
 
 		if (!cfg->init(cfg_file, server_id))
-		{
-			log->fatal(__FILE__, __LINE__, "config::init failed");
+		{			
+			waspp::log(waspp::fatal) << "config::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
 
-		if (!log->init(cfg->level(), cfg->rotation()))
+		if (!log_->init(cfg->level(), cfg->rotation()))
 		{
-			log->fatal(__FILE__, __LINE__, "logger::init failed");
+			waspp::log(waspp::fatal) << "logger::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
 
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
 
 		if (!db->init(cfg, dbnames))
 		{
-			log->fatal(__FILE__, __LINE__, "database::init failed");
+			waspp::log(waspp::fatal) << "database::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
 
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
 
 		if (!rd->init(cfg, rdnames))
 		{
-			log->fatal(__FILE__, __LINE__, "redis::init failed");
+			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
 #endif // _WIN32
@@ -101,17 +101,17 @@ int main(int argc, char* argv[])
 #ifndef CHECK_MEMORY_LEAK_WITH_SSL
 		if (cfg->ssl())
 		{
-			log->fatal(__FILE__, __LINE__, "ssl disabled");
+			waspp::log(waspp::fatal) << "ssl disabled," << __FILE__ << ":" << __LINE__;
 		}
 #endif
 
-		log->info("server starting..");
+		waspp::log(waspp::info) << "server starting..";
 		waspp::server s(cfg);
 		s.run();
 	}
 	catch (std::exception& e)
 	{
-		log->fatal(__FILE__, __LINE__, e.what());
+		waspp::log(waspp::fatal) << e.what() << "," << __FILE__ << ":" << __LINE__;
 		return 1;
 	}
 

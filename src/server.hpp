@@ -13,6 +13,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/asio.hpp>
 
+#include "logger.hpp"
 #include "config.hpp"
 #include "connection.hpp"
 #include "request_handler.hpp"

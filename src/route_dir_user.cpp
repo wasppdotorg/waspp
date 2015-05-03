@@ -22,14 +22,14 @@ namespace waspp
 	namespace dir_user
 	{
 
-		void signin_html(logger* log, config* cfg, database* db, request& req, response& res)
+		void signin_html(config* cfg, database* db, request& req, response& res)
 		{
 			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_user_signin.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void auth(logger* log, config* cfg, database* db, request& req, response& res)
+		void auth(config* cfg, database* db, request& req, response& res)
 		{
 			unsigned int userid;
 			std::string passwd;
@@ -90,14 +90,14 @@ namespace waspp
 			res.redirect_to("/dir/forum/index");
 		}
 
-		void signup_html(logger* log, config* cfg, database* db, request& req, response& res)
+		void signup_html(config* cfg, database* db, request& req, response& res)
 		{
 			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_user_signup.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void post(logger* log, config* cfg, database* db, request& req, response& res)
+		void post(config* cfg, database* db, request& req, response& res)
 		{
 			unsigned int userid;
 			int platformtype;
@@ -197,7 +197,7 @@ namespace waspp
 			res.redirect_to("/dir/user/signin");
 		}
 
-		void signout(logger* log, config* cfg, database* db, request& req, response& res)
+		void signout(config* cfg, database* db, request& req, response& res)
 		{
 			res.delete_cookie(cfg->sess_cookie());
 			res.redirect_to("/dir/user/signin");

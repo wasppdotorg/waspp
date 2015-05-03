@@ -25,7 +25,7 @@ namespace waspp
 		std::time_t time_ = std::time(0);
 		file_created_ = *std::localtime(&time_);
 
-		level_ = log_debug;
+		level_ = debug;
 		rotation_ = rotate_minutely;
 	}
 
@@ -38,6 +38,11 @@ namespace waspp
 		if (log_thread_)
 		{
 			log_thread_->join();
+		}
+
+		if (ofstream_.is_open())
+		{
+			ofstream_.close();
 		}
 	}
 
@@ -53,23 +58,23 @@ namespace waspp
 	/// are typically defined.
 	bool logger::init(const std::string& level, const std::string& rotation)
 	{
-		log_level cfg_level = log_debug;
+		log_level cfg_level = debug;
 
 		if (level == "debug")
 		{
-			cfg_level = log_debug;
+			cfg_level = debug;
 		}
 		else if (level == "info")
 		{
-			cfg_level = log_info;
+			cfg_level = info;
 		}
 		else if (level == "warn")
 		{
-			cfg_level = log_warn;
+			cfg_level = warn;
 		}
 		else if (level == "error")
 		{
-			cfg_level = log_error;
+			cfg_level = error;
 		}
 		else
 		{
@@ -100,79 +105,10 @@ namespace waspp
 	}
 
 	/// Log a message.
-	void logger::debug(const std::string& message)
+	void logger::write(const std::string& message)
 	{
-		if (level_ > log_debug)
-		{
-			return;
-		}
-
-		write("DEBUG,", message);
-	}
-
-	void logger::info(const std::string& message)
-	{
-		if (level_ > log_info)
-		{
-			return;
-		}
-
-		write("INFO,", message);
-	}
-
-	void logger::warn(const std::string& message)
-	{
-		if (level_ > log_warn)
-		{
-			return;
-		}
-
-		write("WARN,", message);
-	}
-
-	void logger::error(const std::string& message)
-	{
-		if (level_ > log_error)
-		{
-			return;
-		}
-
-		write("ERROR,", message);
-	}
-
-	void logger::fatal(const char* file, int line, const std::string& message)
-	{
-		if (level_ > log_fatal)
-		{
-			return;
-		}
-
-		std::ostringstream oss;
-		oss << file << ":" << line << " " << message;
-
-		write("FATAL,", oss.str());
-	}
-
-	void logger::write(const std::string& log_type, const std::string& message)
-	{
-		std::time_t time_ = std::time(0);
-		std::tm time = *std::localtime(&time_);
-
-		// rotate log file if necessary
-		rotate(time);
-
-		// datetime for log message
-		char datetime[32] = { 0 };
-		std::strftime(datetime, sizeof(datetime), "%Y-%m-%d %H:%M:%S,", &time);
-
-		std::string line(datetime);
-		{
-			line.append(log_type);
-			line.append(message);
-		}
-
 		// Pass the work of opening the file to the background thread.
-		log_service_.post(boost::bind(&logger::write_impl, this, line));
+		log_service_.post(boost::bind(&logger::write_impl, this, message));
 	}
 
 	void logger::rotate(const std::tm& time)
@@ -224,9 +160,9 @@ namespace waspp
 
 	/// Helper function used to log a message from within the private io_service's
 	/// thread.
-	void logger::write_impl(const std::string& line)
+	void logger::write_impl(const std::string& message)
 	{
-		ofstream_ << line << std::endl;
+		ofstream_ << message << std::endl;
 	}
 
 	void logger::rotate_impl(const std::string& file_to)

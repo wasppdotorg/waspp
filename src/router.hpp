@@ -22,33 +22,33 @@ namespace waspp
 
 	namespace dir_forum
 	{
-		void index_html(logger* log, config* cfg, database* db, request& req, response& res);
-		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res);
+		void index_html(config* cfg, database* db, request& req, response& res);
+		void index_jsonp(config* cfg, database* db, request& req, response& res);
 
-		void show_html(logger* log, config* cfg, database* db, request& req, response& res);
-		void show_jsonp(logger* log, config* cfg, database* db, request& req, response& res);
+		void show_html(config* cfg, database* db, request& req, response& res);
+		void show_jsonp(config* cfg, database* db, request& req, response& res);
 
-		void form_html(logger* log, config* cfg, database* db, request& req, response& res);
-		void form_jsonp(logger* log, config* cfg, database* db, request& req, response& res);
+		void form_html(config* cfg, database* db, request& req, response& res);
+		void form_jsonp(config* cfg, database* db, request& req, response& res);
 
-		void remove(logger* log, config* cfg, database* db, request& req, response& res);
-		void post(logger* log, config* cfg, database* db, request& req, response& res);
+		void remove(config* cfg, database* db, request& req, response& res);
+		void post(config* cfg, database* db, request& req, response& res);
 
 	} // namespace dir_forum
 
 	namespace dir_user
 	{
-		void signin_html(logger* log, config* cfg, database* db, request& req, response& res);
-		void auth(logger* log, config* cfg, database* db, request& req, response& res);
+		void signin_html(config* cfg, database* db, request& req, response& res);
+		void auth(config* cfg, database* db, request& req, response& res);
 
-		void signup_html(logger* log, config* cfg, database* db, request& req, response& res);
-		void post(logger* log, config* cfg, database* db, request& req, response& res);
+		void signup_html(config* cfg, database* db, request& req, response& res);
+		void post(config* cfg, database* db, request& req, response& res);
 
-		void signout(logger* log, config* cfg, database* db, request& req, response& res);
+		void signout(config* cfg, database* db, request& req, response& res);
 
 	} // namespace dir_user
 
-	typedef void(*func_ptr)(logger*, config*, database*, request&, response&);
+	typedef void(*func_ptr)(config*, database*, request&, response&);
 
 	const std::string jsonp_start = "_(";
 	const std::string jsonp_end = ");";

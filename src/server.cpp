@@ -141,6 +141,7 @@ namespace waspp
 
 	void server::handle_stop()
 	{
+		log(info) << "server stopping..";
 		io_service_.stop();
 	}
 

@@ -29,7 +29,7 @@ namespace waspp
 {
 	namespace dir_forum
 	{
-		void index_html(logger* log, config* cfg, database* db, request& req, response& res)
+		void index_html(config* cfg, database* db, request& req, response& res)
 		{
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
@@ -45,7 +45,7 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
+		void index_jsonp(config* cfg, database* db, request& req, response& res)
 		{
 			status_type status_code = status_error;
 			boost::property_tree::ptree json, status, session, board_search, board_count, board_item, board_index, page_count, link_count;
@@ -135,7 +135,7 @@ namespace waspp
 			res.content_extension = "js";
 		}
 
-		void show_html(logger* log, config* cfg, database* db, request& req, response& res)
+		void show_html(config* cfg, database* db, request& req, response& res)
 		{
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
@@ -151,7 +151,7 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void show_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
+		void show_jsonp(config* cfg, database* db, request& req, response& res)
 		{
 			status_type status_code = status_error;
 			boost::property_tree::ptree json, status, session, param, params;
@@ -205,7 +205,7 @@ namespace waspp
 			res.content_extension = "js";
 		}
 
-		void form_html(logger* log, config* cfg, database* db, request& req, response& res)
+		void form_html(config* cfg, database* db, request& req, response& res)
 		{
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
@@ -221,7 +221,7 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void form_jsonp(logger* log, config* cfg, database* db, request& req, response& res)
+		void form_jsonp(config* cfg, database* db, request& req, response& res)
 		{
 			status_type status_code = status_error;
 			boost::property_tree::ptree json, status, session, param, params;
@@ -275,12 +275,12 @@ namespace waspp
 			res.content_extension = "js";
 		}
 
-		void remove(logger* log, config* cfg, database* db, request& req, response& res)
+		void remove(config* cfg, database* db, request& req, response& res)
 		{
 
 		}
 
-		void post(logger* log, config* cfg, database* db, request& req, response& res)
+		void post(config* cfg, database* db, request& req, response& res)
 		{
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())

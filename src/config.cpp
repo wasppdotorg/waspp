@@ -37,13 +37,11 @@ namespace waspp
 
 	bool config::init(const std::string& file, const std::string& server_id)
 	{
-		logger* log = logger::instance();
-
 		try
 		{
 			if (!boost::filesystem::exists(file))
 			{
-				log->fatal(__FILE__, __LINE__, "config::file not found");
+				log(fatal) << "config::file not found," << __FILE__ << ":" << __LINE__;
 				return false;
 			}
 
@@ -69,7 +67,7 @@ namespace waspp
 			{
 				if (found_cp == cfg_.end())
 				{
-					log->fatal(__FILE__, __LINE__, "config::log not found");
+					log(fatal) << "config::log not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 
@@ -84,7 +82,7 @@ namespace waspp
 					found_nv = std::find_if(found_cp->second.begin(), found_cp->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
 					if (found_nv == found_cp->second.end())
 					{
-						log->fatal(__FILE__, __LINE__, "config::element not found");
+						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
 					}
 
@@ -103,7 +101,7 @@ namespace waspp
 			{
 				if (found_cp == cfg_.end())
 				{
-					log->fatal(__FILE__, __LINE__, "config::locale not found");
+					log(fatal) << "config::locale not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 
@@ -117,7 +115,7 @@ namespace waspp
 					found_nv = std::find_if(found_cp->second.begin(), found_cp->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
 					if (found_nv == found_cp->second.end())
 					{
-						log->fatal(__FILE__, __LINE__, "config::element not found");
+						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
 					}
 
@@ -132,7 +130,7 @@ namespace waspp
 			{
 				if (found_cp == cfg_.end())
 				{
-					log->fatal(__FILE__, __LINE__, "config::session not found");
+					log(fatal) << "config::session not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 
@@ -151,7 +149,7 @@ namespace waspp
 					found_nv = std::find_if(found_cp->second.begin(), found_cp->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
 					if (found_nv == found_cp->second.end())
 					{
-						log->fatal(__FILE__, __LINE__, "config::element not found");
+						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
 					}
 
@@ -186,7 +184,7 @@ namespace waspp
 			{
 				if (found_cp == cfg_.end())
 				{
-					log->fatal(__FILE__, __LINE__, "config::server_id not found");
+					log(fatal) << "config::server_id not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 
@@ -208,7 +206,7 @@ namespace waspp
 					found_nv = std::find_if(found_cp->second.begin(), found_cp->second.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
 					if (found_nv == found_cp->second.end())
 					{
-						log->fatal(__FILE__, __LINE__, "config::element not found");
+						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
 					}
 
@@ -260,7 +258,7 @@ namespace waspp
 
 			if (!boost::filesystem::exists(msg_file))
 			{
-				log->fatal(__FILE__, __LINE__, "config::msg_file not found");
+				log(fatal) << "config::msg_file not found," << __FILE__ << ":" << __LINE__;
 				return false;
 			}
 
@@ -275,7 +273,7 @@ namespace waspp
 
 				if (status_found != status_.end())
 				{
-					log->fatal(__FILE__, __LINE__, "config - duplicated status_code:" + boost::lexical_cast<std::string>(status_code));
+					log(fatal) << "config - duplicated status_code:" << status_code << "," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 				status_.push_back(statuspair(status_code, item_.second.get_value<std::string>()));
@@ -293,7 +291,7 @@ namespace waspp
 
 			if (status_count != (status_.size() - 1))
 			{
-				log->fatal(__FILE__, __LINE__, "config::status_count not match");
+				log(fatal) << "config::status_count not match," << __FILE__ << ":" << __LINE__;
 				return false;
 			}
 
