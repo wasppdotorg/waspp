@@ -5,6 +5,9 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
+#include <mysql/mysql.h>
+
+#include <stdexcept>
 #include <vector>
 #include <string>
 
@@ -20,10 +23,22 @@ namespace waspp
 
 	database::database() : shard_count(0)
 	{
+		try
+		{
+			if (mysql_library_init(0, 0, 0) != 0)
+			{
+				throw std::runtime_error("mysql_library_init failed");
+			}
+		}
+		catch (...)
+		{
+			throw;
+		}
 	}
 
 	database::~database()
 	{
+		mysql_library_end();
 	}
 
 	bool database::init(config* cfg, const std::vector<std::string>& dbnames)
