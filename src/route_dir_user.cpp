@@ -15,7 +15,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "response.hpp"
 #include "utility.hpp"
 #include "session.hpp"
-#include "status.hpp"
+#include "error.hpp"
 
 namespace waspp
 {
@@ -36,13 +36,13 @@ namespace waspp
 
 			if (req.param("username").empty())
 			{
-				router::err_msg(cfg, res, status_username_required);
+				router::err_msg(cfg, res, err_username_required);
 				return;
 			}
 
 			if (req.param("passwd").empty())
 			{
-				router::err_msg(cfg, res, status_passwd_required);
+				router::err_msg(cfg, res, err_passwd_required);
 				return;
 			}
 			passwd = md5_digest(req.param("passwd"));
@@ -58,7 +58,7 @@ namespace waspp
 			rs_ptr rs(stmt->query());
 			if (rs->num_rows() == 0)
 			{
-				router::err_msg(cfg, res, status_username_not_found);
+				router::err_msg(cfg, res, err_username_not_found);
 				return;
 			}
 
@@ -79,7 +79,7 @@ namespace waspp
 			rs.reset(stmt->query());
 			if (rs->num_rows() == 0)
 			{
-				router::err_msg(cfg, res, status_auth_failed);
+				router::err_msg(cfg, res, err_auth_failed);
 				return;
 			}
 
@@ -106,32 +106,32 @@ namespace waspp
 
 			if (req.param("platformtype").empty())
 			{
-				router::err_msg(cfg, res, status_platformtype_required);
+				router::err_msg(cfg, res, err_platformtype_required);
 				return;
 			}
 			platformtype = boost::lexical_cast<int>(req.param("platformtype"));
 
 			if (req.param("platformid").empty())
 			{
-				router::err_msg(cfg, res, status_platformid_required);
+				router::err_msg(cfg, res, err_platformid_required);
 				return;
 			}
 
 			if (req.param("username").empty())
 			{
-				router::err_msg(cfg, res, status_username_required);
+				router::err_msg(cfg, res, err_username_required);
 				return;
 			}
 
 			if (req.param("passwd").empty())
 			{
-				router::err_msg(cfg, res, status_passwd_required);
+				router::err_msg(cfg, res, err_passwd_required);
 				return;
 			}
 
 			if (req.param("passwd") != req.param("retypepasswd"))
 			{
-				router::err_msg(cfg, res, status_passwds_not_identical);
+				router::err_msg(cfg, res, err_passwds_not_identical);
 				return;
 			}
 			passwd = md5_digest(req.param("passwd"));
@@ -147,7 +147,7 @@ namespace waspp
 			rs_ptr rs(stmt->query());
 			if (rs->num_rows() != 0)
 			{
-				router::err_msg(cfg, res, status_username_not_available);
+				router::err_msg(cfg, res, err_username_not_available);
 				return;
 			}
 
@@ -174,7 +174,7 @@ namespace waspp
 			unsigned long long int affected_rows = stmt->execute();
 			if (affected_rows == 0)
 			{
-				router::err_msg(cfg, res, status_users_idx_insert_failed);
+				router::err_msg(cfg, res, err_users_idx_insert_failed);
 				return;
 			}
 
@@ -190,7 +190,7 @@ namespace waspp
 			affected_rows = stmt->execute();
 			if (affected_rows == 0)
 			{
-				router::err_msg(cfg, res, status_users_insert_failed);
+				router::err_msg(cfg, res, err_users_insert_failed);
 				return;
 			}
 

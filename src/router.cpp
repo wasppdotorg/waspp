@@ -93,13 +93,13 @@ namespace waspp
 			res.content.append("'></script>\n");
 		}
 
-		void err_msg(config* cfg, response& res, status_type status_code)
+		void err_msg(config* cfg, response& res, error_type err_code)
 		{
 			res.content.clear();
 			get_file(cfg, res, "dir_include_header.html");
 
 			res.content.append("<h2>Error : ");
-			res.content.append(cfg->msg(status_code));
+			res.content.append(cfg->err_msg(err_code));
 			res.content.append("</h2>");
 
 			get_file(cfg, res, "dir_include_footer.html");

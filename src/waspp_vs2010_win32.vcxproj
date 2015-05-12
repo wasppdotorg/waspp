@@ -110,7 +110,7 @@
     <ClInclude Include="server.hpp" />
     <ClInclude Include="session.hpp" />
     <ClInclude Include="multipart.hpp" />
-    <ClInclude Include="status.hpp" />
+    <ClInclude Include="error.hpp" />
     <ClInclude Include="utility.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

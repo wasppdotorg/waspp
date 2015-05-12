@@ -23,7 +23,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "request.hpp"
 #include "response.hpp"
 #include "session.hpp"
-#include "status.hpp"
+#include "error.hpp"
 
 namespace waspp
 {
@@ -47,16 +47,16 @@ namespace waspp
 
 		void index_jsonp(config* cfg, database* db, request& req, response& res)
 		{
-			status_type status_code = status_error;
+			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, status, session, board_search, board_count, board_item, board_index, page_count, link_count;
 
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
-				status_code = status_unauthorized;
+				err_code = err_unauthorized;
 
-				status.put("code", status_code);
-				status.put("message", cfg->msg(status_code));
+				status.put("code", err_code);
+				status.put("message", cfg->err_msg(err_code));
 
 				json.put_child("status", status);
 
@@ -71,10 +71,10 @@ namespace waspp
 				return;
 			}
 
-			status_code = status_okay;
+			err_code = err_none;
 
-			status.put("code", status_code);
-			status.put("message", cfg->msg(status_code));
+			status.put("code", err_code);
+			status.put("message", cfg->err_msg(err_code));
 
 			session.put("userid", sess.get("userid"));
 			session.put("username", sess.get("username"));
@@ -153,16 +153,16 @@ namespace waspp
 
 		void show_jsonp(config* cfg, database* db, request& req, response& res)
 		{
-			status_type status_code = status_error;
+			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, status, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
-				status_code = status_unauthorized;
+				err_code = err_unauthorized;
 
-				status.put("code", status_code);
-				status.put("message", cfg->msg(status_code));
+				status.put("code", err_code);
+				status.put("message", cfg->err_msg(err_code));
 
 				json.put_child("status", status);
 
@@ -177,10 +177,10 @@ namespace waspp
 				return;
 			}
 
-			status_code = status_okay;
+			err_code = err_none;
 
-			status.put("code", status_code);
-			status.put("message", cfg->msg(status_code));
+			status.put("code", err_code);
+			status.put("message", cfg->err_msg(err_code));
 
 			session.put("userid", sess.get("userid"));
 			session.put("username", sess.get("username"));
@@ -223,16 +223,16 @@ namespace waspp
 
 		void form_jsonp(config* cfg, database* db, request& req, response& res)
 		{
-			status_type status_code = status_error;
+			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, status, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
-				status_code = status_unauthorized;
+				err_code = err_unauthorized;
 
-				status.put("code", status_code);
-				status.put("message", cfg->msg(status_code));
+				status.put("code", err_code);
+				status.put("message", cfg->err_msg(err_code));
 
 				json.put_child("status", status);
 
@@ -247,10 +247,10 @@ namespace waspp
 				return;
 			}
 
-			status_code = status_okay;
+			err_code = err_none;
 
-			status.put("code", status_code);
-			status.put("message", cfg->msg(status_code));
+			status.put("code", err_code);
+			status.put("message", cfg->err_msg(err_code));
 
 			session.put("userid", sess.get("userid"));
 			session.put("username", sess.get("username"));
@@ -299,13 +299,13 @@ namespace waspp
 
 			if (req.param("title").empty())
 			{
-				router::err_msg(cfg, res, status_title_required);
+				router::err_msg(cfg, res, err_title_required);
 				return;
 			}
 
 			if (req.param("content").empty())
 			{
-				router::err_msg(cfg, res, status_content_required);
+				router::err_msg(cfg, res, err_content_required);
 				return;
 			}
 
@@ -339,7 +339,7 @@ namespace waspp
 				unsigned long long int affected_rows = stmt->execute();
 				if (affected_rows == 0)
 				{
-					router::err_msg(cfg, res, status_forum_insert_failed);
+					router::err_msg(cfg, res, err_forum_insert_failed);
 					return;
 				}
 			}

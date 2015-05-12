@@ -13,7 +13,7 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <boost/unordered_map.hpp>
 
-#include "status.hpp"
+#include "error.hpp"
 #include "utility.hpp"
 
 namespace waspp
@@ -34,7 +34,7 @@ namespace waspp
 		const std::string& rotation() { return rotation_; }
 
 		// message
-		const std::string& msg(status_type status_code);
+		const std::string& err_msg(error_type err_code);
 
 		// session
 		const std::string& encrypt_key() { return encrypt_key_; }
@@ -77,9 +77,9 @@ namespace waspp
 		// cfg
 		boost::unordered_map< std::string, boost::unordered_map<std::string, std::string> > cfg_;
 
-		// status messages
-		std::string msg_locale;
-		boost::unordered_map<int, std::string> status_;
+		// error messages
+		std::string locale;
+		boost::unordered_map<int, std::string> err_;
 
 	};
 

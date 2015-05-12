@@ -131,9 +131,6 @@
     <ClInclude Include="multipart.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="status.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="redis.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -141,6 +138,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="redis3m.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

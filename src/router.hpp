@@ -15,7 +15,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "database.hpp"
 #include "request.hpp"
 #include "response.hpp"
-#include "status.hpp"
+#include "error.hpp"
 
 namespace waspp
 {
@@ -67,7 +67,7 @@ namespace waspp
 
 		void set_jsonp(request& req, response& res);
 
-		void err_msg(config* cfg, response& res, status_type status_code);
+		void err_msg(config* cfg, response& res, error_type err_code);
 
 	} // namespace router
 

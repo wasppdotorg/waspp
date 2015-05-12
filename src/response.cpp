@@ -14,7 +14,7 @@
 namespace waspp
 {
 
-	namespace http_status_strings
+	namespace status_strings
 	{
 
 		const std::string ok =
@@ -50,9 +50,9 @@ namespace waspp
 		const std::string service_unavailable =
 			"HTTP/1.1 503 Service Unavailable\r\n";
 
-		boost::asio::const_buffer to_buffer(response::http_status_type http_status)
+		boost::asio::const_buffer to_buffer(response::status_type status)
 		{
-			switch (http_status)
+			switch (status)
 			{
 			case response::ok:
 				return boost::asio::buffer(ok);
@@ -91,7 +91,7 @@ namespace waspp
 			}
 		}
 
-	} // namespace http_status_strings
+	} // namespace status_strings
 
 	namespace misc_strings
 	{
@@ -104,7 +104,7 @@ namespace waspp
 	std::vector<boost::asio::const_buffer> response::to_buffers()
 	{
 		std::vector<boost::asio::const_buffer> buffers;
-		buffers.push_back(http_status_strings::to_buffer(http_status));
+		buffers.push_back(status_strings::to_buffer(status));
 		for (std::size_t i = 0; i < headers.size(); ++i)
 		{
 			name_value& p = headers[i];
@@ -198,9 +198,9 @@ namespace waspp
 			"<body><h1>503 Service Unavailable</h1></body>"
 			"</html>";
 
-		std::string to_string(response::http_status_type http_status)
+		std::string to_string(response::status_type status)
 		{
-			switch (http_status)
+			switch (status)
 			{
 			case response::ok:
 				return ok;
@@ -241,11 +241,11 @@ namespace waspp
 
 	} // namespace static_responses
 
-	response response::static_response(response::http_status_type http_status)
+	response response::static_response(response::status_type status)
 	{
 		response res;
-		res.http_status = http_status;
-		res.content = static_responses::to_string(http_status);
+		res.status = status;
+		res.content = static_responses::to_string(status);
 
 		res.headers.resize(3);
 		res.headers[0].name = "Content-Length";

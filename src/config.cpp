@@ -97,17 +97,17 @@ namespace waspp
 				}
 			}
 
-			found_i = cfg_.find("locale");
+			found_i = cfg_.find("error");
 			{
 				if (found_i == cfg_.end())
 				{
-					log(fatal) << "config::locale not found," << __FILE__ << ":" << __LINE__;
+					log(fatal) << "config::error not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 
 				keys.resize(0);
 				{
-					keys.push_back("msg_locale");
+					keys.push_back("locale");
 				}
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
@@ -119,9 +119,9 @@ namespace waspp
 						return false;
 					}
 
-					if (keys[i] == "msg_locale")
+					if (keys[i] == "locale")
 					{
-						msg_locale = found_p->second;
+						locale = found_p->second;
 					}
 				}
 			}
@@ -250,46 +250,46 @@ namespace waspp
 				}
 			}
 
-			std::string msg_file("../msg/");
+			std::string err_file("../err/");
 			{
-				msg_file.append(msg_locale);
-				msg_file.append(".json");
+				err_file.append(locale);
+				err_file.append(".json");
 			}
 
-			if (!boost::filesystem::exists(msg_file))
+			if (!boost::filesystem::exists(err_file))
 			{
-				log(fatal) << "config::msg_file not found," << __FILE__ << ":" << __LINE__;
+				log(fatal) << "config::err_file not found," << __FILE__ << ":" << __LINE__;
 				return false;
 			}
 
-			read_json(msg_file, pt);
+			read_json(err_file, pt);
 
-			int status_code = 0;
-			boost::unordered_map<int, std::string>::iterator status_found;
+			int err_code = 0;
+			boost::unordered_map<int, std::string>::iterator err_found;
 			BOOST_FOREACH(boost::property_tree::ptree::value_type const& item_, pt.get_child(""))
 			{
-				status_code = boost::lexical_cast<int>(item_.first);
-				status_found = status_.find(status_code);
+				err_code = boost::lexical_cast<int>(item_.first);
+				err_found = err_.find(err_code);
 
-				if (status_found != status_.end())
+				if (err_found != err_.end())
 				{
-					log(fatal) << "config - duplicated status_code:" << status_code << "," << __FILE__ << ":" << __LINE__;
+					log(fatal) << "config - duplicated err_code:" << err_code << "," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
-				status_.insert(std::make_pair(status_code, item_.second.get_value<std::string>()));
+				err_.insert(std::make_pair(err_code, item_.second.get_value<std::string>()));
 			}
 
-			unsigned int status_count = 0;
-			for (status_code = static_cast<int>(status_okay); status_code < static_cast<int>(status_end); ++status_code)
+			unsigned int err_count = 0;
+			for (err_code = err_none; err_code < err_end; ++err_code)
 			{
-				status_found = status_.find(status_code);
-				if (status_found != status_.end())
+				err_found = err_.find(err_code);
+				if (err_found != err_.end())
 				{
-					++status_count;
+					++err_count;
 				}
 			}
 
-			if (status_count != (status_.size() - 1))
+			if (err_count != (err_.size() - 1))
 			{
 				log(fatal) << "config::status_count not match," << __FILE__ << ":" << __LINE__;
 				return false;
@@ -318,19 +318,9 @@ namespace waspp
 		return found->second;
 	}
 
-	const std::string& config::msg(status_type status_code)
+	const std::string& config::err_msg(error_type err_code)
 	{
-		int status = static_cast<int>(status_code);
-
-		boost::unordered_map<int, std::string>::iterator found;
-		found = status_.find(status);
-
-		if (found == status_.end())
-		{
-			return status_[status_error];
-		}
-
-		return found->second;
+		return err_[err_code];
 	}
 
 } // namespace waspp

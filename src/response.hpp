@@ -23,7 +23,7 @@ namespace waspp
 	struct response
 	{
 		/// The status of the response.
-		enum http_status_type
+		enum status_type
 		{
 			ok = 200,
 			created = 201,
@@ -70,7 +70,7 @@ namespace waspp
 			content_extension = "html";
 		}
 
-		http_status_type http_status;
+		status_type status;
 
 		/// The headers to be included in the response.
 		std::vector<name_value> headers;
@@ -86,7 +86,7 @@ namespace waspp
 		std::vector<boost::asio::const_buffer> to_buffers();
 
 		/// Get a static response.
-		static response static_response(http_status_type http_status);
+		static response static_response(status_type status);
 	};
 
 } // namespace waspp

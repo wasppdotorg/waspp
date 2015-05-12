@@ -64,7 +64,7 @@ namespace waspp
 			}
 
 			// Fill out the response to be sent to the client.
-			res.http_status = response::ok;
+			res.status = response::ok;
 
 			res.headers.push_back(name_value("Content-Type", mime_types::extension_to_type(res.content_extension)));
 			res.headers.push_back(name_value("Keep-Alive", "timeout=0, max=0"));
