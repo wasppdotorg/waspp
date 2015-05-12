@@ -45,19 +45,19 @@ namespace waspp
 
 			if (keys[i] == "host")
 			{
-				host = found->value;
+				host = found->second;
 			}
 			else if (keys[i] == "port")
 			{
-				port = boost::lexical_cast<unsigned int>(found->value);
+				port = boost::lexical_cast<unsigned int>(found->second);
 			}
 			else if (keys[i] == "pool_size")
 			{
-				pool_size = boost::lexical_cast<std::size_t>(found->value);
+				pool_size = boost::lexical_cast<std::size_t>(found->second);
 			}
 			else if (keys[i] == "timeout_sec")
 			{
-				timeout_sec = boost::lexical_cast<double>(found->value);
+				timeout_sec = boost::lexical_cast<double>(found->second);
 			}
 		}
 
