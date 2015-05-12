@@ -54,6 +54,7 @@
 		<Unit filename="database.hpp" />
 		<Unit filename="dbconn_pool.cpp" />
 		<Unit filename="dbconn_pool.hpp" />
+		<Unit filename="error.hpp" />
 		<Unit filename="logger.cpp" />
 		<Unit filename="logger.hpp" />
 		<Unit filename="main.cpp" />
@@ -85,7 +86,6 @@
 		<Unit filename="server.hpp" />
 		<Unit filename="session.cpp" />
 		<Unit filename="session.hpp" />
-		<Unit filename="status.hpp" />
 		<Unit filename="utility.cpp" />
 		<Unit filename="utility.hpp" />
 		<Extensions>
