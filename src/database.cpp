@@ -11,6 +11,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 #include <string>
 
+#include <boost/unordered_map.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -45,7 +46,7 @@ namespace waspp
 	{
 		try
 		{
-			std::vector<name_value>& cfg_shard = cfg->get("shard");
+			boost::unordered_map<std::string, std::string>& cfg_shard = cfg->get("shard");
 
 			std::vector<std::string> keys;
 			{
@@ -53,10 +54,10 @@ namespace waspp
 				keys.push_back("shard_format");
 			}
 
-			std::vector<name_value>::iterator found;
+			boost::unordered_map<std::string, std::string>::iterator found;
 			for (std::size_t i = 0; i < keys.size(); ++i)
 			{
-				found = std::find_if(cfg_shard.begin(), cfg_shard.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+				found = cfg_shard.find(keys[i]);
 				if (found == cfg_shard.end())
 				{
 					return false;
@@ -64,11 +65,11 @@ namespace waspp
 
 				if (keys[i] == "shard_count")
 				{
-					shard_count = boost::lexical_cast<unsigned int>(found->value);
+					shard_count = boost::lexical_cast<unsigned int>(found->second);
 				}
 				else if (keys[i] == "shard_format")
 				{
-					shard_format = found->value;
+					shard_format = found->second;
 				}
 			}
 
@@ -81,7 +82,7 @@ namespace waspp
 					return false;
 				}
 
-				db_.push_back(dbpair(dbnames[i], dbpool));
+				db_.insert(std::make_pair(dbnames[i], dbpool));
 			}
 
 			return true;
@@ -96,8 +97,8 @@ namespace waspp
 
 	dbpool_ptr database::get_dbpool(const std::string& dbname)
 	{
-		std::vector<dbpair>::iterator found;
-		found = std::find_if(db_.begin(), db_.end(), boost::bind(&dbpair::compare_first, _1, dbname));
+		boost::unordered_map<std::string, dbpool_ptr>::iterator found;
+		found = db_.find(dbname);
 
 		if (found == db_.end())
 		{
@@ -117,8 +118,8 @@ namespace waspp
 			throw std::runtime_error("invalid shard_format");
 		}
 
-		std::vector<dbpair>::iterator found;
-		found = std::find_if(db_.begin(), db_.end(), boost::bind(&dbpair::compare_first, _1, std::string(format)));
+		boost::unordered_map<std::string, dbpool_ptr>::iterator found;
+		found = db_.find(std::string(format));
 
 		if (found == db_.end())
 		{

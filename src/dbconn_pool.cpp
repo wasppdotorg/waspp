@@ -22,7 +22,7 @@ namespace waspp
 	{
 	}
 
-	bool dbconn_pool::init_pool(std::vector<name_value>& cfg)
+	bool dbconn_pool::init_pool(boost::unordered_map<std::string, std::string>& cfg)
 	{
 		std::vector<std::string> keys;
 		{
@@ -36,10 +36,10 @@ namespace waspp
 			keys.push_back("wait_timeout_sec");
 		}
 
-		std::vector<name_value>::iterator found;
+		boost::unordered_map<std::string, std::string>::iterator found;
 		for (std::size_t i = 0; i < keys.size(); ++i)
 		{
-			found = std::find_if(cfg.begin(), cfg.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+			found = cfg.find(keys[i]);
 			if (found == cfg.end())
 			{
 				return false;
@@ -47,35 +47,35 @@ namespace waspp
 
 			if (keys[i] == "host")
 			{
-				host = found->value;
+				host = found->second;
 			}
 			else if (keys[i] == "userid")
 			{
-				userid = found->value;
+				userid = found->second;
 			}
 			else if (keys[i] == "passwd")
 			{
-				passwd = found->value;
+				passwd = found->second;
 			}
 			else if (keys[i] == "database")
 			{
-				database = found->value;
+				database = found->second;
 			}
 			else if (keys[i] == "port")
 			{
-				port = boost::lexical_cast<unsigned int>(found->value);
+				port = boost::lexical_cast<unsigned int>(found->second);
 			}
 			else if (keys[i] == "charset")
 			{
-				charset = found->value;
+				charset = found->second;
 			}
 			else if (keys[i] == "pool_size")
 			{
-				pool_size = boost::lexical_cast<std::size_t>(found->value);
+				pool_size = boost::lexical_cast<std::size_t>(found->second);
 			}
 			else if (keys[i] == "wait_timeout_sec")
 			{
-				wait_timeout_sec = boost::lexical_cast<double>(found->value);
+				wait_timeout_sec = boost::lexical_cast<double>(found->second);
 			}
 		}
 

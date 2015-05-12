@@ -16,6 +16,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <string>
 #include <vector>
 
+#include <boost/unordered_map.hpp>
 #include <boost/atomic.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>

@@ -11,6 +11,7 @@
 #include <string>
 #include <stdexcept>
 
+#include <boost/unordered_map.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>

@@ -11,42 +11,13 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <string>
 #include <vector>
 
-#include "name_value.hpp"
+#include <boost/unordered_map.hpp>
+
 #include "status.hpp"
 #include "utility.hpp"
 
 namespace waspp
 {
-
-	struct cfgpair
-	{
-		cfgpair(const std::string& first_, std::vector<name_value> second_) : first(first_), second(second_)
-		{
-		}
-
-		bool compare_first(const std::string& first_)
-		{
-			return first == first_;
-		}
-
-		std::string first;
-		std::vector<name_value> second;
-	};
-
-	struct statuspair
-	{
-		statuspair(int first_, const std::string& second_) : first(first_), second(second_)
-		{
-		}
-
-		bool compare_first(int first_)
-		{
-			return first == first_;
-		}
-
-		int first;
-		std::string second;
-	};
 
 	class config
 		: public singleton<config>
@@ -56,7 +27,7 @@ namespace waspp
 		~config();
 
 		bool init(const std::string& file, const std::string& server_id);
-		std::vector<name_value>& get(const std::string& item);
+		boost::unordered_map<std::string, std::string>& get(const std::string& item);
 
 		// logger
 		const std::string& level() { return level_; }
@@ -103,12 +74,12 @@ namespace waspp
 		bool ssl_;
 		std::string ssl_crt_, ssl_key_;
 
-		// cfgpair
-		std::vector<cfgpair> cfg_;
+		// cfg
+		boost::unordered_map< std::string, boost::unordered_map<std::string, std::string> > cfg_;
 
 		// status messages
 		std::string msg_locale;
-		std::vector<statuspair> status_;
+		boost::unordered_map<int, std::string> status_;
 
 	};
 

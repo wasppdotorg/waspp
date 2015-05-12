@@ -10,6 +10,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 #include <string>
 
+#include <boost/unordered_map.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -41,7 +42,7 @@ namespace waspp
 					return false;
 				}
 
-				rd_.push_back(rdpair(rdnames[i], rdpool));
+				rd_.insert(std::make_pair(rdnames[i], rdpool));
 			}
 
 			return true;
@@ -56,8 +57,8 @@ namespace waspp
 
 	rdpool_ptr redis::get_rdpool(const std::string& rdname)
 	{
-		std::vector<rdpair>::iterator found;
-		found = std::find_if(rd_.begin(), rd_.end(), boost::bind(&rdpair::compare_first, _1, rdname));
+		boost::unordered_map<std::string, rdpool_ptr>::iterator found;
+		found = rd_.find(rdname);
 
 		if (found == rd_.end())
 		{

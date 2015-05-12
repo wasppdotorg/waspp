@@ -24,7 +24,7 @@ namespace waspp
 	{
 	}
 
-	bool redis_pool::init_pool(std::vector<name_value>& cfg)
+	bool redis_pool::init_pool(boost::unordered_map<std::string, std::string>& cfg)
 	{
 		std::vector<std::string> keys;
 		{
@@ -34,10 +34,10 @@ namespace waspp
 			keys.push_back("timeout_sec");
 		}
 
-		std::vector<name_value>::iterator found;
+		boost::unordered_map<std::string, std::string>::iterator found;
 		for (std::size_t i = 0; i < keys.size(); ++i)
 		{
-			found = std::find_if(cfg.begin(), cfg.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+			found = cfg.find(keys[i]);
 			if (found == cfg.end())
 			{
 				return false;

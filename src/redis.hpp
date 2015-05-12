@@ -13,6 +13,8 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 #include <string>
 
+#include <boost/unordered_map.hpp>
+
 #include "redis_pool.hpp"
 #include "utility.hpp"
 #include "config.hpp"
@@ -21,21 +23,6 @@ namespace waspp
 {
 
 	typedef boost::shared_ptr<redis_pool> rdpool_ptr;
-
-	struct rdpair
-	{
-		rdpair(const std::string& first_, rdpool_ptr second_) : first(first_), second(second_)
-		{
-		}
-
-		bool compare_first(const std::string& first_)
-		{
-			return first == first_;
-		}
-
-		std::string first;
-		rdpool_ptr second;
-	};
 
 	class redis
 		: public singleton<redis>
@@ -49,7 +36,7 @@ namespace waspp
 		rdpool_ptr get_rdpool(const std::string& rdname);
 
 	private:
-		std::vector<rdpair> rd_;
+		boost::unordered_map<std::string, rdpool_ptr> rd_;
 
 	};
 

@@ -14,11 +14,11 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <vector>
 
+#include <boost/unordered_map.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
 #include "redis3m.hpp"
-#include "name_value.hpp"
 #include "utility.hpp"
 
 namespace waspp
@@ -33,7 +33,7 @@ namespace waspp
 		redis_pool();
 		~redis_pool();
 
-		bool init_pool(std::vector<name_value>& cfg);
+		bool init_pool(boost::unordered_map<std::string, std::string>& cfg);
 		bool fill_pool();
 
 		rdconn_ptr get_rdconn();
