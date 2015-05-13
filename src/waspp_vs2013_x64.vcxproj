@@ -151,10 +151,10 @@
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="error.hpp" />
     <ClInclude Include="redis.hpp" />
     <ClInclude Include="redis3m.hpp" />
     <ClInclude Include="redis_pool.hpp" />
-    <ClInclude Include="status.hpp" />
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="database.hpp" />

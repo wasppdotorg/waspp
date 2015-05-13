@@ -131,9 +131,6 @@
     <ClInclude Include="server.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="status.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="redis.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -141,6 +138,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="redis3m.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="error.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
