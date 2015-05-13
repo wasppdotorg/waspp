@@ -49,7 +49,7 @@
 
 /* Begin PBXFileReference section */
 		7B8704701AAEB31400ADC708 /* waspp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = waspp; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B8704811AAEB37400ADC708 /* status.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = status.hpp; sourceTree = "<group>"; };
+		7B8704811AAEB37400ADC708 /* error.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = error.hpp; sourceTree = "<group>"; };
 		7B87047A1AAEB37400ADC708 /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
 		7B87047B1AAEB37400ADC708 /* config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config.hpp; sourceTree = "<group>"; };
 		7B87047C1AAEB37400ADC708 /* connection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = connection.cpp; sourceTree = "<group>"; };
@@ -69,6 +69,11 @@
 		7B87048A1AAEB37400ADC708 /* mysqlpp_statement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mysqlpp_statement.cpp; sourceTree = "<group>"; };
 		7B87048B1AAEB37400ADC708 /* mysqlpp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mysqlpp.hpp; sourceTree = "<group>"; };
 		7B87048C1AAEB37400ADC708 /* name_value.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = name_value.hpp; sourceTree = "<group>"; };
+		7B87048C1AAEB37400ADC708 /* redis.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = redis.hpp; sourceTree = "<group>"; };
+		7B87048C1AAEB37400ADC708 /* redis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = redis.cpp; sourceTree = "<group>"; };
+		7B87048C1AAEB37400ADC708 /* redis3m.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = redis3m.hpp; sourceTree = "<group>"; };
+		7B87048C1AAEB37400ADC708 /* redis_pool.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = redis_pool.hpp; sourceTree = "<group>"; };
+		7B87048C1AAEB37400ADC708 /* redis_pool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = redis_pool.cpp; sourceTree = "<group>"; };
 		7B87048D1AAEB37400ADC708 /* request_handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = request_handler.cpp; sourceTree = "<group>"; };
 		7B87048E1AAEB37400ADC708 /* request_handler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = request_handler.hpp; sourceTree = "<group>"; };
 		7B87048F1AAEB37400ADC708 /* request_parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = request_parser.cpp; sourceTree = "<group>"; };
@@ -123,7 +128,7 @@
 				7B8704B51AAEB43B00ADC708 /* libboost_filesystem-mt.a */,
 				7B8704B31AAEB42B00ADC708 /* libboost_thread-mt.a */,
 				7B8704B11AAEB41B00ADC708 /* libboost_system-mt.a */,
-				7B8704811AAEB37400ADC708 /* status.hpp */,
+				7B8704811AAEB37400ADC708 /* error.hpp */,
 				7B87047A1AAEB37400ADC708 /* config.cpp */,
 				7B87047B1AAEB37400ADC708 /* config.hpp */,
 				7B87047C1AAEB37400ADC708 /* connection.cpp */,
@@ -143,6 +148,11 @@
 				7B87048A1AAEB37400ADC708 /* mysqlpp_statement.cpp */,
 				7B87048B1AAEB37400ADC708 /* mysqlpp.hpp */,
 				7B87048C1AAEB37400ADC708 /* name_value.hpp */,
+				7B87048C1AAEB37400ADC708 /* redis.cpp */,
+				7B87048C1AAEB37400ADC708 /* redis.hpp */,
+				7B87048C1AAEB37400ADC708 /* redis3m.hpp */,
+				7B87048C1AAEB37400ADC708 /* redis_pool.cpp */,
+				7B87048C1AAEB37400ADC708 /* redis_pool.hpp */,
 				7B87048D1AAEB37400ADC708 /* request_handler.cpp */,
 				7B87048E1AAEB37400ADC708 /* request_handler.hpp */,
 				7B87048F1AAEB37400ADC708 /* request_parser.cpp */,
