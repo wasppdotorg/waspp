@@ -8,8 +8,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_STATUS_HPP
 #define WASPP_STATUS_HPP
 
-#include <string>
-
 namespace waspp
 {
 
