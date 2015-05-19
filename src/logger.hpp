@@ -91,40 +91,42 @@ namespace waspp
 		{
 			logger_ = logger::instance();
 
-			if (level >= logger_->level())
+			if (level < logger_->level())
 			{
-				is_logging = true;
+				return;
+			}
+
+			is_logging = true;
 			
-				// datetime for log message
-				std::time_t time_ = std::time(0);
-				std::tm time = *std::localtime(&time_);
+			// datetime for log message
+			std::time_t time_ = std::time(0);
+			std::tm time = *std::localtime(&time_);
 
-				char datetime[32] = { 0 };
-				std::strftime(datetime, sizeof(datetime), "%Y-%m-%d %H:%M:%S,", &time);
+			char datetime[32] = { 0 };
+			std::strftime(datetime, sizeof(datetime), "%Y-%m-%d %H:%M:%S,", &time);
 
-				oss << datetime;
+			oss << datetime;
 
-				switch (level)
-				{
-				case debug:
-					oss << "DEBUG,";
-					break;
-				case info:
-					oss << "INFO,";
-					break;
-				case warn:
-					oss << "WARN,";
-					break;
-				case error:
-					oss << "ERROR,";
-					break;
-				case fatal:
-					oss << "FATAL,";
-					break;
-				default:
-					oss << "UNKNOWN,";
-					break;
-				}
+			switch (level)
+			{
+			case debug:
+				oss << "DEBUG,";
+				break;
+			case info:
+				oss << "INFO,";
+			break;
+			case warn:
+				oss << "WARN,";
+				break;
+			case error:
+				oss << "ERROR,";
+				break;
+			case fatal:
+				oss << "FATAL,";
+				break;
+			default:
+				oss << "UNKNOWN,";
+				break;
 			}
 		}
 
