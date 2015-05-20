@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#include <boost/chrono.hpp>
+#include <boost/chrono/chrono.hpp>
 
 #include "function_timer.hpp"
 #include "logger.hpp"
@@ -13,7 +13,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	function_timer::function_timer(boost::int_least64_t limit_ms_, const char* file_, int line_) : limit_ms(limit_ms_), file(file_), line(line_)
+	function_timer::function_timer(long long int limit_ms_, const char* file_, int line_) : limit_ms(limit_ms_), file(file_), line(line_)
 	{
 		start = boost::chrono::system_clock::now();
 	}

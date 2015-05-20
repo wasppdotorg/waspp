@@ -39,6 +39,7 @@
 			<Add option="-lboost_filesystem" />
 			<Add option="-lboost_serialization" />
 			<Add option="-lboost_iostreams" />
+			<Add option="-lboost_chrono" />
 			<Add option="-lmysqlclient" />
 			<Add option="-lcrypto" />
 			<Add option="-lgnutls" />
@@ -55,6 +56,8 @@
 		<Unit filename="dbconn_pool.cpp" />
 		<Unit filename="dbconn_pool.hpp" />
 		<Unit filename="error.hpp" />
+		<Unit filename="function_timer.cpp" />
+		<Unit filename="function_timer.hpp" />
 		<Unit filename="logger.cpp" />
 		<Unit filename="logger.hpp" />
 		<Unit filename="main.cpp" />

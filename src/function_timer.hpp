@@ -8,8 +8,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_FUNCTION_TIMER_HPP
 #define WASPP_FUNCTION_TIMER_HPP
 
-#include <cstdint>
-
 #include <boost/chrono.hpp>
 
 #include "logger.hpp"
@@ -20,7 +18,7 @@ namespace waspp
 	class function_timer
 	{
 	public:
-		function_timer(boost::int_least64_t limit_ms, const char* file_, int line_);
+		function_timer(long long int limit_ms, const char* file_, int line_);
 		~function_timer();
 
 	private:
