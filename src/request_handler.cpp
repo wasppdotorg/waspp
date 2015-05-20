@@ -5,12 +5,16 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#include <ctime>
+
 #include <string>
 #include <sstream>
 
+#include <boost/timer/timer.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include "request_handler.hpp"
+#include "function_timer.hpp"
 #include "request.hpp"
 #include "response.hpp"
 #include "logger.hpp"
@@ -28,6 +32,8 @@ namespace waspp
 
 	void request_handler::handle_request(request& req, response& res)
 	{
+		function_timer t(50, __FILE__, __LINE__);
+
 		config* cfg = config::instance();
 		database* db = database::instance();
 

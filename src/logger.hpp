@@ -16,6 +16,7 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/scoped_ptr.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "utility.hpp"
 
@@ -54,7 +55,7 @@ namespace waspp
 		void write(const std::string& message);
 
 	private:
-		
+
 		void rotate(const std::tm& time);
 
 		void file_impl(const std::string& file);
@@ -97,15 +98,10 @@ namespace waspp
 			}
 
 			is_logging = true;
-			
+
 			// datetime for log message
-			std::time_t time_ = std::time(0);
-			std::tm time = *std::localtime(&time_);
-
-			char datetime[32] = { 0 };
-			std::strftime(datetime, sizeof(datetime), "%Y-%m-%d %H:%M:%S,", &time);
-
-			oss << datetime;
+			oss.imbue(std::locale(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,")));
+			oss << boost::posix_time::microsec_clock::universal_time();
 
 			switch (level)
 			{
@@ -114,7 +110,7 @@ namespace waspp
 				break;
 			case info:
 				oss << "INFO,";
-			break;
+				break;
 			case warn:
 				oss << "WARN,";
 				break;
