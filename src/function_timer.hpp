@@ -24,7 +24,7 @@ namespace waspp
 	private:
 		function_timer();
 
-		boost::int_least64_t limit_ms;
+		long long int limit_ms;
 		const char* file;
 		int line;
 

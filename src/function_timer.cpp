@@ -20,7 +20,7 @@ namespace waspp
 
 	function_timer::~function_timer()
 	{
-		boost::int_least64_t diff_ms = boost::chrono::duration_cast<boost::chrono::milliseconds>(boost::chrono::system_clock::now() - start).count();
+		long long int diff_ms = boost::chrono::duration_cast<boost::chrono::milliseconds>(boost::chrono::system_clock::now() - start).count();
 
 		if (diff_ms > limit_ms)
 		{
