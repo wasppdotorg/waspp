@@ -24,6 +24,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "response.hpp"
 #include "session.hpp"
 #include "error.hpp"
+#include "function_timer.hpp"
 
 namespace waspp
 {
@@ -47,6 +48,8 @@ namespace waspp
 
 		void index_jsonp(config* cfg, database* db, request& req, response& res)
 		{
+			function_timer t(50, __FILE__, __LINE__);
+
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, status, session, board_search, board_count, board_item, board_index, page_count, link_count;
 
@@ -153,6 +156,8 @@ namespace waspp
 
 		void show_jsonp(config* cfg, database* db, request& req, response& res)
 		{
+			function_timer t(50, __FILE__, __LINE__);
+
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, status, session, param, params;
 
@@ -282,6 +287,8 @@ namespace waspp
 
 		void post(config* cfg, database* db, request& req, response& res)
 		{
+			function_timer t(50, __FILE__, __LINE__);
+
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{

@@ -16,6 +16,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "utility.hpp"
 #include "session.hpp"
 #include "error.hpp"
+#include "function_timer.hpp"
 
 namespace waspp
 {
@@ -31,6 +32,8 @@ namespace waspp
 
 		void auth(config* cfg, database* db, request& req, response& res)
 		{
+			function_timer t(50, __FILE__, __LINE__);
+
 			unsigned int userid;
 			std::string passwd;
 
@@ -99,6 +102,8 @@ namespace waspp
 
 		void post(config* cfg, database* db, request& req, response& res)
 		{
+			function_timer t(50, __FILE__, __LINE__);
+
 			unsigned int userid;
 			int platformtype;
 			std::string platformid;
