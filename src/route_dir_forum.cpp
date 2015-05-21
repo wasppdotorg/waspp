@@ -228,6 +228,8 @@ namespace waspp
 
 		void form_jsonp(config* cfg, database* db, request& req, response& res)
 		{
+			function_timer t(50, __FILE__, __LINE__);
+
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, status, session, param, params;
 
