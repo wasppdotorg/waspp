@@ -12,6 +12,9 @@
 
 #include <boost/noncopyable.hpp>
 
+#include "config.hpp"
+#include "database.hpp"
+
 namespace waspp
 {
 
@@ -24,7 +27,7 @@ namespace waspp
 	{
 	public:
 		/// Construct with a directory containing files to be served.
-		explicit request_handler();
+		request_handler();
 
 		/// Handle a request and produce a response.
 		void handle_request(request& req, response& res);
@@ -33,6 +36,9 @@ namespace waspp
 		/// Perform URL-decoding on a string. Returns false if the encoding was
 		/// invalid.
 		static bool percent_decode_and_validate(const std::string& in, std::string& out);
+
+		config* cfg;
+		database* db;
 
 	};
 

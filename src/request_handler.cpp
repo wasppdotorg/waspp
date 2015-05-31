@@ -27,13 +27,12 @@ namespace waspp
 
 	request_handler::request_handler()
 	{
+		cfg = config::instance();
+		db = database::instance();
 	}
 
 	void request_handler::handle_request(request& req, response& res)
 	{
-		config* cfg = config::instance();
-		database* db = database::instance();
-
 		try
 		{
 			std::string request_uri;
