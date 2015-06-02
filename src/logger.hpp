@@ -56,7 +56,7 @@ namespace waspp
 
 	private:
 
-		void rotate(const std::tm& time);
+		void rotate(const std::tm& tm_);
 
 		void file_impl(const std::string& file);
 		void init_impl(log_level level, rotation_type rotation);

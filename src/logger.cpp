@@ -111,19 +111,19 @@ namespace waspp
 		log_service_.post(boost::bind(&logger::write_impl, this, message));
 	}
 
-	void logger::rotate(const std::tm& time)
+	void logger::rotate(const std::tm& tm_)
 	{
 		char datetime[32] = { 0 };
 
-		if (rotation_ == rotate_minutely && time.tm_min != file_created_.tm_min)
+		if (rotation_ == rotate_minutely && tm_.tm_min != file_created_.tm_min)
 		{
 			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d_%H%M", &file_created_);
 		}
-		else if (rotation_ == rotate_hourly && time.tm_hour != file_created_.tm_hour)
+		else if (rotation_ == rotate_hourly && tm_.tm_hour != file_created_.tm_hour)
 		{
 			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d_%H", &file_created_);
 		}
-		else if (rotation_ == rotate_daily && time.tm_mday != file_created_.tm_mday)
+		else if (rotation_ == rotate_daily && tm_.tm_mday != file_created_.tm_mday)
 		{
 			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d", &file_created_);
 		}
