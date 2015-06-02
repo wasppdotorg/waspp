@@ -41,10 +41,10 @@
 			<Add option="-lboost_iostreams" />
 			<Add option="-lboost_chrono" />
 			<Add option="-lmysqlclient" />
-			<Add option="-lcrypto" />
+			<Add option="-lhiredis" />
 			<Add option="-lgnutls" />
 			<Add option="-lssl" />
-			<Add option="-lhiredis" />
+			<Add option="-lcrypto" />
 			<Add option="-ltcmalloc" />
 		</Linker>
 		<Unit filename="config.cpp" />
