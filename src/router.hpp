@@ -10,6 +10,8 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <string>
 
+#include <boost/function.hpp>
+
 #include "logger.hpp"
 #include "config.hpp"
 #include "database.hpp"
@@ -48,7 +50,8 @@ namespace waspp
 
 	} // namespace dir_user
 
-	typedef void(*func_ptr)(config*, database*, request&, response&);
+	//typedef void(*func_ptr)(config*, database*, request&, response&);
+	typedef boost::function<void (config*, database*, request&, response&)> func_ptr;
 
 	const std::string jsonp_start = "_(";
 	const std::string jsonp_end = ");";
