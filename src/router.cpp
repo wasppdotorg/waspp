@@ -51,7 +51,7 @@ namespace waspp
 
 			for (route* r = routes; r->uri; ++r)
 			{
-				if (!request_uri.find(r->uri))
+				if (request_uri.find(r->uri, 0) != std::string::npos)
 				{
 					return r->func;
 				}
