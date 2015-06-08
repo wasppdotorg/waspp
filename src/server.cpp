@@ -115,19 +115,14 @@ namespace waspp
 	void server::run()
 	{
 		// Create a pool of threads to run all of the io_services.
-		std::vector< boost::shared_ptr<boost::thread> > threads;
+		boost::thread_group threads;
 		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
 		{
-			boost::shared_ptr<boost::thread> thread(new boost::thread(
-				boost::bind(&boost::asio::io_service::run, &io_service_)));
-			threads.push_back(thread);
+			threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service_));
 		}
 
 		// Wait for all threads in the pool to exit.
-		for (std::size_t i = 0; i < threads.size(); ++i)
-		{
-			threads[i]->join();
-		}
+		threads.join_all();
 	}
 
 	void server::handle_accept(const boost::system::error_code& e)
