@@ -132,6 +132,7 @@
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="dbconn_pool.cpp" />
+    <ClCompile Include="function_timer.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mime_types.cpp" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="error.hpp" />
+    <ClInclude Include="function_timer.hpp" />
     <ClInclude Include="redis.hpp" />
     <ClInclude Include="redis3m.hpp" />
     <ClInclude Include="redis_pool.hpp" />

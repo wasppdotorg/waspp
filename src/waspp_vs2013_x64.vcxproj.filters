@@ -78,6 +78,9 @@
     <ClCompile Include="redis_pool.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="function_timer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp">
@@ -141,6 +144,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="error.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="function_timer.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
