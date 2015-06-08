@@ -101,7 +101,7 @@ namespace waspp
 
 			// datetime for log message
 			oss.imbue(std::locale(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,")));
-			oss << boost::posix_time::microsec_clock::universal_time();
+			oss << boost::posix_time::microsec_clock::local_time();
 
 			switch (level)
 			{
