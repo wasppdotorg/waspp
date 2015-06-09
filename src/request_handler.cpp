@@ -25,10 +25,9 @@
 namespace waspp
 {
 
-	request_handler::request_handler()
+	request_handler::request_handler() : cfg(config::instance()), db(database::instance())
 	{
-		cfg = config::instance();
-		db = database::instance();
+
 	}
 
 	void request_handler::handle_request(request& req, response& res)
