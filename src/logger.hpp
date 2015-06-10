@@ -69,7 +69,7 @@ namespace waspp
 		/// Work for the private io_service to perform. If we do not give the
 		/// io_service some work to do then the io_service::run() function will exit
 		/// immediately.
-		boost::asio::io_service::work log_work_;
+		boost::scoped_ptr<boost::asio::io_service::work> log_work_;
 
 		/// Thread used for running the work io_service's run loop.
 		boost::scoped_ptr<boost::thread> log_thread_;

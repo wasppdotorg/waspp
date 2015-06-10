@@ -17,7 +17,8 @@ namespace waspp
 
 	/// Constructor creates a thread to run a private io_service.
 	logger::logger()
-		: log_work_(log_service_),
+		: log_service_(),
+		log_work_(new boost::asio::io_service::work(log_service_)),
 		log_thread_(new boost::thread(
 		boost::bind(&boost::asio::io_service::run, &log_service_)))
 	{
@@ -33,6 +34,8 @@ namespace waspp
 	{
 		/// Indicate that we have finished with the private io_service. Its
 		/// io_service::run() function will exit once all other work has completed.
+		log_work_.reset();
+
 		if (log_thread_)
 		{
 			log_thread_->join();
