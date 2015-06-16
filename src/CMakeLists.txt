@@ -15,6 +15,7 @@ aux_source_directory (. Source_DIRECTORIES)
 add_executable (waspp ${Source_DIRECTORIES})
 
 if (CMAKE_COMPILER_IS_GNUCXX)
+	#set (CMAKE_CXX_FLAGS "-g -O1")
 	set (CMAKE_CXX_FLAGS "-O2")
 	#set (CMAKE_EXE_LINKER_FLAGS "-s")
 endif()
