@@ -20,9 +20,9 @@ namespace waspp
 
 	server::server(config* cfg_)
 		: cfg(cfg_),
+		context_(boost::asio::ssl::context::sslv23),
 		signals_(io_service_),
 		acceptor_(io_service_),
-		context_(boost::asio::ssl::context::sslv23),
 		new_connection_(),
 		request_handler_()
 	{
@@ -53,6 +53,7 @@ namespace waspp
 		boost::asio::ip::tcp::resolver resolver(io_service_);
 		boost::asio::ip::tcp::resolver::query query(cfg->address(), cfg->port());
 		boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
+
 		acceptor_.open(endpoint.protocol());
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::keep_alive(true));
@@ -93,6 +94,7 @@ namespace waspp
 		boost::asio::ip::tcp::resolver resolver(io_service_);
 		boost::asio::ip::tcp::resolver::query query(cfg->address(), cfg->port());
 		boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
+
 		acceptor_.open(endpoint.protocol());
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::keep_alive(true));
