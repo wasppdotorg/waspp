@@ -25,7 +25,7 @@ namespace waspp
 
 	enum rotation_type
 	{
-		rotate_minutely,
+		rotate_every_minute,
 		rotate_hourly,
 		rotate_daily
 	};

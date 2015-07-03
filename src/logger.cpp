@@ -26,7 +26,7 @@ namespace waspp
 		file_created_ = *std::localtime(&time_);
 
 		level_ = debug;
-		rotation_ = rotate_minutely;
+		rotation_ = rotate_every_minute;
 	}
 
 	/// Destructor shuts down the private io_service.
@@ -82,11 +82,11 @@ namespace waspp
 			return false;
 		}
 
-		rotation_type cfg_rotation = rotate_minutely;
+		rotation_type cfg_rotation = rotate_every_minute;
 
-		if (rotation == "minutely")
+		if (rotation == "every_minute")
 		{
-			cfg_rotation = rotate_minutely;
+			cfg_rotation = rotate_every_minute;
 		}
 		else if (rotation == "hourly")
 		{
@@ -118,7 +118,7 @@ namespace waspp
 	{
 		char datetime[32] = { 0 };
 
-		if (rotation_ == rotate_minutely && tm_.tm_min != file_created_.tm_min)
+		if (rotation_ == rotate_every_minute && tm_.tm_min != file_created_.tm_min)
 		{
 			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d_%H%M", &file_created_);
 		}

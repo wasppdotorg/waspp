@@ -104,6 +104,8 @@ namespace waspp
 
 			get_file(cfg, res, "dir_include_footer.html");
 			res.content_extension = "html";
+
+			log(info) << cfg->err_msg(err_code);
 		}
 
 	} // namespace router
