@@ -219,7 +219,7 @@ enabled=0
 * ulimit -c unlimited
 * sudo vi /etc/profile
 ```
-unlimit -c unlimited
+ulimit -c unlimited
 ```
 
 For Windows
