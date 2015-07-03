@@ -52,7 +52,7 @@ namespace waspp
 		bool init(const std::string& level, const std::string& rotation);
 
 		/// Log a message.
-		void write(const std::string& message);
+		void write(const boost::posix_time::ptime& ptime_, const std::string& message);
 
 	private:
 
@@ -88,10 +88,8 @@ namespace waspp
 	class log
 	{
 	public:
-		log(log_level level) : is_logging(false)
+		log(log_level level) : logger_(logger::instance()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
 		{
-			logger_ = logger::instance();
-
 			if (level < logger_->level())
 			{
 				return;
@@ -99,9 +97,8 @@ namespace waspp
 
 			is_logging = true;
 
-			// datetime for log message
 			oss.imbue(std::locale(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,")));
-			oss << boost::posix_time::microsec_clock::local_time();
+			oss << ptime_;
 
 			switch (level)
 			{
@@ -130,7 +127,7 @@ namespace waspp
 		{
 			if (is_logging)
 			{
-				logger_->write(oss.str());
+				logger_->write(ptime_, oss.str());
 			}
 		}
 
@@ -150,6 +147,7 @@ namespace waspp
 
 		logger* logger_;
 		bool is_logging;
+		boost::posix_time::ptime ptime_;
 
 		std::ostringstream oss;
 	};

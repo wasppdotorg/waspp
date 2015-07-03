@@ -106,8 +106,10 @@ namespace waspp
 	}
 
 	/// Log a message.
-	void logger::write(const std::string& message)
+	void logger::write(const boost::posix_time::ptime& ptime_, const std::string& message)
 	{
+		rotate(boost::posix_time::to_tm(ptime_));
+
 		// Pass the work of opening the file to the background thread.
 		log_service_.post(boost::bind(&logger::write_impl, this, message));
 	}

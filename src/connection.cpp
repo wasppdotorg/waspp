@@ -10,6 +10,7 @@
 
 #include "connection.hpp"
 #include "request_handler.hpp"
+#include "logger.hpp"
 
 namespace waspp
 {
@@ -38,6 +39,8 @@ namespace waspp
 			strand_.wrap(
 			boost::bind(&connection::handle_handshake, shared_from_this(),
 			boost::asio::placeholders::error)));
+
+		log(info) << "new connection," << request_.remote_endpoint;
 	}
 
 	void connection::handle_handshake(const boost::system::error_code& e)
@@ -76,6 +79,8 @@ namespace waspp
 			boost::bind(&connection::handle_read, shared_from_this(),
 			boost::asio::placeholders::error,
 			boost::asio::placeholders::bytes_transferred)));
+
+		log(info) << "new connection," << request_.remote_endpoint;
 	}
 
 #endif
