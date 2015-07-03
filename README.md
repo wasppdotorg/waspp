@@ -202,36 +202,25 @@ Enable SSL
 
 * sudo make
 
-<!--
-Disable TCP Slow Start For HTTP/2
----------------------------------
-* sudo sysctl net.ipv4.tcp_slow_start_after_idle
-* sudo sysctl -w net.ipv4.tcp_slow_start_after_idle=0
-* sudo sysctl net.ipv4.tcp_slow_start_after_idle
-
-Enable HTTP/2
---------------------------------
-* enable ssl first
-* sudo vi develop.json
-```
-"http2" : 1
-```
--->
-
 Check Memory Leak
 -----------------
 * sudo apt-get install valgrind
 * valgrind ./waspp develop 00
 
-<!--
-Test with Google Test
----------------------
-* sudo apt-get install libgtest-dev
-* cd /usr/src/gtest
-* sudo cmake CMakeLists.txt
-* sudo make
-* sudo cp *.a /usr/lib
--->
+Core Dump Configuration
+-----------------------
+* sudo vi /etc/default/apport 
+```
+enabled=0
+```
+
+* sudo /etc/init.d/apport stop
+* sudo sysctl -w kernel.core_pattern=core.%p
+* ulimit -c unlimited
+* sudo vi /etc/profile
+```
+unlimit -c unlimited
+```
 
 For Windows
 -----------
