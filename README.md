@@ -207,8 +207,8 @@ Check Memory Leak
 * sudo apt-get install valgrind
 * valgrind ./waspp develop 00
 
-Core Dump Configuration
------------------------
+Configure Core Dump
+-------------------
 * sudo vi /etc/default/apport 
 ```
 enabled=0
