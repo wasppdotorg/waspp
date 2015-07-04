@@ -39,7 +39,7 @@ namespace waspp
 			if (!percent_decode_and_validate(req.uri, request_uri))
 			{
 				res = response::static_response(response::bad_request);
-				log(error) << response::bad_request << "," << request_uri;
+				log(error) << response::bad_request << "," << request_uri << "," << req.remote_endpoint;
 				return;
 			}
 
@@ -48,7 +48,7 @@ namespace waspp
 				|| request_uri.find("..") != std::string::npos)
 			{
 				res = response::static_response(response::bad_request);
-				log(error) << response::bad_request << "," << request_uri;
+				log(error) << response::bad_request << "," << request_uri << "," << req.remote_endpoint;
 				return;
 			}
 			std::string request_path(request_uri);
@@ -59,7 +59,7 @@ namespace waspp
 				if (!router::get_file(cfg, res, request_path))
 				{
 					res = response::static_response(response::not_found);
-					log(error) << response::not_found << "," << request_path;
+					log(error) << response::not_found << "," << request_path << "," << req.remote_endpoint;
 					return;
 				}
 			}
@@ -95,12 +95,12 @@ namespace waspp
 			}
 
 			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
-			log(info) << response::ok << "," << request_path;
+			log(info) << response::ok << "," << request_path << "," << req.remote_endpoint;
 		}
 		catch (std::exception& e)
 		{
 			res = response::static_response(response::internal_server_error);
-			log(fatal) << response::internal_server_error << "," << request_uri << "," << e.what() << "," << __FILE__ << ":" << __LINE__;
+			log(fatal) << response::internal_server_error << "," << request_uri << "," << req.remote_endpoint << "," << e.what() << "," << __FILE__ << ":" << __LINE__;
 		}
 	}
 

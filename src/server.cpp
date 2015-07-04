@@ -66,6 +66,7 @@ namespace waspp
 	void server::start_accept()
 	{
 		new_connection_.reset(new connection(io_service_, context_, request_handler_));
+
 		acceptor_.async_accept(new_connection_->socket().lowest_layer(),
 			boost::bind(&server::handle_accept, this,
 			boost::asio::placeholders::error));
@@ -107,6 +108,7 @@ namespace waspp
 	void server::start_accept()
 	{
 		new_connection_.reset(new connection(io_service_, request_handler_));
+
 		acceptor_.async_accept(new_connection_->socket(),
 			boost::bind(&server::handle_accept, this,
 			boost::asio::placeholders::error));
