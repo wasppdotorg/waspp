@@ -36,6 +36,9 @@ namespace waspp
 		rdpool_ptr get_rdpool(const std::string& rdname);
 
 	private:
+		unsigned int rd_shard_count;
+		std::string rd_shard_format;
+
 		boost::unordered_map<std::string, rdpool_ptr> rd_;
 
 	};
@@ -44,6 +47,7 @@ namespace waspp
 	{
 	public:
 		scoped_rd(redis* rd_, const std::string& rdname_);
+		scoped_rd(redis* rd_, unsigned long long int shard_key_);
 
 		~scoped_rd();
 
@@ -52,8 +56,7 @@ namespace waspp
 	private:
 		redis* rd;
 
-		std::string rdname;
-
+		rdpool_ptr rdpool;
 		rdconn_ptr rdconn;
 
 	};

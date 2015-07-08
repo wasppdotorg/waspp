@@ -22,7 +22,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	database::database() : shard_count(0)
+	database::database() : db_shard_count(0)
 	{
 		try
 		{
@@ -46,30 +46,30 @@ namespace waspp
 	{
 		try
 		{
-			boost::unordered_map<std::string, std::string>& cfg_shard = cfg->get("shard");
+			boost::unordered_map<std::string, std::string>& cfg_db_shard = cfg->get("db_shard");
 
 			std::vector<std::string> keys;
 			{
-				keys.push_back("shard_count");
-				keys.push_back("shard_format");
+				keys.push_back("db_shard_count");
+				keys.push_back("db_shard_format");
 			}
 
 			boost::unordered_map<std::string, std::string>::iterator found;
 			for (std::size_t i = 0; i < keys.size(); ++i)
 			{
-				found = cfg_shard.find(keys[i]);
-				if (found == cfg_shard.end())
+				found = cfg_db_shard.find(keys[i]);
+				if (found == cfg_db_shard.end())
 				{
 					return false;
 				}
 
-				if (keys[i] == "shard_count")
+				if (keys[i] == "db_shard_count")
 				{
-					shard_count = boost::lexical_cast<unsigned int>(found->second);
+					db_shard_count = boost::lexical_cast<unsigned int>(found->second);
 				}
-				else if (keys[i] == "shard_format")
+				else if (keys[i] == "db_shard_format")
 				{
-					shard_format = found->second;
+					db_shard_format = found->second;
 				}
 			}
 
@@ -112,7 +112,7 @@ namespace waspp
 	{
 		char format[8] = { 0 };
 
-		int count = sprintf(format, shard_format.c_str(), shard_key % shard_count);
+		int count = sprintf(format, db_shard_format.c_str(), shard_key % db_shard_count);
 		if (count == 0)
 		{
 			throw std::runtime_error("invalid shard_format");
@@ -129,48 +129,25 @@ namespace waspp
 		return found->second;
 	}
 
-	scoped_db::scoped_db(database* db_, const std::string& dbname_) : db(db_), dbname(dbname_), shard_key(0)
+	scoped_db::scoped_db(database* db_, const std::string& dbname_) : db(db_)
 	{
+		dbpool = db->get_dbpool(dbname_);
+		dbconn = dbpool->get_dbconn();
 	}
 
-	scoped_db::scoped_db(database* db_, unsigned long long int shard_key_) : db(db_), dbname(std::string()), shard_key(shard_key_)
+	scoped_db::scoped_db(database* db_, unsigned long long int shard_key_) : db(db_)
 	{
+		dbpool = db->get_dbpool(shard_key_);
+		dbpool->free_dbconn(dbconn);
 	}
 
 	scoped_db::~scoped_db()
 	{
-		if (!dbname.empty())
-		{
-			dbpool_ptr dbpool = db->get_dbpool(dbname);
-			dbpool->free_dbconn(dbconn);
-		}
-		else if (shard_key != 0)
-		{
-			dbpool_ptr dbpool = db->get_dbpool(shard_key);
-			dbpool->free_dbconn(dbconn);
-		}
+		dbpool->free_dbconn(dbconn);
 	}
 
 	dbconn_ptr scoped_db::get()
 	{
-		try
-		{
-			if (!dbname.empty())
-			{
-				dbpool_ptr dbpool = db->get_dbpool(dbname);
-				dbconn = dbpool->get_dbconn();
-			}
-			else if (shard_key != 0)
-			{
-				dbpool_ptr dbpool = db->get_dbpool(shard_key);
-				dbconn = dbpool->get_dbconn();
-			}
-		}
-		catch (...)
-		{
-			throw;
-		}
-		
 		return dbconn;
 	}
 

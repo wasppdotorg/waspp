@@ -35,8 +35,8 @@ namespace waspp
 		dbpool_ptr get_dbpool(unsigned long long int shard_key);
 
 	private:
-		unsigned int shard_count;
-		std::string shard_format;
+		unsigned int db_shard_count;
+		std::string db_shard_format;
 
 		boost::unordered_map<std::string, dbpool_ptr> db_;
 
@@ -55,9 +55,7 @@ namespace waspp
 	private:
 		database* db;
 
-		std::string dbname;
-		unsigned long long int shard_key;
-
+		dbpool_ptr dbpool;
 		dbconn_ptr dbconn;
 
 	};

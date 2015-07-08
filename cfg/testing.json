@@ -27,12 +27,12 @@
 			"validate_ua" : 1
 		},
 	
-	"//shard" : 0,
+	"//db_shard" : 0,
 	
-		"shard":
+		"db_shard":
 		{
-			"shard_count" : 2,
-			"shard_format" : "db_%03d"
+			"db_shard_count" : 2,
+			"db_shard_format" : "db_%03d"
 		},
 	
 	"//database" : 0,
@@ -86,6 +86,14 @@
 			"wait_timeout_sec" : 28800
 		},
 
+	"//rd_shard" : 0,
+	
+		"rd_shard":
+		{
+			"rd_shard_count" : 2,
+			"rd_shard_format" : "rd_%03d"
+		},
+	
 	"//redis" : 0,
 
 		"rd_idx":

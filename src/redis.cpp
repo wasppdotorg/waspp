@@ -33,9 +33,36 @@ namespace waspp
 	{
 		try
 		{
+			boost::unordered_map<std::string, std::string>& cfg_rd_shard = cfg->get("rd_shard");
+
+			std::vector<std::string> keys;
+			{
+				keys.push_back("rd_shard_count");
+				keys.push_back("rd_shard_format");
+			}
+
+			boost::unordered_map<std::string, std::string>::iterator found;
+			for (std::size_t i = 0; i < keys.size(); ++i)
+			{
+				found = cfg_rd_shard.find(keys[i]);
+				if (found == cfg_rd_shard.end())
+				{
+					return false;
+				}
+
+				if (keys[i] == "rd_shard_count")
+				{
+					rd_shard_count = boost::lexical_cast<unsigned int>(found->second);
+				}
+				else if (keys[i] == "rd_shard_format")
+				{
+					rd_shard_format = found->second;
+				}
+			}
+
 			for (std::size_t i = 0; i < rdnames.size(); ++i)
 			{
-				rdpool_ptr rdpool(new redis_pool());
+				rdpool_ptr rdpool(new rdconn_pool());
 
 				if (!rdpool->init_pool(cfg->get(rdnames[i])) || !rdpool->fill_pool())
 				{
@@ -68,28 +95,25 @@ namespace waspp
 		return found->second;
 	}
 
-	scoped_rd::scoped_rd(redis* rd_, const std::string& rdname_) : rd(rd_), rdname(rdname_)
+	scoped_rd::scoped_rd(redis* rd_, const std::string& rdname_) : rd(rd_)
 	{
+		rdpool = rd->get_rdpool(rdname_);
+		rdconn = rdpool->get_rdconn();
+	}
+
+	scoped_rd::scoped_rd(redis* rd_, unsigned long long int shard_key_) : rd(rd_)
+	{
+		rdpool = rd->get_rdpool(shard_key_);
+		rdconn = rdpool->get_rdconn();
 	}
 
 	scoped_rd::~scoped_rd()
 	{
-		rdpool_ptr rdpool = rd->get_rdpool(rdname);
 		rdpool->free_rdconn(rdconn);
 	}
 
 	rdconn_ptr scoped_rd::get()
 	{
-		try
-		{
-			rdpool_ptr rdpool = rd->get_rdpool(rdname);
-			rdconn = rdpool->get_rdconn();
-		}
-		catch (...)
-		{
-			throw;
-		}
-
 		return rdconn;
 	}
 
