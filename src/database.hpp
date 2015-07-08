@@ -45,16 +45,14 @@ namespace waspp
 	class scoped_db
 	{
 	public:
-		scoped_db(database* db_, const std::string& dbname_);
-		scoped_db(database* db_, unsigned long long int shard_key_);
+		scoped_db(database* db, const std::string& dbname);
+		scoped_db(database* db, unsigned long long int shard_key);
 		
 		~scoped_db();
 
 		dbconn_ptr get();
 		
 	private:
-		database* db;
-
 		dbpool_ptr dbpool;
 		dbconn_ptr dbconn;
 

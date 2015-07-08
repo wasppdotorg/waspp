@@ -116,15 +116,15 @@ namespace waspp
 		return found->second;
 	}
 
-	scoped_rd::scoped_rd(redis* rd_, const std::string& rdname_) : rd(rd_)
+	scoped_rd::scoped_rd(redis* rd, const std::string& rdname)
 	{
-		rdpool = rd->get_rdpool(rdname_);
+		rdpool = rd->get_rdpool(rdname);
 		rdconn = rdpool->get_rdconn();
 	}
 
-	scoped_rd::scoped_rd(redis* rd_, unsigned long long int shard_key_) : rd(rd_)
+	scoped_rd::scoped_rd(redis* rd, unsigned long long int shard_key)
 	{
-		rdpool = rd->get_rdpool(shard_key_);
+		rdpool = rd->get_rdpool(shard_key);
 		rdconn = rdpool->get_rdconn();
 	}
 

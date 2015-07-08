@@ -47,16 +47,14 @@ namespace waspp
 	class scoped_rd
 	{
 	public:
-		scoped_rd(redis* rd_, const std::string& rdname_);
-		scoped_rd(redis* rd_, unsigned long long int shard_key_);
+		scoped_rd(redis* rd, const std::string& rdname);
+		scoped_rd(redis* rd, unsigned long long int shard_key);
 
 		~scoped_rd();
 
 		rdconn_ptr get();
 
 	private:
-		redis* rd;
-
 		rdpool_ptr rdpool;
 		rdconn_ptr rdconn;
 

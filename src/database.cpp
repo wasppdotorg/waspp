@@ -129,16 +129,16 @@ namespace waspp
 		return found->second;
 	}
 
-	scoped_db::scoped_db(database* db_, const std::string& dbname_) : db(db_)
+	scoped_db::scoped_db(database* db, const std::string& dbname)
 	{
-		dbpool = db->get_dbpool(dbname_);
+		dbpool = db->get_dbpool(dbname);
 		dbconn = dbpool->get_dbconn();
 	}
 
-	scoped_db::scoped_db(database* db_, unsigned long long int shard_key_) : db(db_)
+	scoped_db::scoped_db(database* db, unsigned long long int shard_key)
 	{
-		dbpool = db->get_dbpool(shard_key_);
-		dbpool->free_dbconn(dbconn);
+		dbpool = db->get_dbpool(shard_key);
+		dbconn = dbpool->get_dbconn();
 	}
 
 	scoped_db::~scoped_db()
