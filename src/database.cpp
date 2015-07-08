@@ -115,7 +115,7 @@ namespace waspp
 		int count = sprintf(format, db_shard_format.c_str(), shard_key % db_shard_count);
 		if (count == 0)
 		{
-			throw std::runtime_error("invalid shard_format");
+			throw std::runtime_error("invalid db_shard_format");
 		}
 
 		boost::unordered_map<std::string, dbpool_ptr>::iterator found;
@@ -123,7 +123,7 @@ namespace waspp
 
 		if (found == db_.end())
 		{
-			throw std::runtime_error("invalid shard_key");
+			throw std::runtime_error("invalid db_shard_key");
 		}
 
 		return found->second;

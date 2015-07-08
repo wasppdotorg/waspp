@@ -34,6 +34,7 @@ namespace waspp
 		bool init(config* cfg, const std::vector<std::string>& rdnames);
 
 		rdpool_ptr get_rdpool(const std::string& rdname);
+		rdpool_ptr get_rdpool(unsigned long long int shard_key);
 
 	private:
 		unsigned int rd_shard_count;

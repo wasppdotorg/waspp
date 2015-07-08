@@ -62,7 +62,7 @@ namespace waspp
 
 			for (std::size_t i = 0; i < rdnames.size(); ++i)
 			{
-				rdpool_ptr rdpool(new rdconn_pool());
+				rdpool_ptr rdpool(new redis_pool());
 
 				if (!rdpool->init_pool(cfg->get(rdnames[i])) || !rdpool->fill_pool())
 				{
@@ -90,6 +90,27 @@ namespace waspp
 		if (found == rd_.end())
 		{
 			throw std::runtime_error("invalid rdname");
+		}
+
+		return found->second;
+	}
+
+	rdpool_ptr redis::get_rdpool(unsigned long long int shard_key)
+	{
+		char format[8] = { 0 };
+
+		int count = sprintf(format, rd_shard_format.c_str(), shard_key % rd_shard_count);
+		if (count == 0)
+		{
+			throw std::runtime_error("invalid rd_shard_format");
+		}
+
+		boost::unordered_map<std::string, rdpool_ptr>::iterator found;
+		found = rd_.find(std::string(format));
+
+		if (found == rd_.end())
+		{
+			throw std::runtime_error("invalid rd_shard_key");
 		}
 
 		return found->second;
