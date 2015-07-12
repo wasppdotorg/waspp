@@ -4,7 +4,7 @@ cmake_minimum_required (VERSION 2.8)
 project (waspp)
 
 find_package (Threads)
-find_package (Boost 1.54.0 COMPONENTS system thread filesystem serialization iostreams chrono)
+find_package (Boost 1.54.0 COMPONENTS system thread filesystem chrono serialization iostreams)
 find_library (MySQLClient_LIBRARIES NAMES mysqlclient)
 find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (SSL_LIBRARIES NAMES ssl)
