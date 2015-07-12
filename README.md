@@ -209,13 +209,18 @@ Check Memory Leak
 
 Configure Core Dump
 -------------------
+* sudo /etc/init.d/apport stop
 * sudo vi /etc/default/apport 
 ```
 enabled=0
 ```
 
-* sudo /etc/init.d/apport stop
 * sudo sysctl -w kernel.core_pattern=core.%p
+* sudo vi /etc/sysctl.d/20-core-pattern.conf 
+```
+kernel.core_pattern = core.%p
+```
+
 * ulimit -c unlimited
 * sudo vi /etc/profile
 ```
