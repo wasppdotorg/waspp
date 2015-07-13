@@ -64,15 +64,15 @@ namespace waspp
 		void rotate_impl(const std::string& file_to);
 
 		/// Private io_service used for performing logging operations.
-		boost::asio::io_service log_service_;
+		boost::asio::io_service io_service_;
 
 		/// Work for the private io_service to perform. If we do not give the
 		/// io_service some work to do then the io_service::run() function will exit
 		/// immediately.
-		boost::scoped_ptr<boost::asio::io_service::work> log_work_;
+		boost::scoped_ptr<boost::asio::io_service::work> work_;
 
 		/// Thread used for running the work io_service's run loop.
-		boost::scoped_ptr<boost::thread> log_thread_;
+		boost::scoped_ptr<boost::thread> thread_;
 
 		/// The file to which log messages will be written.
 		std::ofstream ofstream_;

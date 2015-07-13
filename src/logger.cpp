@@ -17,10 +17,10 @@ namespace waspp
 
 	/// Constructor creates a thread to run a private io_service.
 	logger::logger()
-		: log_service_(),
-		log_work_(new boost::asio::io_service::work(log_service_)),
-		log_thread_(new boost::thread(
-		boost::bind(&boost::asio::io_service::run, &log_service_)))
+		: io_service_(),
+		work_(new boost::asio::io_service::work(io_service_)),
+		thread_(new boost::thread(
+		boost::bind(&boost::asio::io_service::run, &io_service_)))
 	{
 		std::time_t time_ = std::time(0);
 		file_created_ = *std::localtime(&time_);
@@ -34,11 +34,11 @@ namespace waspp
 	{
 		/// Indicate that we have finished with the private io_service. Its
 		/// io_service::run() function will exit once all other work has completed.
-		log_work_.reset();
+		work_.reset();
 
-		if (log_thread_)
+		if (thread_)
 		{
-			log_thread_->join();
+			thread_->join();
 		}
 
 		if (ofstream_.is_open())
@@ -50,7 +50,7 @@ namespace waspp
 	void logger::file(const std::string& file)
 	{
 		// Pass the work of opening the file to the background thread.
-		log_service_.post(boost::bind(&logger::file_impl, this, std::string(file)));
+		io_service_.post(boost::bind(&logger::file_impl, this, std::string(file)));
 	}
 
 	/// Set the output file for the logger. The current implementation sets the
@@ -101,7 +101,7 @@ namespace waspp
 			return false;
 		}
 
-		log_service_.post(boost::bind(&logger::init_impl, this, cfg_level, cfg_rotation));
+		io_service_.post(boost::bind(&logger::init_impl, this, cfg_level, cfg_rotation));
 		return true;
 	}
 
@@ -111,7 +111,7 @@ namespace waspp
 		rotate(boost::posix_time::to_tm(ptime_));
 
 		// Pass the work of opening the file to the background thread.
-		log_service_.post(boost::bind(&logger::write_impl, this, message));
+		io_service_.post(boost::bind(&logger::write_impl, this, message));
 	}
 
 	void logger::rotate(const std::tm& tm_)
@@ -138,7 +138,7 @@ namespace waspp
 		std::string file_to(file_);
 		file_to.append(datetime);
 
-		log_service_.post(boost::bind(&logger::rotate_impl, this, file_to));
+		io_service_.post(boost::bind(&logger::rotate_impl, this, file_to));
 	}
 
 	/// Helper function used to open the output file from within the private
