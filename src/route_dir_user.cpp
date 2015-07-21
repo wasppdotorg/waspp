@@ -50,10 +50,9 @@ namespace waspp
 			}
 			passwd = md5_digest(req.param("passwd"));
 
-			scoped_db db_idx_(db, "db_idx");
-			dbconn_ptr db_idx = db_idx_.get();
+			scoped_db db_idx(db, "db_idx");
 
-			stmt_ptr stmt(db_idx->prepare("SELECT userid FROM users_idx WHERE username = ?"));
+			stmt_ptr stmt(db_idx.prepare("SELECT userid FROM users_idx WHERE username = ?"));
 			{
 				stmt->param(req.param("username"));
 			}
@@ -70,10 +69,9 @@ namespace waspp
 				userid = rs->get<unsigned int>("userid");
 			}
 
-			scoped_db db_shard_(db, userid);
-			dbconn_ptr db_shard = db_shard_.get();
-			
-			stmt.reset(db_shard->prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
+			scoped_db db_shard(db, userid);
+
+			stmt.reset(db_shard.prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
 			{
 				stmt->param(userid);
 				stmt->param(passwd);
@@ -141,10 +139,9 @@ namespace waspp
 			}
 			passwd = md5_digest(req.param("passwd"));
 
-			scoped_db db_idx_(db, "db_idx");
-			dbconn_ptr db_idx = db_idx_.get();
+			scoped_db db_idx(db, "db_idx");
 
-			stmt_ptr stmt(db_idx->prepare("SELECT userid FROM users_idx WHERE username = ?"));
+			stmt_ptr stmt(db_idx.prepare("SELECT userid FROM users_idx WHERE username = ?"));
 			{
 				stmt->param(req.param("username"));
 			}
@@ -156,7 +153,7 @@ namespace waspp
 				return;
 			}
 
-			stmt.reset(db_idx->prepare("CALL USP_GET_UNIQUE_KEYS('users_idx', ?)"));
+			stmt.reset(db_idx.prepare("CALL USP_GET_UNIQUE_KEYS('users_idx', ?)"));
 			{
 				stmt->param(1);
 			}
@@ -168,7 +165,7 @@ namespace waspp
 			}
 			platformid = boost::lexical_cast<std::string>(userid);
 
-			stmt.reset(db_idx->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
+			stmt.reset(db_idx.prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
 			{
 				stmt->param(userid);
 				stmt->param(platformtype);
@@ -183,10 +180,9 @@ namespace waspp
 				return;
 			}
 
-			scoped_db db_shard_(db, userid);
-			dbconn_ptr db_shard = db_shard_.get();
+			scoped_db db_shard(db, userid);
 
-			stmt.reset(db_shard->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
+			stmt.reset(db_shard.prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
 			{
 				stmt->param(userid);
 				stmt->param(passwd);

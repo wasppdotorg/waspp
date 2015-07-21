@@ -17,6 +17,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "redis.hpp"
 #include "config.hpp"
 #include "redis_pool.hpp"
+#include "redis3m.hpp"
 
 namespace waspp
 {
@@ -133,9 +134,9 @@ namespace waspp
 		rdpool->free_rdconn(rdconn);
 	}
 
-	rdconn_ptr scoped_rd::get()
+	redis3m::reply scoped_rd::run(const std::vector<std::string>& args)
 	{
-		return rdconn;
+		return rdconn->run(args);
 	}
 
 } // namespace waspp

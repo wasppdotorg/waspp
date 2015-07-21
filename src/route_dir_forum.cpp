@@ -92,12 +92,11 @@ namespace waspp
 			board_search.put("field", field);
 			board_search.put("keyword", keyword);
 
-			scoped_db db_etc_(db, "db_etc");
-			dbconn_ptr db_etc = db_etc_.get();
+			scoped_db db_etc(db, "db_etc");
 
 			long long int board_count_ = 0;
-			stmt_ptr stmt(db_etc->prepare("SELECT COUNT(seq) AS board_count FROM forum"));
-				
+			stmt_ptr stmt(db_etc.prepare("SELECT COUNT(seq) AS board_count FROM forum"));
+
 			rs_ptr rs(stmt->query());
 			if (rs->fetch())
 			{
@@ -105,7 +104,7 @@ namespace waspp
 			}
 			board_count.put("", board_count_);
 
-			stmt.reset(db_etc->prepare("SELECT * FROM forum"));
+			stmt.reset(db_etc.prepare("SELECT * FROM forum"));
 			rs.reset(stmt->query());
 
 			while (rs->fetch())
@@ -318,12 +317,11 @@ namespace waspp
 				return;
 			}
 
-			scoped_db db_etc_(db, "db_etc");
-			dbconn_ptr db_etc = db_etc_.get();
+			scoped_db db_etc(db, "db_etc");
 
 			if (seq == 0)
 			{
-				stmt_ptr stmt(db_etc->prepare("CALL USP_GET_UNIQUE_KEYS('forum', ?)"));
+				stmt_ptr stmt(db_etc.prepare("CALL USP_GET_UNIQUE_KEYS('forum', ?)"));
 				{
 					stmt->param(1);
 				}
@@ -334,7 +332,7 @@ namespace waspp
 					seq = rs->get<unsigned int>("last_key");
 				}
 
-				stmt.reset(db_etc->prepare("INSERT INTO forum(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
+				stmt.reset(db_etc.prepare("INSERT INTO forum(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
 				{
 					stmt->param(seq);
 					stmt->param(req.param("title"));
@@ -354,7 +352,7 @@ namespace waspp
 			}
 			else
 			{
-				stmt_ptr stmt(db_etc->prepare("UPDATE forum SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
+				stmt_ptr stmt(db_etc.prepare("UPDATE forum SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
 				{
 					stmt->param(req.param("title"));
 					stmt->param(req.param("content"));

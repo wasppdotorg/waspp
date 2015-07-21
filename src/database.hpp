@@ -16,6 +16,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "dbconn_pool.hpp"
 #include "utility.hpp"
 #include "config.hpp"
+#include "mysqlpp.hpp"
 
 namespace waspp
 {
@@ -47,11 +48,12 @@ namespace waspp
 	public:
 		scoped_db(database* db, const std::string& dbname);
 		scoped_db(database* db, unsigned long long int shard_key);
-		
+
 		~scoped_db();
 
-		dbconn_ptr get();
-		
+		mysqlpp::statement* prepare(const std::string& query);
+		mysqlpp::statement* prepare_like(const std::string& query, bool left_percent, const std::string& keyword, bool right_percent);
+
 	private:
 		dbpool_ptr dbpool;
 		dbconn_ptr dbconn;
