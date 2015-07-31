@@ -51,17 +51,17 @@ namespace waspp
 			function_timer t(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
-			boost::property_tree::ptree json, status, session, board_search, board_count, board_item, board_index, page_count, link_count;
+			boost::property_tree::ptree json, error, session, forum_search, forum_count, forum_item, forum_index, page_count, link_count;
 
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
 
-				status.put("code", err_code);
-				status.put("message", cfg->err_msg(err_code));
+				error.put("_code", err_code);
+				error.put("_message", cfg->err_msg(err_code));
 
-				json.put_child("status", status);
+				json.put_child("_error", error);
 
 				std::stringstream ss;
 				write_json(ss, json, false);
@@ -76,11 +76,11 @@ namespace waspp
 
 			err_code = err_none;
 
-			status.put("code", err_code);
-			status.put("message", cfg->err_msg(err_code));
+			error.put("_code", err_code);
+			error.put("_message", cfg->err_msg(err_code));
 
-			session.put("userid", sess.get("userid"));
-			session.put("username", sess.get("username"));
+			session.put("_userid", sess.get("userid"));
+			session.put("_username", sess.get("username"));
 
 			std::string field, keyword;
 			if (req.rest_params.size() > 5)
@@ -89,44 +89,44 @@ namespace waspp
 				keyword.append(req.rest_params[5]);
 			}
 
-			board_search.put("field", field);
-			board_search.put("keyword", keyword);
+			forum_search.put("_field", field);
+			forum_search.put("_keyword", keyword);
 
 			scoped_db db_etc(db, "db_etc");
 
-			long long int board_count_ = 0;
-			stmt_ptr stmt(db_etc.prepare("SELECT COUNT(seq) AS board_count FROM forum"));
+			long long int forum_count_ = 0;
+			stmt_ptr stmt(db_etc.prepare("SELECT COUNT(seq) AS forum_count FROM forum"));
 
 			rs_ptr rs(stmt->query());
 			if (rs->fetch())
 			{
-				board_count_ = rs->get<long long int>("board_count");
+				forum_count_ = rs->get<long long int>("forum_count");
 			}
-			board_count.put("", board_count_);
+			forum_count.put("", forum_count_);
 
 			stmt.reset(db_etc.prepare("SELECT * FROM forum"));
 			rs.reset(stmt->query());
 
 			while (rs->fetch())
 			{
-				board_item.put("seq", rs->get<long long int>("seq"));
-				board_item.put("title", rs->get<std::string>("title"));
-				board_item.put("username", rs->get<std::string>("username"));
-				board_item.put("updatetime", rs->get<std::string>("updatetime"));
+				forum_item.put("_seq", rs->get<long long int>("seq"));
+				forum_item.put("_title", rs->get<std::string>("title"));
+				forum_item.put("_username", rs->get<std::string>("username"));
+				forum_item.put("_updatetime", rs->get<std::string>("updatetime"));
 
-				board_index.push_back(std::make_pair("", board_item));
+				forum_index.push_back(std::make_pair("", forum_item));
 			}
 
 			page_count.put("", 10);
 			link_count.put("", 10);
 
-			json.put_child("status", status);
-			json.put_child("session", session);
-			json.put_child("board_search", board_search);
-			json.put_child("board_index", board_index);
-			json.put_child("board_count", board_count);
-			json.put_child("page_count", page_count);
-			json.put_child("link_count", link_count);
+			json.put_child("_error", error);
+			json.put_child("_session", session);
+			json.put_child("_forum_search", forum_search);
+			json.put_child("_forum_index", forum_index);
+			json.put_child("_forum_count", forum_count);
+			json.put_child("_page_count", page_count);
+			json.put_child("_link_count", link_count);
 
 			std::stringstream ss;
 			write_json(ss, json, false);
@@ -158,17 +158,17 @@ namespace waspp
 			function_timer t(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
-			boost::property_tree::ptree json, status, session, param, params;
+			boost::property_tree::ptree json, error, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
 
-				status.put("code", err_code);
-				status.put("message", cfg->err_msg(err_code));
+				error.put("_code", err_code);
+				error.put("_message", cfg->err_msg(err_code));
 
-				json.put_child("status", status);
+				json.put_child("_error", error);
 
 				std::stringstream ss;
 				write_json(ss, json, false);
@@ -183,11 +183,11 @@ namespace waspp
 
 			err_code = err_none;
 
-			status.put("code", err_code);
-			status.put("message", cfg->err_msg(err_code));
+			error.put("_code", err_code);
+			error.put("_message", cfg->err_msg(err_code));
 
-			session.put("userid", sess.get("userid"));
-			session.put("username", sess.get("username"));
+			session.put("_userid", sess.get("userid"));
+			session.put("_username", sess.get("username"));
 
 			std::vector<std::string>::iterator i;
 			for (i = req.rest_params.begin(); i != req.rest_params.end(); ++i)
@@ -196,9 +196,9 @@ namespace waspp
 				params.push_back(std::make_pair("", param));
 			}
 
-			json.put_child("status", status);
-			json.put_child("session", session);
-			json.put_child("params", params);
+			json.put_child("_error", error);
+			json.put_child("_session", session);
+			json.put_child("_params", params);
 
 			std::stringstream ss;
 			write_json(ss, json, false);
@@ -230,17 +230,17 @@ namespace waspp
 			function_timer t(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
-			boost::property_tree::ptree json, status, session, param, params;
+			boost::property_tree::ptree json, error, session, param, params;
 
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
 
-				status.put("code", err_code);
-				status.put("message", cfg->err_msg(err_code));
+				error.put("_code", err_code);
+				error.put("_message", cfg->err_msg(err_code));
 
-				json.put_child("status", status);
+				json.put_child("_error", error);
 
 				std::stringstream ss;
 				write_json(ss, json, false);
@@ -255,11 +255,11 @@ namespace waspp
 
 			err_code = err_none;
 
-			status.put("code", err_code);
-			status.put("message", cfg->err_msg(err_code));
+			error.put("_code", err_code);
+			error.put("_message", cfg->err_msg(err_code));
 
-			session.put("userid", sess.get("userid"));
-			session.put("username", sess.get("username"));
+			session.put("_userid", sess.get("userid"));
+			session.put("_username", sess.get("username"));
 
 			std::vector<std::string>::iterator i;
 			for (i = req.rest_params.begin(); i != req.rest_params.end(); ++i)
@@ -268,9 +268,9 @@ namespace waspp
 				params.push_back(std::make_pair("", param));
 			}
 
-			json.put_child("status", status);
-			json.put_child("session", session);
-			json.put_child("params", params);
+			json.put_child("_error", error);
+			json.put_child("_session", session);
+			json.put_child("_params", params);
 
 			std::stringstream ss;
 			write_json(ss, json, false);

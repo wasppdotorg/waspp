@@ -291,7 +291,7 @@ namespace waspp
 
 			if (err_count != (err_.size() - 1))
 			{
-				log(fatal) << "config::status_count not match," << __FILE__ << ":" << __LINE__;
+				log(fatal) << "config::err_count not match," << __FILE__ << ":" << __LINE__;
 				return false;
 			}
 

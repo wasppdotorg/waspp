@@ -1,21 +1,22 @@
-var _ = function(json)
+//_items[j].appendChild(document.createTextNode(decodeURIComponent(escape(json.session[item]))));
+
+var _ = function(_elem, _json)
 {
-	if (json.status.code != 0)
+	for (var _key in _json)
 	{
-		alert(json.status.message);
-		return;
-	}
-	
-	for (var item in json.session)
-	{
-		var _sessions = document.getElementsByClassName('_session');
-		for (var i = 0; i < _sessions.length; ++i)
+		if (typeof _json[_key] == 'string')
 		{
-			var _items = _sessions[i].getElementsByClassName('_' + item);
-			for (var j = 0; j < _items.length; ++j)
+			_elems = _elems.getElementsByClassName(_key);
+			for (_item in _elems)
 			{
-				_items[j].appendChild(document.createTextNode(decodeURIComponent(escape(json.session[item]))));
+				alert(typeof _item);
 			}
 		}
+		/*
+		else
+		{
+			_(_elem, _json[_key]);
+		}
+		*/
 	}
 };
