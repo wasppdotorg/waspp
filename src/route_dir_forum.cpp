@@ -51,7 +51,7 @@ namespace waspp
 			function_timer t(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
-			boost::property_tree::ptree json, error, session, forum_search, forum_count, forum_item, forum_index, page_count, link_count;
+			boost::property_tree::ptree json, error, session, forum_search, forum_item, forum_index, pagination;
 
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
@@ -102,9 +102,8 @@ namespace waspp
 			{
 				forum_count_ = rs->get<long long int>("forum_count");
 			}
-			forum_count.put("", forum_count_);
 
-			stmt.reset(db_etc.prepare("SELECT * FROM forum"));
+			stmt.reset(db_etc.prepare("SELECT * FROM forum ORDER BY seq DESC"));
 			rs.reset(stmt->query());
 
 			while (rs->fetch())
@@ -117,16 +116,15 @@ namespace waspp
 				forum_index.push_back(std::make_pair("", forum_item));
 			}
 
-			page_count.put("", 10);
-			link_count.put("", 10);
+			pagination.put("_forum_count", forum_count_);
+			pagination.put("_page_count", 10);
+			pagination.put("_link_count", 10);
 
 			json.put_child("_error", error);
 			json.put_child("_session", session);
 			json.put_child("_forum_search", forum_search);
 			json.put_child("_forum_index", forum_index);
-			json.put_child("_forum_count", forum_count);
-			json.put_child("_page_count", page_count);
-			json.put_child("_link_count", link_count);
+			json.put_child("_pagination", pagination);
 
 			std::stringstream ss;
 			write_json(ss, json, false);
