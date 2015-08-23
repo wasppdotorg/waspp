@@ -166,6 +166,7 @@ namespace waspp
 	void logger::write_impl(const std::string& message)
 	{
 		ofstream_ << message << std::endl;
+		ofstream_.flush();
 	}
 
 	void logger::rotate_impl(const std::string& file_to)

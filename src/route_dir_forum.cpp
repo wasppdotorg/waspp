@@ -24,7 +24,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include "response.hpp"
 #include "session.hpp"
 #include "error.hpp"
-#include "function_timer.hpp"
+#include "performance_checker.hpp"
 
 namespace waspp
 {
@@ -40,15 +40,15 @@ namespace waspp
 			}
 
 			router::get_file(cfg, res, "dir_include_header.html");
-			router::get_file(cfg, res, "dir_forum_index.html");
-
 			router::set_jsonp(req, res);
+
+			router::get_file(cfg, res, "dir_forum_index.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
 		void index_jsonp(config* cfg, database* db, request& req, response& res)
 		{
-			function_timer t(50, __FILE__, __LINE__);
+			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, error, session, forum_search, forum_item, forum_index, pagination;
@@ -94,13 +94,13 @@ namespace waspp
 
 			scoped_db db_etc(db, "db_etc");
 
-			long long int forum_count_ = 0;
-			stmt_ptr stmt(db_etc.prepare("SELECT COUNT(seq) AS forum_count FROM forum"));
+			long long int total_count_ = 0;
+			stmt_ptr stmt(db_etc.prepare("SELECT COUNT(seq) AS total_count FROM forum"));
 
 			rs_ptr rs(stmt->query());
 			if (rs->fetch())
 			{
-				forum_count_ = rs->get<long long int>("forum_count");
+				total_count_ = rs->get<long long int>("total_count");
 			}
 
 			stmt.reset(db_etc.prepare("SELECT * FROM forum ORDER BY seq DESC"));
@@ -116,7 +116,7 @@ namespace waspp
 				forum_index.push_back(std::make_pair("", forum_item));
 			}
 
-			pagination.put("_forum_count", forum_count_);
+			pagination.put("_total_count", total_count_);
 			pagination.put("_page_count", 10);
 			pagination.put("_link_count", 10);
 
@@ -145,15 +145,15 @@ namespace waspp
 			}
 
 			router::get_file(cfg, res, "dir_include_header.html");
-			router::get_file(cfg, res, "dir_forum_show.html");
-
 			router::set_jsonp(req, res);
+
+			router::get_file(cfg, res, "dir_forum_show.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
 		void show_jsonp(config* cfg, database* db, request& req, response& res)
 		{
-			function_timer t(50, __FILE__, __LINE__);
+			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, error, session, param, params;
@@ -217,15 +217,15 @@ namespace waspp
 			}
 
 			router::get_file(cfg, res, "dir_include_header.html");
-			router::get_file(cfg, res, "dir_forum_form.html");
-
 			router::set_jsonp(req, res);
+
+			router::get_file(cfg, res, "dir_forum_form.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
 		void form_jsonp(config* cfg, database* db, request& req, response& res)
 		{
-			function_timer t(50, __FILE__, __LINE__);
+			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, error, session, param, params;
@@ -286,7 +286,7 @@ namespace waspp
 
 		void post(config* cfg, database* db, request& req, response& res)
 		{
-			function_timer t(50, __FILE__, __LINE__);
+			performance_checker c(50, __FILE__, __LINE__);
 
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())

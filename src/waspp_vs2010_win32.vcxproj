@@ -72,7 +72,7 @@
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="dbconn_pool.cpp" />
-    <ClCompile Include="function_timer.cpp" />
+    <ClCompile Include="performance_checker.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mime_types.cpp" />
@@ -96,7 +96,7 @@
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="database.hpp" />
     <ClInclude Include="dbconn_pool.hpp" />
-    <ClInclude Include="function_timer.hpp" />
+    <ClInclude Include="performance_checker.hpp" />
     <ClInclude Include="name_value.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mime_types.hpp" />

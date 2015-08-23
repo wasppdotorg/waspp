@@ -78,7 +78,7 @@
     <ClCompile Include="redis_pool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="function_timer.cpp">
+    <ClCompile Include="performance_checker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,7 +146,7 @@
     <ClInclude Include="error.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="function_timer.hpp">
+    <ClInclude Include="performance_checker.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
