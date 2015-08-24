@@ -6,6 +6,9 @@ var _str = function(_elem, _value)
 	else if (_elem.tagName == 'INPUT')
 	{
 	}
+	else if (_elem.tagName == 'SELECT')
+	{
+	}
 	else
 	{
 		while (_elem.hasChildNodes())
@@ -35,13 +38,13 @@ var _arr = function(_elem, _item)
 };
 
 var _map = function(_elem, _item)
-{	
+{
 	for (var _key in _item)
 	{
 		var _elems = _elem.getElementsByClassName(_key);
-		for (var i = 0; i < _elems[i]; ++i)
+		for (var i = 0; i < _elems.length; ++i)
 		{
-			_str(_elems[i], _item[i][_key]);
+			_str(_elems[i], _item[_key]);
 		}
 	}
 };

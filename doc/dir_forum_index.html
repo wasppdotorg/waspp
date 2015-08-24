@@ -1,7 +1,7 @@
 
 <h2 class='left'>Forum :: Index</h2>
 
-<span class='right'><a href='/dir/user/signout'>SignOut</a></span>
+<span class='right _session'><span class='_username'></span> | <a href='/dir/user/signout'>SignOut</a></span>
 
 <form id='form_search' action='/dir/forum/index'>
 <div class='nav-top'>
@@ -21,7 +21,7 @@
 </form>
 
 <form id='form_batch' method='post' action='/dir/forum/batch'>
-<table class='hover'>
+<table class='hover _forum_index'>
 	<tr>
 		<th>
 			<input type='checkbox' name='check_all'>
@@ -38,10 +38,10 @@
 		<td>
 			<input type='checkbox' name='check'>
 		</td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td class='_seq'></td>
+		<td class='_title'></td>
+		<td class='_username'></td>
+		<td class='_updatetime'></td>
 		<td><a href=''>Show</a> | <a href=''>Update</a> | <a href=''>Delete</a></td>
 	</tr>
 </table>

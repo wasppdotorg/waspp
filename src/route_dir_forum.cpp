@@ -40,9 +40,9 @@ namespace waspp
 			}
 
 			router::get_file(cfg, res, "dir_include_header.html");
-			router::set_jsonp(req, res);
-
 			router::get_file(cfg, res, "dir_forum_index.html");
+
+			router::set_jsonp(req, res);
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
@@ -145,9 +145,9 @@ namespace waspp
 			}
 
 			router::get_file(cfg, res, "dir_include_header.html");
-			router::set_jsonp(req, res);
-
 			router::get_file(cfg, res, "dir_forum_show.html");
+
+			router::set_jsonp(req, res);
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
@@ -217,9 +217,9 @@ namespace waspp
 			}
 
 			router::get_file(cfg, res, "dir_include_header.html");
-			router::set_jsonp(req, res);
-
 			router::get_file(cfg, res, "dir_forum_form.html");
+
+			router::set_jsonp(req, res);
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
