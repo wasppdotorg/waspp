@@ -126,6 +126,34 @@ namespace waspp
 				}
 			}
 
+			found_i = cfg_.find("granted");
+			{
+				if (found_i == cfg_.end())
+				{
+					log(fatal) << "config::granted not found," << __FILE__ << ":" << __LINE__;
+					return false;
+				}
+
+				for (found_p = found_i->second.begin(); found_p != found_i->second.end(); ++found_p)
+				{
+					granted_.push_back(found_p->second);
+				}
+			}
+
+			found_i = cfg_.find("denied");
+			{
+				if (found_i == cfg_.end())
+				{
+					log(fatal) << "config::denied not found," << __FILE__ << ":" << __LINE__;
+					return false;
+				}
+
+				for (found_p = found_i->second.begin(); found_p != found_i->second.end(); ++found_p)
+				{
+					denied_.push_back(found_p->second);
+				}
+			}
+
 			found_i = cfg_.find("session");
 			{
 				if (found_i == cfg_.end())

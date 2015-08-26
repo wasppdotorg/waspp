@@ -36,6 +36,38 @@ namespace waspp
 
 		try
 		{
+			if (cfg->granted().size() > 0 || cfg->denied().size() > 0)
+			{
+				std::size_t pos = req.remote_endpoint.find(":");
+				if (pos == std::string::npos)
+				{
+					res = response::static_response(response::bad_request);
+					log(error) << response::bad_request << "," << request_uri << "," << req.remote_endpoint;
+					return;
+				}
+
+				std::string remote_addr = req.remote_endpoint.substr(0, pos);
+				for (std::size_t i = 0; i < cfg->granted().size(); ++i)
+				{
+					if (remote_addr != cfg->granted()[i])
+					{
+						res = response::static_response(response::unauthorized);
+						log(error) << response::unauthorized << "," << request_uri << "," << req.remote_endpoint;
+						return;
+					}
+				}
+
+				for (std::size_t i = 0; i < cfg->denied().size(); ++i)
+				{
+					if (remote_addr == cfg->granted()[i])
+					{
+						res = response::static_response(response::unauthorized);
+						log(error) << response::unauthorized << "," << request_uri << "," << req.remote_endpoint;
+						return;
+					}
+				}
+			}
+		
 			if (!percent_decode_and_validate(req.uri, request_uri))
 			{
 				res = response::static_response(response::bad_request);
