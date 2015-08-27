@@ -126,21 +126,21 @@ namespace waspp
 				}
 			}
 
-			found_i = cfg_.find("granted");
+			found_i = cfg_.find("access_granted");
 			{
 				if (found_i == cfg_.end())
 				{
-					log(fatal) << "config::granted not found," << __FILE__ << ":" << __LINE__;
+					log(fatal) << "config::access_granted not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 
 				for (found_p = found_i->second.begin(); found_p != found_i->second.end(); ++found_p)
 				{
-					granted_.push_back(found_p->second);
+					access_granted_.push_back(found_p->second);
 				}
 			}
 
-			found_i = cfg_.find("denied");
+			found_i = cfg_.find("access_denied");
 			{
 				if (found_i == cfg_.end())
 				{
@@ -150,7 +150,7 @@ namespace waspp
 
 				for (found_p = found_i->second.begin(); found_p != found_i->second.end(); ++found_p)
 				{
-					denied_.push_back(found_p->second);
+					access_denied_.push_back(found_p->second);
 				}
 			}
 

@@ -37,8 +37,8 @@ namespace waspp
 		const std::string& err_msg(error_type err_code);
 
 		// access
-		const std::vector<std::string> granted() { return granted_; }
-		const std::vector<std::string> denied() { return denied_; }
+		const std::vector<std::string> access_granted() { return access_granted_; }
+		const std::vector<std::string> access_denied() { return access_denied_; }
 
 		// session
 		const std::string& encrypt_key() { return encrypt_key_; }
@@ -65,7 +65,7 @@ namespace waspp
 		std::string level_, rotation_;
 
 		// access
-		std::vector<std::string> granted_, denied_;
+		std::vector<std::string> access_granted_, access_denied_;
 
 		// session
 		std::string encrypt_key_, sess_cookie_;

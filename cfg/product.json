@@ -17,14 +17,24 @@
 		
 	"//access" : 0,
 	
-		"granted" :
+		"access_granted" :
 		{
 			
 		},
 		
-		"denied" :
+		"//access_granted_example" :
+		{
+			"localhost" : "127.0.0.1"
+		},
+		
+		"access_denied" :
 		{
 		
+		},
+		
+		"//access_denied_example" :
+		{
+			"description" : "1.1.1.1"
 		},
 		
 	"//session" : 0,

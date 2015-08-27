@@ -36,7 +36,7 @@ namespace waspp
 
 		try
 		{
-			if (cfg->granted().size() > 0 || cfg->denied().size() > 0)
+			if (cfg->access_granted().size() > 0 || cfg->access_denied().size() > 0)
 			{
 				std::size_t pos = req.remote_endpoint.find(":");
 				if (pos == std::string::npos)
@@ -47,9 +47,10 @@ namespace waspp
 				}
 
 				std::string remote_addr = req.remote_endpoint.substr(0, pos);
-				for (std::size_t i = 0; i < cfg->granted().size(); ++i)
+
+				for (std::size_t i = 0; i < cfg->access_granted().size(); ++i)
 				{
-					if (remote_addr != cfg->granted()[i])
+					if (remote_addr != cfg->access_granted()[i])
 					{
 						res = response::static_response(response::unauthorized);
 						log(error) << response::unauthorized << "," << request_uri << "," << req.remote_endpoint;
@@ -57,9 +58,9 @@ namespace waspp
 					}
 				}
 
-				for (std::size_t i = 0; i < cfg->denied().size(); ++i)
+				for (std::size_t i = 0; i < cfg->access_denied().size(); ++i)
 				{
-					if (remote_addr == cfg->granted()[i])
+					if (remote_addr == cfg->access_denied()[i])
 					{
 						res = response::static_response(response::unauthorized);
 						log(error) << response::unauthorized << "," << request_uri << "," << req.remote_endpoint;
