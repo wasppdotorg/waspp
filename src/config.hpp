@@ -33,7 +33,7 @@ namespace waspp
 		const std::string& level() { return level_; }
 		const std::string& rotation() { return rotation_; }
 
-		// message
+		// error message
 		const std::string& err_msg(error_type err_code);
 
 		// access
@@ -84,7 +84,7 @@ namespace waspp
 		// cfg
 		boost::unordered_map< std::string, boost::unordered_map<std::string, std::string> > cfg_;
 
-		// error messages
+		// error message
 		std::string locale;
 		boost::unordered_map<int, std::string> err_;
 
