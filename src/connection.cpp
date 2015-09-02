@@ -142,6 +142,12 @@ namespace waspp
 			response_ = response();
 			request_ = request();
 
+#ifdef CHECK_MEMORY_LEAK_WITH_SSL
+			request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.lowest_layer().remote_endpoint());
+#else
+			request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.remote_endpoint());
+#endif
+
 			socket_.async_read_some(boost::asio::buffer(buffer_),
 				strand_.wrap(
 				boost::bind(&connection::handle_read, shared_from_this(),
