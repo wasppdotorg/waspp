@@ -56,8 +56,6 @@
 		<Unit filename="dbconn_pool.cpp" />
 		<Unit filename="dbconn_pool.hpp" />
 		<Unit filename="error.hpp" />
-		<Unit filename="function_timer.cpp" />
-		<Unit filename="function_timer.hpp" />
 		<Unit filename="logger.cpp" />
 		<Unit filename="logger.hpp" />
 		<Unit filename="main.cpp" />
@@ -69,6 +67,8 @@
 		<Unit filename="mysqlpp_result.cpp" />
 		<Unit filename="mysqlpp_statement.cpp" />
 		<Unit filename="name_value.hpp" />
+		<Unit filename="performance_checker.cpp" />
+		<Unit filename="performance_checker.hpp" />
 		<Unit filename="redis.cpp" />
 		<Unit filename="redis.hpp" />
 		<Unit filename="redis3m.hpp" />
