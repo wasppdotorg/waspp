@@ -50,7 +50,7 @@ namespace waspp
 
 		// server
 		const std::string& address() { return address_; }
-		const std::string& port() { return port_; }
+		unsigned short int port() { return port_; }
 		const std::string& doc_root() { return doc_root_; }
 		std::size_t num_threads() { return num_threads_; }
 		bool compress() { return compress_; }
@@ -73,7 +73,8 @@ namespace waspp
 		bool validate_ep_, validate_ua_;
 
 		// server
-		std::string address_, port_, doc_root_;
+		std::string address_, doc_root_;
+		unsigned short int port_;
 		std::size_t num_threads_;
 		bool compress_;
 
