@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		if (!log_->init(cfg->level(), cfg->rotation()))
+		if (!log_->init(cfg->log_level(), cfg->log_rotation()))
 		{
 			waspp::log(waspp::fatal) << "logger::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;

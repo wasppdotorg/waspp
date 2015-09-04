@@ -30,8 +30,8 @@ namespace waspp
 		boost::unordered_map<std::string, std::string>& get(const std::string& item);
 
 		// logger
-		const std::string& level() { return level_; }
-		const std::string& rotation() { return rotation_; }
+		const std::string& log_level() { return log_level_; }
+		const std::string& log_rotation() { return log_rotation_; }
 
 		// error message
 		const std::string& err_msg(error_type err_code);
@@ -62,7 +62,7 @@ namespace waspp
 
 	private:
 		// logger
-		std::string level_, rotation_;
+		std::string log_level_, log_rotation_;
 
 		// access
 		std::vector<std::string> access_granted_, access_denied_;

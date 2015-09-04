@@ -25,8 +25,8 @@ namespace waspp
 		std::time_t time_ = std::time(0);
 		file_created_ = *std::localtime(&time_);
 
-		level_ = debug;
-		rotation_ = rotate_every_minute;
+		log_level_ = debug;
+		log_rotation_ = rotate_every_minute;
 	}
 
 	/// Destructor shuts down the private io_service.
@@ -57,51 +57,51 @@ namespace waspp
 	/// output file for all logger instances, and so the impl parameter is not
 	/// actually needed. It is retained here to illustrate how service functions
 	/// are typically defined.
-	bool logger::init(const std::string& level, const std::string& rotation)
+	bool logger::init(const std::string& log_level, const std::string& log_rotation)
 	{
-		log_level cfg_level = debug;
+		log_level_type cfg_log_level = debug;
 
-		if (level == "debug")
+		if (log_level == "debug")
 		{
-			cfg_level = debug;
+			cfg_log_level = debug;
 		}
-		else if (level == "info")
+		else if (log_level == "info")
 		{
-			cfg_level = info;
+			cfg_log_level = info;
 		}
-		else if (level == "warn")
+		else if (log_level == "warn")
 		{
-			cfg_level = warn;
+			cfg_log_level = warn;
 		}
-		else if (level == "error")
+		else if (log_level == "error")
 		{
-			cfg_level = error;
+			cfg_log_level = error;
 		}
 		else
 		{
 			return false;
 		}
 
-		rotation_type cfg_rotation = rotate_every_minute;
+		log_rotation_type cfg_log_rotation = rotate_every_minute;
 
-		if (rotation == "every_minute")
+		if (log_rotation == "every_minute")
 		{
-			cfg_rotation = rotate_every_minute;
+			cfg_log_rotation = rotate_every_minute;
 		}
-		else if (rotation == "hourly")
+		else if (log_rotation == "hourly")
 		{
-			cfg_rotation = rotate_hourly;
+			cfg_log_rotation = rotate_hourly;
 		}
-		else if (rotation == "daily")
+		else if (log_rotation == "daily")
 		{
-			cfg_rotation = rotate_daily;
+			cfg_log_rotation = rotate_daily;
 		}
 		else
 		{
 			return false;
 		}
 
-		io_service_.post(boost::bind(&logger::init_impl, this, cfg_level, cfg_rotation));
+		io_service_.post(boost::bind(&logger::init_impl, this, cfg_log_level, cfg_log_rotation));
 		return true;
 	}
 
@@ -118,15 +118,15 @@ namespace waspp
 	{
 		char datetime[32] = { 0 };
 
-		if (rotation_ == rotate_every_minute && tm_.tm_min != file_created_.tm_min)
+		if (log_rotation_ == rotate_every_minute && tm_.tm_min != file_created_.tm_min)
 		{
 			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d_%H%M", &file_created_);
 		}
-		else if (rotation_ == rotate_hourly && tm_.tm_hour != file_created_.tm_hour)
+		else if (log_rotation_ == rotate_hourly && tm_.tm_hour != file_created_.tm_hour)
 		{
 			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d_%H", &file_created_);
 		}
-		else if (rotation_ == rotate_daily && tm_.tm_mday != file_created_.tm_mday)
+		else if (log_rotation_ == rotate_daily && tm_.tm_mday != file_created_.tm_mday)
 		{
 			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d", &file_created_);
 		}
@@ -155,10 +155,10 @@ namespace waspp
 		ofstream_.open(file_.c_str(), std::fstream::app);
 	}
 
-	void logger::init_impl(log_level level, rotation_type rotation)
+	void logger::init_impl(log_level_type log_level, log_rotation_type log_rotation)
 	{
-		level_ = level;
-		rotation_ = rotation;
+		log_level_ = log_level;
+		log_rotation_ = log_rotation;
 	}
 
 	/// Helper function used to log a message from within the private io_service's

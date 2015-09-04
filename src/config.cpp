@@ -88,11 +88,11 @@ namespace waspp
 
 					if (keys[i] == "level")
 					{
-						level_ = found_p->second;
+						log_level_ = found_p->second;
 					}
 					else if (keys[i] == "rotation")
 					{
-						rotation_ = found_p->second;
+						log_rotation_ = found_p->second;
 					}
 				}
 			}

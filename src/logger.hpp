@@ -23,14 +23,14 @@
 namespace waspp
 {
 
-	enum rotation_type
+	enum log_rotation_type
 	{
 		rotate_every_minute,
 		rotate_hourly,
 		rotate_daily
 	};
 
-	enum log_level
+	enum log_level_type
 	{
 		debug = 1,
 		info = 2,
@@ -46,10 +46,10 @@ namespace waspp
 		logger();
 		~logger();
 
-		log_level level() { return level_; }
+		log_level_type log_level() { return log_level_; }
 
 		void file(const std::string& file);
-		bool init(const std::string& level, const std::string& rotation);
+		bool init(const std::string& log_level, const std::string& log_rotation);
 
 		/// Log a message.
 		void write(const boost::posix_time::ptime& ptime_, const std::string& message);
@@ -59,7 +59,7 @@ namespace waspp
 		void rotate(const std::tm& tm_);
 
 		void file_impl(const std::string& file);
-		void init_impl(log_level level, rotation_type rotation);
+		void init_impl(log_level_type log_level, log_rotation_type log_rotation);
 		void write_impl(const std::string& line);
 		void rotate_impl(const std::string& file_to);
 
@@ -80,17 +80,17 @@ namespace waspp
 		std::string file_;
 		std::tm file_created_;
 
-		log_level level_;
-		rotation_type rotation_;
+		log_level_type log_level_;
+		log_rotation_type log_rotation_;
 
 	};
 
 	class log
 	{
 	public:
-		log(log_level level) : logger_(logger::instance()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
+		log(log_level_type log_level) : logger_(logger::instance()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
 		{
-			if (level < logger_->level())
+			if (log_level < logger_->log_level())
 			{
 				return;
 			}
@@ -100,7 +100,7 @@ namespace waspp
 			oss.imbue(std::locale(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,")));
 			oss << ptime_;
 
-			switch (level)
+			switch (log_level)
 			{
 			case debug:
 				oss << "DEBUG,";
