@@ -244,7 +244,7 @@ namespace waspp
 					}
 					else if (keys[i] == "port")
 					{
-						port_ = boost::lexical_cast<unsigned short int>(found_p->second);
+						port_ = found_p->second;
 					}
 					else if (keys[i] == "doc_root")
 					{

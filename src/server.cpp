@@ -22,7 +22,7 @@ namespace waspp
 		: cfg(cfg_),
 		context_(boost::asio::ssl::context::sslv23),
 		signals_(io_service_),
-		acceptor_(io_service_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), cfg->port())),
+		acceptor_(io_service_),
 		new_connection_(),
 		request_handler_()
 	{
@@ -49,8 +49,16 @@ namespace waspp
 #endif // defined(SIGQUIT)
 		signals_.async_wait(boost::bind(&server::handle_stop, this));
 
+		// Open the acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
+		boost::asio::ip::tcp::resolver resolver(io_service_);
+		boost::asio::ip::tcp::resolver::query query(cfg->address(), cfg->port());
+		boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
+
+		acceptor_.open(endpoint.protocol());
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::keep_alive(true));
+		acceptor_.bind(endpoint);
+		acceptor_.listen();
 
 		start_accept();
 	}
@@ -69,7 +77,7 @@ namespace waspp
 	server::server(config* cfg_)
 		: cfg(cfg_),
 		signals_(io_service_),
-		acceptor_(io_service_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), cfg->port())),
+		acceptor_(io_service_),
 		new_connection_(),
 		request_handler_()
 	{
@@ -83,8 +91,16 @@ namespace waspp
 #endif // defined(SIGQUIT)
 		signals_.async_wait(boost::bind(&server::handle_stop, this));
 
+		// Open the acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
+		boost::asio::ip::tcp::resolver resolver(io_service_);
+		boost::asio::ip::tcp::resolver::query query(cfg->address(), cfg->port());
+		boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
+
+		acceptor_.open(endpoint.protocol());
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::keep_alive(true));
+		acceptor_.bind(endpoint);
+		acceptor_.listen();
 
 		start_accept();
 	}
