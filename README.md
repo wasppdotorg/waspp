@@ -203,6 +203,7 @@ Enable SSL
 #define CHECK_MEMORY_LEAK_WITH_SSL
 ```
 
+* cd cmakebuild
 * sudo make
 
 Check Memory Leak
