@@ -122,18 +122,20 @@ timeout 0
 * cd ../src
 * sudo apt-get install build-essential
 * sudo apt-get install cmake
-* sudo cmake . (look, there's a dot :)
+* mkdir cmakebuild
+* cd cmakebuild
+* sudo cmake ..
 * sudo make
 * mysql -u root -p
 ```
 source /var/waspp/sql/develop.sql
 ```
 
-* sudo mv -f ./waspp ../bin/
+* sudo mv -f ./waspp ../../bin/
 
 Run
 ---
-* cd ../bin
+* cd ../../bin
 * sudo ./develop_start.sh
 * sudo tail -f ../log/develop00.csv
 * Go to http://127.0.0.1:10080/
@@ -181,7 +183,8 @@ route routes[] =
 	..
 ```
 
-* sudo cmake .
+* cd cmakebuild
+* sudo cmake ..
 * sudo make
 
 Enable SSL
