@@ -14,6 +14,7 @@
 
 #ifndef _WIN32
 #include "redis.hpp"
+#include "redis_queue.hpp"
 #endif // _WIN32
 
 #include "server.hpp"
