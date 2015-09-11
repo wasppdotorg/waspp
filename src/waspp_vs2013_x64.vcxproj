@@ -132,15 +132,16 @@
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="dbconn_pool.cpp" />
-    <ClCompile Include="function_timer.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mime_types.cpp" />
     <ClCompile Include="mysqlpp_connection.cpp" />
     <ClCompile Include="mysqlpp_result.cpp" />
     <ClCompile Include="mysqlpp_statement.cpp" />
+    <ClCompile Include="performance_checker.cpp" />
     <ClCompile Include="redis.cpp" />
     <ClCompile Include="redis_pool.cpp" />
+    <ClCompile Include="redis_queue.cpp" />
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />
@@ -153,7 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="error.hpp" />
-    <ClInclude Include="function_timer.hpp" />
+    <ClInclude Include="performance_checker.hpp" />
     <ClInclude Include="redis.hpp" />
     <ClInclude Include="redis3m.hpp" />
     <ClInclude Include="redis_pool.hpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="multipart.hpp" />
     <ClInclude Include="mysqlpp.hpp" />
     <ClInclude Include="name_value.hpp" />
+    <ClInclude Include="redis_queue.hpp" />
     <ClInclude Include="request.hpp" />
     <ClInclude Include="request_handler.hpp" />
     <ClInclude Include="request_parser.hpp" />
