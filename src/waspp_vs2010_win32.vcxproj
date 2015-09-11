@@ -81,6 +81,7 @@
     <ClCompile Include="mysqlpp_statement.cpp" />
     <ClCompile Include="redis.cpp" />
     <ClCompile Include="redis_pool.cpp" />
+    <ClCompile Include="redis_queue.cpp" />
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="redis.hpp" />
     <ClInclude Include="redis3m.hpp" />
     <ClInclude Include="redis_pool.hpp" />
+    <ClInclude Include="redis_queue.hpp" />
     <ClInclude Include="request.hpp" />
     <ClInclude Include="request_handler.hpp" />
     <ClInclude Include="request_parser.hpp" />
