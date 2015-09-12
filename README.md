@@ -144,10 +144,10 @@ Run on Windows
 * Run cmd.exe
 ```
 cd path\to\waspp
-copy src\x64\Debug\waspp_vs2013_x64.exe .\bin
+copy src\x64\Debug\waspp.exe .\bin
 copy src\x64\Debug\libmysql.dll .\bin
 cd .\bin
-.\waspp_vs2013_x64.exe develop 00
+.\waspp.exe develop 00
 
 ```
 
