@@ -141,7 +141,6 @@
     <ClCompile Include="performance_checker.cpp" />
     <ClCompile Include="redis.cpp" />
     <ClCompile Include="redis_pool.cpp" />
-    <ClCompile Include="redis_queue.cpp" />
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />
@@ -167,7 +166,6 @@
     <ClInclude Include="multipart.hpp" />
     <ClInclude Include="mysqlpp.hpp" />
     <ClInclude Include="name_value.hpp" />
-    <ClInclude Include="redis_queue.hpp" />
     <ClInclude Include="request.hpp" />
     <ClInclude Include="request_handler.hpp" />
     <ClInclude Include="request_parser.hpp" />
