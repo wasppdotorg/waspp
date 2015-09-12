@@ -16,7 +16,7 @@ var _str = function(_elem, _value)
 			_elem.removeChild(_elem.childNodes[0]);
 		}
 		
-		_elem.appendChild(document.createTextNode(decodeURIComponent(_value)));
+		_elem.appendChild(document.createTextNode(decodeURIComponent(escape(_value))));
 	}
 };
 
