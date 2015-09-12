@@ -5,8 +5,7 @@ Build Tested With
 -----------------
 * CMake 2.8 - Ubuntu Linux 14.04 LTS
 * Codeblocks 13.12 - Ubuntu Linux 14.04 LTS
-* Visual Studio 2010 Express - Windows 7 (Boost 1.54)
-* Visual Studio 2013 Professional - Windows 7
+* Visual Studio 2013 - Windows 7
 * Xcode 6.1 - MacOS X 10.9
 
 Install MariaDB
@@ -145,17 +144,11 @@ Run on Windows
 * Run cmd.exe
 ```
 cd path\to\waspp
-
 copy src\x64\Debug\waspp_vs2013_x64.exe .\bin
-(copy src\Debug\waspp_vs2010_win32.exe .\bin)
-
 copy src\x64\Debug\libmysql.dll .\bin
-(copy src\Debug\libmysql.dll .\bin)
-
 cd .\bin
-
 .\waspp_vs2013_x64.exe develop 00
-(.\waspp_vs2010_win32.exe develop 00)
+
 ```
 
 Add Your Own Route
@@ -233,9 +226,9 @@ ulimit -c unlimited
 
 For Windows
 -----------
-* boost_1_56_0-msvc-12.0-64.exe (boost_1_54_0-msvc-10.0-32.exe)
-* mariadb-10.0.16-winx64.msi (mariadb-10.0.16-win32.msi)
-* Win64OpenSSL-1_0_2a.exe (Win32OpenSSL-1_0_2a.exe)
+* boost_1_56_0-msvc-12.0-64.exe
+* mariadb-10.0.16-winx64.msi
+* Win64OpenSSL-1_0_2a.exe
 
 For MacOS X
 -----------
