@@ -24,34 +24,34 @@ namespace waspp
 
 	namespace dir_forum
 	{
-		void index_html(config* cfg, database* db, request& req, response& res);
-		void index_jsonp(config* cfg, database* db, request& req, response& res);
+		void index_html(config* cfg, request& req, response& res);
+		void index_jsonp(config* cfg, request& req, response& res);
 
-		void show_html(config* cfg, database* db, request& req, response& res);
-		void show_jsonp(config* cfg, database* db, request& req, response& res);
+		void show_html(config* cfg, request& req, response& res);
+		void show_jsonp(config* cfg, request& req, response& res);
 
-		void form_html(config* cfg, database* db, request& req, response& res);
-		void form_jsonp(config* cfg, database* db, request& req, response& res);
+		void form_html(config* cfg, request& req, response& res);
+		void form_jsonp(config* cfg, request& req, response& res);
 
-		void remove(config* cfg, database* db, request& req, response& res);
-		void post(config* cfg, database* db, request& req, response& res);
+		void remove(config* cfg, request& req, response& res);
+		void post(config* cfg, request& req, response& res);
 
 	} // namespace dir_forum
 
 	namespace dir_user
 	{
-		void signin_html(config* cfg, database* db, request& req, response& res);
-		void auth(config* cfg, database* db, request& req, response& res);
+		void signin_html(config* cfg, request& req, response& res);
+		void auth(config* cfg, request& req, response& res);
 
-		void signup_html(config* cfg, database* db, request& req, response& res);
-		void post(config* cfg, database* db, request& req, response& res);
+		void signup_html(config* cfg, request& req, response& res);
+		void post(config* cfg, request& req, response& res);
 
-		void signout(config* cfg, database* db, request& req, response& res);
+		void signout(config* cfg, request& req, response& res);
 
 	} // namespace dir_user
 
-	//typedef void(*func_ptr)(config*, database*, request&, response&);
-	typedef boost::function<void (config*, database*, request&, response&)> func_ptr;
+	//typedef void(*func_ptr)(config*, request&, response&);
+	typedef boost::function<void (config*, request&, response&)> func_ptr;
 
 	const std::string jsonp_start = "_(";
 	const std::string jsonp_end = ");";

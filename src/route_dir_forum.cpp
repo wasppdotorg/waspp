@@ -30,7 +30,7 @@ namespace waspp
 {
 	namespace dir_forum
 	{
-		void index_html(config* cfg, database* db, request& req, response& res)
+		void index_html(config* cfg, request& req, response& res)
 		{
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
@@ -46,7 +46,7 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void index_jsonp(config* cfg, database* db, request& req, response& res)
+		void index_jsonp(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
@@ -92,7 +92,7 @@ namespace waspp
 			forum_search.put("_field", field);
 			forum_search.put("_keyword", keyword);
 
-			scoped_db db_etc(db, "db_etc");
+			scoped_db db_etc("db_etc");
 
 			long long int total_count_ = 0;
 			stmt_ptr stmt(db_etc.prepare("SELECT COUNT(seq) AS total_count FROM forum"));
@@ -135,7 +135,7 @@ namespace waspp
 			res.content_extension = "js";
 		}
 
-		void show_html(config* cfg, database* db, request& req, response& res)
+		void show_html(config* cfg, request& req, response& res)
 		{
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
@@ -151,7 +151,7 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void show_jsonp(config* cfg, database* db, request& req, response& res)
+		void show_jsonp(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
@@ -207,7 +207,7 @@ namespace waspp
 			res.content_extension = "js";
 		}
 
-		void form_html(config* cfg, database* db, request& req, response& res)
+		void form_html(config* cfg, request& req, response& res)
 		{
 			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
@@ -223,7 +223,7 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void form_jsonp(config* cfg, database* db, request& req, response& res)
+		void form_jsonp(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
@@ -279,12 +279,12 @@ namespace waspp
 			res.content_extension = "js";
 		}
 
-		void remove(config* cfg, database* db, request& req, response& res)
+		void remove(config* cfg, request& req, response& res)
 		{
 
 		}
 
-		void post(config* cfg, database* db, request& req, response& res)
+		void post(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
@@ -315,7 +315,7 @@ namespace waspp
 				return;
 			}
 
-			scoped_db db_etc(db, "db_etc");
+			scoped_db db_etc("db_etc");
 
 			if (seq == 0)
 			{

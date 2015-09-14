@@ -23,14 +23,14 @@ namespace waspp
 	namespace dir_user
 	{
 
-		void signin_html(config* cfg, database* db, request& req, response& res)
+		void signin_html(config* cfg, request& req, response& res)
 		{
 			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_user_signin.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void auth(config* cfg, database* db, request& req, response& res)
+		void auth(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
@@ -50,7 +50,7 @@ namespace waspp
 			}
 			passwd = md5_digest(req.param("passwd"));
 
-			scoped_db db_idx(db, "db_idx");
+			scoped_db db_idx("db_idx");
 
 			stmt_ptr stmt(db_idx.prepare("SELECT userid FROM users_idx WHERE username = ?"));
 			{
@@ -69,7 +69,7 @@ namespace waspp
 				userid = rs->get<unsigned int>("userid");
 			}
 
-			scoped_db db_shard(db, userid);
+			scoped_db db_shard(userid);
 
 			stmt.reset(db_shard.prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
 			{
@@ -91,14 +91,14 @@ namespace waspp
 			res.redirect_to("/dir/forum/index");
 		}
 
-		void signup_html(config* cfg, database* db, request& req, response& res)
+		void signup_html(config* cfg, request& req, response& res)
 		{
 			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_user_signup.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void post(config* cfg, database* db, request& req, response& res)
+		void post(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
@@ -139,7 +139,7 @@ namespace waspp
 			}
 			passwd = md5_digest(req.param("passwd"));
 
-			scoped_db db_idx(db, "db_idx");
+			scoped_db db_idx("db_idx");
 
 			stmt_ptr stmt(db_idx.prepare("SELECT userid FROM users_idx WHERE username = ?"));
 			{
@@ -180,7 +180,7 @@ namespace waspp
 				return;
 			}
 
-			scoped_db db_shard(db, userid);
+			scoped_db db_shard(userid);
 
 			stmt.reset(db_shard.prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
 			{
@@ -198,7 +198,7 @@ namespace waspp
 			res.redirect_to("/dir/user/signin");
 		}
 
-		void signout(config* cfg, database* db, request& req, response& res)
+		void signout(config* cfg, request& req, response& res)
 		{
 			res.delete_cookie(cfg->sess_cookie());
 			res.redirect_to("/dir/user/signin");

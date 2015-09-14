@@ -38,7 +38,6 @@ namespace waspp
 		static bool percent_decode_and_validate(const std::string& in, std::string& out);
 
 		config* cfg;
-		database* db;
 
 	};
 

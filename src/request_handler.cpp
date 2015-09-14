@@ -25,7 +25,7 @@
 namespace waspp
 {
 
-	request_handler::request_handler() : cfg(config::instance()), db(database::instance())
+	request_handler::request_handler() : cfg(config::instance())
 	{
 
 	}
@@ -98,7 +98,7 @@ namespace waspp
 			}
 			else
 			{
-				func(cfg, db, req, res);
+				func(cfg, req, res);
 			}
 
 			// Fill out the response to be sent to the client.
