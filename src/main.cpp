@@ -14,7 +14,6 @@
 
 #ifndef _WIN32
 #include "redis.hpp"
-#include "redis_queue.hpp"
 #endif // _WIN32
 
 #include "server.hpp"
@@ -26,7 +25,6 @@ int main(int argc, char* argv[])
 	waspp::database* db = waspp::database::instance();
 #ifndef _WIN32
 	waspp::redis* rd = waspp::redis::instance();
-	waspp::redis_queue* rq = waspp::redis_queue::instance();
 #endif // _WIN32
 
 	try
@@ -96,12 +94,6 @@ int main(int argc, char* argv[])
 		if (!rd->init(cfg, rdnames))
 		{
 			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
-			return 1;
-		}
-
-		if (!rq->init())
-		{
-			waspp::log(waspp::fatal) << "redis_queue::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
 #endif // _WIN32
