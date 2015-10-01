@@ -41,7 +41,7 @@ namespace waspp
 		void handle_accept(const boost::system::error_code& e);
 
 		/// Handle a request to stop the server.
-		void handle_stop();
+		void handle_stop(int signal_number);
 
 		config* cfg;
 
