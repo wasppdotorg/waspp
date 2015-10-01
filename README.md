@@ -128,6 +128,12 @@ timeout 0
 * mysql -u root -p
 ```
 source /var/waspp/sql/develop.sql
+grant all privileges on develop_waspp_idx.* to 'waspp_dbuser'@'localhost' identified by 'waspp_passwd' with grant option;
+grant all privileges on develop_waspp_000.* to 'waspp_dbuser'@'localhost' identified by 'waspp_passwd' with grant option;
+grant all privileges on develop_waspp_001.* to 'waspp_dbuser'@'localhost' identified by 'waspp_passwd' with grant option;
+grant all privileges on develop_waspp_etc.* to 'waspp_dbuser'@'localhost' identified by 'waspp_passwd' with grant option;
+flush privileges;
+select User, Host, Password from mysql.user;
 ```
 
 * sudo mv -f ./waspp ../../bin/

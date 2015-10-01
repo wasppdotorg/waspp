@@ -62,8 +62,8 @@
 		"db_idx" :
 		{
 			"host" : "127.0.0.1",
-			"userid" : "root",
-			"passwd" : "1235",
+			"userid" : "waspp_dbuser",
+			"passwd" : "waspp_passwd",
 			"database" : "develop_waspp_idx",
 			"port" : 3306,
 			"charset" : "utf8",
@@ -74,8 +74,8 @@
 		"db_000" :
 		{
 			"host" : "127.0.0.1",
-			"userid" : "root",
-			"passwd" : "1235",
+			"userid" : "waspp_dbuser",
+			"passwd" : "waspp_passwd",
 			"database" : "develop_waspp_000",
 			"port" : 3306,
 			"charset" : "utf8",
@@ -87,8 +87,8 @@
 		"db_001" :
 		{
 			"host" : "127.0.0.1",
-			"userid" : "root",
-			"passwd" : "1235",
+			"userid" : "waspp_dbuser",
+			"passwd" : "waspp_passwd",
 			"database" : "develop_waspp_001",
 			"port" : 3306,
 			"charset" : "utf8",
@@ -99,8 +99,8 @@
 		"db_etc" :
 		{
 			"host" : "127.0.0.1",
-			"userid" : "root",
-			"passwd" : "1235",
+			"userid" : "waspp_dbuser",
+			"passwd" : "waspp_passwd",
 			"database" : "develop_waspp_etc",
 			"port" : 3306,
 			"charset" : "utf8",
