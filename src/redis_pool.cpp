@@ -11,6 +11,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/lexical_cast.hpp>
 
 #include "redis_pool.hpp"
+#include "logger.hpp"
 
 namespace waspp
 {
@@ -92,6 +93,8 @@ namespace waspp
 		if (pool.empty())
 		{
 			lock.release();
+
+			log(warn) << "redis_pool is empty";
 			return connect(false);
 		}
 
