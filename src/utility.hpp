@@ -187,7 +187,7 @@ namespace waspp
 	// also known as url_encode
 	std::string percent_encode(const std::string& src);
 
-	// alow know as url_decode
+	// also known as url_decode
 	std::string percent_decode(const std::string& src);
 
 	/*
