@@ -91,6 +91,12 @@ root soft nofile 65535
 * ssh your@server
 * ulimit -n
 
+Install waspp
+-------------
+* cd /var/
+* sudo apt-get install git
+* sudo git clone https://github.com/waspporg/waspp.git
+
 Create Databases
 ----------------
 * mysql -u root -p
@@ -105,33 +111,33 @@ select User, Host, Password from mysql.user;
 exit
 ```
 
-Install waspp
--------------
-* cd /var/
-* sudo apt-get install git
-* sudo git clone https://github.com/waspporg/waspp.git
+Configure waspp
+---------------
 * cd waspp/cfg
-* cat /etc/mysql/my.cnf | grep wait_timeout
+* grep wait_timeout /etc/mysql/my.cnf
 ```
 wait_timeout = 28800
 ```
 
-* cat develop.json | grep wait_timeout
+* grep wait_timeout develop.json
 ```
 "wait_timeout_sec" : 28800
 ```
 
-* cat /etc/redis/redis.cnf | grep timeout
+* grep timeout /etc/redis/redis.cnf
 ```
 timeout 0
 ```
 
-* cat develop.json | grep timeout
+* grep timeout develop.json
 ```
 "timeout_sec" : 0
 ```
 
 * vi develop.json (if different)
+
+Build waspp
+-----------
 * cd ../src
 * sudo apt-get install build-essential
 * sudo apt-get install cmake
