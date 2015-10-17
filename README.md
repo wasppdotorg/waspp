@@ -134,6 +134,7 @@ grant all privileges on develop_waspp_001.* to 'waspp_dbuser'@'localhost' identi
 grant all privileges on develop_waspp_etc.* to 'waspp_dbuser'@'localhost' identified by 'waspp_passwd' with grant option;
 flush privileges;
 select User, Host, Password from mysql.user;
+exit
 ```
 
 * sudo mv -f ./waspp ../../bin/
@@ -166,8 +167,8 @@ Add Your Own Route
 ```
 namespace dir_notice
 {
-	void index_html(logger* log, config* cfg, database* db, request& req, response& res);
-	void index_jsonp(logger* log, config* cfg, database* db, request& req, response& res);
+	void index_html(config* cfg, request& req, response& res);
+	void index_jsonp(config* cfg, request& req, response& res);
 	
 } // namespace dir_notice
 ```
