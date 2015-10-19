@@ -46,7 +46,7 @@ namespace waspp
 			}
 
 			boost::property_tree::ptree pt;
-			read_json(file, pt);
+			boost::property_tree::json_parser::read_json(file, pt);
 
 			BOOST_FOREACH(boost::property_tree::ptree::value_type const& item_, pt.get_child(""))
 			{
@@ -290,7 +290,7 @@ namespace waspp
 				return false;
 			}
 
-			read_json(err_file, pt);
+			boost::property_tree::json_parser::read_json(err_file, pt);
 
 			int err_code = 0;
 			boost::unordered_map<int, std::string>::iterator err_found;
