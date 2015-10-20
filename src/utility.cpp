@@ -670,7 +670,7 @@ namespace waspp
 
 	std::string base64_encode(const std::string& string_to_encode)
 	{
-		unsigned char const* bytes_to_encode = reinterpret_cast<const unsigned char*>(string_to_encode.c_str());
+		const unsigned char* bytes_to_encode = reinterpret_cast<const unsigned char*>(string_to_encode.c_str());
 		unsigned int in_len = string_to_encode.size();
 
 		std::string ret;
