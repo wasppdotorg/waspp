@@ -87,7 +87,7 @@ namespace waspp
 			std::string request_path(request_uri);
 
 			func_ptr func = router::get_func(request_uri);
-			if (func == 0)
+			if (func == '\0')
 			{
 				if (!router::get_file(cfg, res, request_path))
 				{
