@@ -68,7 +68,7 @@ namespace waspp
 					}
 				}
 			}
-		
+
 			if (!percent_decode_and_validate(req.uri, request_uri))
 			{
 				res = response::static_response(response::bad_request);
