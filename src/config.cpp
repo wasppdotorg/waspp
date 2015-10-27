@@ -45,27 +45,27 @@ namespace waspp
 				return false;
 			}
 
-			boost::property_tree::ptree pt;
-			boost::property_tree::json_parser::read_json(file, pt);
+			boost::property_tree::ptree ptree_;
+			boost::property_tree::json_parser::read_json(file, ptree_);
 
-			BOOST_FOREACH(const boost::property_tree::ptree::value_type& item_, pt.get_child(""))
+			BOOST_FOREACH(const boost::property_tree::ptree::value_type& section_, ptree_.get_child(""))
 			{
-				boost::unordered_map<std::string, std::string> i;
-				BOOST_FOREACH(const boost::property_tree::ptree::value_type& pair_, item_.second)
+				boost::unordered_map<std::string, std::string> c;
+				BOOST_FOREACH(const boost::property_tree::ptree::value_type& item_, section_.second)
 				{
-					i.insert(std::make_pair(pair_.first, pair_.second.get_value<std::string>()));
+					c.insert(std::make_pair(item_.first, item_.second.get_value<std::string>()));
 				}
 
-				cfg_.insert(std::make_pair(item_.first, i));
+				cfg_.insert(std::make_pair(section_.first, c));
 			}
 
 			std::vector<std::string> keys;
-			boost::unordered_map< std::string, boost::unordered_map<std::string, std::string> >::iterator found_i;
-			boost::unordered_map<std::string, std::string>::iterator found_p;
+			boost::unordered_map< std::string, boost::unordered_map<std::string, std::string> >::iterator i_section;
+			boost::unordered_map<std::string, std::string>::iterator i_item;
 
-			found_i = cfg_.find("log");
+			i_section = cfg_.find("log");
 			{
-				if (found_i == cfg_.end())
+				if (i_section == cfg_.end())
 				{
 					log(fatal) << "config::log not found," << __FILE__ << ":" << __LINE__;
 					return false;
@@ -79,8 +79,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					found_p = found_i->second.find(keys[i]);
-					if (found_p == found_i->second.end())
+					i_item = i_section->second.find(keys[i]);
+					if (i_item == i_section->second.end())
 					{
 						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
@@ -88,18 +88,18 @@ namespace waspp
 
 					if (keys[i] == "level")
 					{
-						log_level_ = found_p->second;
+						log_level_ = i_item->second;
 					}
 					else if (keys[i] == "rotation")
 					{
-						log_rotation_ = found_p->second;
+						log_rotation_ = i_item->second;
 					}
 				}
 			}
 
-			found_i = cfg_.find("error");
+			i_section = cfg_.find("error");
 			{
-				if (found_i == cfg_.end())
+				if (i_section == cfg_.end())
 				{
 					log(fatal) << "config::error not found," << __FILE__ << ":" << __LINE__;
 					return false;
@@ -112,8 +112,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					found_p = found_i->second.find(keys[i]);
-					if (found_p == found_i->second.end())
+					i_item = i_section->second.find(keys[i]);
+					if (i_item == i_section->second.end())
 					{
 						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
@@ -121,42 +121,42 @@ namespace waspp
 
 					if (keys[i] == "locale")
 					{
-						locale = found_p->second;
+						locale = i_item->second;
 					}
 				}
 			}
 
-			found_i = cfg_.find("access_granted");
+			i_section = cfg_.find("access_granted");
 			{
-				if (found_i == cfg_.end())
+				if (i_section == cfg_.end())
 				{
 					log(fatal) << "config::access_granted not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 
-				for (found_p = found_i->second.begin(); found_p != found_i->second.end(); ++found_p)
+				for (i_item = i_section->second.begin(); i_item != i_section->second.end(); ++i_item)
 				{
-					access_granted_.push_back(found_p->second);
+					access_granted_.push_back(i_item->second);
 				}
 			}
 
-			found_i = cfg_.find("access_denied");
+			i_section = cfg_.find("access_denied");
 			{
-				if (found_i == cfg_.end())
+				if (i_section == cfg_.end())
 				{
 					log(fatal) << "config::denied not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 
-				for (found_p = found_i->second.begin(); found_p != found_i->second.end(); ++found_p)
+				for (i_item = i_section->second.begin(); i_item != i_section->second.end(); ++i_item)
 				{
-					access_denied_.push_back(found_p->second);
+					access_denied_.push_back(i_item->second);
 				}
 			}
 
-			found_i = cfg_.find("session");
+			i_section = cfg_.find("session");
 			{
-				if (found_i == cfg_.end())
+				if (i_section == cfg_.end())
 				{
 					log(fatal) << "config::session not found," << __FILE__ << ":" << __LINE__;
 					return false;
@@ -174,8 +174,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					found_p = found_i->second.find(keys[i]);
-					if (found_p == found_i->second.end())
+					i_item = i_section->second.find(keys[i]);
+					if (i_item == i_section->second.end())
 					{
 						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
@@ -183,34 +183,34 @@ namespace waspp
 
 					if (keys[i] == "encrypt_key")
 					{
-						encrypt_key_ = found_p->second;
+						encrypt_key_ = i_item->second;
 					}
 					else if (keys[i] == "sess_cookie")
 					{
-						sess_cookie_ = found_p->second;
+						sess_cookie_ = i_item->second;
 					}
 					else if (keys[i] == "expiry_sec")
 					{
-						expiry_sec_ = boost::lexical_cast<double>(found_p->second);
+						expiry_sec_ = boost::lexical_cast<double>(i_item->second);
 					}
 					else if (keys[i] == "update_sec")
 					{
-						update_sec_ = boost::lexical_cast<double>(found_p->second);
+						update_sec_ = boost::lexical_cast<double>(i_item->second);
 					}
 					else if (keys[i] == "validate_ep")
 					{
-						validate_ep_ = boost::lexical_cast<bool>(found_p->second);
+						validate_ep_ = boost::lexical_cast<bool>(i_item->second);
 					}
 					else if (keys[i] == "validate_ua")
 					{
-						validate_ua_ = boost::lexical_cast<bool>(found_p->second);
+						validate_ua_ = boost::lexical_cast<bool>(i_item->second);
 					}
 				}
 			}
 
-			found_i = cfg_.find(server_id);
+			i_section = cfg_.find(server_id);
 			{
-				if (found_i == cfg_.end())
+				if (i_section == cfg_.end())
 				{
 					log(fatal) << "config::server_id not found," << __FILE__ << ":" << __LINE__;
 					return false;
@@ -231,8 +231,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					found_p = found_i->second.find(keys[i]);
-					if (found_p == found_i->second.end())
+					i_item = i_section->second.find(keys[i]);
+					if (i_item == i_section->second.end())
 					{
 						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
@@ -240,15 +240,15 @@ namespace waspp
 
 					if (keys[i] == "address")
 					{
-						address_ = found_p->second;
+						address_ = i_item->second;
 					}
 					else if (keys[i] == "port")
 					{
-						port_ = found_p->second;
+						port_ = i_item->second;
 					}
 					else if (keys[i] == "doc_root")
 					{
-						doc_root_ = found_p->second;
+						doc_root_ = i_item->second;
 
 						if (doc_root_[doc_root_.size() - 1] != '/')
 						{
@@ -257,23 +257,23 @@ namespace waspp
 					}
 					else if (keys[i] == "num_threads")
 					{
-						num_threads_ = boost::lexical_cast<std::size_t>(found_p->second);
+						num_threads_ = boost::lexical_cast<std::size_t>(i_item->second);
 					}
 					else if (keys[i] == "compress")
 					{
-						compress_ = boost::lexical_cast<bool>(found_p->second);
+						compress_ = boost::lexical_cast<bool>(i_item->second);
 					}
 					else if (keys[i] == "ssl")
 					{
-						ssl_ = boost::lexical_cast<bool>(found_p->second);
+						ssl_ = boost::lexical_cast<bool>(i_item->second);
 					}
 					else if (keys[i] == "ssl_crt")
 					{
-						ssl_crt_ = found_p->second;
+						ssl_crt_ = i_item->second;
 					}
 					else if (keys[i] == "ssl_key")
 					{
-						ssl_key_ = found_p->second;
+						ssl_key_ = i_item->second;
 					}
 				}
 			}
@@ -290,11 +290,11 @@ namespace waspp
 				return false;
 			}
 
-			boost::property_tree::json_parser::read_json(err_file, pt);
+			boost::property_tree::json_parser::read_json(err_file, ptree_);
 
 			int err_code = 0;
 			boost::unordered_map<int, std::string>::iterator err_found;
-			BOOST_FOREACH(const boost::property_tree::ptree::value_type& item_, pt.get_child(""))
+			BOOST_FOREACH(const boost::property_tree::ptree::value_type& item_, ptree_.get_child(""))
 			{
 				err_code = boost::lexical_cast<int>(item_.first);
 				err_found = err_.find(err_code);
