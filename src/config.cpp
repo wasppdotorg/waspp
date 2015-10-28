@@ -60,12 +60,12 @@ namespace waspp
 			}
 
 			std::vector<std::string> keys;
-			boost::unordered_map< std::string, boost::unordered_map<std::string, std::string> >::iterator i_section;
-			boost::unordered_map<std::string, std::string>::iterator i_item;
+			boost::unordered_map< std::string, boost::unordered_map<std::string, std::string> >::iterator found_section;
+			boost::unordered_map<std::string, std::string>::iterator found_item;
 
-			i_section = cfg_.find("log");
+			found_section = cfg_.find("log");
 			{
-				if (i_section == cfg_.end())
+				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::log not found," << __FILE__ << ":" << __LINE__;
 					return false;
@@ -79,8 +79,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					i_item = i_section->second.find(keys[i]);
-					if (i_item == i_section->second.end())
+					found_item = found_section->second.find(keys[i]);
+					if (found_item == found_section->second.end())
 					{
 						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
@@ -88,18 +88,18 @@ namespace waspp
 
 					if (keys[i] == "level")
 					{
-						log_level_ = i_item->second;
+						log_level_ = found_item->second;
 					}
 					else if (keys[i] == "rotation")
 					{
-						log_rotation_ = i_item->second;
+						log_rotation_ = found_item->second;
 					}
 				}
 			}
 
-			i_section = cfg_.find("error");
+			found_section = cfg_.find("error");
 			{
-				if (i_section == cfg_.end())
+				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::error not found," << __FILE__ << ":" << __LINE__;
 					return false;
@@ -112,8 +112,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					i_item = i_section->second.find(keys[i]);
-					if (i_item == i_section->second.end())
+					found_item = found_section->second.find(keys[i]);
+					if (found_item == found_section->second.end())
 					{
 						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
@@ -121,42 +121,42 @@ namespace waspp
 
 					if (keys[i] == "locale")
 					{
-						locale = i_item->second;
+						locale = found_item->second;
 					}
 				}
 			}
 
-			i_section = cfg_.find("access_granted");
+			found_section = cfg_.find("access_granted");
 			{
-				if (i_section == cfg_.end())
+				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::access_granted not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 
-				for (i_item = i_section->second.begin(); i_item != i_section->second.end(); ++i_item)
+				for (found_item = found_section->second.begin(); found_item != found_section->second.end(); ++found_item)
 				{
-					access_granted_.push_back(i_item->second);
+					access_granted_.push_back(found_item->second);
 				}
 			}
 
-			i_section = cfg_.find("access_denied");
+			found_section = cfg_.find("access_denied");
 			{
-				if (i_section == cfg_.end())
+				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::denied not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
-
-				for (i_item = i_section->second.begin(); i_item != i_section->second.end(); ++i_item)
+	
+				for (found_item = found_section->second.begin(); found_item != found_section->second.end(); ++found_item)
 				{
-					access_denied_.push_back(i_item->second);
+					access_denied_.push_back(found_item->second);
 				}
 			}
 
-			i_section = cfg_.find("session");
+			found_section = cfg_.find("session");
 			{
-				if (i_section == cfg_.end())
+				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::session not found," << __FILE__ << ":" << __LINE__;
 					return false;
@@ -174,8 +174,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					i_item = i_section->second.find(keys[i]);
-					if (i_item == i_section->second.end())
+					found_item = found_section->second.find(keys[i]);
+					if (found_item == found_section->second.end())
 					{
 						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
@@ -183,34 +183,34 @@ namespace waspp
 
 					if (keys[i] == "encrypt_key")
 					{
-						encrypt_key_ = i_item->second;
+						encrypt_key_ = found_item->second;
 					}
 					else if (keys[i] == "sess_cookie")
 					{
-						sess_cookie_ = i_item->second;
+						sess_cookie_ = found_item->second;
 					}
 					else if (keys[i] == "expiry_sec")
 					{
-						expiry_sec_ = boost::lexical_cast<double>(i_item->second);
+						expiry_sec_ = boost::lexical_cast<double>(found_item->second);
 					}
 					else if (keys[i] == "update_sec")
 					{
-						update_sec_ = boost::lexical_cast<double>(i_item->second);
+						update_sec_ = boost::lexical_cast<double>(found_item->second);
 					}
 					else if (keys[i] == "validate_ep")
 					{
-						validate_ep_ = boost::lexical_cast<bool>(i_item->second);
+						validate_ep_ = boost::lexical_cast<bool>(found_item->second);
 					}
 					else if (keys[i] == "validate_ua")
 					{
-						validate_ua_ = boost::lexical_cast<bool>(i_item->second);
+						validate_ua_ = boost::lexical_cast<bool>(found_item->second);
 					}
 				}
 			}
 
-			i_section = cfg_.find(server_id);
+			found_section = cfg_.find(server_id);
 			{
-				if (i_section == cfg_.end())
+				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::server_id not found," << __FILE__ << ":" << __LINE__;
 					return false;
@@ -231,8 +231,8 @@ namespace waspp
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
 				{
-					i_item = i_section->second.find(keys[i]);
-					if (i_item == i_section->second.end())
+					found_item = found_section->second.find(keys[i]);
+					if (found_item == found_section->second.end())
 					{
 						log(fatal) << "config::element not found," << __FILE__ << ":" << __LINE__;
 						return false;
@@ -240,15 +240,15 @@ namespace waspp
 
 					if (keys[i] == "address")
 					{
-						address_ = i_item->second;
+						address_ = found_item->second;
 					}
 					else if (keys[i] == "port")
 					{
-						port_ = i_item->second;
+						port_ = found_item->second;
 					}
 					else if (keys[i] == "doc_root")
 					{
-						doc_root_ = i_item->second;
+						doc_root_ = found_item->second;
 
 						if (doc_root_[doc_root_.size() - 1] != '/')
 						{
@@ -257,23 +257,23 @@ namespace waspp
 					}
 					else if (keys[i] == "num_threads")
 					{
-						num_threads_ = boost::lexical_cast<std::size_t>(i_item->second);
+						num_threads_ = boost::lexical_cast<std::size_t>(found_item->second);
 					}
 					else if (keys[i] == "compress")
 					{
-						compress_ = boost::lexical_cast<bool>(i_item->second);
+						compress_ = boost::lexical_cast<bool>(found_item->second);
 					}
 					else if (keys[i] == "ssl")
 					{
-						ssl_ = boost::lexical_cast<bool>(i_item->second);
+						ssl_ = boost::lexical_cast<bool>(found_item->second);
 					}
 					else if (keys[i] == "ssl_crt")
 					{
-						ssl_crt_ = i_item->second;
+						ssl_crt_ = found_item->second;
 					}
 					else if (keys[i] == "ssl_key")
 					{
-						ssl_key_ = i_item->second;
+						ssl_key_ = found_item->second;
 					}
 				}
 			}
