@@ -179,10 +179,10 @@ namespace waspp
 	std::string session::get_uuid()
 	{
 		boost::uuids::uuid uuid_;
-		std::vector<char> uuid_vec_char(uuid_.size());
-		std::copy(uuid_.begin(), uuid_.end(), uuid_vec_char.begin());
+		std::vector<char> uuid_char_vec(uuid_.size());
+		std::copy(uuid_.begin(), uuid_.end(), uuid_char_vec.begin());
 
-		return std::string(uuid_vec_char.begin(), uuid_vec_char.end());
+		return std::string(uuid_char_vec.begin(), uuid_char_vec.end());
 	}
 
 	std::string session::get_curr_tm()

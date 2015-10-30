@@ -52,14 +52,14 @@ namespace waspp
 	public:
 		static T* instance()
 		{
-			if (instance_ != '\0')
+			if (instance_ != 0)
 			{
 				return instance_;
 			}
 
 			// double checked locking for thread-safe singleton
 			lock.acquire();
-			if (instance_ == '\0')
+			if (instance_ == 0)
 			{
 				instance_ = new T();
 

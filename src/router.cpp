@@ -57,7 +57,7 @@ namespace waspp
 				}
 			}
 
-			return '\0';
+			return 0;
 		}
 
 		bool get_file(config* cfg, response& res, std::string request_path)

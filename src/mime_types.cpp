@@ -58,7 +58,7 @@ namespace waspp
 		bool is_compressible(const std::string& extension)
 		{
 			int i = 0;
-			while (compressible[i] != '\0')
+			while (compressible[i] != 0)
 			{
 				if (compressible[i] == extension)
 				{
