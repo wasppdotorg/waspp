@@ -3,8 +3,7 @@ waspp
 
 Build Tested With
 -----------------
-* CMake 2.8 - Ubuntu Linux 14.04 LTS
-* Codeblocks 13.12 - Ubuntu Linux 14.04 LTS
+* GCC 4.8 - Ubuntu Linux 14.04 LTS
 * Visual Studio 2013 - Windows 7
 * Xcode 6.1 - MacOS X 10.9
 
