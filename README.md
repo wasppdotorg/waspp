@@ -1,8 +1,8 @@
 waspp
 =====
 
-Build Tested With
------------------
+Supported Compilers
+-------------------
 * GCC 4.8 - Ubuntu Linux 14.04 LTS (Boost 1.54)
 * Visual Studio 2013 - Windows 7 (Boost 1.56)
 
@@ -133,8 +133,8 @@ timeout 0
 
 * vi develop.json (if different)
 
-Build waspp
------------
+Compile waspp
+-------------
 * cd ../src
 * sudo apt-get install build-essential
 * sudo apt-get install cmake
