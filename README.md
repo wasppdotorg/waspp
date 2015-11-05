@@ -5,7 +5,9 @@ Build Tested With
 -----------------
 * GCC 4.8 - Ubuntu Linux 14.04 LTS
 * Visual Studio 2013 - Windows 7
+<!--
 * Xcode 6.1 - MacOS X 10.9
+-->
 
 Install MariaDB
 ---------------
@@ -73,11 +75,6 @@ Install Libraries
 Increase Open File Limit
 ------------------------
 * ulimit -n
-* sudo vi /etc/sysctl.conf
-```
-fs.file-max = 65536
-```
-
 * sudo vi /etc/security/limits.conf
 ```
 * hard nofile 65535
@@ -123,7 +120,7 @@ wait_timeout = 28800
 "wait_timeout_sec" : 28800
 ```
 
-* grep timeout /etc/redis/redis.cnf
+* grep timeout /etc/redis/redis.conf
 ```
 timeout 0
 ```
@@ -238,12 +235,19 @@ kernel.core_pattern = core.%p
 ulimit -c unlimited
 ```
 
+* cd
+* vim .gdbinit
+```
+python sys.path.append('/usr/share/gcc-4.8/python')
+```
+
 For Windows
 -----------
 * boost_1_56_0-msvc-12.0-64.exe
 * mariadb-10.0.16-winx64.msi
 * Win64OpenSSL-1_0_2a.exe
 
+<!--
 For MacOS X
 -----------
 * install macports (http://www.macports.org)
@@ -251,3 +255,4 @@ For MacOS X
 * sudo port install mariadb
 * sudo port install redis
 * sudo port install openssl
+-->
