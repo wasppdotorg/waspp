@@ -3,8 +3,8 @@ waspp
 
 Build Tested With
 -----------------
-* GCC 4.8 - Ubuntu Linux 14.04 LTS
-* Visual Studio 2013 - Windows 7
+* GCC 4.8 - Ubuntu Linux 14.04 LTS (Boost 1.54)
+* Visual Studio 2013 - Windows 7 (Boost 1.56)
 
 <!--
 * Xcode 6.1 - MacOS X 10.9
