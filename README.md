@@ -256,4 +256,5 @@ For MacOS X
 * sudo port install mariadb
 * sudo port install redis
 * sudo port install openssl
+* sudo port install hiredis
 -->
