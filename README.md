@@ -138,7 +138,7 @@ Compile waspp
 * cd ../src
 * sudo apt-get install build-essential
 * sudo apt-get install cmake
-* mkdir cmakebuild
+* sudo mkdir cmakebuild
 * cd cmakebuild
 * sudo cmake ..
 * sudo make
