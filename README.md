@@ -113,12 +113,12 @@ Configure waspp
 * cd waspp/cfg
 * grep wait_timeout /etc/mysql/my.cnf
 ```
-wait_timeout = 28800
+wait_timeout = 600
 ```
 
 * grep wait_timeout develop.json
 ```
-"wait_timeout_sec" : 28800
+"wait_timeout_sec" : 600
 ```
 
 * grep timeout /etc/redis/redis.conf
