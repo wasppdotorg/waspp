@@ -88,8 +88,8 @@ root soft nofile 65535
 * ssh your@server
 * ulimit -n
 
-Install waspp
--------------
+Download waspp
+--------------
 * cd /var/
 * sudo apt-get install git
 * sudo git clone https://github.com/waspporg/waspp.git
