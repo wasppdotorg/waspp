@@ -245,8 +245,8 @@ python sys.path.append('/usr/share/gcc-4.8/python')
 For Windows
 -----------
 * boost_1_56_0-msvc-12.0-64.exe
-* mariadb-10.0.16-winx64.msi
-* Win64OpenSSL-1_0_2a.exe
+* mariadb-10.0.22-winx64.msi
+* Win64OpenSSL-1_0_2d.exe
 
 <!--
 For MacOS X
