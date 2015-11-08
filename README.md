@@ -13,7 +13,7 @@ Build Environment
 Install MariaDB
 ---------------
 * sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
-* sudo vi /etc/apt/sources.list
+* sudo nano /etc/apt/sources.list
 ```
 deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main
 deb-src http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main
@@ -22,7 +22,7 @@ deb-src http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main
 * sudo apt-get update
 * sudo apt-get upgrade
 * sudo apt-get install mariadb-server
-* sudo vi /etc/mysql/conf.d/mariadb.cnf
+* sudo nano /etc/mysql/conf.d/mariadb.cnf
 ```
 [client]
 default-character-set = utf8
@@ -39,7 +39,7 @@ collation_server     = utf8_general_ci
 <!--
 Install HandlerSocket
 ---------------------
-* sudo vi /etc/mysql/my.cnf
+* sudo nano /etc/mysql/my.cnf
 ```
 [mysqld]
 ..
@@ -76,7 +76,7 @@ Install Libraries
 Increase Open File Limit
 ------------------------
 * ulimit -n
-* sudo vi /etc/security/limits.conf
+* sudo nano /etc/security/limits.conf
 ```
 * hard nofile 65535
 * soft nofile 65535
@@ -131,7 +131,7 @@ timeout 0
 "timeout_sec" : 0
 ```
 
-* vi develop.json (if different)
+* nano develop.json (if different)
 
 Build waspp
 -----------
@@ -167,8 +167,8 @@ Add Your Own Route
 ------------------
 * cd ../src
 * sudo cp route_forum.cpp route_notice.cpp
-* sudo vi route_notice.cpp
-* sudo vi router.hpp
+* sudo nano route_notice.cpp
+* sudo nano router.hpp
 ```
 namespace dir_notice
 {
@@ -178,7 +178,7 @@ namespace dir_notice
 } // namespace dir_notice
 ```
 
-* sudo vi router.cpp
+* sudo nano router.cpp
 ```
 route routes[] =
 {
@@ -197,13 +197,13 @@ Enable SSL
 * cd ../ssl
 * sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./develop.key -out ./develop.crt
 * cd ../cfg
-* sudo vi develop.json
+* sudo nano develop.json
 ```
 "ssl" : 1,
 ```
 
 * cd ../src
-* sudo vi connection.hpp server.hpp utility.hpp
+* sudo nano connection.hpp server.hpp utility.hpp
 ```
 #define CHECK_MEMORY_LEAK_WITH_SSL
 ```
@@ -219,25 +219,25 @@ Check Memory Leak
 Enable Core Dump
 -------------------
 * sudo /etc/init.d/apport stop
-* sudo vi /etc/default/apport 
+* sudo nano /etc/default/apport 
 ```
 enabled=0
 ```
 
 * sudo sysctl -w kernel.core_pattern=core.%p
-* sudo vi /etc/sysctl.d/20-core-pattern.conf 
+* sudo nano /etc/sysctl.d/20-core-pattern.conf 
 ```
 kernel.core_pattern = core.%p
 ```
 
 * ulimit -c unlimited
-* sudo vi /etc/profile
+* sudo nano /etc/profile
 ```
 ulimit -c unlimited
 ```
 
 * cd
-* vi .gdbinit
+* nano .gdbinit
 ```
 python sys.path.append('/usr/share/gcc-4.8/python')
 ```
