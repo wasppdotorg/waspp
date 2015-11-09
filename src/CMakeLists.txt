@@ -11,7 +11,7 @@ if (CCACHE_FOUND)
 endif()
 
 aux_source_directory (. Source_DIRECTORIES)
-add_executable (waspp ${Source_DIRECTORIES})
+add_executable (${TARGET} ${Source_DIRECTORIES})
 
 include_directories (/usr/include /usr/local/include)
 
