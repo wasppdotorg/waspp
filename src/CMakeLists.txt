@@ -17,7 +17,8 @@ include_directories (/usr/include /usr/local/include)
 
 find_package (Threads)
 find_package (Boost 1.54.0 COMPONENTS system thread filesystem chrono serialization iostreams)
-find_package (MySQLClient_LIBRARIES NAMES mysqlclient PATHS /usr/lib/mysql /usr/local/lib/mysql)
+
+find_library (MySQLClient_LIBRARIES NAMES mysqlclient PATHS /usr/lib/mysql /usr/local/lib/mysql)
 find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (SSL_LIBRARIES NAMES ssl)
 find_library (Crypto_LIBRARIES NAMES crypto)
