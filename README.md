@@ -4,6 +4,7 @@ waspp
 Build Environment
 -----------------
 * GCC 4.8 - Ubuntu Linux 14.04 LTS (Boost 1.54)
+* Clang 3.4 - FreeBSD 10.2 (Boost 1.55)
 * Visual Studio 2013 - Windows 7 (Boost 1.56)
 
 <!--
@@ -72,6 +73,11 @@ Install Libraries
 * sudo apt-get install libgnutls-dev
 * sudo apt-get install libhiredis-dev
 * sudo apt-get install libgoogle-perftools-dev
+
+Install CCache
+--------------
+* sudo apt-get install ccache
+* sudo ccache -C
 
 Increase Open File Limit
 ------------------------
@@ -147,6 +153,7 @@ Build waspp
 Run
 ---
 * cd ../../bin
+* sudo chmod +x develop_start.sh
 * sudo ./develop_start.sh
 * sudo tail -f ../log/develop00.csv
 * Go to http://127.0.0.1:10080/
@@ -241,6 +248,14 @@ ulimit -c unlimited
 ```
 python sys.path.append('/usr/share/gcc-4.8/python')
 ```
+
+For FreeBSD
+-----------
+* sudo pkg install boost-all
+* sudo pkg install mariadb100-client
+* sudo pkg install mariadb100-server
+* sudo pkg install redis
+* sudo pkg install hiredis
 
 For Windows
 -----------
