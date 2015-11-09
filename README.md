@@ -251,6 +251,7 @@ python sys.path.append('/usr/share/gcc-4.8/python')
 
 For FreeBSD
 -----------
+* sudo pkg install ccache
 * sudo pkg install boost-all
 * sudo pkg install mariadb100-client
 * sudo pkg install mariadb100-server
