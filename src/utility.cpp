@@ -85,7 +85,6 @@ namespace waspp
 			}
 			else if (req_type == ssl || req_type == https_get || req_type == https_post)
 			{
-#ifdef _SSL
 				// Get a list of endpoints corresponding to the server name.
 				boost::asio::ip::tcp::resolver::query query_(host, port);
 				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
@@ -124,7 +123,6 @@ namespace waspp
 				}
 
 				return true;
-#endif // SSL
 			}
 		}
 		catch (...)
@@ -280,7 +278,6 @@ namespace waspp
 		return false;
 	}
 
-#ifdef _SSL
 	bool uri_conn::ssl_query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_, std::ostream& req_stream, const std::string& data)
 	{
 		try
@@ -372,7 +369,6 @@ namespace waspp
 
 		return false;
 	}
-#endif // SSL
 
 	bool uri_conn::is_200(std::istream& res_stream)
 	{

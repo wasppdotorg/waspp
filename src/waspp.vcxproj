@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="config.cpp" />
     <ClCompile Include="connection.cpp" />
+    <ClCompile Include="connection_ssl.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="dbconn_pool.cpp" />
     <ClCompile Include="logger.cpp" />
@@ -148,10 +149,12 @@
     <ClCompile Include="route_dir_forum.cpp" />
     <ClCompile Include="route_dir_user.cpp" />
     <ClCompile Include="server.cpp" />
+    <ClCompile Include="server_ssl.cpp" />
     <ClCompile Include="session.cpp" />
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="connection_ssl.hpp" />
     <ClInclude Include="error.hpp" />
     <ClInclude Include="performance_checker.hpp" />
     <ClInclude Include="redis.hpp" />
@@ -172,6 +175,7 @@
     <ClInclude Include="response.hpp" />
     <ClInclude Include="router.hpp" />
     <ClInclude Include="server.hpp" />
+    <ClInclude Include="server_ssl.hpp" />
     <ClInclude Include="session.hpp" />
     <ClInclude Include="utility.hpp" />
   </ItemGroup>

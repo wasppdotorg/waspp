@@ -17,6 +17,7 @@
 #endif // _WIN32
 
 #include "server.hpp"
+#include "server_ssl.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -98,16 +99,18 @@ int main(int argc, char* argv[])
 		}
 #endif // _WIN32
 
-#ifndef SSL
 		if (cfg->ssl())
 		{
-			waspp::log(waspp::fatal) << "ssl disabled," << __FILE__ << ":" << __LINE__;
+			waspp::log(waspp::info) << "server_ssl starting..";
+			waspp::server_ssl s(cfg);
+			s.run();
 		}
-#endif // SSL
-
-		waspp::log(waspp::info) << "server starting..";
-		waspp::server s(cfg);
-		s.run();
+		else
+		{
+			waspp::log(waspp::info) << "server starting..";
+			waspp::server s(cfg);
+			s.run();
+		}
 	}
 	catch (std::exception& e)
 	{
