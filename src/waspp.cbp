@@ -51,6 +51,8 @@
 		<Unit filename="config.hpp" />
 		<Unit filename="connection.cpp" />
 		<Unit filename="connection.hpp" />
+		<Unit filename="connection_ssl.cpp" />
+		<Unit filename="connection_ssl.hpp" />
 		<Unit filename="database.cpp" />
 		<Unit filename="database.hpp" />
 		<Unit filename="dbconn_pool.cpp" />
@@ -87,6 +89,8 @@
 		<Unit filename="router.hpp" />
 		<Unit filename="server.cpp" />
 		<Unit filename="server.hpp" />
+		<Unit filename="server_ssl.cpp" />
+		<Unit filename="server_ssl.hpp" />
 		<Unit filename="session.cpp" />
 		<Unit filename="session.hpp" />
 		<Unit filename="utility.cpp" />

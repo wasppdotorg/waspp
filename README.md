@@ -74,10 +74,12 @@ Install Libraries
 * sudo apt-get install libhiredis-dev
 * sudo apt-get install libgoogle-perftools-dev
 
+<!--
 Install CCache
 --------------
 * sudo apt-get install ccache
 * sudo ccache -C
+-->
 
 Increase Open File Limit
 ------------------------
@@ -243,7 +245,11 @@ python sys.path.append('/usr/share/gcc-4.8/python')
 For FreeBSD
 -----------
 * sudo pkg install nano
+
+<!--
 * sudo pkg install ccache
+-->
+
 * sudo pkg install boost-all
 * sudo pkg install mariadb100-client
 * sudo pkg install mariadb100-server
