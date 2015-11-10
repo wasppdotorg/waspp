@@ -209,15 +209,6 @@ Enable SSL
 "ssl" : 1,
 ```
 
-* cd ../src
-* sudo nano CMakeLists.txt
-```
-add_definitions (-D_SSL)
-```
-
-* cd cmakebuild
-* sudo make
-
 Check Memory Leak
 -----------------
 * sudo apt-get install valgrind
