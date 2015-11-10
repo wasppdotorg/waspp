@@ -210,9 +210,9 @@ Enable SSL
 ```
 
 * cd ../src
-* sudo nano connection.hpp server.hpp utility.hpp
+* sudo nano CMakeLists.txt
 ```
-#define CHECK_MEMORY_LEAK_WITH_SSL
+add_definitions (-D_SSL)
 ```
 
 * cd cmakebuild

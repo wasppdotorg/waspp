@@ -13,6 +13,7 @@ endif()
 aux_source_directory (. Source_DIRECTORIES)
 add_executable (${TARGET} ${Source_DIRECTORIES})
 
+#add_definitions (-D_SSL)
 include_directories (/usr/include /usr/local/include)
 
 find_package (Threads)

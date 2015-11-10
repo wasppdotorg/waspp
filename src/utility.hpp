@@ -122,11 +122,10 @@ namespace waspp
 		bool tcp_query(boost::asio::ip::tcp::socket& socket_, std::ostream& req_stream, const std::string& data);
 		bool http_query(boost::asio::ip::tcp::socket& socket_);
 
-#define CHECK_MEMORY_LEAK_WITHOUT_SSL
-#ifdef  CHECK_MEMORY_LEAK_WITH_SSL
+#ifdef _SSL
 		bool ssl_query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_, std::ostream& req_stream, const std::string& data);
 		bool https_query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_);
-#endif
+#endif // SSL
 
 		bool is_200(std::istream& res_stream);
 

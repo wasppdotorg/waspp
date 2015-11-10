@@ -30,8 +30,7 @@ namespace waspp
 	{
 	public:
 
-#define CHECK_MEMORY_LEAK_WITHOUT_SSL
-#ifdef  CHECK_MEMORY_LEAK_WITH_SSL
+#ifdef _SSL
 
 		/// Construct a connection with the given io_service.
 		explicit connection(boost::asio::io_service& io_service,
@@ -41,7 +40,7 @@ namespace waspp
 		/// Get the socket associated with the connection.
 		boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket();
 
-#else
+#else // SSL
 
 		/// Construct a connection with the given io_service.
 		explicit connection(boost::asio::io_service& io_service,
@@ -50,14 +49,14 @@ namespace waspp
 		/// Get the socket associated with the connection.
 		boost::asio::ip::tcp::socket& socket();
 
-#endif
+#endif // SSL
 
 		/// Start the first asynchronous operation for the connection.
 		void start();
 
 	private:
 
-#ifdef CHECK_MEMORY_LEAK_WITH_SSL
+#ifdef _SSL
 
 		void handle_handshake(const boost::system::error_code& e);
 
@@ -67,7 +66,7 @@ namespace waspp
 		/// Socket for the connection.
 		boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket_;
 
-#else
+#else // SSL
 
 		/// Strand to ensure the connection's handlers are not called concurrently.
 		boost::asio::io_service::strand strand_;
@@ -75,7 +74,7 @@ namespace waspp
 		/// Socket for the connection.
 		boost::asio::ip::tcp::socket socket_;
 
-#endif
+#endif // SSL
 
 		/// Handle completion of a read operation.
 		void handle_read(const boost::system::error_code& e,

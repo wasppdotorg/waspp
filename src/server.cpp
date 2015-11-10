@@ -16,7 +16,7 @@
 namespace waspp
 {
 
-#ifdef CHECK_MEMORY_LEAK_WITH_SSL
+#ifdef _SSL
 
 	server::server(config* cfg_)
 		: cfg(cfg_),
@@ -76,7 +76,7 @@ namespace waspp
 			boost::asio::placeholders::error));
 	}
 
-#else
+#else // SSL
 
 	server::server(config* cfg_)
 		: cfg(cfg_),
@@ -122,7 +122,7 @@ namespace waspp
 			boost::asio::placeholders::error));
 	}
 
-#endif
+#endif // SSL
 
 	void server::run()
 	{

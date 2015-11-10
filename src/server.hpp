@@ -48,16 +48,15 @@ namespace waspp
 		/// The io_service used to perform asynchronous operations.
 		boost::asio::io_service io_service_;
 
+#ifdef _SSL
+		boost::asio::ssl::context context_;
+#endif // SSL
+
 		/// The signal_set is used to register for process termination notifications.
 		boost::asio::signal_set signals_;
 
 		/// Acceptor used to listen for incoming connections.
 		boost::asio::ip::tcp::acceptor acceptor_;
-
-#define CHECK_MEMORY_LEAK_WITHOUT_SSL
-#ifdef  CHECK_MEMORY_LEAK_WITH_SSL
-		boost::asio::ssl::context context_;
-#endif
 
 		/// The next connection to be accepted.
 		connection_ptr new_connection_;

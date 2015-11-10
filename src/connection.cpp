@@ -15,7 +15,7 @@
 namespace waspp
 {
 
-#ifdef CHECK_MEMORY_LEAK_WITH_SSL
+#ifdef _SSL
 
 	connection::connection(boost::asio::io_service& io_service,
 		boost::asio::ssl::context& context,
@@ -55,7 +55,7 @@ namespace waspp
 		}
 	}
 
-#else
+#else // SSL
 
 	connection::connection(boost::asio::io_service& io_service,
 		request_handler& handler)
@@ -83,7 +83,7 @@ namespace waspp
 		//log(debug) << "new connection," << request_.remote_endpoint;
 	}
 
-#endif
+#endif // SSL
 
 	void connection::handle_read(const boost::system::error_code& e,
 		std::size_t bytes_transferred)
@@ -142,11 +142,11 @@ namespace waspp
 			response_ = response();
 			request_ = request();
 
-#ifdef CHECK_MEMORY_LEAK_WITH_SSL
+#ifdef _SSL
 			request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.lowest_layer().remote_endpoint());
-#else
+#else // SSL
 			request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.remote_endpoint());
-#endif
+#endif // _SSL
 
 			socket_.async_read_some(boost::asio::buffer(buffer_),
 				strand_.wrap(

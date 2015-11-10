@@ -98,12 +98,12 @@ int main(int argc, char* argv[])
 		}
 #endif // _WIN32
 
-#ifndef CHECK_MEMORY_LEAK_WITH_SSL
+#ifndef SSL
 		if (cfg->ssl())
 		{
 			waspp::log(waspp::fatal) << "ssl disabled," << __FILE__ << ":" << __LINE__;
 		}
-#endif
+#endif // SSL
 
 		waspp::log(waspp::info) << "server starting..";
 		waspp::server s(cfg);
