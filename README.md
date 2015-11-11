@@ -7,10 +7,6 @@ Build Environment
 * Clang 3.4 - FreeBSD 10.2 (Boost 1.55)
 * Visual Studio 2013 - Windows 7 (Boost 1.56)
 
-<!--
-* Xcode 6.1 - MacOS X 10.9
--->
-
 Install MariaDB
 ---------------
 * sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
@@ -73,13 +69,6 @@ Install Libraries
 * sudo apt-get install libgnutls-dev
 * sudo apt-get install libhiredis-dev
 * sudo apt-get install libgoogle-perftools-dev
-
-<!--
-Install CCache
---------------
-* sudo apt-get install ccache
-* sudo ccache -C
--->
 
 Increase Open File Limit
 ------------------------
@@ -244,11 +233,6 @@ python sys.path.append('/usr/share/gcc-4.8/python')
 
 For FreeBSD
 -----------
-
-<!--
-* sudo pkg install ccache
--->
-
 * sudo pkg install nano
 * sudo pkg install boost-all
 * sudo pkg install mariadb100-client
@@ -263,13 +247,3 @@ For Windows
 * mariadb-10.0.22-winx64.msi
 * Win64OpenSSL-1_0_2d.exe
 
-<!--
-For MacOS X
------------
-* install macports (http://www.macports.org)
-* sudo port install boost
-* sudo port install mariadb
-* sudo port install redis
-* sudo port install openssl
-* sudo port install hiredis
--->
