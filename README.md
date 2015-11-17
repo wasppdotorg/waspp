@@ -5,7 +5,7 @@ Build Environment
 -----------------
 * GCC 4.8 - Ubuntu Linux 14.04 LTS (Boost 1.54)
 * Clang 3.4 - FreeBSD 10.2 (Boost 1.55)
-* Visual Studio 2013 - Windows 7 (Boost 1.56)
+* Visual Studio 2013 - Windows 7 (Boost 1.57)
 
 Install MariaDB
 ---------------
@@ -243,7 +243,7 @@ For FreeBSD
 
 For Windows
 -----------
-* boost_1_56_0-msvc-12.0-64.exe
+* boost_1_57_0-msvc-12.0-64.exe
 * mariadb-10.0.22-winx64.msi
 * Win64OpenSSL-1_0_2d.exe
 
