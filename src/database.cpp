@@ -34,6 +34,7 @@ namespace waspp
 		}
 		catch (...)
 		{
+			mysql_library_end();
 			throw;
 		}
 	}
