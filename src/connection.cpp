@@ -52,6 +52,8 @@ namespace waspp
 
 			if (result)
 			{
+				request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.remote_endpoint());
+
 				request_parser_.parse_params(request_);
 				request_parser_.parse_cookies(request_);
 				request_parser_.parse_content(request_);
@@ -97,8 +99,6 @@ namespace waspp
 			request_parser_.reset();
 			response_ = response();
 			request_ = request();
-
-			request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.remote_endpoint());
 
 			socket_.async_read_some(boost::asio::buffer(buffer_),
 				strand_.wrap(
