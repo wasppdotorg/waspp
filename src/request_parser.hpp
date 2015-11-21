@@ -566,7 +566,7 @@ namespace waspp
 					}
 
 				case content:
-					do
+					while (1)
 					{
 						input = *begin++;
 
@@ -582,7 +582,7 @@ namespace waspp
 						result = boost::indeterminate;
 						break;
 
-					} while (begin != end);
+					}
 					break;
 
 				default:

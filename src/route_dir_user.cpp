@@ -34,7 +34,7 @@ namespace waspp
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
-			unsigned int userid;
+			unsigned int userid = 0;
 			std::string passwd;
 
 			if (req.param("username").empty())
