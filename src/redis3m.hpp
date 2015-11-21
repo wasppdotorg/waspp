@@ -209,7 +209,6 @@ Apache License
 #ifndef REDIS3M_HPP
 #define REDIS3M_HPP
 
-#ifndef _WIN32
 #include <hiredis/hiredis.h>
 
 #include <vector>
@@ -450,7 +449,12 @@ namespace redis3m
 	private:
 		connection(const std::string& host, const unsigned int port, bool pooled_ = false)
 		{
+#ifdef _WIN32
+			struct timeval timeval_ = { 1, };
+			c = redisConnectWithTimeout(host.c_str(), port, timeval_);
+#else
 			c = redisConnect(host.c_str(), port);
+#endif // _WIN32
 
 			if (c->err != REDIS_OK)
 			{
@@ -471,5 +475,4 @@ namespace redis3m
 
 } // namespace redis3m
 
-#endif // _WIN32
 #endif // REDIS3M_HPP

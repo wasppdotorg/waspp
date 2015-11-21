@@ -11,11 +11,7 @@
 #include "logger.hpp"
 #include "config.hpp"
 #include "database.hpp"
-
-#ifndef _WIN32
 #include "redis.hpp"
-#endif // _WIN32
-
 #include "server.hpp"
 #include "server_ssl.hpp"
 
@@ -24,9 +20,7 @@ int main(int argc, char* argv[])
 	waspp::logger* log_ = waspp::logger::instance();
 	waspp::config* cfg = waspp::config::instance();
 	waspp::database* db = waspp::database::instance();
-#ifndef _WIN32
 	waspp::redis* rd = waspp::redis::instance();
-#endif // _WIN32
 
 	try
 	{
@@ -86,7 +80,6 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-#ifndef _WIN32
 		std::vector<std::string> rdnames;
 		{
 			rdnames.push_back("rd_idx");
@@ -97,7 +90,6 @@ int main(int argc, char* argv[])
 			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
-#endif // _WIN32
 
 		if (cfg->ssl())
 		{
