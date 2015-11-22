@@ -449,13 +449,9 @@ namespace redis3m
 	private:
 		connection(const std::string& host, const unsigned int port, bool pooled_ = false)
 		{
-#ifdef _WIN32
 			struct timeval timeval_ = { 1, };
-			c = redisConnectWithTimeout(host.c_str(), port, timeval_);
-#else
-			c = redisConnect(host.c_str(), port);
-#endif // _WIN32
 
+			c = redisConnectWithTimeout(host.c_str(), port, timeval_);
 			if (c->err != REDIS_OK)
 			{
 				throw std::runtime_error("redisConnect failed");
