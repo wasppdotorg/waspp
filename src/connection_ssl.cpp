@@ -66,6 +66,11 @@ namespace waspp
 			{
 				request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.lowest_layer().remote_endpoint());
 
+				if (request_.header("Connection") == "close")
+				{
+					request_.connection_close = true;
+				}
+
 				request_parser_.parse_params(request_);
 				request_parser_.parse_cookies(request_);
 				request_parser_.parse_content(request_);
@@ -104,9 +109,13 @@ namespace waspp
 	{
 		if (!e)
 		{
-			// Initiate graceful connection_ssl closure.
-			//boost::system::error_code ignored_ec;
-			//socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
+			if (request_.connection_close)
+			{
+				// Initiate graceful connection_ssl closure.
+				boost::system::error_code ignored_ec;
+				socket_.lowest_layer().shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
+				return;
+			}
 
 			request_parser_.reset();
 			response_ = response();

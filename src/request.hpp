@@ -24,6 +24,12 @@ namespace waspp
 	/// A request received from a client.
 	struct request
 	{
+		request()
+		: connection_close(false), content_length(0)
+		{
+
+		}
+
 		std::string& header(const std::string& name)
 		{
 			std::vector<name_value>::iterator found;
@@ -66,6 +72,7 @@ namespace waspp
 			return found->value;
 		}
 
+		bool connection_close;
 		std::string remote_endpoint;
 		std::string method;
 		std::string uri;
