@@ -66,7 +66,29 @@ namespace waspp
 			return found->value;
 		}
 
+		void parse_connection_header()
+		{
+			char c = 'K';
+			if (http_version_major == 1 && http_version_minor == 0)
+			{
+				c = 'C';
+			}
+
+			if (!header("Connection").empty())
+			{
+				c = header("Connection")[0];
+			}
+
+			keep_alive = true;
+			if (c == 'C' || c == 'c')
+			{
+				keep_alive = false;
+			}
+		}
+
 		std::string remote_endpoint;
+		bool keep_alive;
+
 		std::string method;
 		std::string uri;
 		int http_version_major;

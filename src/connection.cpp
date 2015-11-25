@@ -53,6 +53,7 @@ namespace waspp
 			if (result)
 			{
 				request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.remote_endpoint());
+				request_.parse_connection_header();
 
 				request_parser_.parse_params(request_);
 				request_parser_.parse_cookies(request_);
@@ -92,7 +93,7 @@ namespace waspp
 	{
 		if (!e)
 		{
-			if (request_.http_version_major == 1 && request_.http_version_minor == 0)
+			if (!request_.keep_alive)
 			{
 				// Initiate graceful connection closure.
 				boost::system::error_code ignored_ec;
