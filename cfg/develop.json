@@ -67,7 +67,7 @@
 			"database" : "develop_waspp_idx",
 			"port" : 3306,
 			"charset" : "utf8",
-			"pool_size" : 8,
+			"pool_size" : 4,
 			"wait_timeout_sec" : 600
 		},
 
@@ -79,7 +79,7 @@
 			"database" : "develop_waspp_000",
 			"port" : 3306,
 			"charset" : "utf8",
-			"pool_size" : 8,
+			"pool_size" : 4,
 			"wait_timeout_sec" : 600
 		},
 
@@ -92,7 +92,7 @@
 			"database" : "develop_waspp_001",
 			"port" : 3306,
 			"charset" : "utf8",
-			"pool_size" : 8,
+			"pool_size" : 4,
 			"wait_timeout_sec" : 600
 		},
 
@@ -104,7 +104,7 @@
 			"database" : "develop_waspp_etc",
 			"port" : 3306,
 			"charset" : "utf8",
-			"pool_size" : 8,
+			"pool_size" : 4,
 			"wait_timeout_sec" : 600
 		},
 		
@@ -122,7 +122,7 @@
 		{
 			"host" : "127.0.0.1",
 			"port" : 6379,
-			"pool_size" : 8,
+			"pool_size" : 4,
 			"timeout_sec" : 0
 		},
 

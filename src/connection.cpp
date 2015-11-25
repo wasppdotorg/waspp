@@ -92,9 +92,13 @@ namespace waspp
 	{
 		if (!e)
 		{
-			// Initiate graceful connection closure.
-			//boost::system::error_code ignored_ec;
-			//socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
+			if (request_.http_version_major == 1 && request_.http_version_minor == 0)
+			{
+				// Initiate graceful connection closure.
+				boost::system::error_code ignored_ec;
+				socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
+				return;
+			}
 		
 			request_parser_.reset();
 			response_ = response();
