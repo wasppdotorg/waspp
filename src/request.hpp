@@ -66,7 +66,38 @@ namespace waspp
 			return found->value;
 		}
 
+		void parse_connection_header()
+		{
+			conn_header = 'K';
+			if (!header("Conection").empty())
+			{
+				conn_header = std::toupper(header("Connection")[0]);
+			}
+		}
+
+		void reset()
+		{
+			remote_endpoint.clear();
+			conn_header = 'K';
+
+			method.clear();
+			uri.clear();
+			http_version_major = 0;
+			http_version_minor = 0;
+			headers.clear();
+
+			content.clear();
+			content_length = 0;
+
+			cookies.clear();
+			params.clear();
+			rest_params.clear();
+			uploads.clear();
+		}
+
 		std::string remote_endpoint;
+		char conn_header;
+
 		std::string method;
 		std::string uri;
 		int http_version_major;
@@ -80,6 +111,7 @@ namespace waspp
 		std::vector<name_value> params;
 		std::vector<std::string> rest_params;
 		std::vector<multipart_content> uploads;
+
 	};
 
 } // namespace waspp

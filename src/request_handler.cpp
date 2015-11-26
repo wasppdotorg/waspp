@@ -102,7 +102,6 @@ namespace waspp
 			}
 
 			// Fill out the response to be sent to the client.
-			res.status = response::ok;
 
 			res.headers.push_back(name_value("Content-Type", mime_types::extension_to_type(res.content_extension)));
 			res.headers.push_back(name_value("Keep-Alive", "timeout=0, max=0"));
@@ -128,6 +127,8 @@ namespace waspp
 			}
 
 			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
+			res.status = response::ok;
+
 			log(info) << response::ok << "," << request_path << "," << req.remote_endpoint;
 		}
 		catch (std::exception& e)

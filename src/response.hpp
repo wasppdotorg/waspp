@@ -70,6 +70,17 @@ namespace waspp
 			content_extension = "html";
 		}
 
+		void reset()
+		{
+			status = internal_server_error;
+
+			headers.clear();
+			cookies.clear();
+
+			content.clear();
+			content_extension.clear();
+		}
+
 		status_type status;
 
 		/// The headers to be included in the response.
