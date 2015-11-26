@@ -76,6 +76,7 @@
 		<Unit filename="redis3m.hpp" />
 		<Unit filename="redis_pool.cpp" />
 		<Unit filename="redis_pool.hpp" />
+		<Unit filename="request.cpp" />
 		<Unit filename="request.hpp" />
 		<Unit filename="request_handler.cpp" />
 		<Unit filename="request_handler.hpp" />

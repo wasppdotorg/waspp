@@ -9,7 +9,7 @@
 #define WASPP_REQUEST_HANDLER_HPP
 
 #include <string>
-#include <locale>
+//#include <locale>
 
 #include <boost/noncopyable.hpp>
 
