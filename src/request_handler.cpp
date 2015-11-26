@@ -36,34 +36,26 @@ namespace waspp
 
 		try
 		{
+			set_connection_option(req);
+
 			if (cfg->access_granted().size() > 0 || cfg->access_denied().size() > 0)
 			{
-				std::size_t pos = req.remote_endpoint.find(":");
-				if (pos == std::string::npos)
-				{
-					res = response::static_response(response::bad_request);
-					log(error) << response::bad_request << "," << request_uri << "," << req.remote_endpoint;
-					return;
-				}
-
-				std::string remote_addr = req.remote_endpoint.substr(0, pos);
-
 				for (std::size_t i = 0; i < cfg->access_granted().size(); ++i)
 				{
-					if (remote_addr != cfg->access_granted()[i])
+					if (req.remote_addr != cfg->access_granted()[i])
 					{
 						res = response::static_response(response::unauthorized);
-						log(error) << response::unauthorized << "," << request_uri << "," << req.remote_endpoint;
+						log(error) << response::unauthorized << "," << request_uri << "," << req.remote_addr;
 						return;
 					}
 				}
 
 				for (std::size_t i = 0; i < cfg->access_denied().size(); ++i)
 				{
-					if (remote_addr == cfg->access_denied()[i])
+					if (req.remote_addr == cfg->access_denied()[i])
 					{
 						res = response::static_response(response::unauthorized);
-						log(error) << response::unauthorized << "," << request_uri << "," << req.remote_endpoint;
+						log(error) << response::unauthorized << "," << request_uri << "," << req.remote_addr;
 						return;
 					}
 				}
@@ -72,7 +64,7 @@ namespace waspp
 			if (!percent_decode_and_validate(req.uri, request_uri))
 			{
 				res = response::static_response(response::bad_request);
-				log(error) << response::bad_request << "," << request_uri << "," << req.remote_endpoint;
+				log(error) << response::bad_request << "," << request_uri << "," << req.remote_addr;
 				return;
 			}
 
@@ -81,7 +73,7 @@ namespace waspp
 				|| request_uri.find("..") != std::string::npos)
 			{
 				res = response::static_response(response::bad_request);
-				log(error) << response::bad_request << "," << request_uri << "," << req.remote_endpoint;
+				log(error) << response::bad_request << "," << request_uri << "," << req.remote_addr;
 				return;
 			}
 			std::string request_path(request_uri);
@@ -92,7 +84,7 @@ namespace waspp
 				if (!router::get_file(cfg, res, request_path))
 				{
 					res = response::static_response(response::not_found);
-					log(error) << response::not_found << "," << request_path << "," << req.remote_endpoint;
+					log(error) << response::not_found << "," << request_path << "," << req.remote_addr;
 					return;
 				}
 			}
@@ -129,12 +121,26 @@ namespace waspp
 			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
 			res.status = response::ok;
 
-			log(info) << response::ok << "," << request_path << "," << req.remote_endpoint;
+			log(info) << response::ok << "," << request_path << "," << req.remote_addr;
 		}
 		catch (std::exception& e)
 		{
 			res = response::static_response(response::internal_server_error);
-			log(fatal) << response::internal_server_error << "," << request_uri << "," << req.remote_endpoint << "," << e.what() << "," << __FILE__ << ":" << __LINE__;
+			log(fatal) << response::internal_server_error << "," << request_uri << "," << req.remote_addr << "," << e.what() << "," << __FILE__ << ":" << __LINE__;
+		}
+	}
+
+	void request_handler::set_connection_option(request& req)
+	{
+		req.connection_option = 'K'; // Connection: Keep-Alive
+		if (req.http_version_major == 1 && req.http_version_minor == 0)
+		{
+			req.connection_option = 'C'; // Connection: close
+		}
+
+		if (!req.header("Connection").empty())
+		{
+			req.connection_option = std::toupper(req.header("Connection")[0], loc);
 		}
 	}
 

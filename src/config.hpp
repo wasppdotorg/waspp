@@ -45,7 +45,7 @@ namespace waspp
 		const std::string& sess_cookie() { return sess_cookie_; }
 		double expiry_sec() { return expiry_sec_; }
 		double update_sec() { return update_sec_; }
-		bool validate_ep() { return validate_ep_; }
+		bool validate_ip() { return validate_ip_; }
 		bool validate_ua() { return validate_ua_; }
 
 		// server
@@ -70,7 +70,7 @@ namespace waspp
 		// session
 		std::string encrypt_key_, sess_cookie_;
 		double expiry_sec_, update_sec_;
-		bool validate_ep_, validate_ua_;
+		bool validate_ip_, validate_ua_;
 
 		// server
 		std::string address_, port_, doc_root_;

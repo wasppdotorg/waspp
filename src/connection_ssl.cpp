@@ -31,8 +31,6 @@ namespace waspp
 
 	void connection_ssl::start()
 	{
-		request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.lowest_layer().remote_endpoint());
-
 		socket_.async_handshake(boost::asio::ssl::stream_base::server,
 			strand_.wrap(
 			boost::bind(&connection_ssl::handle_handshake, shared_from_this(),
@@ -64,7 +62,7 @@ namespace waspp
 
 			if (result)
 			{
-				request_.remote_endpoint = boost::lexical_cast<std::string>(socket_.lowest_layer().remote_endpoint());
+				request_.parse_remote_endpoint(boost::lexical_cast<std::string>(socket_.lowest_layer().remote_endpoint()));
 
 				request_parser_.parse_params(request_);
 				request_parser_.parse_cookies(request_);

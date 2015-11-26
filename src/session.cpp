@@ -104,7 +104,7 @@ namespace waspp
 			{
 				keys.push_back("sess_id");
 				keys.push_back("last_tm");
-				keys.push_back("last_ep");
+				keys.push_back("last_ip");
 				keys.push_back("last_ua");
 			}
 
@@ -125,7 +125,7 @@ namespace waspp
 				return false;
 			}
 
-			if (cfg->validate_ep() && get_curr_ep() != get_last_ep())
+			if (cfg->validate_ip() && get_curr_ip() != get_last_ip())
 			{
 				res->delete_cookie(cfg->sess_cookie());
 				return false;
@@ -154,7 +154,7 @@ namespace waspp
 		session_.clear();
 		session_.push_back(name_value("sess_id", sess_id));
 		session_.push_back(name_value("last_tm", get_curr_tm()));
-		session_.push_back(name_value("last_ep", get_curr_ep()));
+		session_.push_back(name_value("last_ip", get_curr_ip()));
 		session_.push_back(name_value("last_ua", get_curr_ua()));
 
 		serialize_and_set();
@@ -168,7 +168,7 @@ namespace waspp
 		}
 
 		std::string new_sess_id(get_uuid());
-		new_sess_id.append(get_curr_ep());
+		new_sess_id.append(get_curr_ip());
 
 		put("sess_id", md5_digest(new_sess_id));
 		put("last_tm", get_curr_tm());
@@ -195,14 +195,14 @@ namespace waspp
 		return boost::lexical_cast<std::time_t>(get("last_tm"));
 	}
 
-	std::string& session::get_curr_ep()
+	std::string& session::get_curr_ip()
 	{
-		return req->remote_endpoint;
+		return req->remote_addr;
 	}
 
-	std::string& session::get_last_ep()
+	std::string& session::get_last_ip()
 	{
-		return get("last_ep");
+		return get("last_ip");
 	}
 
 	std::string session::get_curr_ua()

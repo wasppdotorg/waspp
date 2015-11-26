@@ -144,6 +144,7 @@
     <ClCompile Include="performance_checker.cpp" />
     <ClCompile Include="redis.cpp" />
     <ClCompile Include="redis_pool.cpp" />
+    <ClCompile Include="request.cpp" />
     <ClCompile Include="request_handler.cpp" />
     <ClCompile Include="request_parser.cpp" />
     <ClCompile Include="response.cpp" />

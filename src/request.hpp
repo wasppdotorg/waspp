@@ -10,7 +10,6 @@
 
 #include <string>
 #include <vector>
-#include <algorithm>
 
 #include <boost/unordered_map.hpp>
 #include <boost/bind.hpp>
@@ -24,84 +23,17 @@ namespace waspp
 	/// A request received from a client.
 	struct request
 	{
-		std::string& header(const std::string& name)
-		{
-			std::vector<name_value>::iterator found;
-			found = std::find_if(headers.begin(), headers.end(), boost::bind(&name_value::compare_name, _1, name));
+		void parse_remote_endpoint(const std::string& remote_endpoint);
 
-			if (found == headers.end())
-			{
-				headers.push_back(name_value(name, std::string()));
-				found = headers.end() - 1;
-			}
+		std::string& header(const std::string& name);
+		std::string& cookie(const std::string& name);
+		std::string& param(const std::string& name);
 
-			return found->value;
-		}
+		void reset();
 
-		std::string& cookie(const std::string& name)
-		{
-			std::vector<name_value>::iterator found;
-			found = std::find_if(cookies.begin(), cookies.end(), boost::bind(&name_value::compare_name, _1, name));
-
-			if (found == cookies.end())
-			{
-				cookies.push_back(name_value(name, std::string()));
-				found = cookies.end() - 1;
-			}
-
-			return found->value;
-		}
-
-		std::string& param(const std::string& name)
-		{
-			std::vector<name_value>::iterator found;
-			found = std::find_if(params.begin(), params.end(), boost::bind(&name_value::compare_name, _1, name));
-
-			if (found == params.end())
-			{
-				params.push_back(name_value(name, std::string()));
-				found = params.end() - 1;
-			}
-
-			return found->value;
-		}
-
-		void parse_connection_header()
-		{
-			conn_header = 'K';
-			if (http_version_major == 1 && http_version_minor == 0)
-			{
-				conn_header = 'C';
-			}
-
-			if (!header("Conection").empty())
-			{
-				conn_header = std::toupper(header("Connection")[0]);
-			}
-		}
-
-		void reset()
-		{
-			remote_endpoint.clear();
-			conn_header = 'K';
-
-			method.clear();
-			uri.clear();
-			http_version_major = 0;
-			http_version_minor = 0;
-			headers.clear();
-
-			content.clear();
-			content_length = 0;
-
-			cookies.clear();
-			params.clear();
-			rest_params.clear();
-			uploads.clear();
-		}
-
-		std::string remote_endpoint;
-		char conn_header;
+		std::string remote_addr;
+		std::string remote_port;
+		char connection_option;
 
 		std::string method;
 		std::string uri;
@@ -116,6 +48,8 @@ namespace waspp
 		std::vector<name_value> params;
 		std::vector<std::string> rest_params;
 		std::vector<multipart_content> uploads;
+
+		std::locale loc;
 
 	};
 
