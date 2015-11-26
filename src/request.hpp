@@ -69,6 +69,11 @@ namespace waspp
 		void parse_connection_header()
 		{
 			conn_header = 'K';
+			if (http_version_major == 1 && http_version_minor == 0)
+			{
+				conn_header = 'C';
+			}
+
 			if (!header("Conection").empty())
 			{
 				conn_header = std::toupper(header("Connection")[0]);
