@@ -85,11 +85,13 @@ int main(int argc, char* argv[])
 			rdnames.push_back("rd_idx");
 		}
 
+		/*
 		if (!rd->init(cfg, rdnames))
 		{
 			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
+		*/
 
 		if (cfg->ssl())
 		{

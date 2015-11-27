@@ -29,7 +29,7 @@ namespace waspp
 	// the session library of php framework called codeigniter
 	// codeigniter/system/libraries/Session.php
 
-	session::session(config* cfg_, request* req_, response* res_) : cfg(cfg_), req(req_), res(res_)
+	session::session(config* cfg_, request_ptr req_, response_ptr res_) : cfg(cfg_), req(req_), res(res_)
 	{
 		if (!load())
 		{

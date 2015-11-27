@@ -19,7 +19,9 @@ namespace waspp
 		request_handler& handler)
 		: strand_(io_service),
 		socket_(io_service),
-		request_handler_(handler)
+		request_(new request()),
+		request_handler_(handler),
+		response_(new response())
 	{
 	}
 
@@ -50,23 +52,23 @@ namespace waspp
 
 			if (result)
 			{
-				request_.parse_remote_endpoint(boost::lexical_cast<std::string>(socket_.remote_endpoint()));
-				request_.parse_connection_header();
+				request_->parse_remote_endpoint(boost::lexical_cast<std::string>(socket_.remote_endpoint()));
+				request_->parse_connection_header();
 
 				request_parser_.parse_params(request_);
 				request_parser_.parse_cookies(request_);
 				request_parser_.parse_content(request_);
 
 				request_handler_.handle_request(request_, response_);
-				boost::asio::async_write(socket_, response_.to_buffers(),
+				boost::asio::async_write(socket_, response_->to_buffers(),
 					strand_.wrap(
 					boost::bind(&connection::handle_write, shared_from_this(),
 					boost::asio::placeholders::error)));
 			}
 			else if (!result)
 			{
-				response_ = response::static_response(response::bad_request);
-				boost::asio::async_write(socket_, response_.to_buffers(),
+				*response_.get() = response::static_response(response::bad_request);
+				boost::asio::async_write(socket_, response_->to_buffers(),
 					strand_.wrap(
 					boost::bind(&connection::handle_write, shared_from_this(),
 					boost::asio::placeholders::error)));
@@ -91,7 +93,7 @@ namespace waspp
 	{
 		if (!e)
 		{
-			if (request_.connection_option == 'C')
+			if (request_->connection_option == 'C')
 			{
 				// Initiate graceful connection closure.
 				boost::system::error_code ignored_ec;

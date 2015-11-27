@@ -12,14 +12,15 @@
 
 #include <boost/noncopyable.hpp>
 
+#include "request.hpp"
+#include "response.hpp"
 #include "config.hpp"
-#include "database.hpp"
 
 namespace waspp
 {
 
-	struct response;
-	struct request;
+	//struct response;
+	//struct request;
 
 	/// The common handler for all incoming requests.
 	class request_handler
@@ -30,7 +31,7 @@ namespace waspp
 		request_handler();
 
 		/// Handle a request and produce a response.
-		void handle_request(request& req, response& res);
+		void handle_request(request_ptr req, response_ptr res);
 
 	private:
 		bool is_access_granted(const std::string& remote_addr);

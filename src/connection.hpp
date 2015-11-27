@@ -62,13 +62,15 @@ namespace waspp
 		boost::array<char, 8192> buffer_;
 
 		/// The incoming request.
-		request request_;
+		//request request_;
+		request_ptr request_;
 
 		/// The parser for the incoming request.
 		request_parser request_parser_;
 
 		/// The response to be sent back to the client.
-		response response_;
+		//response response_;
+		response_ptr response_;
 
 	};
 
