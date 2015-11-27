@@ -130,7 +130,7 @@ namespace waspp
 
 	bool request_handler::is_access_denied(const std::string& remote_addr)
 	{
-		if (cfg->access_denied().size() > 0)
+		if (cfg->access_denied().size() == 0)
 		{
 			return false;
 		}

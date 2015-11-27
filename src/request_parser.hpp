@@ -274,8 +274,8 @@ namespace waspp
 
 					if (input == '/')
 					{
-						req.http_version_major = 0;
-						req.http_version_minor = 0;
+						req.http_version_major_ = 0;
+						req.http_version_minor_ = 0;
 						state_ = http_version_major_start;
 						result = boost::indeterminate;
 						break;
@@ -291,7 +291,7 @@ namespace waspp
 
 					if (is_digit(input))
 					{
-						req.http_version_major = req.http_version_major * 10 + input - '0';
+						req.http_version_major_ = req.http_version_major_ * 10 + input - '0';
 						state_ = http_version_major;
 						result = boost::indeterminate;
 						break;
@@ -313,7 +313,7 @@ namespace waspp
 					}
 					else if (is_digit(input))
 					{
-						req.http_version_major = req.http_version_major * 10 + input - '0';
+						req.http_version_major_ = req.http_version_major_ * 10 + input - '0';
 						result = boost::indeterminate;
 						break;
 					}
@@ -328,7 +328,7 @@ namespace waspp
 
 					if (is_digit(input))
 					{
-						req.http_version_minor = req.http_version_minor * 10 + input - '0';
+						req.http_version_minor_ = req.http_version_minor_ * 10 + input - '0';
 						state_ = http_version_minor;
 						result = boost::indeterminate;
 						break;
@@ -350,7 +350,7 @@ namespace waspp
 					}
 					else if (is_digit(input))
 					{
-						req.http_version_minor = req.http_version_minor * 10 + input - '0';
+						req.http_version_minor_ = req.http_version_minor_ * 10 + input - '0';
 						result = boost::indeterminate;
 						break;
 					}

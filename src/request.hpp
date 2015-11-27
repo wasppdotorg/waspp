@@ -38,8 +38,8 @@ namespace waspp
 
 		std::string method;
 		std::string uri;
-		int http_version_major;
-		int http_version_minor;
+		int http_version_major_;
+		int http_version_minor_;
 		std::vector<name_value> headers;
 
 		std::string content;

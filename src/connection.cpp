@@ -51,6 +51,7 @@ namespace waspp
 			if (result)
 			{
 				request_.parse_remote_endpoint(boost::lexical_cast<std::string>(socket_.remote_endpoint()));
+				request_.parse_connection_header();
 
 				request_parser_.parse_params(request_);
 				request_parser_.parse_cookies(request_);
@@ -97,7 +98,7 @@ namespace waspp
 				socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
 				return;
 			}
-		
+
 			request_parser_.reset();
 			response_.reset();
 			request_.reset();

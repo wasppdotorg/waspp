@@ -27,7 +27,7 @@ namespace waspp
 	void request::parse_connection_header()
 	{
 		connection_option = 'K'; // Connection: Keep-Alive
-		if (http_version_major == 1 && http_version_minor == 0)
+		if (http_version_major_ == 1 && http_version_minor_ == 0)
 		{
 			connection_option = 'C'; // Connection: close
 		}
@@ -88,8 +88,8 @@ namespace waspp
 
 		method.clear();
 		uri.clear();
-		http_version_major = 0;
-		http_version_minor = 0;
+		http_version_major_ = 0;
+		http_version_minor_ = 0;
 		headers.clear();
 
 		content.clear();
