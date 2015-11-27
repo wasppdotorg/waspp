@@ -9,6 +9,7 @@
 
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 #include <boost/timer/timer.hpp>
 #include <boost/lexical_cast.hpp>
@@ -36,29 +37,11 @@ namespace waspp
 
 		try
 		{
-			set_connection_option(req);
-
-			if (cfg->access_granted().size() > 0 || cfg->access_denied().size() > 0)
+			if (!is_access_granted(req.remote_addr) || is_access_denied(req.remote_addr))
 			{
-				for (std::size_t i = 0; i < cfg->access_granted().size(); ++i)
-				{
-					if (req.remote_addr != cfg->access_granted()[i])
-					{
-						res = response::static_response(response::unauthorized);
-						log(error) << response::unauthorized << "," << request_uri << "," << req.remote_addr;
-						return;
-					}
-				}
-
-				for (std::size_t i = 0; i < cfg->access_denied().size(); ++i)
-				{
-					if (req.remote_addr == cfg->access_denied()[i])
-					{
-						res = response::static_response(response::unauthorized);
-						log(error) << response::unauthorized << "," << request_uri << "," << req.remote_addr;
-						return;
-					}
-				}
+				res = response::static_response(response::unauthorized);
+				log(error) << response::unauthorized << "," << request_uri << "," << req.remote_addr;
+				return;
 			}
 
 			if (!percent_decode_and_validate(req.uri, request_uri))
@@ -130,18 +113,34 @@ namespace waspp
 		}
 	}
 
-	void request_handler::set_connection_option(request& req)
+	bool request_handler::is_access_granted(const std::string& remote_addr)
 	{
-		req.connection_option = 'K'; // Connection: Keep-Alive
-		if (req.http_version_major == 1 && req.http_version_minor == 0)
+		if (cfg->access_granted().size() == 0)
 		{
-			req.connection_option = 'C'; // Connection: close
+			return true;
 		}
 
-		if (!req.header("Connection").empty())
+		if (std::find(cfg->access_granted().begin(), cfg->access_granted().end(), remote_addr) != cfg->access_granted().end())
 		{
-			req.connection_option = std::toupper(req.header("Connection")[0], loc);
+			return false;
 		}
+
+		return true;
+	}
+
+	bool request_handler::is_access_denied(const std::string& remote_addr)
+	{
+		if (cfg->access_denied().size() > 0)
+		{
+			return false;
+		}
+
+		if (std::find(cfg->access_denied().begin(), cfg->access_denied().end(), remote_addr) == cfg->access_denied().end())
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	bool request_handler::percent_decode_and_validate(const std::string& in, std::string& out)

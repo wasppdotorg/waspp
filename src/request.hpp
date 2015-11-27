@@ -24,6 +24,7 @@ namespace waspp
 	struct request
 	{
 		void parse_remote_endpoint(const std::string& remote_endpoint);
+		void parse_connection_header();
 
 		std::string& header(const std::string& name);
 		std::string& cookie(const std::string& name);

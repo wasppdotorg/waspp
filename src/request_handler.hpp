@@ -9,7 +9,6 @@
 #define WASPP_REQUEST_HANDLER_HPP
 
 #include <string>
-//#include <locale>
 
 #include <boost/noncopyable.hpp>
 
@@ -34,14 +33,14 @@ namespace waspp
 		void handle_request(request& req, response& res);
 
 	private:
-		void set_connection_option(request& req);
+		bool is_access_granted(const std::string& remote_addr);
+		bool is_access_denied(const std::string& remote_addr);
 
 		/// Perform URL-decoding on a string. Returns false if the encoding was
 		/// invalid.
 		static bool percent_decode_and_validate(const std::string& in, std::string& out);
 
 		config* cfg;
-		std::locale loc;
 
 	};
 

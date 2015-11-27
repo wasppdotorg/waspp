@@ -5,7 +5,7 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-//#include <algorithm>
+#include <locale>
 
 #include "request.hpp"
 
@@ -22,6 +22,20 @@ namespace waspp
 
 		remote_addr = remote_endpoint.substr(0, pos);
 		remote_port = remote_endpoint.substr(pos + 1);
+	}
+
+	void request::parse_connection_header()
+	{
+		connection_option = 'K'; // Connection: Keep-Alive
+		if (http_version_major == 1 && http_version_minor == 0)
+		{
+			connection_option = 'C'; // Connection: close
+		}
+
+		if (!header("Connection").empty())
+		{
+			connection_option = std::toupper(header("Connection")[0], loc);
+		}
 	}
 
 	std::string& request::header(const std::string& name)
