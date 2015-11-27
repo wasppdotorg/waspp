@@ -28,7 +28,7 @@ namespace waspp
 	class session
 	{
 	public:
-		session(config* cfg_, request_ptr req_, response_ptr res_);
+		session(config* cfg_, request* req_, response* res_);
 		~session();
 
 		std::string& get(const std::string& name);
@@ -54,8 +54,8 @@ namespace waspp
 		void serialize_and_set();
 
 		config* cfg;
-		request_ptr req;
-		response_ptr res;
+		request* req;
+		response* res;
 
 		std::vector<name_value> session_;
 

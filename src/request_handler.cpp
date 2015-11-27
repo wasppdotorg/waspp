@@ -31,23 +31,23 @@ namespace waspp
 
 	}
 
-	void request_handler::handle_request(request_ptr req, response_ptr res)
+	void request_handler::handle_request(request& req, response& res)
 	{
 		std::string request_uri;
 
 		try
 		{
-			if (!is_access_granted(req->remote_addr) || is_access_denied(req->remote_addr))
+			if (!is_access_granted(req.remote_addr) || is_access_denied(req.remote_addr))
 			{
-				*res.get() = response::static_response(response::unauthorized);
-				log(error) << response::unauthorized << "," << request_uri << "," << req->remote_addr;
+				res = response::static_response(response::unauthorized);
+				log(error) << response::unauthorized << "," << request_uri << "," << req.remote_addr;
 				return;
 			}
 
-			if (!percent_decode_and_validate(req->uri, request_uri))
+			if (!percent_decode_and_validate(req.uri, request_uri))
 			{
-				*res.get() = response::static_response(response::bad_request);
-				log(error) << response::bad_request << "," << request_uri << "," << req->remote_addr;
+				res = response::static_response(response::bad_request);
+				log(error) << response::bad_request << "," << request_uri << "," << req.remote_addr;
 				return;
 			}
 
@@ -55,8 +55,8 @@ namespace waspp
 			if (request_uri.empty() || request_uri[0] != '/'
 				|| request_uri.find("..") != std::string::npos)
 			{
-				*res.get() = response::static_response(response::bad_request);
-				log(error) << response::bad_request << "," << request_uri << "," << req->remote_addr;
+				res = response::static_response(response::bad_request);
+				log(error) << response::bad_request << "," << request_uri << "," << req.remote_addr;
 				return;
 			}
 			std::string request_path(request_uri);
@@ -66,8 +66,8 @@ namespace waspp
 			{
 				if (!router::get_file(cfg, res, request_path))
 				{
-					*res.get() = response::static_response(response::not_found);
-					log(error) << response::not_found << "," << request_path << "," << req->remote_addr;
+					res = response::static_response(response::not_found);
+					log(error) << response::not_found << "," << request_path << "," << req.remote_addr;
 					return;
 				}
 			}
@@ -78,38 +78,38 @@ namespace waspp
 
 			// Fill out the response to be sent to the client.
 
-			res->headers.push_back(name_value("Content-Type", mime_types::extension_to_type(res->content_extension)));
-			res->headers.push_back(name_value("Keep-Alive", "timeout=0, max=0"));
+			res.headers.push_back(name_value("Content-Type", mime_types::extension_to_type(res.content_extension)));
+			res.headers.push_back(name_value("Keep-Alive", "timeout=0, max=0"));
 
 			std::string cookie;
-			for (std::size_t i = 0; i < res->cookies.size(); ++i)
+			for (std::size_t i = 0; i < res.cookies.size(); ++i)
 			{
 				cookie.clear();
-				cookie.append(res->cookies[i].name);
+				cookie.append(res.cookies[i].name);
 				cookie.append("=");
-				cookie.append(res->cookies[i].value);
+				cookie.append(res.cookies[i].value);
 				cookie.append("; path=/");
 
-				res->headers.push_back(name_value("Set-Cookie", cookie));
+				res.headers.push_back(name_value("Set-Cookie", cookie));
 			}
 
 			if (cfg->compress() &&
-				req->header("Accept-Encoding") == "gzip, deflate" &&
-				mime_types::is_compressible(res->content_extension))
+				req.header("Accept-Encoding") == "gzip, deflate" &&
+				mime_types::is_compressible(res.content_extension))
 			{
-				res->headers.push_back(name_value("Content-Encoding", "gzip"));
-				gzip_str(res->content);
+				res.headers.push_back(name_value("Content-Encoding", "gzip"));
+				gzip_str(res.content);
 			}
 
-			res->headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res->content.size())));
-			res->status = response::ok;
+			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
+			res.status = response::ok;
 
-			log(info) << response::ok << "," << request_path << "," << req->remote_addr;
+			log(info) << response::ok << "," << request_path << "," << req.remote_addr;
 		}
 		catch (std::exception& e)
 		{
-			*res.get() = response::static_response(response::internal_server_error);
-			log(fatal) << response::internal_server_error << "," << request_uri << "," << req->remote_addr << "," << e.what() << "," << __FILE__ << ":" << __LINE__;
+			res = response::static_response(response::internal_server_error);
+			log(fatal) << response::internal_server_error << "," << request_uri << "," << req.remote_addr << "," << e.what() << "," << __FILE__ << ":" << __LINE__;
 		}
 	}
 

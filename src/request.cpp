@@ -7,8 +7,6 @@
 
 #include <locale>
 
-#include <boost/bind.hpp>
-
 #include "request.hpp"
 
 namespace waspp

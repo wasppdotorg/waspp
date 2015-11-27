@@ -23,38 +23,38 @@ namespace waspp
 	namespace dir_user
 	{
 
-		void signin_html(config* cfg, request_ptr req, response_ptr res)
+		void signin_html(config* cfg, request& req, response& res)
 		{
 			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_user_signin.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void auth(config* cfg, request_ptr req, response_ptr res)
+		void auth(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
 			unsigned int userid = 0;
 			std::string passwd;
 
-			if (req->param("username").empty())
+			if (req.param("username").empty())
 			{
 				router::err_msg(cfg, res, err_username_required);
 				return;
 			}
 
-			if (req->param("passwd").empty())
+			if (req.param("passwd").empty())
 			{
 				router::err_msg(cfg, res, err_passwd_required);
 				return;
 			}
-			passwd = md5_digest(req->param("passwd"));
+			passwd = md5_digest(req.param("passwd"));
 
 			scoped_db db_idx("db_idx");
 
 			stmt_ptr stmt(db_idx.prepare("SELECT userid FROM users_idx WHERE username = ?"));
 			{
-				stmt->param(req->param("username"));
+				stmt->param(req.param("username"));
 			}
 
 			rs_ptr rs(stmt->query());
@@ -84,21 +84,21 @@ namespace waspp
 				return;
 			}
 
-			waspp::session sess(cfg, req, res);
+			waspp::session sess(cfg, &req, &res);
 			sess.put("userid", boost::lexical_cast<std::string>(userid));
-			sess.put("username", req->param("username"));
+			sess.put("username", req.param("username"));
 
-			res->redirect_to("/dir/forum/index");
+			res.redirect_to("/dir/forum/index");
 		}
 
-		void signup_html(config* cfg, request_ptr req, response_ptr res)
+		void signup_html(config* cfg, request& req, response& res)
 		{
 			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_user_signup.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void post(config* cfg, request_ptr req, response_ptr res)
+		void post(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
@@ -107,43 +107,43 @@ namespace waspp
 			std::string platformid;
 			std::string passwd;
 
-			if (req->param("platformtype").empty())
+			if (req.param("platformtype").empty())
 			{
 				router::err_msg(cfg, res, err_platformtype_required);
 				return;
 			}
-			platformtype = boost::lexical_cast<int>(req->param("platformtype"));
+			platformtype = boost::lexical_cast<int>(req.param("platformtype"));
 
-			if (req->param("platformid").empty())
+			if (req.param("platformid").empty())
 			{
 				router::err_msg(cfg, res, err_platformid_required);
 				return;
 			}
 
-			if (req->param("username").empty())
+			if (req.param("username").empty())
 			{
 				router::err_msg(cfg, res, err_username_required);
 				return;
 			}
 
-			if (req->param("passwd").empty())
+			if (req.param("passwd").empty())
 			{
 				router::err_msg(cfg, res, err_passwd_required);
 				return;
 			}
 
-			if (req->param("passwd") != req->param("retypepasswd"))
+			if (req.param("passwd") != req.param("retypepasswd"))
 			{
 				router::err_msg(cfg, res, err_passwds_not_identical);
 				return;
 			}
-			passwd = md5_digest(req->param("passwd"));
+			passwd = md5_digest(req.param("passwd"));
 
 			scoped_db db_idx("db_idx");
 
 			stmt_ptr stmt(db_idx.prepare("SELECT userid FROM users_idx WHERE username = ?"));
 			{
-				stmt->param(req->param("username"));
+				stmt->param(req.param("username"));
 			}
 
 			rs_ptr rs(stmt->query());
@@ -170,7 +170,7 @@ namespace waspp
 				stmt->param(userid);
 				stmt->param(platformtype);
 				stmt->param(platformid);
-				stmt->param(req->param("username"));
+				stmt->param(req.param("username"));
 			}
 
 			unsigned long long int affected_rows = stmt->execute();
@@ -195,13 +195,13 @@ namespace waspp
 				return;
 			}
 
-			res->redirect_to("/dir/user/signin");
+			res.redirect_to("/dir/user/signin");
 		}
 
-		void signout(config* cfg, request_ptr req, response_ptr res)
+		void signout(config* cfg, request& req, response& res)
 		{
-			res->delete_cookie(cfg->sess_cookie());
-			res->redirect_to("/dir/user/signin");
+			res.delete_cookie(cfg->sess_cookie());
+			res.redirect_to("/dir/user/signin");
 		}
 
 	} // namespace dir_user

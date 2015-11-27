@@ -34,7 +34,7 @@ namespace waspp
 		/// data is required. The InputIterator return value indicates how much of the
 		/// input has been consumed.
 		template <typename InputIterator>
-		boost::tuple<boost::tribool, InputIterator> parse(request_ptr req,
+		boost::tuple<boost::tribool, InputIterator> parse(request& req,
 			InputIterator begin, InputIterator end)
 		{
 			char input;
@@ -55,7 +55,7 @@ namespace waspp
 					else
 					{
 						state_ = method;
-						req->method.push_back(input);
+						req.method.push_back(input);
 						result = boost::indeterminate;
 						break;
 					}
@@ -78,7 +78,7 @@ namespace waspp
 						}
 						else
 						{
-							req->method.push_back(input);
+							req.method.push_back(input);
 						}
 
 					} while (begin != end);
@@ -92,7 +92,7 @@ namespace waspp
 						if (input == '?')
 						{
 							state_ = param_name_start;
-							req->uri.push_back(input);
+							req.uri.push_back(input);
 							result = boost::indeterminate;
 							break;
 						}
@@ -109,7 +109,7 @@ namespace waspp
 						}
 						else
 						{
-							req->uri.push_back(input);
+							req.uri.push_back(input);
 						}
 
 					} while (begin != end);
@@ -132,9 +132,9 @@ namespace waspp
 					else
 					{
 						state_ = param_name;
-						req->uri.push_back(input);
-						req->params.push_back(name_value());
-						req->params.back().name.push_back(input);
+						req.uri.push_back(input);
+						req.params.push_back(name_value());
+						req.params.back().name.push_back(input);
 						result = boost::indeterminate;
 						break;
 					}
@@ -153,7 +153,7 @@ namespace waspp
 						else if (input == '=')
 						{
 							state_ = param_value;
-							req->uri.push_back(input);
+							req.uri.push_back(input);
 							result = boost::indeterminate;
 							break;
 						}
@@ -164,8 +164,8 @@ namespace waspp
 						}
 						else
 						{
-							req->uri.push_back(input);
-							req->params.back().name.push_back(input);
+							req.uri.push_back(input);
+							req.params.back().name.push_back(input);
 						}
 
 					} while (begin != end);
@@ -185,7 +185,7 @@ namespace waspp
 						else if (input == '&')
 						{
 							state_ = param_name_start;
-							req->uri.push_back(input);
+							req.uri.push_back(input);
 							result = boost::indeterminate;
 							break;
 						}
@@ -196,8 +196,8 @@ namespace waspp
 						}
 						else
 						{
-							req->uri.push_back(input);
-							req->params.back().value.push_back(input);
+							req.uri.push_back(input);
+							req.params.back().value.push_back(input);
 						}
 
 					} while (begin != end);
@@ -274,8 +274,8 @@ namespace waspp
 
 					if (input == '/')
 					{
-						req->http_version_major_ = 0;
-						req->http_version_minor_ = 0;
+						req.http_version_major_ = 0;
+						req.http_version_minor_ = 0;
 						state_ = http_version_major_start;
 						result = boost::indeterminate;
 						break;
@@ -291,7 +291,7 @@ namespace waspp
 
 					if (is_digit(input))
 					{
-						req->http_version_major_ = req->http_version_major_ * 10 + input - '0';
+						req.http_version_major_ = req.http_version_major_ * 10 + input - '0';
 						state_ = http_version_major;
 						result = boost::indeterminate;
 						break;
@@ -313,7 +313,7 @@ namespace waspp
 					}
 					else if (is_digit(input))
 					{
-						req->http_version_major_ = req->http_version_major_ * 10 + input - '0';
+						req.http_version_major_ = req.http_version_major_ * 10 + input - '0';
 						result = boost::indeterminate;
 						break;
 					}
@@ -328,7 +328,7 @@ namespace waspp
 
 					if (is_digit(input))
 					{
-						req->http_version_minor_ = req->http_version_minor_ * 10 + input - '0';
+						req.http_version_minor_ = req.http_version_minor_ * 10 + input - '0';
 						state_ = http_version_minor;
 						result = boost::indeterminate;
 						break;
@@ -350,7 +350,7 @@ namespace waspp
 					}
 					else if (is_digit(input))
 					{
-						req->http_version_minor_ = req->http_version_minor_ * 10 + input - '0';
+						req.http_version_minor_ = req.http_version_minor_ * 10 + input - '0';
 						result = boost::indeterminate;
 						break;
 					}
@@ -384,7 +384,7 @@ namespace waspp
 						result = boost::indeterminate;
 						break;
 					}
-					else if (!req->headers.empty() && (input == ' ' || input == '\t'))
+					else if (!req.headers.empty() && (input == ' ' || input == '\t'))
 					{
 						state_ = header_lws;
 						result = boost::indeterminate;
@@ -397,8 +397,8 @@ namespace waspp
 					}
 					else
 					{
-						req->headers.push_back(name_value());
-						req->headers.back().name.push_back(input);
+						req.headers.push_back(name_value());
+						req.headers.back().name.push_back(input);
 						state_ = header_name;
 						result = boost::indeterminate;
 						break;
@@ -426,7 +426,7 @@ namespace waspp
 					else
 					{
 						state_ = header_value;
-						req->headers.back().value.push_back(input);
+						req.headers.back().value.push_back(input);
 						result = boost::indeterminate;
 						break;
 					}
@@ -449,7 +449,7 @@ namespace waspp
 						}
 						else
 						{
-							req->headers.back().name.push_back(input);
+							req.headers.back().name.push_back(input);
 						}
 
 					} while (begin != end);
@@ -488,7 +488,7 @@ namespace waspp
 						}
 						else
 						{
-							req->headers.back().value.push_back(input);
+							req.headers.back().value.push_back(input);
 						}
 
 					} while (begin != end);
@@ -512,19 +512,19 @@ namespace waspp
 				case expecting_newline_3:
 					input = *begin++;
 
-					if (req->method == "GET" && input == '\n')
+					if (req.method == "GET" && input == '\n')
 					{
 						result = true;
 						break;
 					}
-					else if (req->method == "POST" && input == '\n')
+					else if (req.method == "POST" && input == '\n')
 					{
-						if (req->header("Content-Length").empty())
+						if (req.header("Content-Length").empty())
 						{
 							result = false;
 							break;
 						}
-						req->content_length = boost::lexical_cast<int>(req->header("Content-Length"));
+						req.content_length = boost::lexical_cast<int>(req.header("Content-Length"));
 
 						state_ = content_start;
 						result = boost::indeterminate;
@@ -539,7 +539,7 @@ namespace waspp
 				case content_start:
 					input = *begin++;
 
-					if (!req->content.empty())
+					if (!req.content.empty())
 					{
 						result = false;
 						break;
@@ -551,11 +551,11 @@ namespace waspp
 					}
 					else
 					{
-						--req->content_length;
-						req->content.push_back(input);
-						if (req->content_length == 0)
+						--req.content_length;
+						req.content.push_back(input);
+						if (req.content_length == 0)
 						{
-							req->content_length = boost::lexical_cast<int>(req->header("Content-Length"));
+							req.content_length = boost::lexical_cast<int>(req.header("Content-Length"));
 							result = true;
 							break;
 						}
@@ -570,11 +570,11 @@ namespace waspp
 					{
 						input = *begin++;
 
-						--req->content_length;
-						req->content.push_back(input);
-						if (req->content_length == 0)
+						--req.content_length;
+						req.content.push_back(input);
+						if (req.content_length == 0)
 						{
-							req->content_length = boost::lexical_cast<int>(req->header("Content-Length"));
+							req.content_length = boost::lexical_cast<int>(req.header("Content-Length"));
 							result = true;
 							break;
 						}
@@ -599,7 +599,7 @@ namespace waspp
 			return boost::make_tuple(result, begin);
 		}
 
-		void parse_params(request_ptr req);
+		void parse_params(request& req);
 
 		/* -*-mode:c++; c-file-style: "gnu";-*- */
 		/*
@@ -624,8 +624,8 @@ namespace waspp
 		*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
 		*/
 
-		void parse_cookies(request_ptr req);
-		void parse_cookie(request_ptr req, const std::string& data);
+		void parse_cookies(request& req);
+		void parse_cookie(request& req, const std::string& data);
 
 		/* -*-mode:c++; c-file-style: "gnu";-*- */
 		/*
@@ -650,10 +650,10 @@ namespace waspp
 		*  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
 		*/
 
-		void parse_content(request_ptr req);
+		void parse_content(request& req);
 
-		multipart_header parse_multipart_header(request_ptr req, const std::string& data);
-		void parse_multipart_content(request_ptr req, const std::string& data);
+		multipart_header parse_multipart_header(request& req, const std::string& data);
+		void parse_multipart_content(request& req, const std::string& data);
 
 	private:
 		/// Check if a byte is an HTTP character.

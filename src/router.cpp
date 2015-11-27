@@ -60,7 +60,7 @@ namespace waspp
 			return 0;
 		}
 
-		bool get_file(config* cfg, response_ptr res, std::string request_path)
+		bool get_file(config* cfg, response& res, std::string request_path)
 		{
 			std::string full_path(cfg->doc_root() + request_path);
 
@@ -79,31 +79,31 @@ namespace waspp
 			char buf[512];
 			while (is.read(buf, sizeof(buf)).gcount() > 0)
 			{
-				res->content.append(buf, is.gcount());
+				res.content.append(buf, is.gcount());
 			}
-			res->content_extension = get_extension(full_path);
+			res.content_extension = get_extension(full_path);
 
 			return true;
 		}
 
-		void set_jsonp(request_ptr req, response_ptr res)
+		void set_jsonp(request& req, response& res)
 		{
-			res->content.append("\n<script src='/_.js'></script>\n<script src='/_");
-			res->content.append(req->uri);
-			res->content.append("'></script>\n");
+			res.content.append("\n<script src='/_.js'></script>\n<script src='/_");
+			res.content.append(req.uri);
+			res.content.append("'></script>\n");
 		}
 
-		void err_msg(config* cfg, response_ptr res, error_type err_code)
+		void err_msg(config* cfg, response& res, error_type err_code)
 		{
-			res->content.clear();
+			res.content.clear();
 			get_file(cfg, res, "dir_include_header.html");
 
-			res->content.append("<h2>Error : ");
-			res->content.append(cfg->err_msg(err_code));
-			res->content.append("</h2>");
+			res.content.append("<h2>Error : ");
+			res.content.append(cfg->err_msg(err_code));
+			res.content.append("</h2>");
 
 			get_file(cfg, res, "dir_include_footer.html");
-			res->content_extension = "html";
+			res.content_extension = "html";
 
 			log(info) << cfg->err_msg(err_code);
 		}

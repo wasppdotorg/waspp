@@ -30,12 +30,12 @@ namespace waspp
 {
 	namespace dir_forum
 	{
-		void index_html(config* cfg, request_ptr req, response_ptr res)
+		void index_html(config* cfg, request& req, response& res)
 		{
-			waspp::session sess(cfg, req, res);
+			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
-				res->redirect_to("/dir/user/signin");
+				res.redirect_to("/dir/user/signin");
 				return;
 			}
 
@@ -46,14 +46,14 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void index_jsonp(config* cfg, request_ptr req, response_ptr res)
+		void index_jsonp(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, error, session, forum_search, forum_item, forum_index, pagination;
 
-			waspp::session sess(cfg, req, res);
+			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
@@ -66,10 +66,10 @@ namespace waspp
 				std::stringstream ss;
 				write_json(ss, json, false);
 
-				res->content.append(jsonp_start);
-				res->content.append(ss.str());
-				res->content.append(jsonp_end);
-				res->content_extension = "js";
+				res.content.append(jsonp_start);
+				res.content.append(ss.str());
+				res.content.append(jsonp_end);
+				res.content_extension = "js";
 
 				return;
 			}
@@ -83,10 +83,10 @@ namespace waspp
 			session.put("_username", sess.get("username"));
 
 			std::string field, keyword;
-			if (req->rest_params.size() > 5)
+			if (req.rest_params.size() > 5)
 			{
-				field.append(req->rest_params[4]);
-				keyword.append(req->rest_params[5]);
+				field.append(req.rest_params[4]);
+				keyword.append(req.rest_params[5]);
 			}
 
 			forum_search.put("_field", field);
@@ -129,18 +129,18 @@ namespace waspp
 			std::stringstream ss;
 			write_json(ss, json, false);
 
-			res->content.append(jsonp_start);
-			res->content.append(ss.str());
-			res->content.append(jsonp_end);
-			res->content_extension = "js";
+			res.content.append(jsonp_start);
+			res.content.append(ss.str());
+			res.content.append(jsonp_end);
+			res.content_extension = "js";
 		}
 
-		void show_html(config* cfg, request_ptr req, response_ptr res)
+		void show_html(config* cfg, request& req, response& res)
 		{
-			waspp::session sess(cfg, req, res);
+			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
-				res->redirect_to("/dir/user/signin");
+				res.redirect_to("/dir/user/signin");
 				return;
 			}
 
@@ -151,14 +151,14 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void show_jsonp(config* cfg, request_ptr req, response_ptr res)
+		void show_jsonp(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, error, session, param, params;
 
-			waspp::session sess(cfg, req, res);
+			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
@@ -171,10 +171,10 @@ namespace waspp
 				std::stringstream ss;
 				write_json(ss, json, false);
 
-				res->content.append(jsonp_start);
-				res->content.append(ss.str());
-				res->content.append(jsonp_end);
-				res->content_extension = "js";
+				res.content.append(jsonp_start);
+				res.content.append(ss.str());
+				res.content.append(jsonp_end);
+				res.content_extension = "js";
 
 				return;
 			}
@@ -188,7 +188,7 @@ namespace waspp
 			session.put("_username", sess.get("username"));
 
 			std::vector<std::string>::iterator i;
-			for (i = req->rest_params.begin(); i != req->rest_params.end(); ++i)
+			for (i = req.rest_params.begin(); i != req.rest_params.end(); ++i)
 			{
 				param.put("", *i);
 				params.push_back(std::make_pair("", param));
@@ -201,18 +201,18 @@ namespace waspp
 			std::stringstream ss;
 			write_json(ss, json, false);
 
-			res->content.append(jsonp_start);
-			res->content.append(ss.str());
-			res->content.append(jsonp_end);
-			res->content_extension = "js";
+			res.content.append(jsonp_start);
+			res.content.append(ss.str());
+			res.content.append(jsonp_end);
+			res.content_extension = "js";
 		}
 
-		void form_html(config* cfg, request_ptr req, response_ptr res)
+		void form_html(config* cfg, request& req, response& res)
 		{
-			waspp::session sess(cfg, req, res);
+			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
-				res->redirect_to("/dir/user/signin");
+				res.redirect_to("/dir/user/signin");
 				return;
 			}
 
@@ -223,14 +223,14 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void form_jsonp(config* cfg, request_ptr req, response_ptr res)
+		void form_jsonp(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, error, session, param, params;
 
-			waspp::session sess(cfg, req, res);
+			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
@@ -243,10 +243,10 @@ namespace waspp
 				std::stringstream ss;
 				write_json(ss, json, false);
 
-				res->content.append(jsonp_start);
-				res->content.append(ss.str());
-				res->content.append(jsonp_end);
-				res->content_extension = "js";
+				res.content.append(jsonp_start);
+				res.content.append(ss.str());
+				res.content.append(jsonp_end);
+				res.content_extension = "js";
 
 				return;
 			}
@@ -260,7 +260,7 @@ namespace waspp
 			session.put("_username", sess.get("username"));
 
 			std::vector<std::string>::iterator i;
-			for (i = req->rest_params.begin(); i != req->rest_params.end(); ++i)
+			for (i = req.rest_params.begin(); i != req.rest_params.end(); ++i)
 			{
 				param.put("", *i);
 				params.push_back(std::make_pair("", param));
@@ -273,43 +273,43 @@ namespace waspp
 			std::stringstream ss;
 			write_json(ss, json, false);
 
-			res->content.append(jsonp_start);
-			res->content.append(ss.str());
-			res->content.append(jsonp_end);
-			res->content_extension = "js";
+			res.content.append(jsonp_start);
+			res.content.append(ss.str());
+			res.content.append(jsonp_end);
+			res.content_extension = "js";
 		}
 
-		void remove(config* cfg, request_ptr req, response_ptr res)
+		void remove(config* cfg, request& req, response& res)
 		{
 
 		}
 
-		void post(config* cfg, request_ptr req, response_ptr res)
+		void post(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
-			waspp::session sess(cfg, req, res);
+			waspp::session sess(cfg, &req, &res);
 			if (sess.get("userid").empty())
 			{
-				res->redirect_to("/dir/user/signin");
+				res.redirect_to("/dir/user/signin");
 				return;
 			}
 
 			unsigned int userid = boost::lexical_cast<unsigned int>(sess.get("userid"));
 			unsigned int seq = 0;
 
-			if (!req->param("seq").empty())
+			if (!req.param("seq").empty())
 			{
-				seq = boost::lexical_cast<unsigned int>(req->param("seq"));
+				seq = boost::lexical_cast<unsigned int>(req.param("seq"));
 			}
 
-			if (req->param("title").empty())
+			if (req.param("title").empty())
 			{
 				router::err_msg(cfg, res, err_title_required);
 				return;
 			}
 
-			if (req->param("content").empty())
+			if (req.param("content").empty())
 			{
 				router::err_msg(cfg, res, err_content_required);
 				return;
@@ -333,8 +333,8 @@ namespace waspp
 				stmt.reset(db_etc.prepare("INSERT INTO forum(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
 				{
 					stmt->param(seq);
-					stmt->param(req->param("title"));
-					stmt->param(req->param("content"));
+					stmt->param(req.param("title"));
+					stmt->param(req.param("content"));
 					stmt->param("");
 					stmt->param("");
 					stmt->param(userid);
@@ -352,18 +352,18 @@ namespace waspp
 			{
 				stmt_ptr stmt(db_etc.prepare("UPDATE forum SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
 				{
-					stmt->param(req->param("title"));
-					stmt->param(req->param("content"));
+					stmt->param(req.param("title"));
+					stmt->param(req.param("content"));
 					stmt->param("");
 					stmt->param("");
-					stmt->param(req->param("username"));
+					stmt->param(req.param("username"));
 					stmt->param(seq);
 					stmt->param(userid);
 				}
 				stmt->execute();
 			}
 
-			res->redirect_to("/dir/forum/index");
+			res.redirect_to("/dir/forum/index");
 		}
 
 	} // namespace dir_forum

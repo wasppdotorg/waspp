@@ -13,7 +13,6 @@
 #include <boost/unordered_map.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "name_value.hpp"
 
@@ -100,8 +99,6 @@ namespace waspp
 		/// Get a static response.
 		static response static_response(status_type status);
 	};
-
-	typedef boost::shared_ptr<response> response_ptr;
 
 } // namespace waspp
 

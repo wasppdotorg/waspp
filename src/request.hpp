@@ -12,7 +12,7 @@
 #include <vector>
 
 #include <boost/unordered_map.hpp>
-#include <boost/shared_ptr.hpp>
+#include <boost/bind.hpp>
 
 #include "name_value.hpp"
 #include "multipart.hpp"
@@ -53,8 +53,6 @@ namespace waspp
 		std::locale loc;
 
 	};
-
-	typedef boost::shared_ptr<request> request_ptr;
 
 } // namespace waspp
 
