@@ -103,8 +103,8 @@ namespace waspp
 		if (!e)
 		{
 			request_parser_.reset();
-			response_.reset();
-			request_.reset();
+			request_ = request();
+			response_ = response();
 
 			socket_.async_read_some(boost::asio::buffer(buffer_),
 				strand_.wrap(

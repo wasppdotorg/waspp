@@ -80,26 +80,5 @@ namespace waspp
 		return found->value;
 	}
 
-	void request::reset()
-	{
-		remote_addr.clear();
-		remote_port.clear();
-		connection_option = 'K';
-
-		method.clear();
-		uri.clear();
-		http_version_major_ = 0;
-		http_version_minor_ = 0;
-		headers.clear();
-
-		content.clear();
-		content_length = 0;
-
-		cookies.clear();
-		params.clear();
-		rest_params.clear();
-		uploads.clear();
-	}
-
 } // namespace waspp
 

@@ -12,14 +12,12 @@
 
 #include <boost/noncopyable.hpp>
 
+#include "request.hpp"
+#include "response.hpp"
 #include "config.hpp"
-#include "database.hpp"
 
 namespace waspp
 {
-
-	struct response;
-	struct request;
 
 	/// The common handler for all incoming requests.
 	class request_handler

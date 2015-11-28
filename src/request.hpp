@@ -30,8 +30,6 @@ namespace waspp
 		std::string& cookie(const std::string& name);
 		std::string& param(const std::string& name);
 
-		void reset();
-
 		std::string remote_addr;
 		std::string remote_port;
 		char connection_option;
