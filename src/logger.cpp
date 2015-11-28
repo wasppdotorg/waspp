@@ -20,7 +20,8 @@ namespace waspp
 		: io_service_(),
 		work_(new boost::asio::io_service::work(io_service_)),
 		thread_(new boost::thread(
-		boost::bind(&boost::asio::io_service::run, &io_service_)))
+		boost::bind(&boost::asio::io_service::run, &io_service_))),
+		log_locale_(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,"))
 	{
 		std::time_t time_ = std::time(0);
 		file_created_ = *std::localtime(&time_);

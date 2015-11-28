@@ -47,6 +47,7 @@ namespace waspp
 		~logger();
 
 		log_level_type log_level() { return log_level_; }
+		const std::locale& log_locale() { return log_locale_; }
 
 		void file(const std::string& file);
 		bool init(const std::string& log_level, const std::string& log_rotation);
@@ -83,6 +84,8 @@ namespace waspp
 		log_level_type log_level_;
 		log_rotation_type log_rotation_;
 
+		std::locale log_locale_;
+
 	};
 
 	class log
@@ -97,7 +100,7 @@ namespace waspp
 
 			is_logging = true;
 
-			oss.imbue(std::locale(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,")));
+			oss.imbue(logger_->log_locale());
 			oss << ptime_;
 
 			switch (log_level)
@@ -150,6 +153,7 @@ namespace waspp
 		boost::posix_time::ptime ptime_;
 
 		std::ostringstream oss;
+
 	};
 
 } // namespace waspp

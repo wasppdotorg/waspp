@@ -454,7 +454,7 @@ namespace redis3m
 			c = redisConnectWithTimeout(host.c_str(), port, timeval_);
 			if (c->err != REDIS_OK)
 			{
-				throw std::runtime_error("redisConnect failed");
+				throw std::runtime_error("redisConnectWithTimeout failed");
 			}
 
 			std::time_t time_ = std::time(0);
