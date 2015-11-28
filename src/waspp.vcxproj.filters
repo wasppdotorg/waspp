@@ -90,6 +90,9 @@
     <ClCompile Include="request.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="route_dir_performance.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp">

@@ -38,6 +38,8 @@ namespace waspp
 
 			{ "/dir/user/signout/", &dir_user::signout },
 
+			{ "/dir/performance/test/", &dir_performance::test },
+
 			{ 0, 0 } // Marks end of list.
 		};
 

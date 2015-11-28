@@ -150,6 +150,7 @@
     <ClCompile Include="response.cpp" />
     <ClCompile Include="router.cpp" />
     <ClCompile Include="route_dir_forum.cpp" />
+    <ClCompile Include="route_dir_performance.cpp" />
     <ClCompile Include="route_dir_user.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="server_ssl.cpp" />

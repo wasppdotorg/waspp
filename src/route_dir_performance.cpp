@@ -28,26 +28,10 @@ http://www.boost.org/LICENSE_1_0.txt
 
 namespace waspp
 {
-	namespace dir_forum
+	namespace dir_performance
 	{
 
-		void index_html(config* cfg, request& req, response& res)
-		{
-			waspp::session sess(cfg, &req, &res);
-			if (sess.get("userid").empty())
-			{
-				res.redirect_to("/dir/user/signin");
-				return;
-			}
-
-			router::get_file(cfg, res, "dir_include_header.html");
-			router::get_file(cfg, res, "dir_forum_index.html");
-
-			router::set_jsonp(req, res);
-			router::get_file(cfg, res, "dir_include_footer.html");
-		}
-
-		void index_jsonp(config* cfg, request& req, response& res)
+		void test(config* cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
@@ -55,25 +39,7 @@ namespace waspp
 			boost::property_tree::ptree json, error, session, forum_search, forum_item, forum_index, pagination;
 
 			waspp::session sess(cfg, &req, &res);
-			if (sess.get("userid").empty())
-			{
-				err_code = err_unauthorized;
-
-				error.put("_code", err_code);
-				error.put("_message", cfg->err_msg(err_code));
-
-				json.put_child("_error", error);
-
-				std::stringstream ss;
-				write_json(ss, json, false);
-
-				res.content.append(jsonp_start);
-				res.content.append(ss.str());
-				res.content.append(jsonp_end);
-				res.content_extension = "js";
-
-				return;
-			}
+			sess.put("userid", "test");
 
 			err_code = err_none;
 

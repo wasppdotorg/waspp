@@ -50,6 +50,12 @@ namespace waspp
 
 	} // namespace dir_user
 
+	namespace dir_performance
+	{
+		void test(config* cfg, request& req, response& res);
+
+	} // namespace dir_performance
+
 	//typedef void(*func_ptr)(config*, request&, response&);
 	typedef boost::function<void (config*, request&, response&)> func_ptr;
 
