@@ -48,8 +48,6 @@ namespace waspp
 		std::vector<std::string> rest_params;
 		std::vector<multipart_content> uploads;
 
-		std::locale loc;
-
 	};
 
 } // namespace waspp

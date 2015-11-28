@@ -5,8 +5,6 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <locale>
-
 #include "request.hpp"
 
 namespace waspp
@@ -34,7 +32,7 @@ namespace waspp
 
 		if (!header("Connection").empty())
 		{
-			connection_option = std::toupper(header("Connection")[0], loc);
+			connection_option = header("Connection")[0];
 		}
 	}
 
