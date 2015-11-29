@@ -449,7 +449,7 @@ namespace redis3m
 	private:
 		connection(const std::string& host, const unsigned int port, bool pooled_ = false)
 		{
-			timeval timeval_ = { 1, };
+			timeval timeval_ = { 1, 0 };
 
 			c = redisConnectWithTimeout(host.c_str(), port, timeval_);
 			if (c->err != REDIS_OK)
