@@ -17,7 +17,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <boost/unordered_map.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -48,15 +47,17 @@ namespace waspp
 			boost::property_tree::ptree ptree_;
 			boost::property_tree::json_parser::read_json(file, ptree_);
 
-			BOOST_FOREACH(const boost::property_tree::ptree::value_type& section_, ptree_.get_child(""))
+			boost::property_tree::ptree::const_iterator section_;
+			boost::property_tree::ptree::const_iterator item_;
+			for (section_ = ptree_.begin(); section_ != ptree_.end(); ++section_)
 			{
 				boost::unordered_map<std::string, std::string> c;
-				BOOST_FOREACH(const boost::property_tree::ptree::value_type& item_, section_.second)
+				for (item_ = (*section_).second.begin(); item_ != (*section_).second.end(); ++item_)
 				{
-					c.insert(std::make_pair(item_.first, item_.second.get_value<std::string>()));
+					c.insert(std::make_pair((*item_).first, (*item_).second.get_value<std::string>()));
 				}
 
-				cfg_.insert(std::make_pair(section_.first, c));
+				cfg_.insert(std::make_pair((*section_).first, c));
 			}
 
 			std::vector<std::string> keys;
@@ -147,7 +148,7 @@ namespace waspp
 					log(fatal) << "config::denied not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
-	
+
 				for (found_item = found_section->second.begin(); found_item != found_section->second.end(); ++found_item)
 				{
 					access_denied_.push_back(found_item->second);
@@ -294,9 +295,10 @@ namespace waspp
 
 			int err_code = 0;
 			boost::unordered_map<int, std::string>::iterator err_found;
-			BOOST_FOREACH(const boost::property_tree::ptree::value_type& item_, ptree_.get_child(""))
+
+			for (item_ = ptree_.begin(); item_ != ptree_.end(); ++item_)
 			{
-				err_code = boost::lexical_cast<int>(item_.first);
+				err_code = boost::lexical_cast<int>((*item_).first);
 				err_found = err_.find(err_code);
 
 				if (err_found != err_.end())
@@ -304,7 +306,7 @@ namespace waspp
 					log(fatal) << "config - duplicated err_code:" << err_code << "," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
-				err_.insert(std::make_pair(err_code, item_.second.get_value<std::string>()));
+				err_.insert(std::make_pair(err_code, (*item_).second.get_value<std::string>()));
 			}
 
 			unsigned int err_count = 0;
