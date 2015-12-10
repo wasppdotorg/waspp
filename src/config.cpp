@@ -47,17 +47,17 @@ namespace waspp
 			boost::property_tree::ptree ptree_;
 			boost::property_tree::json_parser::read_json(file, ptree_);
 
-			boost::property_tree::ptree::const_iterator section_;
-			boost::property_tree::ptree::const_iterator item_;
-			for (section_ = ptree_.begin(); section_ != ptree_.end(); ++section_)
+			boost::property_tree::ptree::const_iterator section;
+			boost::property_tree::ptree::const_iterator item;
+			for (section = ptree_.begin(); section != ptree_.end(); ++section)
 			{
 				boost::unordered_map<std::string, std::string> c;
-				for (item_ = (*section_).second.begin(); item_ != (*section_).second.end(); ++item_)
+				for (item = section->second.begin(); item != section->second.end(); ++item)
 				{
-					c.insert(std::make_pair((*item_).first, (*item_).second.get_value<std::string>()));
+					c.insert(std::make_pair(item->first, item->second.get_value<std::string>()));
 				}
 
-				cfg_.insert(std::make_pair((*section_).first, c));
+				cfg_.insert(std::make_pair(section->first, c));
 			}
 
 			std::vector<std::string> keys;
@@ -296,9 +296,9 @@ namespace waspp
 			int err_code = 0;
 			boost::unordered_map<int, std::string>::iterator err_found;
 
-			for (item_ = ptree_.begin(); item_ != ptree_.end(); ++item_)
+			for (item = ptree_.begin(); item != ptree_.end(); ++item)
 			{
-				err_code = boost::lexical_cast<int>((*item_).first);
+				err_code = boost::lexical_cast<int>(item->first);
 				err_found = err_.find(err_code);
 
 				if (err_found != err_.end())
@@ -306,7 +306,7 @@ namespace waspp
 					log(fatal) << "config - duplicated err_code:" << err_code << "," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
-				err_.insert(std::make_pair(err_code, (*item_).second.get_value<std::string>()));
+				err_.insert(std::make_pair(err_code, item->second.get_value<std::string>()));
 			}
 
 			unsigned int err_count = 0;
