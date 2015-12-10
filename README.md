@@ -203,7 +203,7 @@ Enable SSL
 Check Memory Leak
 -----------------
 * sudo apt-get install valgrind
-* valgrind ./waspp develop 00
+* sudo valgrind ./waspp develop 00
 
 Enable Core Dump
 -------------------
