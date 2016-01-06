@@ -42,7 +42,6 @@
 			<Add option="-lboost_chrono" />
 			<Add option="-lmysqlclient" />
 			<Add option="-lhiredis" />
-			<Add option="-lgnutls" />
 			<Add option="-lssl" />
 			<Add option="-lcrypto" />
 			<Add option="-ltcmalloc" />

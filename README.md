@@ -3,7 +3,7 @@ waspp
 
 Build Environment
 -----------------
-* GCC 4.8 - Ubuntu Linux 14.04 LTS (Boost 1.54)
+* GCC 4.9 - Debian 8 (Boost 1.55)
 * Clang 3.4 - FreeBSD 10.2 (Boost 1.55)
 * Visual Studio 2013 - Windows 7 (Boost 1.57)
 
@@ -12,8 +12,8 @@ Install MariaDB
 * sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
 * sudo nano /etc/apt/sources.list
 ```
-deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main
-deb-src http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main
+deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/debian jessie main
+deb-src http://ftp.osuosl.org/pub/mariadb/repo/10.0/debian jessie main
 ```
 
 * sudo apt-get update
@@ -66,24 +66,8 @@ Install Libraries
 * sudo apt-get install libboost-all-dev
 * sudo apt-get install libmariadbclient-dev
 * sudo apt-get install libssl-dev
-* sudo apt-get install libgnutls-dev
 * sudo apt-get install libhiredis-dev
 * sudo apt-get install libgoogle-perftools-dev
-
-Increase Open File Limit
-------------------------
-* ulimit -n
-* sudo nano /etc/security/limits.conf
-```
-* hard nofile 65535
-* soft nofile 65535
-root hard nofile 65535
-root soft nofile 65535
-```
-
-* exit
-* ssh your@server
-* ulimit -n
 
 Download waspp
 --------------
@@ -207,12 +191,6 @@ Check Memory Leak
 
 Enable Core Dump
 -------------------
-* sudo /etc/init.d/apport stop
-* sudo nano /etc/default/apport 
-```
-enabled=0
-```
-
 * sudo sysctl -w kernel.core_pattern=core.%p
 * sudo nano /etc/sysctl.d/20-core-pattern.conf 
 ```
@@ -223,12 +201,6 @@ kernel.core_pattern = core.%p
 * sudo nano /etc/profile
 ```
 ulimit -c unlimited
-```
-
-* cd
-* nano .gdbinit
-```
-python sys.path.append('/usr/share/gcc-4.8/python')
 ```
 
 For FreeBSD
