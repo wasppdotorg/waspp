@@ -96,8 +96,7 @@ window.onload = function()
 
 	var Pagination = function()
 	{
-		var paginations = document.getElementsByClassName('pagination');
-		var pagination = paginations[0];
+		var pagination = document.getElementsByClassName('pagination')[0];
 
 		var form_search = document.getElementById('form_search');
 		var field = form_search.field.value;
@@ -106,18 +105,19 @@ window.onload = function()
 		var page = 1;
 		var page_count = 1;
 		var link_count = 10;
+		var link_href = '/dir/forum/index/';
 		var i = parseInt((page - 1) / link_count) * link_count + 1;
 
 		if (i > link_count)
 		{
 			var a_first = document.createElement('a');
-			a_first.setAttribute('href', '/dir/forum/index/1/' + field + '/' + keyword);
+			a_first.setAttribute('href', link_href + '1/' + field + '/' + keyword);
 			a_first.appendChild(document.createTextNode('1'));
 			pagination.appendChild(a_first);
 			pagination.appendChild(document.createTextNode(' \u00a0'));
 
 			var a_prev = document.createElement('a');
-			a_prev.setAttribute('href', '/dir/forum/index/' + (i - 1) + '/' + field + '/' + keyword);
+			a_prev.setAttribute('href', link_href + (i - 1) + '/' + field + '/' + keyword);
 			a_prev.appendChild(document.createTextNode('<<'));
 			pagination.appendChild(a_prev);
 			pagination.appendChild(document.createTextNode(' \u00a0'));
@@ -135,7 +135,7 @@ window.onload = function()
 			else
 			{
 				var a_page = document.createElement('a');
-				a_page.setAttribute('href', '/dir/forum/index/' + i + '/' + field + '/' + keyword);
+				a_page.setAttribute('href', link_href + i + '/' + field + '/' + keyword);
 				a_page.appendChild(document.createTextNode(i));
 				pagination.appendChild(a_page);
 				pagination.appendChild(document.createTextNode(' \u00a0'));
@@ -145,13 +145,13 @@ window.onload = function()
 		if (i <= page_count)
 		{
 			var a_next = document.createElement('a');
-			a_next.setAttribute('href', '/dir/forum/index/' + i + '/' + field + '/' + keyword);
+			a_next.setAttribute('href', link_href + i + '/' + field + '/' + keyword);
 			a_next.appendChild(document.createTextNode('>>'));
 			pagination.appendChild(a_next);
 			pagination.appendChild(document.createTextNode(' \u00a0'));
 
 			var a_last = document.createElement('a');
-			a_last.setAttribute('href', '/dir/forum/index/' + page_count + '/' + field + '/' + keyword);
+			a_last.setAttribute('href', link_href + page_count + '/' + field + '/' + keyword);
 			a_last.appendChild(document.createTextNode(page_count));
 			pagination.appendChild(a_last);
 			pagination.appendChild(document.createTextNode(' \u00a0'));
