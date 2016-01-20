@@ -104,6 +104,7 @@ namespace waspp
 				total_count_ = rs->get<long long int>("total_count");
 			}
 
+			//long long int per_page = 10;
 			stmt.reset(db_etc.prepare("SELECT * FROM forum ORDER BY seq DESC"));
 			rs.reset(stmt->query());
 
