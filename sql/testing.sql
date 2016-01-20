@@ -14,7 +14,7 @@ USE `testing_waspp_idx`;
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 	LOCK TABLES `unique_keys` WRITE;
-	INSERT INTO `unique_keys` VALUES ('users_idx',1,1);
+	INSERT INTO `unique_keys` VALUES ('users_idx',1,0);
 	UNLOCK TABLES;
 
 	DELIMITER ;;
