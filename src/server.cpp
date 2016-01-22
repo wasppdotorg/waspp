@@ -38,14 +38,14 @@ namespace waspp
 		signals_.async_wait(boost::bind(&server::handle_stop, this, boost::asio::placeholders::signal_number));
 
 		// Open the acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
-		boost::asio::ip::tcp::resolver resolver(io_service_);
-		boost::asio::ip::tcp::resolver::query query(cfg->address(), cfg->port());
-		boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
+		boost::asio::ip::tcp::resolver resolver_(io_service_);
+		boost::asio::ip::tcp::resolver::query query_(cfg->address(), cfg->port());
+		boost::asio::ip::tcp::endpoint endpoint_ = *resolver_.resolve(query_);
 
-		acceptor_.open(endpoint.protocol());
+		acceptor_.open(endpoint_.protocol());
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::keep_alive(true));
-		acceptor_.bind(endpoint);
+		acceptor_.bind(endpoint_);
 		acceptor_.listen();
 
 		start_accept();
