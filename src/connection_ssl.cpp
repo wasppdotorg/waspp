@@ -36,7 +36,7 @@ namespace waspp
 			boost::bind(&connection_ssl::handle_handshake, shared_from_this(),
 			boost::asio::placeholders::error)));
 
-		//log(debug) << "new connection_ssl," << request_.remote_endpoint;
+		//log(debug) << "new connection_ssl," << request_.remote_addr;
 	}
 
 	void connection_ssl::handle_handshake(const boost::system::error_code& e)
@@ -62,7 +62,8 @@ namespace waspp
 
 			if (result)
 			{
-				request_.parse_remote_endpoint(boost::lexical_cast<std::string>(socket_.lowest_layer().remote_endpoint()));
+				request_.remote_addr = socket_.lowest_layer().remote_endpoint().address().to_string();
+				request_.remote_port = socket_.lowest_layer().remote_endpoint().port();
 
 				request_parser_.parse_params(request_);
 				request_parser_.parse_cookies(request_);

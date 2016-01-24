@@ -10,18 +10,6 @@
 namespace waspp
 {
 
-	void request::parse_remote_endpoint(const std::string& remote_endpoint)
-	{
-		std::size_t pos = remote_endpoint.find(":");
-		if (pos == std::string::npos)
-		{
-			return;
-		}
-
-		remote_addr = remote_endpoint.substr(0, pos);
-		remote_port = remote_endpoint.substr(pos + 1);
-	}
-
 	void request::parse_connection_header()
 	{
 		connection_option = 'K'; // Connection: Keep-Alive

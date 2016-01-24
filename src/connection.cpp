@@ -36,7 +36,7 @@ namespace waspp
 			boost::asio::placeholders::error,
 			boost::asio::placeholders::bytes_transferred)));
 
-		//log(debug) << "new connection," << request_.remote_endpoint;
+		//log(debug) << "new connection," << request_.remote_addr;
 	}
 
 	void connection::handle_read(const boost::system::error_code& e,
@@ -50,7 +50,8 @@ namespace waspp
 
 			if (result)
 			{
-				request_.parse_remote_endpoint(boost::lexical_cast<std::string>(socket_.remote_endpoint()));
+				request_.remote_addr = socket_.remote_endpoint().address().to_string();
+				request_.remote_port = socket_.remote_endpoint().port();
 				request_.parse_connection_header();
 
 				request_parser_.parse_params(request_);
