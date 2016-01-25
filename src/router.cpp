@@ -27,7 +27,7 @@ namespace waspp
 			{ "/dir/forum/form/", &dir_forum::form_html },
 			{ "/_/dir/forum/form/", &dir_forum::form_jsonp },
 
-			{ "/dir/forum/remove/", &dir_forum::remove },
+			{ "/dir/forum/del/", &dir_forum::del },
 			{ "/dir/forum/post/", &dir_forum::post },
 
 			{ "/dir/user/signin/", &dir_user::signin_html },

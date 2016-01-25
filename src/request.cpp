@@ -15,7 +15,7 @@ namespace waspp
 		connection_option = 'K'; // Connection: Keep-Alive
 		if (http_version_major_ == 1 && http_version_minor_ == 0)
 		{
-			connection_option = 'C'; // Connection: close
+			connection_option = 'c'; // Connection: close
 		}
 
 		if (!header("Connection").empty())

@@ -281,7 +281,7 @@ namespace waspp
 			res.content_extension = "js";
 		}
 
-		void remove(config* cfg, request& req, response& res)
+		void del(config* cfg, request& req, response& res)
 		{
 
 		}

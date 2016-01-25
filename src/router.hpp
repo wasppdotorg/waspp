@@ -33,7 +33,7 @@ namespace waspp
 		void form_html(config* cfg, request& req, response& res);
 		void form_jsonp(config* cfg, request& req, response& res);
 
-		void remove(config* cfg, request& req, response& res);
+		void del(config* cfg, request& req, response& res);
 		void post(config* cfg, request& req, response& res);
 
 	} // namespace dir_forum
@@ -57,7 +57,7 @@ namespace waspp
 	} // namespace dir_performance
 
 	//typedef void(*func_ptr)(config*, request&, response&);
-	typedef boost::function<void (config*, request&, response&)> func_ptr;
+	typedef boost::function<void(config*, request&, response&)> func_ptr;
 
 	const std::string jsonp_start = "_(";
 	const std::string jsonp_end = ");";

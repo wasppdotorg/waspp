@@ -30,7 +30,7 @@ namespace waspp
 		std::string& param(const std::string& name);
 
 		std::string remote_addr;
-		std::string remote_port;
+		unsigned short int remote_port;
 		char connection_option;
 
 		std::string method;

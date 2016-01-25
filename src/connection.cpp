@@ -92,7 +92,7 @@ namespace waspp
 	{
 		if (!e)
 		{
-			if (request_.connection_option == 'C' || request_.connection_option == 'c')
+			if (request_.connection_option == 'c')
 			{
 				// Initiate graceful connection closure.
 				boost::system::error_code ignored_ec;
