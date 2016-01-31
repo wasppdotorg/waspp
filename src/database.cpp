@@ -134,28 +134,18 @@ namespace waspp
 	scoped_db::scoped_db(const std::string& dbname)
 	{
 		dbpool = database::instance()->get_dbpool(dbname);
-		dbconn = dbpool->get_dbconn();
+		ptr = dbpool->get_dbconn();
 	}
 
 	scoped_db::scoped_db(unsigned long long int shard_key)
 	{
 		dbpool = database::instance()->get_dbpool(shard_key);
-		dbconn = dbpool->get_dbconn();
+		ptr = dbpool->get_dbconn();
 	}
 
 	scoped_db::~scoped_db()
 	{
-		dbpool->free_dbconn(dbconn);
-	}
-
-	mysqlpp::statement* scoped_db::prepare(const std::string& query)
-	{
-		return dbconn->prepare(query);
-	}
-
-	mysqlpp::statement* scoped_db::prepare_like(const std::string& query, bool left_percent, const std::string& keyword, bool right_percent)
-	{
-		return dbconn->prepare_like(query, left_percent, keyword, right_percent);
+		dbpool->free_dbconn(ptr);
 	}
 
 } // namespace waspp

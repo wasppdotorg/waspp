@@ -51,12 +51,10 @@ namespace waspp
 
 		~scoped_db();
 
-		mysqlpp::statement* prepare(const std::string& query);
-		mysqlpp::statement* prepare_like(const std::string& query, bool left_percent, const std::string& keyword, bool right_percent);
+		dbconn_ptr ptr;
 
 	private:
 		dbpool_ptr dbpool;
-		dbconn_ptr dbconn;
 
 	};
 

@@ -62,7 +62,7 @@ namespace waspp
 			scoped_db db_etc("db_etc");
 
 			long long int total_count_ = 0;
-			stmt_ptr stmt(db_etc.prepare("SELECT COUNT(seq) AS total_count FROM forum"));
+			stmt_ptr stmt(db_etc.ptr->prepare("SELECT COUNT(seq) AS total_count FROM forum"));
 
 			rs_ptr rs(stmt->query());
 			if (rs->fetch())
@@ -70,7 +70,7 @@ namespace waspp
 				total_count_ = rs->get<long long int>("total_count");
 			}
 
-			stmt.reset(db_etc.prepare("SELECT * FROM forum ORDER BY seq DESC"));
+			stmt.reset(db_etc.ptr->prepare("SELECT * FROM forum ORDER BY seq DESC"));
 			rs.reset(stmt->query());
 
 			while (rs->fetch())
