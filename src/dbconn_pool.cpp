@@ -116,7 +116,7 @@ namespace waspp
 			return connect(false);
 		}
 
-		dbconn_ptr dbconn = *(pool.end() - 1);
+		dbconn_ptr dbconn = pool.back();
 		pool.pop_back();
 		//}
 		lock.release();

@@ -96,7 +96,7 @@ namespace waspp
 			return connect(false);
 		}
 
-		rdconn_ptr rdconn = *(pool.end() - 1);
+		rdconn_ptr rdconn = pool.back();
 		pool.pop_back();
 		//}
 		lock.release();
