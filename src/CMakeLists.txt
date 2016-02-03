@@ -22,7 +22,7 @@ find_library (MySQLClient_LIBRARIES NAMES mysqlclient PATHS /usr/lib/mysql /usr/
 find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (SSL_LIBRARIES NAMES ssl)
 find_library (Crypto_LIBRARIES NAMES crypto)
-find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
+#find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
 	set (CMAKE_CXX_FLAGS "-Wall -O2 -g")
@@ -35,7 +35,7 @@ target_link_libraries (${TARGET} ${MySQLClient_LIBRARIES})
 target_link_libraries (${TARGET} ${HiRedis_LIBRARIES})
 target_link_libraries (${TARGET} ${SSL_LIBRARIES})
 target_link_libraries (${TARGET} ${Crypto_LIBRARIES})
-target_link_libraries (${TARGET} ${TCMalloc_LIBRARIES})
+#target_link_libraries (${TARGET} ${TCMalloc_LIBRARIES})
 
 if (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
 	target_link_libraries (${TARGET} "-lthr")
