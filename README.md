@@ -9,13 +9,6 @@ Build Environment
 
 Install MariaDB
 ---------------
-* sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
-* sudo nano /etc/apt/sources.list
-```
-deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/debian jessie main
-deb-src http://ftp.osuosl.org/pub/mariadb/repo/10.0/debian jessie main
-```
-
 * sudo apt-get update
 * sudo apt-get upgrade
 * sudo apt-get install mariadb-server
@@ -216,6 +209,6 @@ For FreeBSD
 For Windows
 -----------
 * boost_1_57_0-msvc-12.0-64.exe
-* mariadb-10.0.22-winx64.msi
+* mariadb-10.0.23-winx64.msi
 * Win64OpenSSL-1_0_2d.exe
 
