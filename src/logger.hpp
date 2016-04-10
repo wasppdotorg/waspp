@@ -50,7 +50,7 @@ namespace waspp
 		const std::locale& log_locale() { return log_locale_; }
 
 		void file(const std::string& file);
-		bool init(const std::string& log_level, const std::string& log_rotation);
+		bool init(const std::string& log_level, const std::string& log_rotation, int flush_threshold);
 
 		/// Log a message.
 		void write(const boost::posix_time::ptime& ptime_, const std::string& message);
@@ -85,6 +85,9 @@ namespace waspp
 		log_rotation_type log_rotation_;
 
 		std::locale log_locale_;
+
+		int unflushed_count_;
+		int flush_threshold_;
 
 	};
 

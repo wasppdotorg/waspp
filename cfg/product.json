@@ -5,7 +5,8 @@
 		"log" :
 		{
 			"level" : "debug",
-			"rotation" : "hourly"
+			"rotation" : "hourly",
+			"flush_threshold" : 255
 		},
 
 	"//error" : 0,
