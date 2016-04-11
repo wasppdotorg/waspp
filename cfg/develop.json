@@ -8,21 +8,21 @@
 			"rotation" : "hourly",
 			"flush_threshold" : 255
 		},
-		
+
 	"//error" : 0,
-	
+
 		"error" :
 		{
 			"locale" : "en_us"
 		},
-		
+
 	"//access" : 0,
-	
+
 		"//access_granted_example" :
 		{
 			"localhost" : "127.0.0.1"
 		},
-		
+
 		"//access_denied_example" :
 		{
 			"description" : "1.1.1.1"
@@ -30,14 +30,14 @@
 
 		"access_granted" :
 		{
-			
+
 		},
-		
+
 		"access_denied" :
 		{
-		
+
 		},
-		
+
 	"//session" : 0,
 
 		"session" :
@@ -49,15 +49,15 @@
 			"validate_ip" : 0,
 			"validate_ua" : 1
 		},
-	
+
 	"//db_shard" : 0,
-	
+
 		"db_shard" :
 		{
 			"db_shard_count" : 2,
 			"db_shard_format" : "db_%03d"
 		},
-	
+
 	"//database" : 0,
 
 		"db_idx" :
@@ -108,9 +108,9 @@
 			"pool_size" : 4,
 			"wait_timeout_sec" : 600
 		},
-		
+
 	"//rd_shard" : 0,
-	
+
 		"rd_shard" :
 		{
 			"rd_shard_count" : 2,
@@ -129,32 +129,32 @@
 
 	"//servers" : 0,
 
-		"server00" :
+		"server000" :
 		{
 			"address" : "127.0.0.1",
-			"port" : 10080,
+			"port" : 10000,
 			"doc_root" : "../doc",
 			"num_threads" : 4,
 			"compress" : 1,
-			
+
 			"ssl" : 0,
 			"ssl_crt" : "../ssl/develop.crt",
 			"ssl_key" : "../ssl/develop.key"
 		},
 
-		"server01" :
+		"server001" :
 		{
 			"address" : "127.0.0.1",
-			"port" : 10081,
+			"port" : 10001,
 			"doc_root" : "../doc",
 			"num_threads" : 4,
 			"compress" : 1,
-			
+
 			"ssl" : 0,
 			"ssl_crt" : "../ssl/develop.crt",
 			"ssl_key" : "../ssl/develop.key"
 		},
-		
+
 	"//end" : 0
 
 }

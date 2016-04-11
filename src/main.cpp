@@ -26,11 +26,11 @@ int main(int argc, char* argv[])
 	{
 		if (argc != 3)
 		{
-			std::cerr << "Usage: ./waspp develop 00 &" << std::endl;
+			std::cerr << "Usage: ./waspp develop 000 &" << std::endl;
 			//return 1;
 		}
 
-		std::string phase("develop"), server_seq("00");
+		std::string phase("develop"), server_seq("000");
 		if (argc == 3)
 		{
 			phase = argv[1];
