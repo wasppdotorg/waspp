@@ -129,6 +129,17 @@
 
 	"//servers" : 0,
 
+		"server_common" :
+		{
+			"doc_root" : "../doc",
+			"num_threads" : 4,
+			"compress" : 1,
+
+			"ssl" : 0,
+			"ssl_crt" : "../ssl/develop.crt",
+			"ssl_key" : "../ssl/develop.key"
+		},
+
 		"server000" :
 		{
 			"address" : "127.0.0.1",
