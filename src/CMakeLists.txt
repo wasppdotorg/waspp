@@ -10,6 +10,7 @@ project (${TARGET})
     #set_property (GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 #endif()
 
+add_definitions(-std=c++11)
 aux_source_directory (. Source_DIRECTORIES)
 add_executable (${TARGET} ${Source_DIRECTORIES})
 
