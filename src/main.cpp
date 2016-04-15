@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		if (!log_->init(cfg->log_level(), cfg->log_rotation(), cfg->flush_threshold()))
+		if (!log_->init(cfg->log_level(), cfg->log_rotation(), cfg->unflushed_limit()))
 		{
 			waspp::log(waspp::fatal) << "logger::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;

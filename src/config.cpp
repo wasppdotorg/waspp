@@ -26,7 +26,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	config::config() : flush_threshold_(0), expiry_sec_(0), update_sec_(0), validate_ip_(false), validate_ua_(false), num_threads_(0), compress_(false), ssl_(false)
+	config::config() : unflushed_limit_(0), expiry_sec_(0), update_sec_(0), validate_ip_(false), validate_ua_(false), num_threads_(0), compress_(false), ssl_(false)
 	{
 	}
 
@@ -76,7 +76,7 @@ namespace waspp
 				{
 					keys.push_back("level");
 					keys.push_back("rotation");
-					keys.push_back("flush_threshold");
+					keys.push_back("unflushed_limit");
 				}
 
 				for (std::size_t i = 0; i < keys.size(); ++i)
@@ -96,9 +96,9 @@ namespace waspp
 					{
 						log_rotation_ = found_item->second;
 					}
-					else if (keys[i] == "flush_threshold")
+					else if (keys[i] == "unflushed_limit")
 					{
-						flush_threshold_ = boost::lexical_cast<int>(found_item->second);
+						unflushed_limit_ = boost::lexical_cast<int>(found_item->second);
 					}
 				}
 			}

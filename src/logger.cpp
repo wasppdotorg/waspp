@@ -25,7 +25,7 @@ namespace waspp
 		log_rotation_(rotate_every_minute),
 		log_locale_(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,")),
 		unflushed_count_(0),
-		flush_threshold_(255)
+		unflushed_limit_(255)
 	{
 		std::time_t time_ = std::time(0);
 		file_created_ = *std::localtime(&time_);
@@ -60,7 +60,7 @@ namespace waspp
 	/// output file for all logger instances, and so the impl parameter is not
 	/// actually needed. It is retained here to illustrate how service functions
 	/// are typically defined.
-	bool logger::init(const std::string& log_level, const std::string& log_rotation, int flush_threshold)
+	bool logger::init(const std::string& log_level, const std::string& log_rotation, int unflushed_limit)
 	{
 		log_level_type cfg_log_level = debug;
 
@@ -104,7 +104,7 @@ namespace waspp
 			return false;
 		}
 
-		flush_threshold_ = flush_threshold;
+		unflushed_limit_ = unflushed_limit;
 
 		io_service_.post(boost::bind(&logger::init_impl, this, cfg_log_level, cfg_log_rotation));
 		return true;
@@ -172,7 +172,7 @@ namespace waspp
 	{
 		ofstream_ << message << std::endl;
 
-		if (++unflushed_count_ > flush_threshold_)
+		if (++unflushed_count_ > unflushed_limit_)
 		{
 			ofstream_.flush();
 			unflushed_count_ = 0;

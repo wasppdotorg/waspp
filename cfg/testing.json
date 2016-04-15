@@ -6,7 +6,7 @@
 		{
 			"level" : "debug",
 			"rotation" : "hourly",
-			"flush_threshold" : 255
+			"unflushed_limit" : 255
 		},
 
 	"//error" : 0,
