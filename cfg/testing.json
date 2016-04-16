@@ -143,7 +143,7 @@
 		"server000" :
 		{
 			"address" : "127.0.0.1",
-			"port" : 20000,
+			"port" : 30000,
 			"doc_root" : "../doc",
 			"num_threads" : 8,
 			"compress" : 1,
@@ -156,7 +156,7 @@
 		"server001" :
 		{
 			"address" : "127.0.0.1",
-			"port" : 20001,
+			"port" : 30001,
 			"doc_root" : "../doc",
 			"num_threads" : 8,
 			"compress" : 1,
