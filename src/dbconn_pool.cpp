@@ -38,7 +38,7 @@ namespace waspp
 		}
 
 		//boost::unordered_map<std::string, std::string>::iterator found;
-		for (auto key : keys)
+		for (auto& key : keys)
 		{
 			auto found = cfg.find(key);
 			if (found == cfg.end())

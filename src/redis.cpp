@@ -41,7 +41,7 @@ namespace waspp
 			}
 
 			//boost::unordered_map<std::string, std::string>::iterator found;
-			for (auto key : keys)
+			for (auto& key : keys)
 			{
 				auto found = cfg_rd_shard.find(key);
 				if (found == cfg_rd_shard.end())
@@ -59,7 +59,7 @@ namespace waspp
 				}
 			}
 
-			for (auto rdname : rdnames)
+			for (auto& rdname : rdnames)
 			{
 				rdpool_ptr rdpool(new redis_pool());
 

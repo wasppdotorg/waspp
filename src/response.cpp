@@ -105,7 +105,7 @@ namespace waspp
 	{
 		std::vector<boost::asio::const_buffer> buffers;
 		buffers.push_back(status_strings::to_buffer(status));
-		for (auto header : headers)
+		for (auto& header : headers)
 		{
 			buffers.push_back(boost::asio::buffer(header.name));
 			buffers.push_back(boost::asio::buffer(misc_strings::name_value_separator));

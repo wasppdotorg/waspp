@@ -57,7 +57,7 @@ namespace waspp
 			}
 
 			//boost::unordered_map<std::string, std::string>::iterator found;
-			for (auto key : keys)
+			for (auto& key : keys)
 			{
 				auto found = cfg_db_shard.find(key);
 				if (found == cfg_db_shard.end())
@@ -75,7 +75,7 @@ namespace waspp
 				}
 			}
 
-			for (auto dbname : dbnames)
+			for (auto& dbname : dbnames)
 			{
 				dbpool_ptr dbpool(new dbconn_pool());
 

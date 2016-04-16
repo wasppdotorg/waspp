@@ -109,7 +109,7 @@ namespace waspp
 			}
 
 			//std::vector<name_value>::iterator found;
-			for (auto key : keys)
+			for (auto& key : keys)
 			{
 				auto found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, key));
 				if (found == session_.end())

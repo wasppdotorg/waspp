@@ -160,7 +160,7 @@ namespace waspp
 		req_stream << "Accept: */*\r\n";
 		req_stream << "Connection: close\r\n";
 
-		for (auto req_header : req_headers)
+		for (auto& req_header : req_headers)
 		{
 			req_stream << req_header.name << ": ";
 			req_stream << req_header.value << "\r\n";
@@ -176,7 +176,7 @@ namespace waspp
 		req_stream << "Accept: */*\r\n";
 		req_stream << "Connection: close\r\n";
 
-		for (auto req_header : req_headers)
+		for (auto& req_header : req_headers)
 		{
 			req_stream << req_header.name << ": ";
 			req_stream << req_header.value << "\r\n";

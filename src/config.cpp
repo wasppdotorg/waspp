@@ -49,10 +49,10 @@ namespace waspp
 
 			//boost::property_tree::ptree::const_iterator section;
 			//boost::property_tree::ptree::const_iterator item;
-			for (auto section : ptree_)
+			for (auto& section : ptree_)
 			{
 				boost::unordered_map<std::string, std::string> c;
-				for (auto item : section.second)
+				for (auto& item : section.second)
 				{
 					c.insert(std::make_pair(item.first, item.second.get_value<std::string>()));
 				}
@@ -79,7 +79,7 @@ namespace waspp
 					keys.push_back("unflushed_limit");
 				}
 
-				for (auto key : keys)
+				for (auto& key : keys)
 				{
 					auto found_item = found_section->second.find(key);
 					if (found_item == found_section->second.end())
@@ -116,7 +116,7 @@ namespace waspp
 					keys.push_back("locale");
 				}
 
-				for (auto key : keys)
+				for (auto& key : keys)
 				{
 					auto found_item = found_section->second.find(key);
 					if (found_item == found_section->second.end())
@@ -140,7 +140,7 @@ namespace waspp
 					return false;
 				}
 
-				for (auto found_item : found_section->second)
+				for (auto& found_item : found_section->second)
 				{
 					access_granted_.push_back(found_item.second);
 				}
@@ -154,7 +154,7 @@ namespace waspp
 					return false;
 				}
 
-				for (auto found_item : found_section->second)
+				for (auto& found_item : found_section->second)
 				{
 					access_denied_.push_back(found_item.second);
 				}
@@ -178,7 +178,7 @@ namespace waspp
 					keys.push_back("validate_ua");
 				}
 
-				for (auto key : keys)
+				for (auto& key : keys)
 				{
 					auto found_item = found_section->second.find(key);
 					if (found_item == found_section->second.end())
@@ -235,7 +235,7 @@ namespace waspp
 					keys.push_back("ssl_key");
 				}
 
-				for (auto key : keys)
+				for (auto& key : keys)
 				{
 					auto found_item = found_section->second.find(key);
 					if (found_item == found_section->second.end())
@@ -301,7 +301,7 @@ namespace waspp
 			//int err_code = 0;
 			//boost::unordered_map<int, std::string>::iterator err_found;
 
-			for (auto item : ptree_)
+			for (auto& item : ptree_)
 			{
 				int err_code = boost::lexical_cast<int>(item.first);
 				auto err_found = err_.find(err_code);

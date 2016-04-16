@@ -190,7 +190,7 @@ namespace waspp
 			session.put("_username", sess.get("username"));
 
 			//std::vector<std::string>::iterator i;
-			for (auto rest_param : req.rest_params)
+			for (auto& rest_param : req.rest_params)
 			{
 				param.put("", rest_param);
 				params.push_back(std::make_pair("", param));
@@ -262,7 +262,7 @@ namespace waspp
 			session.put("_username", sess.get("username"));
 
 			//std::vector<std::string>::iterator i;
-			for (auto rest_param : req.rest_params)
+			for (auto& rest_param : req.rest_params)
 			{
 				param.put("", rest_param);
 				params.push_back(std::make_pair("", param));
