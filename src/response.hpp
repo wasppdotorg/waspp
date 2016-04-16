@@ -45,8 +45,8 @@ namespace waspp
 
 		void set_cookie(const std::string& name, const std::string& value)
 		{
-			std::vector<name_value>::iterator found;
-			found = std::find_if(cookies.begin(), cookies.end(), boost::bind(&name_value::compare_name, _1, name));
+			//std::vector<name_value>::iterator found;
+			auto found = std::find_if(cookies.begin(), cookies.end(), boost::bind(&name_value::compare_name, _1, name));
 
 			if (found == cookies.end())
 			{

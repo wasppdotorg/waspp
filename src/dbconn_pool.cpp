@@ -37,44 +37,44 @@ namespace waspp
 			keys.push_back("wait_timeout_sec");
 		}
 
-		boost::unordered_map<std::string, std::string>::iterator found;
-		for (std::size_t i = 0; i < keys.size(); ++i)
+		//boost::unordered_map<std::string, std::string>::iterator found;
+		for (auto key : keys)
 		{
-			found = cfg.find(keys[i]);
+			auto found = cfg.find(key);
 			if (found == cfg.end())
 			{
 				return false;
 			}
 
-			if (keys[i] == "host")
+			if (key == "host")
 			{
 				host = found->second;
 			}
-			else if (keys[i] == "userid")
+			else if (key == "userid")
 			{
 				userid = found->second;
 			}
-			else if (keys[i] == "passwd")
+			else if (key == "passwd")
 			{
 				passwd = found->second;
 			}
-			else if (keys[i] == "database")
+			else if (key == "database")
 			{
 				database = found->second;
 			}
-			else if (keys[i] == "port")
+			else if (key == "port")
 			{
 				port = boost::lexical_cast<unsigned int>(found->second);
 			}
-			else if (keys[i] == "charset")
+			else if (key == "charset")
 			{
 				charset = found->second;
 			}
-			else if (keys[i] == "pool_size")
+			else if (key == "pool_size")
 			{
 				pool_size = boost::lexical_cast<std::size_t>(found->second);
 			}
-			else if (keys[i] == "wait_timeout_sec")
+			else if (key == "wait_timeout_sec")
 			{
 				wait_timeout_sec = boost::lexical_cast<double>(found->second);
 			}

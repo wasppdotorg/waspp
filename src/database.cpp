@@ -56,35 +56,35 @@ namespace waspp
 				keys.push_back("db_shard_format");
 			}
 
-			boost::unordered_map<std::string, std::string>::iterator found;
-			for (std::size_t i = 0; i < keys.size(); ++i)
+			//boost::unordered_map<std::string, std::string>::iterator found;
+			for (auto key : keys)
 			{
-				found = cfg_db_shard.find(keys[i]);
+				auto found = cfg_db_shard.find(key);
 				if (found == cfg_db_shard.end())
 				{
 					return false;
 				}
 
-				if (keys[i] == "db_shard_count")
+				if (key == "db_shard_count")
 				{
 					db_shard_count = boost::lexical_cast<unsigned int>(found->second);
 				}
-				else if (keys[i] == "db_shard_format")
+				else if (key == "db_shard_format")
 				{
 					db_shard_format = found->second;
 				}
 			}
 
-			for (std::size_t i = 0; i < dbnames.size(); ++i)
+			for (auto dbname : dbnames)
 			{
 				dbpool_ptr dbpool(new dbconn_pool());
 
-				if (!dbpool->init_pool(cfg->get(dbnames[i])) || !dbpool->fill_pool())
+				if (!dbpool->init_pool(cfg->get(dbname)) || !dbpool->fill_pool())
 				{
 					return false;
 				}
 
-				db_.insert(std::make_pair(dbnames[i], dbpool));
+				db_.insert(std::make_pair(dbname, dbpool));
 			}
 
 			return true;
@@ -99,8 +99,8 @@ namespace waspp
 
 	dbpool_ptr database::get_dbpool(const std::string& dbname)
 	{
-		boost::unordered_map<std::string, dbpool_ptr>::iterator found;
-		found = db_.find(dbname);
+		//boost::unordered_map<std::string, dbpool_ptr>::iterator found;
+		auto found = db_.find(dbname);
 
 		if (found == db_.end())
 		{
@@ -120,8 +120,8 @@ namespace waspp
 			throw std::runtime_error("invalid db_shard_format");
 		}
 
-		boost::unordered_map<std::string, dbpool_ptr>::iterator found;
-		found = db_.find(std::string(format));
+		//boost::unordered_map<std::string, dbpool_ptr>::iterator found;
+		auto found = db_.find(std::string(format));
 
 		if (found == db_.end())
 		{

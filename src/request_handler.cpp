@@ -81,12 +81,12 @@ namespace waspp
 			res.headers.push_back(name_value("Keep-Alive", "timeout=0, max=0"));
 
 			std::string cookie;
-			for (std::size_t i = 0; i < res.cookies.size(); ++i)
+			for (auto res_cookie : res.cookies)
 			{
 				cookie.clear();
-				cookie.append(res.cookies[i].name);
+				cookie.append(res_cookie.name);
 				cookie.append("=");
-				cookie.append(res.cookies[i].value);
+				cookie.append(res_cookie.value);
 				cookie.append("; path=/");
 
 				res.headers.push_back(name_value("Set-Cookie", cookie));

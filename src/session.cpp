@@ -46,8 +46,8 @@ namespace waspp
 
 	std::string& session::get(const std::string& name)
 	{
-		std::vector<name_value>::iterator found;
-		found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
+		//std::vector<name_value>::iterator found;
+		auto found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
 
 		if (found == session_.end())
 		{
@@ -60,8 +60,8 @@ namespace waspp
 
 	void session::put(const std::string& name, const std::string& value)
 	{
-		std::vector<name_value>::iterator found;
-		found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
+		//std::vector<name_value>::iterator found;
+		auto found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
 
 		if (found == session_.end())
 		{
@@ -108,10 +108,10 @@ namespace waspp
 				keys.push_back("last_ua");
 			}
 
-			std::vector<name_value>::iterator found;
-			for (std::size_t i = 0; i < keys.size(); ++i)
+			//std::vector<name_value>::iterator found;
+			for (auto key : keys)
 			{
-				found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, keys[i]));
+				auto found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, key));
 				if (found == session_.end())
 				{
 					res->delete_cookie(cfg->sess_cookie());

@@ -39,10 +39,10 @@ namespace waspp
 			return;
 		}
 
-		for (std::size_t i = 0; i < req.params.size(); ++i)
+		for (auto& req_param : req.params)
 		{
-			req.params[i].name = percent_decode(req.params[i].name);
-			req.params[i].value = percent_decode(req.params[i].value);
+			req_param.name = percent_decode(req_param.name);
+			req_param.value = percent_decode(req_param.value);
 		}
 	}
 

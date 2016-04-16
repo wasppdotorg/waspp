@@ -40,35 +40,35 @@ namespace waspp
 				keys.push_back("rd_shard_format");
 			}
 
-			boost::unordered_map<std::string, std::string>::iterator found;
-			for (std::size_t i = 0; i < keys.size(); ++i)
+			//boost::unordered_map<std::string, std::string>::iterator found;
+			for (auto key : keys)
 			{
-				found = cfg_rd_shard.find(keys[i]);
+				auto found = cfg_rd_shard.find(key);
 				if (found == cfg_rd_shard.end())
 				{
 					return false;
 				}
 
-				if (keys[i] == "rd_shard_count")
+				if (key == "rd_shard_count")
 				{
 					rd_shard_count = boost::lexical_cast<unsigned int>(found->second);
 				}
-				else if (keys[i] == "rd_shard_format")
+				else if (key == "rd_shard_format")
 				{
 					rd_shard_format = found->second;
 				}
 			}
 
-			for (std::size_t i = 0; i < rdnames.size(); ++i)
+			for (auto rdname : rdnames)
 			{
 				rdpool_ptr rdpool(new redis_pool());
 
-				if (!rdpool->init_pool(cfg->get(rdnames[i])) || !rdpool->fill_pool())
+				if (!rdpool->init_pool(cfg->get(rdname)) || !rdpool->fill_pool())
 				{
 					return false;
 				}
 
-				rd_.insert(std::make_pair(rdnames[i], rdpool));
+				rd_.insert(std::make_pair(rdname, rdpool));
 			}
 
 			return true;
@@ -83,8 +83,8 @@ namespace waspp
 
 	rdpool_ptr redis::get_rdpool(const std::string& rdname)
 	{
-		boost::unordered_map<std::string, rdpool_ptr>::iterator found;
-		found = rd_.find(rdname);
+		//boost::unordered_map<std::string, rdpool_ptr>::iterator found;
+		auto found = rd_.find(rdname);
 
 		if (found == rd_.end())
 		{
@@ -104,8 +104,8 @@ namespace waspp
 			throw std::runtime_error("invalid rd_shard_format");
 		}
 
-		boost::unordered_map<std::string, rdpool_ptr>::iterator found;
-		found = rd_.find(std::string(format));
+		//boost::unordered_map<std::string, rdpool_ptr>::iterator found;
+		auto found = rd_.find(std::string(format));
 
 		if (found == rd_.end())
 		{
