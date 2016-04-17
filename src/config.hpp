@@ -10,8 +10,7 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <string>
 #include <vector>
-
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 
 #include "error.hpp"
 #include "utility.hpp"
@@ -27,7 +26,7 @@ namespace waspp
 		~config();
 
 		bool init(const std::string& file, const std::string& server_id);
-		boost::unordered_map<std::string, std::string>& get(const std::string& item);
+		std::unordered_map<std::string, std::string>& get(const std::string& item);
 
 		// logger
 		const std::string& log_level() { return log_level_; }
@@ -84,11 +83,11 @@ namespace waspp
 		std::string ssl_crt_, ssl_key_;
 
 		// cfg
-		boost::unordered_map< std::string, boost::unordered_map<std::string, std::string> > cfg_;
+		std::unordered_map< std::string, std::unordered_map<std::string, std::string> > cfg_;
 
 		// error message
 		std::string locale;
-		boost::unordered_map<int, std::string> err_;
+		std::unordered_map<int, std::string> err_;
 
 	};
 

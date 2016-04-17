@@ -7,8 +7,8 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 
-#include <boost/unordered_map.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -32,7 +32,7 @@ namespace waspp
 	{
 		try
 		{
-			boost::unordered_map<std::string, std::string>& cfg_rd_shard = cfg->get("rd_shard");
+			std::unordered_map<std::string, std::string>& cfg_rd_shard = cfg->get("rd_shard");
 
 			std::vector<std::string> keys;
 			{
@@ -40,7 +40,6 @@ namespace waspp
 				keys.push_back("rd_shard_format");
 			}
 
-			//boost::unordered_map<std::string, std::string>::iterator found;
 			for (auto& key : keys)
 			{
 				auto found = cfg_rd_shard.find(key);
@@ -83,7 +82,6 @@ namespace waspp
 
 	rdpool_ptr redis::get_rdpool(const std::string& rdname)
 	{
-		//boost::unordered_map<std::string, rdpool_ptr>::iterator found;
 		auto found = rd_.find(rdname);
 
 		if (found == rd_.end())
@@ -104,7 +102,6 @@ namespace waspp
 			throw std::runtime_error("invalid rd_shard_format");
 		}
 
-		//boost::unordered_map<std::string, rdpool_ptr>::iterator found;
 		auto found = rd_.find(std::string(format));
 
 		if (found == rd_.end())

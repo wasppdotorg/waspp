@@ -10,8 +10,8 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <stdexcept>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
-#include <boost/unordered_map.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -48,7 +48,7 @@ namespace waspp
 	{
 		try
 		{
-			boost::unordered_map<std::string, std::string>& cfg_db_shard = cfg->get("db_shard");
+			std::unordered_map<std::string, std::string>& cfg_db_shard = cfg->get("db_shard");
 
 			std::vector<std::string> keys;
 			{
@@ -56,7 +56,6 @@ namespace waspp
 				keys.push_back("db_shard_format");
 			}
 
-			//boost::unordered_map<std::string, std::string>::iterator found;
 			for (auto& key : keys)
 			{
 				auto found = cfg_db_shard.find(key);
@@ -99,7 +98,6 @@ namespace waspp
 
 	dbpool_ptr database::get_dbpool(const std::string& dbname)
 	{
-		//boost::unordered_map<std::string, dbpool_ptr>::iterator found;
 		auto found = db_.find(dbname);
 
 		if (found == db_.end())
@@ -120,7 +118,6 @@ namespace waspp
 			throw std::runtime_error("invalid db_shard_format");
 		}
 
-		//boost::unordered_map<std::string, dbpool_ptr>::iterator found;
 		auto found = db_.find(std::string(format));
 
 		if (found == db_.end())

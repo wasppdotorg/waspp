@@ -10,10 +10,10 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <ctime>
 
+#include <memory>
 #include <vector>
+#include <unordered_map>
 
-#include <boost/unordered_map.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
 #include "redis3m.hpp"
@@ -22,7 +22,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	typedef boost::shared_ptr<redis3m::connection> rdconn_ptr;
+	typedef std::shared_ptr<redis3m::connection> rdconn_ptr;
 
 	class redis_pool
 		: private boost::noncopyable
@@ -31,7 +31,7 @@ namespace waspp
 		redis_pool();
 		~redis_pool();
 
-		bool init_pool(boost::unordered_map<std::string, std::string>& cfg);
+		bool init_pool(std::unordered_map<std::string, std::string>& cfg);
 		bool fill_pool();
 
 		rdconn_ptr get_rdconn();

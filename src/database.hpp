@@ -8,10 +8,10 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_DATABASE_HPP
 #define WASPP_DATABASE_HPP
 
+#include <memory>
 #include <vector>
 #include <string>
-
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 
 #include "dbconn_pool.hpp"
 #include "utility.hpp"
@@ -21,7 +21,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	typedef boost::shared_ptr<dbconn_pool> dbpool_ptr;
+	typedef std::shared_ptr<dbconn_pool> dbpool_ptr;
 
 	class database
 		: public singleton<database>
@@ -39,7 +39,7 @@ namespace waspp
 		unsigned int db_shard_count;
 		std::string db_shard_format;
 
-		boost::unordered_map<std::string, dbpool_ptr> db_;
+		std::unordered_map<std::string, dbpool_ptr> db_;
 
 	};
 

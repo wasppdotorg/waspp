@@ -14,11 +14,11 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
-#include <boost/unordered_map.hpp>
-#include <boost/atomic.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
+#include <boost/atomic.hpp>
 
 #include "name_value.hpp"
 

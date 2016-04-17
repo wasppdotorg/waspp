@@ -10,11 +10,10 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <ctime>
 
+#include <memory>
 #include <vector>
+#include <unordered_map>
 
-#include <boost/unordered_map.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/scoped_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
 #include "mysqlpp.hpp"
@@ -23,9 +22,9 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	typedef boost::shared_ptr<mysqlpp::connection> dbconn_ptr;
-	typedef boost::scoped_ptr<mysqlpp::statement> stmt_ptr;
-	typedef boost::scoped_ptr<mysqlpp::result> rs_ptr;
+	typedef std::shared_ptr<mysqlpp::connection> dbconn_ptr;
+	typedef std::unique_ptr<mysqlpp::statement> stmt_ptr;
+	typedef std::unique_ptr<mysqlpp::result> rs_ptr;
 
 	class dbconn_pool
 		: private boost::noncopyable
@@ -34,7 +33,7 @@ namespace waspp
 		dbconn_pool();
 		~dbconn_pool();
 
-		bool init_pool(boost::unordered_map<std::string, std::string>& cfg);
+		bool init_pool(std::unordered_map<std::string, std::string>& cfg);
 		bool fill_pool();
 
 		dbconn_ptr get_dbconn();

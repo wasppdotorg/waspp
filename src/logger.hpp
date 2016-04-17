@@ -10,12 +10,12 @@
 
 #include <ctime>
 
+#include <memory>
 #include <fstream>
 #include <string>
 
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
-#include <boost/scoped_ptr.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "utility.hpp"
@@ -70,10 +70,10 @@ namespace waspp
 		/// Work for the private io_service to perform. If we do not give the
 		/// io_service some work to do then the io_service::run() function will exit
 		/// immediately.
-		boost::scoped_ptr<boost::asio::io_service::work> work_;
+		std::unique_ptr<boost::asio::io_service::work> work_;
 
 		/// Thread used for running the work io_service's run loop.
-		boost::scoped_ptr<boost::thread> thread_;
+		std::unique_ptr<boost::thread> thread_;
 
 		/// The file to which log messages will be written.
 		std::ofstream ofstream_;

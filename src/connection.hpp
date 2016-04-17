@@ -8,12 +8,12 @@
 #ifndef WASPP_CONNECTION_HPP
 #define WASPP_CONNECTION_HPP
 
+#include <memory>
+#include <array>
+
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
-#include <boost/array.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
 #include "request_handler.hpp"
 #include "request.hpp"
@@ -25,7 +25,7 @@ namespace waspp
 
 	/// Represents a single connection from a client.
 	class connection
-		: public boost::enable_shared_from_this<connection>,
+		: public std::enable_shared_from_this<connection>,
 		private boost::noncopyable
 	{
 	public:
@@ -59,7 +59,7 @@ namespace waspp
 		request_handler& request_handler_;
 
 		/// Buffer for incoming data.
-		boost::array<char, 8192> buffer_;
+		std::array<char, 8192> buffer_;
 
 		/// The incoming request.
 		request request_;
@@ -72,7 +72,7 @@ namespace waspp
 
 	};
 
-	typedef boost::shared_ptr<connection> connection_ptr;
+	typedef std::shared_ptr<connection> connection_ptr;
 
 } // namespace waspp
 

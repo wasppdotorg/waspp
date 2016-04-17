@@ -5,6 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
+#include <unordered_map>
 #include <string>
 
 #include <boost/property_tree/ptree.hpp>
@@ -17,7 +18,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/unordered_map.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include "config.hpp"
@@ -47,11 +47,9 @@ namespace waspp
 			boost::property_tree::ptree ptree_;
 			boost::property_tree::json_parser::read_json(file, ptree_);
 
-			//boost::property_tree::ptree::const_iterator section;
-			//boost::property_tree::ptree::const_iterator item;
 			for (auto& section : ptree_)
 			{
-				boost::unordered_map<std::string, std::string> c;
+				std::unordered_map<std::string, std::string> c;
 				for (auto& item : section.second)
 				{
 					c.insert(std::make_pair(item.first, item.second.get_value<std::string>()));
@@ -61,9 +59,6 @@ namespace waspp
 			}
 
 			std::vector<std::string> keys;
-			//boost::unordered_map< std::string, boost::unordered_map<std::string, std::string> >::iterator found_section;
-			//boost::unordered_map<std::string, std::string>::iterator found_item;
-
 			auto found_section = cfg_.find("log");
 			{
 				if (found_section == cfg_.end())
@@ -297,10 +292,6 @@ namespace waspp
 			}
 
 			boost::property_tree::json_parser::read_json(err_file, ptree_);
-
-			//int err_code = 0;
-			//boost::unordered_map<int, std::string>::iterator err_found;
-
 			for (auto& item : ptree_)
 			{
 				int err_code = boost::lexical_cast<int>(item.first);
@@ -340,9 +331,8 @@ namespace waspp
 		return false;
 	}
 
-	boost::unordered_map<std::string, std::string>& config::get(const std::string& item)
+	std::unordered_map<std::string, std::string>& config::get(const std::string& item)
 	{
-		//boost::unordered_map< std::string, boost::unordered_map<std::string, std::string> >::iterator found;
 		auto found = cfg_.find(item);
 
 		if (found == cfg_.end())

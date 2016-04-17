@@ -9,8 +9,8 @@
 #define WASPP_RESPONSE_HPP
 
 #include <vector>
+#include <unordered_map>
 
-#include <boost/unordered_map.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 

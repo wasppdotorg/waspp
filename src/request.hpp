@@ -10,8 +10,9 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <algorithm>
 
-#include <boost/unordered_map.hpp>
 #include <boost/bind.hpp>
 
 #include "name_value.hpp"

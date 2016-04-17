@@ -8,10 +8,10 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_REDIS_HPP
 #define WASPP_REDIS_HPP
 
+#include <memory>
 #include <vector>
 #include <string>
-
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 
 #include "redis_pool.hpp"
 #include "utility.hpp"
@@ -21,7 +21,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	typedef boost::shared_ptr<redis_pool> rdpool_ptr;
+	typedef std::shared_ptr<redis_pool> rdpool_ptr;
 
 	class redis
 		: public singleton<redis>
@@ -39,7 +39,7 @@ namespace waspp
 		unsigned int rd_shard_count;
 		std::string rd_shard_format;
 
-		boost::unordered_map<std::string, rdpool_ptr> rd_;
+		std::unordered_map<std::string, rdpool_ptr> rd_;
 
 	};
 

@@ -26,7 +26,6 @@ namespace waspp
 
 	std::string& request::header(const std::string& name)
 	{
-		//std::vector<name_value>::iterator found;
 		auto found = std::find_if(headers.begin(), headers.end(), boost::bind(&name_value::compare_name, _1, name));
 
 		if (found == headers.end())

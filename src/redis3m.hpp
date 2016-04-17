@@ -211,13 +211,13 @@ Apache License
 
 #include <hiredis/hiredis.h>
 
+#include <memory>
 #include <vector>
+#include <unordered_map>
 #include <string>
 #include <stdexcept>
 
-#include <boost/unordered_map.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
 
 // code from redis3m
@@ -347,7 +347,7 @@ namespace redis3m
 		: private boost::noncopyable
 	{
 	public:
-		typedef boost::shared_ptr<connection> redis3m_ptr;
+		typedef std::shared_ptr<connection> redis3m_ptr;
 
 		~connection()
 		{

@@ -23,7 +23,7 @@ namespace waspp
 	{
 	}
 
-	bool dbconn_pool::init_pool(boost::unordered_map<std::string, std::string>& cfg)
+	bool dbconn_pool::init_pool(std::unordered_map<std::string, std::string>& cfg)
 	{
 		std::vector<std::string> keys;
 		{
@@ -37,7 +37,6 @@ namespace waspp
 			keys.push_back("wait_timeout_sec");
 		}
 
-		//boost::unordered_map<std::string, std::string>::iterator found;
 		for (auto& key : keys)
 		{
 			auto found = cfg.find(key);
