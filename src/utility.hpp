@@ -51,15 +51,32 @@ namespace waspp
 	public:
 		static T* instance()
 		{
-			static T instance_;
-			return &instance_;
+			if (instance_ == nullptr)
+			{
+				instance_ = new T();
+
+				// avoid memory leak
+				atexit(destroy);
+			}
+
+			return instance_;
 		}
 
 	protected:
 		singleton() {}
 		virtual ~singleton() {}
 
+	private:
+		static void destroy()
+		{
+			delete instance_;
+		}
+
+		static T* instance_;
+
 	};
+
+	template<typename T> T* singleton<T>::instance_ = nullptr;
 
 	enum uri_request_type
 	{
