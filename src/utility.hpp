@@ -51,43 +51,15 @@ namespace waspp
 	public:
 		static T* instance()
 		{
-			if (instance_ != 0)
-			{
-				return instance_;
-			}
-
-			// double checked locking for thread-safe singleton
-			lock.acquire();
-			if (instance_ == 0)
-			{
-				instance_ = new T();
-
-				// avoid memory leak
-				atexit(destory);
-			}
-			lock.release();
-
-			return instance_;
+			static T instance_;
+			return &instance_;
 		}
 
 	protected:
 		singleton() {}
 		virtual ~singleton() {}
 
-	private:
-		static void destory()
-		{
-			delete instance_;
-		}
-
-		static T* instance_;
-		static spinlock lock;
-
 	};
-
-	template<typename T> T* singleton<T>::instance_ = 0;
-	template<typename T> spinlock singleton<T>::lock;
-	// end of thread-safe singleton
 
 	enum uri_request_type
 	{
