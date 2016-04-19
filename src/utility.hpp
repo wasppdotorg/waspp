@@ -51,19 +51,18 @@ namespace waspp
 	public:
 		static T* instance()
 		{
-			if (instance_ == nullptr)
-			{
-				instance_ = new T();
-
-				// avoid memory leak
-				atexit(destroy);
-			}
-
 			return instance_;
 		}
 
 	protected:
-		singleton() {}
+		singleton()
+		{
+			instance_ = new T();
+
+			// avoid memory leak
+			atexit(destroy);
+		}
+
 		virtual ~singleton() {}
 
 	private:
