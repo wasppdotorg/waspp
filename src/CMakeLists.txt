@@ -17,7 +17,7 @@ add_executable (${TARGET} ${Source_DIRECTORIES})
 include_directories (/usr/include /usr/local/include)
 
 find_package (Threads)
-find_package (Boost 1.55.0 COMPONENTS system thread filesystem chrono serialization iostreams)
+find_package (Boost 1.55.0 COMPONENTS system thread filesystem serialization iostreams)
 
 find_library (MySQLClient_LIBRARIES NAMES mysqlclient PATHS /usr/lib/mysql /usr/local/lib/mysql)
 find_library (HiRedis_LIBRARIES NAMES hiredis)

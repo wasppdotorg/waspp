@@ -8,7 +8,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_PERFORMANCE_CHECKER_HPP
 #define WASPP_PERFORMANCE_CHECKER_HPP
 
-#include <boost/chrono.hpp>
+#include <chrono>
 
 #include "logger.hpp"
 
@@ -28,7 +28,7 @@ namespace waspp
 		const char* file;
 		int line;
 
-		boost::chrono::system_clock::time_point start;
+		std::chrono::system_clock::time_point start;
 
 	};
 

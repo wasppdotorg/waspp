@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#include <boost/chrono.hpp>
+#include <chrono>
 
 #include "performance_checker.hpp"
 #include "logger.hpp"
@@ -15,12 +15,12 @@ namespace waspp
 
 	performance_checker::performance_checker(long long int limit_ms_, const char* file_, int line_) : limit_ms(limit_ms_), file(file_), line(line_)
 	{
-		start = boost::chrono::system_clock::now();
+		start = std::chrono::system_clock::now();
 	}
 
 	performance_checker::~performance_checker()
 	{
-		long long int diff_ms = boost::chrono::duration_cast<boost::chrono::milliseconds>(boost::chrono::system_clock::now() - start).count();
+		long long int diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start).count();
 
 		if (diff_ms > limit_ms)
 		{

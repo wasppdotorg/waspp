@@ -40,7 +40,6 @@
 			<Add option="-lboost_filesystem" />
 			<Add option="-lboost_serialization" />
 			<Add option="-lboost_iostreams" />
-			<Add option="-lboost_chrono" />
 			<Add option="-lmysqlclient" />
 			<Add option="-lhiredis" />
 			<Add option="-lssl" />
