@@ -99,7 +99,6 @@ namespace waspp
 	dbpool_ptr database::get_dbpool(const std::string& dbname)
 	{
 		auto found = db_.find(dbname);
-
 		if (found == db_.end())
 		{
 			throw std::runtime_error("invalid dbname");
@@ -119,7 +118,6 @@ namespace waspp
 		}
 
 		auto found = db_.find(std::string(format));
-
 		if (found == db_.end())
 		{
 			throw std::runtime_error("invalid db_shard_key");

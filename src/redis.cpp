@@ -83,7 +83,6 @@ namespace waspp
 	rdpool_ptr redis::get_rdpool(const std::string& rdname)
 	{
 		auto found = rd_.find(rdname);
-
 		if (found == rd_.end())
 		{
 			throw std::runtime_error("invalid rdname");
@@ -103,7 +102,6 @@ namespace waspp
 		}
 
 		auto found = rd_.find(std::string(format));
-
 		if (found == rd_.end())
 		{
 			throw std::runtime_error("invalid rd_shard_key");

@@ -334,7 +334,6 @@ namespace waspp
 	std::unordered_map<std::string, std::string>& config::get(const std::string& item)
 	{
 		auto found = cfg_.find(item);
-
 		if (found == cfg_.end())
 		{
 			throw std::runtime_error("config::get failed");

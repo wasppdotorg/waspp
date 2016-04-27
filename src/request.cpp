@@ -27,7 +27,6 @@ namespace waspp
 	std::string& request::header(const std::string& name)
 	{
 		auto found = std::find_if(headers.begin(), headers.end(), boost::bind(&name_value::compare_name, _1, name));
-
 		if (found == headers.end())
 		{
 			headers.push_back(name_value(name, std::string()));
@@ -39,9 +38,7 @@ namespace waspp
 
 	std::string& request::cookie(const std::string& name)
 	{
-		//std::vector<name_value>::iterator found;
 		auto found = std::find_if(cookies.begin(), cookies.end(), boost::bind(&name_value::compare_name, _1, name));
-
 		if (found == cookies.end())
 		{
 			cookies.push_back(name_value(name, std::string()));
@@ -53,9 +50,7 @@ namespace waspp
 
 	std::string& request::param(const std::string& name)
 	{
-		//std::vector<name_value>::iterator found;
 		auto found = std::find_if(params.begin(), params.end(), boost::bind(&name_value::compare_name, _1, name));
-
 		if (found == params.end())
 		{
 			params.push_back(name_value(name, std::string()));

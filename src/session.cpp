@@ -46,9 +46,7 @@ namespace waspp
 
 	std::string& session::get(const std::string& name)
 	{
-		//std::vector<name_value>::iterator found;
 		auto found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
-
 		if (found == session_.end())
 		{
 			session_.push_back(name_value(name, std::string()));
@@ -60,9 +58,7 @@ namespace waspp
 
 	void session::put(const std::string& name, const std::string& value)
 	{
-		//std::vector<name_value>::iterator found;
 		auto found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
-
 		if (found == session_.end())
 		{
 			session_.push_back(name_value(name, std::string()));
@@ -108,7 +104,6 @@ namespace waspp
 				keys.push_back("last_ua");
 			}
 
-			//std::vector<name_value>::iterator found;
 			for (auto& key : keys)
 			{
 				auto found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, key));
