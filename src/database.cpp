@@ -81,7 +81,7 @@ namespace waspp
 
 			for (auto& dbname : dbnames)
 			{
-				dbpool_ptr dbpool(new dbconn_pool());
+				dbpool_ptr dbpool = new dbconn_pool();
 
 				if (!dbpool->init_pool(cfg->get(dbname)) || !dbpool->fill_pool())
 				{

@@ -64,7 +64,7 @@ namespace waspp
 
 			for (auto& rdname : rdnames)
 			{
-				rdpool_ptr rdpool(new redis_pool());
+				rdpool_ptr rdpool = new redis_pool();
 
 				if (!rdpool->init_pool(cfg->get(rdname)) || !rdpool->fill_pool())
 				{

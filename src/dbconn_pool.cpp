@@ -153,7 +153,7 @@ namespace waspp
 
 	dbconn_ptr dbconn_pool::connect(bool pooled_)
 	{
-		return dbconn_ptr(new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, charset.c_str(), pooled_));
+		return new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, charset.c_str(), pooled_);
 	}
 
 } // namespace waspp
