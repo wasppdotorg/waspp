@@ -10,7 +10,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <ctime>
 
-#include <memory>
 #include <vector>
 #include <unordered_map>
 
@@ -20,7 +19,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	using dbconn_ptr = std::shared_ptr<mysqlpp::connection>;
+	using dbconn_ptr = mysqlpp::connection*;
 	using stmt_ptr = std::unique_ptr<mysqlpp::statement>;
 	using rs_ptr = std::unique_ptr<mysqlpp::result>;
 

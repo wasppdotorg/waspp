@@ -41,6 +41,11 @@ namespace waspp
 
 	database::~database()
 	{
+		for (auto& d : db_)
+		{
+			delete d.second;
+		}
+
 		mysql_library_end();
 	}
 

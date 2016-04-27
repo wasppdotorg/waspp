@@ -26,6 +26,10 @@ namespace waspp
 
 	redis::~redis()
 	{
+		for (auto& r : rd_)
+		{
+			delete r.second;
+		}
 	}
 
 	bool redis::init(config* cfg, const std::vector<std::string>& rdnames)

@@ -211,7 +211,6 @@ Apache License
 
 #include <hiredis/hiredis.h>
 
-#include <memory>
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -348,16 +347,23 @@ namespace redis3m
 		connection(const connection&) = delete;
 		connection& operator=(const connection&) = delete;
 
-		using redis3m_ptr = std::shared_ptr<connection>;
+		//using redis3m_ptr = std::shared_ptr<connection>;
 
 		~connection()
 		{
 			redisFree(c);
 		}
 
+		/*
 		static redis3m_ptr connect(const std::string& host = "localhost", const unsigned int port = 6379, bool pooled_ = false)
 		{
 			return redis3m_ptr(new connection(host, port, pooled_));
+		}
+		*/
+
+		static connection* connect_(const std::string& host = "localhost", const unsigned int port = 6379, bool pooled_ = false)
+		{
+			return new connection(host, port, pooled_);
 		}
 
 		bool is_valid() const

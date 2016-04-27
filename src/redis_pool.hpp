@@ -10,7 +10,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <ctime>
 
-#include <memory>
 #include <vector>
 #include <unordered_map>
 
@@ -20,7 +19,8 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	using rdconn_ptr = std::shared_ptr<redis3m::connection>;
+	using redis3m_ptr = std::shared_ptr<redis3m::connection>;
+	using rdconn_ptr = redis3m::connection*;
 
 	class redis_pool
 	{
@@ -38,7 +38,8 @@ namespace waspp
 		void free_rdconn(rdconn_ptr rdconn);
 
 	private:
-		rdconn_ptr connect(bool pooled_ = true);
+		redis3m_ptr connect(bool pooled_ = true);
+		rdconn_ptr connect_(bool pooled_ = true);
 
 		std::string host;
 		unsigned int port;

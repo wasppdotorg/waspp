@@ -8,7 +8,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_REDIS_HPP
 #define WASPP_REDIS_HPP
 
-#include <memory>
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -21,7 +20,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	using rdpool_ptr = std::shared_ptr<redis_pool>;
+	using rdpool_ptr = redis_pool*;
 
 	class redis
 		: public singleton<redis>

@@ -21,6 +21,10 @@ namespace waspp
 
 	dbconn_pool::~dbconn_pool()
 	{
+		for (auto& c : pool)
+		{
+			delete c;
+		}
 	}
 
 	bool dbconn_pool::init_pool(std::unordered_map<std::string, std::string>& cfg)

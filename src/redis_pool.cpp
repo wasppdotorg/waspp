@@ -21,6 +21,10 @@ namespace waspp
 
 	redis_pool::~redis_pool()
 	{
+		for (auto& c : pool)
+		{
+			delete c;
+		}
 	}
 
 	bool redis_pool::init_pool(std::unordered_map<std::string, std::string>& cfg)
@@ -71,7 +75,7 @@ namespace waspp
 
 		for (std::size_t i = 0; i < pool_size; ++i)
 		{
-			rdconn_ptr rdconn = connect();
+			rdconn_ptr rdconn = connect_();
 			if (!rdconn->is_valid())
 			{
 				return false;
@@ -92,7 +96,7 @@ namespace waspp
 			lock.release();
 
 			log(warn) << "redis_pool is empty";
-			return connect(false);
+			return connect_(false);
 		}
 
 		rdconn_ptr rdconn = pool.back();
@@ -104,7 +108,7 @@ namespace waspp
 
 		if (diff >= timeout_sec && !rdconn->is_valid())
 		{
-			return connect();
+			return connect_();
 		}
 
 		return rdconn;
@@ -127,9 +131,16 @@ namespace waspp
 		lock.release();
 	}
 
-	rdconn_ptr redis_pool::connect(bool pooled_)
+	/*
+	redis3m_ptr redis_pool::connect(bool pooled_)
 	{
-		return redis3m::connection::connect(host.c_str(), port, pooled_);
+		return redis3m::connection::connect(host, port, pooled_);
+	}
+	*/
+
+	rdconn_ptr redis_pool::connect_(bool pooled_)
+	{
+		return redis3m::connection::connect_(host, port, pooled_);
 	}
 
 } // namespace waspp

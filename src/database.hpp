@@ -8,7 +8,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef WASPP_DATABASE_HPP
 #define WASPP_DATABASE_HPP
 
-#include <memory>
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -21,7 +20,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	using dbpool_ptr = std::shared_ptr<dbconn_pool>;
+	using dbpool_ptr = dbconn_pool*;
 
 	class database
 		: public singleton<database>
