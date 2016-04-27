@@ -14,22 +14,22 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 #include <unordered_map>
 
-#include <boost/noncopyable.hpp>
-
 #include "mysqlpp.hpp"
 #include "utility.hpp"
 
 namespace waspp
 {
 
-	typedef std::shared_ptr<mysqlpp::connection> dbconn_ptr;
-	typedef std::unique_ptr<mysqlpp::statement> stmt_ptr;
-	typedef std::unique_ptr<mysqlpp::result> rs_ptr;
+	using dbconn_ptr = std::shared_ptr<mysqlpp::connection>;
+	using stmt_ptr = std::unique_ptr<mysqlpp::statement>;
+	using rs_ptr = std::unique_ptr<mysqlpp::result>;
 
 	class dbconn_pool
-		: private boost::noncopyable
 	{
 	public:
+		dbconn_pool(const dbconn_pool&) = delete;
+		dbconn_pool& operator=(const dbconn_pool&) = delete;
+
 		dbconn_pool();
 		~dbconn_pool();
 

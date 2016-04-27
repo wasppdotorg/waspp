@@ -21,7 +21,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	typedef std::shared_ptr<dbconn_pool> dbpool_ptr;
+	using dbpool_ptr = std::shared_ptr<dbconn_pool>;
 
 	class database
 		: public singleton<database>

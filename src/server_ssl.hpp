@@ -10,7 +10,6 @@
 
 #include <string>
 
-#include <boost/noncopyable.hpp>
 #include <boost/asio.hpp>
 
 #include "logger.hpp"
@@ -23,9 +22,11 @@ namespace waspp
 
 	/// The top-level class of the HTTP server_ssl.
 	class server_ssl
-		: private boost::noncopyable
 	{
 	public:
+		server_ssl(const server_ssl&) = delete;
+		server_ssl& operator=(const server_ssl&) = delete;
+
 		/// Construct the server_ssl to listen on the specified TCP address and port, and
 		/// serve up files from the given directory.
 		explicit server_ssl(config* cfg_);

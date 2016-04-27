@@ -21,7 +21,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	typedef std::shared_ptr<redis_pool> rdpool_ptr;
+	using rdpool_ptr = std::shared_ptr<redis_pool>;
 
 	class redis
 		: public singleton<redis>

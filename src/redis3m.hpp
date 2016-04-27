@@ -217,7 +217,6 @@ Apache License
 #include <string>
 #include <stdexcept>
 
-#include <boost/noncopyable.hpp>
 #include <boost/lexical_cast.hpp>
 
 // code from redis3m
@@ -344,10 +343,12 @@ namespace redis3m
 	};
 
 	class connection
-		: private boost::noncopyable
 	{
 	public:
-		typedef std::shared_ptr<connection> redis3m_ptr;
+		connection(const connection&) = delete;
+		connection& operator=(const connection&) = delete;
+
+		using redis3m_ptr = std::shared_ptr<connection>;
 
 		~connection()
 		{

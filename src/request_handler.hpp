@@ -10,8 +10,6 @@
 
 #include <string>
 
-#include <boost/noncopyable.hpp>
-
 #include "request.hpp"
 #include "response.hpp"
 #include "config.hpp"
@@ -21,9 +19,11 @@ namespace waspp
 
 	/// The common handler for all incoming requests.
 	class request_handler
-		: private boost::noncopyable
 	{
 	public:
+		request_handler(const request_handler&) = delete;
+		request_handler& operator=(const request_handler&) = delete;
+
 		/// Construct with a directory containing files to be served.
 		request_handler();
 

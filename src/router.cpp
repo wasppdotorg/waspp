@@ -38,9 +38,8 @@ namespace waspp
 
 			{ "/dir/user/signout/", &dir_user::signout },
 
-			{ "/dir/performance/test/", &dir_performance::test },
+			{ "/dir/performance/test/", &dir_performance::test }
 
-			{ 0, 0 } // Marks end of list.
 		};
 
 		func_ptr get_func(std::string& request_uri)
@@ -59,7 +58,7 @@ namespace waspp
 				}
 			}
 
-			return 0;
+			return nullptr;
 		}
 
 		bool get_file(config* cfg, response& res, std::string request_path)

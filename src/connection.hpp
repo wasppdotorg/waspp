@@ -13,7 +13,6 @@
 
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
-#include <boost/noncopyable.hpp>
 
 #include "request_handler.hpp"
 #include "request.hpp"
@@ -25,10 +24,11 @@ namespace waspp
 
 	/// Represents a single connection from a client.
 	class connection
-		: public std::enable_shared_from_this<connection>,
-		private boost::noncopyable
+		: public std::enable_shared_from_this<connection>
 	{
 	public:
+		connection(const connection&) = delete;
+		connection& operator=(const connection&) = delete;
 
 		/// Construct a connection with the given io_service.
 		explicit connection(boost::asio::io_service& io_service,
@@ -72,7 +72,7 @@ namespace waspp
 
 	};
 
-	typedef std::shared_ptr<connection> connection_ptr;
+	using connection_ptr = std::shared_ptr<connection>;
 
 } // namespace waspp
 

@@ -14,20 +14,20 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 #include <unordered_map>
 
-#include <boost/noncopyable.hpp>
-
 #include "redis3m.hpp"
 #include "utility.hpp"
 
 namespace waspp
 {
 
-	typedef std::shared_ptr<redis3m::connection> rdconn_ptr;
+	using rdconn_ptr = std::shared_ptr<redis3m::connection>;
 
 	class redis_pool
-		: private boost::noncopyable
 	{
 	public:
+		redis_pool(const redis_pool&) = delete;
+		redis_pool& operator=(const redis_pool&) = delete;
+
 		redis_pool();
 		~redis_pool();
 
