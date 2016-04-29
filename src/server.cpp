@@ -6,10 +6,7 @@
 //
 
 #include <vector>
-#include <unordered_map>
 #include <thread>
-
-#include <boost/bind.hpp>
 
 #include "server.hpp"
 
@@ -58,7 +55,11 @@ namespace waspp
 		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
 		{
 			std::thread* thread_ = new std::thread(
-				boost::bind(&boost::asio::io_service::run, &io_service_));
+				[this]()
+			{
+				io_service_.run();
+			});
+
 			threads_.push_back(thread_);
 		}
 
