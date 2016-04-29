@@ -148,7 +148,7 @@
 			"num_threads" : 4,
 			"compress" : 1,
 
-			"ssl" : 0,
+			"ssl" : 1,
 			"ssl_crt" : "../ssl/develop.crt",
 			"ssl_key" : "../ssl/develop.key"
 		},

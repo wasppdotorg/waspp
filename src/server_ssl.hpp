@@ -8,8 +8,6 @@
 #ifndef WASPP_SERVER_SSL_HPP
 #define WASPP_SERVER_SSL_HPP
 
-#include <string>
-
 #include <boost/asio.hpp>
 
 #include "logger.hpp"
@@ -36,13 +34,11 @@ namespace waspp
 
 	private:
 		/// Initiate an asynchronous accept operation.
-		void start_accept();
-
 		/// Handle completion of an asynchronous accept operation.
-		void handle_accept(const boost::system::error_code& e);
+		void do_accept();
 
 		/// Handle a request to stop the server_ssl.
-		void handle_stop(int signal_number);
+		void do_await_stop();
 
 		config* cfg;
 

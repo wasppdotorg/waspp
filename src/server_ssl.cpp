@@ -6,10 +6,7 @@
 //
 
 #include <vector>
-#include <unordered_map>
-
-#include <boost/bind.hpp>
-#include <boost/thread.hpp>
+#include <thread>
 
 #include "server_ssl.hpp"
 
@@ -49,7 +46,7 @@ namespace waspp
 #endif // defined(SIGQUIT)
 		signals_.add(SIGTERM); // 15
 
-		signals_.async_wait(boost::bind(&server_ssl::handle_stop, this, boost::asio::placeholders::signal_number));
+		do_await_stop();
 
 		// Open the acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
 		boost::asio::ip::tcp::resolver resolver_(io_service_);
@@ -62,52 +59,63 @@ namespace waspp
 		acceptor_.bind(endpoint_);
 		acceptor_.listen();
 
-		start_accept();
-	}
-
-	void server_ssl::start_accept()
-	{
-		new_connection_ssl_.reset(new connection_ssl(io_service_, context_, request_handler_));
-
-		acceptor_.async_accept(new_connection_ssl_->socket().lowest_layer(),
-			boost::bind(&server_ssl::handle_accept, this,
-			boost::asio::placeholders::error));
+		do_accept();
 	}
 
 	void server_ssl::run()
 	{
 		// Create a pool of threads to run all of the io_services.
-		boost::thread_group threads;
+		std::vector<std::thread*> threads_;
 		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
 		{
-			threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service_));
+			std::thread* thread_ = new std::thread(
+				[this]()
+			{
+				io_service_.run();
+			});
+
+			threads_.push_back(thread_);
 		}
 
 		// Wait for all threads in the pool to exit.
-		threads.join_all();
-	}
-
-	void server_ssl::handle_accept(const boost::system::error_code& e)
-	{
-		if (!e)
+		for (auto& thread_ : threads_)
 		{
-			new_connection_ssl_->start();
+			thread_->join();
+			delete thread_;
 		}
-
-		start_accept();
 	}
 
-	void server_ssl::handle_stop(int signal_number)
+	void server_ssl::do_accept()
 	{
+		new_connection_ssl_.reset(new connection_ssl(io_service_, context_, request_handler_));
+
+		acceptor_.async_accept(new_connection_ssl_->socket().lowest_layer(),
+			[this](boost::system::error_code e)
+		{
+			if (!e)
+			{
+				new_connection_ssl_->start();
+			}
+
+			do_accept();
+		});
+	}
+
+	void server_ssl::do_await_stop()
+	{
+		signals_.async_wait(
+			[this](boost::system::error_code e, int signal_number)
+		{
 #if defined(SIGHUP)
-		if (signal_number == SIGHUP)
-		{
-			return;
-		}
+			if (signal_number == SIGHUP)
+			{
+				return;
+			}
 #endif // defined(SIGHUP)
 
-		log(info) << "server_ssl stopping..";
-		io_service_.stop();
+			log(info) << "server_ssl stopping..";
+			io_service_.stop();
+		});
 	}
 
 } // namespace waspp

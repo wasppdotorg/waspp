@@ -8,8 +8,6 @@
 #ifndef WASPP_SERVER_HPP
 #define WASPP_SERVER_HPP
 
-#include <string>
-
 #include <boost/asio.hpp>
 
 #include "logger.hpp"
@@ -36,6 +34,7 @@ namespace waspp
 
 	private:
 		/// Initiate an asynchronous accept operation.
+		/// Handle completion of an asynchronous accept operation.
 		void do_accept();
 
 		/// Handle a request to stop the server.
