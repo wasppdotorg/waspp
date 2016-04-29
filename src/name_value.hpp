@@ -23,11 +23,6 @@ namespace waspp
 		{
 		}
 
-		bool compare_name(const std::string& name_)
-		{
-			return name == name_;
-		}
-
 		template<typename archive>
 		void serialize(archive& ar, const unsigned int version)
 		{

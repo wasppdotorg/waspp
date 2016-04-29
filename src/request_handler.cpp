@@ -11,7 +11,6 @@
 #include <sstream>
 #include <algorithm>
 
-#include <boost/timer/timer.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include "request_handler.hpp"

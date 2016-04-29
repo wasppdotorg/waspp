@@ -10,11 +10,12 @@
 
 #include <ctime>
 
+#include <memory>
+#include <thread>
 #include <fstream>
 #include <string>
 
 #include <boost/asio.hpp>
-#include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "utility.hpp"
@@ -71,7 +72,7 @@ namespace waspp
 		std::unique_ptr<boost::asio::io_service::work> work_;
 
 		/// Thread used for running the work io_service's run loop.
-		std::unique_ptr<boost::thread> thread_;
+		std::unique_ptr<std::thread> thread_;
 
 		/// The file to which log messages will be written.
 		std::ofstream ofstream_;

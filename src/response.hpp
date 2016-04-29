@@ -11,7 +11,6 @@
 #include <vector>
 #include <unordered_map>
 
-#include <boost/bind.hpp>
 #include <boost/asio.hpp>
 
 #include "name_value.hpp"
@@ -45,7 +44,12 @@ namespace waspp
 
 		void set_cookie(const std::string& name, const std::string& value)
 		{
-			auto found = std::find_if(cookies.begin(), cookies.end(), boost::bind(&name_value::compare_name, _1, name));
+			auto found = std::find_if(cookies.begin(), cookies.end(),
+				[&name](const name_value& nv)
+			{
+				return nv.name == name;
+			});
+
 			if (found == cookies.end())
 			{
 				cookies.push_back(name_value(name, value));

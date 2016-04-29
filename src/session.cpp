@@ -13,7 +13,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <sstream>
 #include <algorithm>
 
-#include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/algorithm/string.hpp>
@@ -25,6 +24,7 @@ http://www.boost.org/LICENSE_1_0.txt
 
 namespace waspp
 {
+
 	// this code is based on
 	// the session library of php framework called codeigniter
 	// codeigniter/system/libraries/Session.php
@@ -46,7 +46,12 @@ namespace waspp
 
 	std::string& session::get(const std::string& name)
 	{
-		auto found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
+		auto found = std::find_if(session_.begin(), session_.end(),
+			[&name](const name_value& nv)
+		{
+			return nv.name == name;
+		});
+
 		if (found == session_.end())
 		{
 			session_.push_back(name_value(name, std::string()));
@@ -58,7 +63,12 @@ namespace waspp
 
 	void session::put(const std::string& name, const std::string& value)
 	{
-		auto found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, name));
+		auto found = std::find_if(session_.begin(), session_.end(),
+			[&name](const name_value& nv)
+		{
+			return nv.name == name;
+		});
+
 		if (found == session_.end())
 		{
 			session_.push_back(name_value(name, std::string()));
@@ -106,7 +116,12 @@ namespace waspp
 
 			for (auto& key : keys)
 			{
-				auto found = std::find_if(session_.begin(), session_.end(), boost::bind(&name_value::compare_name, _1, key));
+				auto found = std::find_if(session_.begin(), session_.end(),
+					[&key](const name_value& nv)
+				{
+					return nv.name == key;
+				});
+
 				if (found == session_.end())
 				{
 					res->delete_cookie(cfg->sess_cookie());

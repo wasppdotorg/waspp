@@ -13,8 +13,6 @@
 #include <unordered_map>
 #include <algorithm>
 
-#include <boost/bind.hpp>
-
 #include "name_value.hpp"
 #include "multipart.hpp"
 

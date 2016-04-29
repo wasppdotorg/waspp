@@ -6,7 +6,6 @@
 //
 
 #include <boost/lexical_cast.hpp>
-#include <boost/bind.hpp>
 
 #include "connection.hpp"
 #include "request_handler.hpp"

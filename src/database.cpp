@@ -12,7 +12,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <string>
 #include <unordered_map>
 
-#include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include "database.hpp"

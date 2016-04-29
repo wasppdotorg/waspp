@@ -19,8 +19,7 @@ namespace waspp
 	logger::logger()
 		: io_service_(),
 		work_(new boost::asio::io_service::work(io_service_)),
-		thread_(new boost::thread(
-		boost::bind(&boost::asio::io_service::run, &io_service_))),
+		thread_(new std::thread([this](){ io_service_.run(); })),
 		log_level_(debug),
 		log_rotation_(rotate_every_minute),
 		log_locale_(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,")),
@@ -37,7 +36,6 @@ namespace waspp
 		/// Indicate that we have finished with the private io_service. Its
 		/// io_service::run() function will exit once all other work has completed.
 		work_.reset();
-
 		if (thread_)
 		{
 			thread_->join();
@@ -53,7 +51,7 @@ namespace waspp
 	void logger::file(const std::string& file)
 	{
 		// Pass the work of opening the file to the background thread.
-		io_service_.post(boost::bind(&logger::file_impl, this, std::string(file)));
+		io_service_.post(std::bind(&logger::file_impl, this, file));
 	}
 
 	/// Set the output file for the logger. The current implementation sets the
@@ -106,7 +104,7 @@ namespace waspp
 
 		unflushed_limit_ = unflushed_limit;
 
-		io_service_.post(boost::bind(&logger::init_impl, this, cfg_log_level, cfg_log_rotation));
+		io_service_.post(std::bind(&logger::init_impl, this, cfg_log_level, cfg_log_rotation));
 		return true;
 	}
 
@@ -116,7 +114,7 @@ namespace waspp
 		rotate(boost::posix_time::to_tm(ptime_));
 
 		// Pass the work of opening the file to the background thread.
-		io_service_.post(boost::bind(&logger::write_impl, this, message));
+		io_service_.post(std::bind(&logger::write_impl, this, message));
 	}
 
 	void logger::rotate(const std::tm& tm_)
@@ -143,7 +141,7 @@ namespace waspp
 		std::string file_to(file_);
 		file_to.append(datetime);
 
-		io_service_.post(boost::bind(&logger::rotate_impl, this, file_to));
+		io_service_.post(std::bind(&logger::rotate_impl, this, file_to));
 	}
 
 	/// Helper function used to open the output file from within the private
