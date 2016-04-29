@@ -33,11 +33,10 @@ namespace waspp
 		void run();
 
 	private:
-		/// Initiate an asynchronous accept operation.
-		/// Handle completion of an asynchronous accept operation.
+		/// Perform an asynchronous accept operation.
 		void do_accept();
 
-		/// Handle a request to stop the server_ssl.
+		/// Wait for a request to stop the server.
 		void do_await_stop();
 
 		config* cfg;

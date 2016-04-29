@@ -31,67 +31,62 @@ namespace waspp
 
 	void connection_ssl::start()
 	{
-		socket_.async_handshake(boost::asio::ssl::stream_base::server,
-			strand_.wrap(
-			boost::bind(&connection_ssl::handle_handshake, shared_from_this(),
-			boost::asio::placeholders::error)));
-
+		do_handshake();
 		//log(debug) << "new connection_ssl," << request_.remote_addr;
 	}
 
-	void connection_ssl::handle_handshake(const boost::system::error_code& e)
+	void connection_ssl::do_handshake()
 	{
-		if (!e)
+		auto self(shared_from_this());
+
+		socket_.async_handshake(boost::asio::ssl::stream_base::server,
+			strand_.wrap(
+			[this, self](boost::system::error_code e)
 		{
-			socket_.async_read_some(boost::asio::buffer(buffer_),
-				strand_.wrap(
-				boost::bind(&connection_ssl::handle_read, shared_from_this(),
-				boost::asio::placeholders::error,
-				boost::asio::placeholders::bytes_transferred)));
-		}
+			if (!e)
+			{
+				do_read();
+			}
+		}));
 	}
 
-	void connection_ssl::handle_read(const boost::system::error_code& e,
-		std::size_t bytes_transferred)
+	void connection_ssl::do_read()
 	{
-		if (!e)
+		auto self(shared_from_this());
+
+		socket_.async_read_some(boost::asio::buffer(buffer_),
+			strand_.wrap(
+			[this, self](boost::system::error_code e, std::size_t bytes_transferred)
 		{
-			boost::tribool result;
-			boost::tie(result, boost::tuples::ignore) = request_parser_.parse(
-				request_, buffer_.data(), buffer_.data() + bytes_transferred);
-
-			if (result)
+			if (!e)
 			{
-				request_.remote_addr = socket_.lowest_layer().remote_endpoint().address().to_string();
-				request_.remote_port = socket_.lowest_layer().remote_endpoint().port();
+				boost::tribool result;
+				boost::tie(result, boost::tuples::ignore) = request_parser_.parse(
+					request_, buffer_.data(), buffer_.data() + bytes_transferred);
 
-				request_parser_.parse_params(request_);
-				request_parser_.parse_cookies(request_);
-				request_parser_.parse_content(request_);
+				if (result)
+				{
+					request_.remote_addr = socket_.lowest_layer().remote_endpoint().address().to_string();
+					request_.remote_port = socket_.lowest_layer().remote_endpoint().port();
 
-				request_handler_.handle_request(request_, response_);
-				boost::asio::async_write(socket_, response_.to_buffers(),
-					strand_.wrap(
-					boost::bind(&connection_ssl::handle_write, shared_from_this(),
-					boost::asio::placeholders::error)));
+					request_parser_.parse_params(request_);
+					request_parser_.parse_cookies(request_);
+					request_parser_.parse_content(request_);
+
+					request_handler_.handle_request(request_, response_);
+					do_write();
+				}
+				else if (!result)
+				{
+					response_ = response::static_response(response::bad_request);
+					do_write();
+				}
+				else
+				{
+					do_read();
+				}
 			}
-			else if (!result)
-			{
-				response_ = response::static_response(response::bad_request);
-				boost::asio::async_write(socket_, response_.to_buffers(),
-					strand_.wrap(
-					boost::bind(&connection_ssl::handle_write, shared_from_this(),
-					boost::asio::placeholders::error)));
-			}
-			else
-			{
-				socket_.async_read_some(boost::asio::buffer(buffer_),
-					strand_.wrap(
-					boost::bind(&connection_ssl::handle_read, shared_from_this(),
-					boost::asio::placeholders::error,
-					boost::asio::placeholders::bytes_transferred)));
-			}
-		}
+		}));
 
 		// If an error occurs then no new asynchronous operations are started. This
 		// means that all shared_ptr references to the connection_ssl object will
@@ -99,20 +94,23 @@ namespace waspp
 		// handler returns. The connection_ssl class's destructor closes the socket.
 	}
 
-	void connection_ssl::handle_write(const boost::system::error_code& e)
+	void connection_ssl::do_write()
 	{
-		if (!e)
-		{
-			request_parser_.reset();
-			request_ = request();
-			response_ = response();
+		auto self(shared_from_this());
 
-			socket_.async_read_some(boost::asio::buffer(buffer_),
-				strand_.wrap(
-				boost::bind(&connection_ssl::handle_read, shared_from_this(),
-				boost::asio::placeholders::error,
-				boost::asio::placeholders::bytes_transferred)));
-		}
+		boost::asio::async_write(socket_, response_.to_buffers(),
+			strand_.wrap(
+			[this, self](boost::system::error_code e, std::size_t bytes_transferred)
+		{
+			if (!e)
+			{
+				request_parser_.reset();
+				request_ = request();
+				response_ = response();
+
+				do_read();
+			}
+		}));
 
 		// No new asynchronous operations are started. This means that all shared_ptr
 		// references to the connection_ssl object will disappear and the object will be

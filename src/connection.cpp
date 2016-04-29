@@ -30,57 +30,48 @@ namespace waspp
 
 	void connection::start()
 	{
-		socket_.async_read_some(boost::asio::buffer(buffer_),
-			strand_.wrap(
-			boost::bind(&connection::handle_read, shared_from_this(),
-			boost::asio::placeholders::error,
-			boost::asio::placeholders::bytes_transferred)));
-
+		do_read();
 		//log(debug) << "new connection," << request_.remote_addr;
 	}
 
-	void connection::handle_read(const boost::system::error_code& e,
-		std::size_t bytes_transferred)
+	void connection::do_read()
 	{
-		if (!e)
+		auto self(shared_from_this());
+
+		socket_.async_read_some(boost::asio::buffer(buffer_),
+			strand_.wrap(
+      			[this, self](boost::system::error_code e, std::size_t bytes_transferred)
 		{
-			boost::tribool result;
-			boost::tie(result, boost::tuples::ignore) = request_parser_.parse(
-				request_, buffer_.data(), buffer_.data() + bytes_transferred);
-
-			if (result)
+			if (!e)
 			{
-				request_.remote_addr = socket_.remote_endpoint().address().to_string();
-				request_.remote_port = socket_.remote_endpoint().port();
-				request_.parse_connection_header();
+				boost::tribool result;
+				boost::tie(result, boost::tuples::ignore) = request_parser_.parse(
+					request_, buffer_.data(), buffer_.data() + bytes_transferred);
 
-				request_parser_.parse_params(request_);
-				request_parser_.parse_cookies(request_);
-				request_parser_.parse_content(request_);
+				if (result)
+				{
+					request_.remote_addr = socket_.remote_endpoint().address().to_string();
+					request_.remote_port = socket_.remote_endpoint().port();
+					request_.parse_connection_header();
 
-				request_handler_.handle_request(request_, response_);
-				boost::asio::async_write(socket_, response_.to_buffers(),
-					strand_.wrap(
-					boost::bind(&connection::handle_write, shared_from_this(),
-					boost::asio::placeholders::error)));
+					request_parser_.parse_params(request_);
+					request_parser_.parse_cookies(request_);
+					request_parser_.parse_content(request_);
+
+					request_handler_.handle_request(request_, response_);
+					do_write();
+				}
+				else if (!result)
+				{
+					response_ = response::static_response(response::bad_request);
+					do_write();
+				}
+				else
+				{
+					do_read();
+				}
 			}
-			else if (!result)
-			{
-				response_ = response::static_response(response::bad_request);
-				boost::asio::async_write(socket_, response_.to_buffers(),
-					strand_.wrap(
-					boost::bind(&connection::handle_write, shared_from_this(),
-					boost::asio::placeholders::error)));
-			}
-			else
-			{
-				socket_.async_read_some(boost::asio::buffer(buffer_),
-					strand_.wrap(
-					boost::bind(&connection::handle_read, shared_from_this(),
-					boost::asio::placeholders::error,
-					boost::asio::placeholders::bytes_transferred)));
-			}
-		}
+		}));
 
 		// If an error occurs then no new asynchronous operations are started. This
 		// means that all shared_ptr references to the connection object will
@@ -88,28 +79,31 @@ namespace waspp
 		// handler returns. The connection class's destructor closes the socket.
 	}
 
-	void connection::handle_write(const boost::system::error_code& e)
+	void connection::do_write()
 	{
-		if (!e)
+		auto self(shared_from_this());
+
+		boost::asio::async_write(socket_, response_.to_buffers(),
+			strand_.wrap(
+      			[this, self](boost::system::error_code e, std::size_t bytes_transferred)
 		{
-			if (request_.connection_option == 'c')
+			if (!e)
 			{
-				// Initiate graceful connection closure.
-				boost::system::error_code ignored_ec;
-				socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
-				return;
+				if (request_.connection_option == 'c')
+				{
+					// Initiate graceful connection closure.
+					boost::system::error_code ignored_ec;
+					socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
+					return;
+				}
+
+				request_parser_.reset();
+				request_ = request();
+				response_ = response();
+
+				do_read();
 			}
-
-			request_parser_.reset();
-			request_ = request();
-			response_ = response();
-
-			socket_.async_read_some(boost::asio::buffer(buffer_),
-				strand_.wrap(
-				boost::bind(&connection::handle_read, shared_from_this(),
-				boost::asio::placeholders::error,
-				boost::asio::placeholders::bytes_transferred)));
-		}
+		}));
 
 		// No new asynchronous operations are started. This means that all shared_ptr
 		// references to the connection object will disappear and the object will be

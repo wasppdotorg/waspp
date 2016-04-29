@@ -41,13 +41,11 @@ namespace waspp
 		void start();
 
 	private:
+		/// Perform an asynchronous read operation.
+		void do_read();
 
-		/// Handle completion of a read operation.
-		void handle_read(const boost::system::error_code& e,
-			std::size_t bytes_transferred);
-
-		/// Handle completion of a write operation.
-		void handle_write(const boost::system::error_code& e);
+		/// Perform an asynchronous write operation.
+		void do_write();
 
 		/// Strand to ensure the connection's handlers are not called concurrently.
 		boost::asio::io_service::strand strand_;

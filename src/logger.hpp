@@ -55,7 +55,6 @@ namespace waspp
 		void write(const boost::posix_time::ptime& ptime_, const std::string& message);
 
 	private:
-
 		void rotate(const std::tm& tm_);
 
 		void file_impl(const std::string& file);
