@@ -7,9 +7,7 @@
 
 #include <vector>
 #include <unordered_map>
-
-#include <boost/bind.hpp>
-#include <boost/thread.hpp>
+#include <thread>
 
 #include "server.hpp"
 
@@ -35,7 +33,7 @@ namespace waspp
 #endif // defined(SIGQUIT)
 		signals_.add(SIGTERM); // 15
 
-		signals_.async_wait(boost::bind(&server::handle_stop, this, boost::asio::placeholders::signal_number));
+		do_await_stop();
 
 		// Open the acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
 		boost::asio::ip::tcp::resolver resolver_(io_service_);
@@ -48,52 +46,58 @@ namespace waspp
 		acceptor_.bind(endpoint_);
 		acceptor_.listen();
 
-		start_accept();
-	}
-
-	void server::start_accept()
-	{
-		new_connection_.reset(new connection(io_service_, request_handler_));
-
-		acceptor_.async_accept(new_connection_->socket(),
-			boost::bind(&server::handle_accept, this,
-			boost::asio::placeholders::error));
+		do_accept();
 	}
 
 	void server::run()
 	{
 		// Create a pool of threads to run all of the io_services.
-		boost::thread_group threads;
+		std::vector<std::thread*> threads_;
 		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
 		{
-			threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service_));
+			std::thread* thread_ = new std::thread(
+				boost::bind(&boost::asio::io_service::run, &io_service_));
+			threads_.push_back(thread_);
 		}
 
 		// Wait for all threads in the pool to exit.
-		threads.join_all();
-	}
-
-	void server::handle_accept(const boost::system::error_code& e)
-	{
-		if (!e)
+		for (auto& thread_ : threads_)
 		{
-			new_connection_->start();
+			thread_->join();
+			delete thread_;
 		}
-
-		start_accept();
 	}
 
-	void server::handle_stop(int signal_number)
+	void server::do_accept()
 	{
+		new_connection_.reset(new connection(io_service_, request_handler_));
+
+		acceptor_.async_accept(new_connection_->socket(), [this](boost::system::error_code e)
+		{
+			if (!e)
+			{
+				new_connection_->start();
+			}
+
+			do_accept();
+		});
+	}
+
+	void server::do_await_stop()
+	{
+		signals_.async_wait([this](boost::system::error_code e, int signal_number)
+		{
 #if defined(SIGHUP)
-		if (signal_number == SIGHUP)
-		{
-			return;
-		}
+			if (signal_number == SIGHUP)
+			{
+				return;
+			}
 #endif // defined(SIGHUP)
 
-		log(info) << "server stopping..";
-		io_service_.stop();
+			log(info) << "server stopping..";
+			io_service_.stop();
+
+		});
 	}
 
 } // namespace waspp
