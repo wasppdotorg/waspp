@@ -12,13 +12,13 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <openssl/md5.h>
 
+#include <atomic>
 #include <string>
 #include <vector>
 #include <unordered_map>
 
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
-#include <boost/atomic.hpp>
 
 #include "name_value.hpp"
 
@@ -28,20 +28,25 @@ namespace waspp
 	class spinlock
 	{
 	public:
+		spinlock()
+			: atomic_flag_(ATOMIC_FLAG_INIT)
+		{
+		}
+
 		void acquire()
 		{
-			while (atomic_flag_.test_and_set(boost::memory_order_acquire))
+			while (atomic_flag_.test_and_set())
 			{
 			}
 		}
 
 		void release()
 		{
-			atomic_flag_.clear(boost::memory_order_release);
+			atomic_flag_.clear();
 		}
 
 	private:
-		boost::atomic_flag atomic_flag_;
+		std::atomic_flag atomic_flag_;
 
 	};
 
