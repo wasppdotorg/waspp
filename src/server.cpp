@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <thread>
 
+#include <boost/bind.hpp>
+
 #include "server.hpp"
 
 namespace waspp
@@ -72,7 +74,8 @@ namespace waspp
 	{
 		new_connection_.reset(new connection(io_service_, request_handler_));
 
-		acceptor_.async_accept(new_connection_->socket(), [this](boost::system::error_code e)
+		acceptor_.async_accept(new_connection_->socket(),
+			[this](boost::system::error_code e)
 		{
 			if (!e)
 			{
@@ -85,7 +88,8 @@ namespace waspp
 
 	void server::do_await_stop()
 	{
-		signals_.async_wait([this](boost::system::error_code e, int signal_number)
+		signals_.async_wait(
+			[this](boost::system::error_code e, int signal_number)
 		{
 #if defined(SIGHUP)
 			if (signal_number == SIGHUP)
@@ -96,7 +100,6 @@ namespace waspp
 
 			log(info) << "server stopping..";
 			io_service_.stop();
-
 		});
 	}
 
