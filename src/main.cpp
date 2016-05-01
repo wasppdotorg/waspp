@@ -17,6 +17,11 @@
 
 int main(int argc, char* argv[])
 {
+	waspp::logger* log_ = waspp::logger::instance();
+	waspp::config* cfg = waspp::config::instance();
+	waspp::database* db = waspp::database::instance();
+	waspp::redis* rd = waspp::redis::instance();
+
 	try
 	{
 		if (argc != 3)
@@ -47,10 +52,8 @@ int main(int argc, char* argv[])
 			server_id.append(server_seq);
 		}
 
-		waspp::logger* log_ = waspp::logger::instance();
 		log_->file(log_file);
 
-		waspp::config* cfg = waspp::config::instance();
 		if (!cfg->init(cfg_file, server_id))
 		{
 			waspp::log(waspp::fatal) << "config::init failed," << __FILE__ << ":" << __LINE__;
@@ -71,7 +74,6 @@ int main(int argc, char* argv[])
 			dbnames.push_back("db_etc");
 		}
 
-		waspp::database* db = waspp::database::instance();
 		if (!db->init(cfg, dbnames))
 		{
 			waspp::log(waspp::fatal) << "database::init failed," << __FILE__ << ":" << __LINE__;
@@ -83,7 +85,6 @@ int main(int argc, char* argv[])
 			rdnames.push_back("rd_idx");
 		}
 
-		waspp::redis* rd = waspp::redis::instance();
 		if (!rd->init(cfg, rdnames))
 		{
 			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
