@@ -19,7 +19,7 @@ namespace waspp
 	logger::logger()
 		: io_service_(),
 		work_(new boost::asio::io_service::work(io_service_)),
-		thread_(new std::thread([this](){ io_service_.run(); })),
+		thread_(new boost::thread([this](){ io_service_.run(); })),
 		log_level_(debug),
 		log_rotation_(rotate_every_minute),
 		log_locale_(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,")),

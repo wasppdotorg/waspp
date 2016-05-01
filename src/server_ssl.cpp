@@ -5,8 +5,10 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#include <memory>
 #include <vector>
-#include <thread>
+
+#include <boost/thread.hpp>
 
 #include "server_ssl.hpp"
 
@@ -65,14 +67,14 @@ namespace waspp
 	void server_ssl::run()
 	{
 		// Create a pool of threads to run all of the io_services.
-		std::vector<std::thread*> threads_;
+		std::vector< std::shared_ptr<boost::thread> > threads_;
 		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
 		{
-			std::thread* thread_ = new std::thread(
+			std::shared_ptr<boost::thread> thread_(new boost::thread(
 				[this]()
 			{
 				io_service_.run();
-			});
+			}));
 
 			threads_.push_back(thread_);
 		}
@@ -81,7 +83,6 @@ namespace waspp
 		for (auto& thread_ : threads_)
 		{
 			thread_->join();
-			delete thread_;
 		}
 	}
 
