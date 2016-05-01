@@ -107,7 +107,6 @@ int main(int argc, char* argv[])
 	catch (std::exception& e)
 	{
 		waspp::log(waspp::fatal) << e.what() << "," << __FILE__ << ":" << __LINE__;
-		return 1;
 	}
 
 	return 0;
