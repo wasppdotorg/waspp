@@ -25,30 +25,6 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	class spinlock
-	{
-	public:
-		spinlock() : state_(unlocked) {}
-
-		void acquire()
-		{
-			while (state_.exchange(locked, std::memory_order_acquire) == locked)
-			{
-				/* busy-wait */
-			}
-		}
-
-		void release()
-		{
-			state_.store(unlocked, std::memory_order_release);
-		}
-
-	private:
-		enum state { locked, unlocked };
-		std::atomic<state> state_;
-
-	};
-
 	template<typename T>
 	class singleton
 	{
@@ -81,6 +57,30 @@ namespace waspp
 	};
 
 	template<typename T> T* singleton<T>::instance_ = nullptr;
+
+	class spinlock
+	{
+	public:
+		spinlock() : state_(unlocked) {}
+
+		void acquire()
+		{
+			while (state_.exchange(locked, std::memory_order_acquire) == locked)
+			{
+				/* busy-wait */
+			}
+		}
+
+		void release()
+		{
+			state_.store(unlocked, std::memory_order_release);
+		}
+
+	private:
+		enum state { locked, unlocked };
+		std::atomic<state> state_;
+
+	};
 
 	enum uri_request_type
 	{
