@@ -129,7 +129,7 @@ namespace waspp
 				}
 			}
 
-			if (std::difftime(std::time(0), get_last_tm()) > cfg->expiry_sec())
+			if (std::difftime(std::time(nullptr), get_last_tm()) > cfg->expiry_sec())
 			{
 				res->delete_cookie(cfg->sess_cookie());
 				return false;
@@ -172,7 +172,7 @@ namespace waspp
 
 	void session::update()
 	{
-		if (std::difftime(std::time(0), get_last_tm()) < cfg->update_sec())
+		if (std::difftime(std::time(nullptr), get_last_tm()) < cfg->update_sec())
 		{
 			return;
 		}
@@ -197,7 +197,7 @@ namespace waspp
 
 	std::string session::get_curr_tm()
 	{
-		return boost::lexical_cast<std::string>(std::time(0));
+		return boost::lexical_cast<std::string>(std::time(nullptr));
 	}
 
 	std::time_t session::get_last_tm()

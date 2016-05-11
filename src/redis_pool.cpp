@@ -103,7 +103,7 @@ namespace waspp
 		//}
 		lock.release();
 
-		double diff = std::difftime(std::time(0), mktime(rdconn->last_released()));
+		double diff = std::difftime(std::time(nullptr), mktime(rdconn->last_released()));
 
 		if (diff >= timeout_sec && !rdconn->is_valid())
 		{
@@ -120,7 +120,7 @@ namespace waspp
 			return;
 		}
 
-		std::time_t time_ = std::time(0);
+		std::time_t time_ = std::time(nullptr);
 		rdconn->set_released(*std::localtime(&time_));
 
 		lock.acquire();

@@ -26,7 +26,7 @@ namespace waspp
 		unflushed_count_(0),
 		unflushed_limit_(255)
 	{
-		std::time_t time_ = std::time(0);
+		std::time_t time_ = std::time(nullptr);
 		file_created_ = *std::localtime(&time_);
 	}
 
@@ -150,7 +150,7 @@ namespace waspp
 	{
 		file_ = file;
 
-		std::time_t time_ = std::time(0);
+		std::time_t time_ = std::time(nullptr);
 		file_created_ = *std::localtime(&time_);
 
 		ofstream_.close();

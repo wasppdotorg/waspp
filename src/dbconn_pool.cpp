@@ -123,7 +123,7 @@ namespace waspp
 		//}
 		lock.release();
 
-		double diff = std::difftime(std::time(0), mktime(dbconn->last_released()));
+		double diff = std::difftime(std::time(nullptr), mktime(dbconn->last_released()));
 
 		if (diff >= wait_timeout_sec && !dbconn->ping())
 		{
@@ -140,7 +140,7 @@ namespace waspp
 			return;
 		}
 
-		std::time_t time_ = std::time(0);
+		std::time_t time_ = std::time(nullptr);
 		dbconn->set_released(*std::localtime(&time_));
 
 		lock.acquire();
