@@ -96,15 +96,15 @@ namespace waspp
 
 	rdpool_ptr redis::get_rdpool(unsigned long long int shard_key)
 	{
-		char format[8] = { 0 };
+		char rdname[8] = { 0 };
 
-		int count = sprintf(format, rd_shard_format.c_str(), shard_key % rd_shard_count);
+		int count = sprintf(rdname, rd_shard_format.c_str(), shard_key % rd_shard_count);
 		if (count == 0)
 		{
 			throw std::runtime_error("invalid rd_shard_format");
 		}
 
-		auto found = rd_.find(std::string(format));
+		auto found = rd_.find(rdname);
 		if (found == rd_.end())
 		{
 			throw std::runtime_error("invalid rd_shard_key");

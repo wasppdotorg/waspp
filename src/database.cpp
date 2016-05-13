@@ -113,15 +113,15 @@ namespace waspp
 
 	dbpool_ptr database::get_dbpool(unsigned long long int shard_key)
 	{
-		char format[8] = { 0 };
+		char dbname[8] = { 0 };
 
-		int count = sprintf(format, db_shard_format.c_str(), shard_key % db_shard_count);
+		int count = sprintf(dbname, db_shard_format.c_str(), shard_key % db_shard_count);
 		if (count == 0)
 		{
 			throw std::runtime_error("invalid db_shard_format");
 		}
 
-		auto found = db_.find(std::string(format));
+		auto found = db_.find(dbname);
 		if (found == db_.end())
 		{
 			throw std::runtime_error("invalid db_shard_key");
