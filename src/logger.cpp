@@ -51,7 +51,17 @@ namespace waspp
 	void logger::file(const std::string& file)
 	{
 		// Pass the work of opening the file to the background thread.
-		io_service_.post(std::bind(&logger::file_impl, this, file));
+		io_service_.post([this, file]()
+		{
+			file_ = file;
+
+			std::time_t time_ = std::time(nullptr);
+			file_created_ = *std::localtime(&time_);
+
+			ofstream_.close();
+			ofstream_.clear();
+			ofstream_.open(file_.c_str(), std::fstream::app);
+		});
 	}
 
 	/// Set the output file for the logger. The current implementation sets the
@@ -104,7 +114,12 @@ namespace waspp
 
 		unflushed_limit_ = unflushed_limit;
 
-		io_service_.post(std::bind(&logger::init_impl, this, cfg_log_level, cfg_log_rotation));
+		io_service_.post([this, cfg_log_level, cfg_log_rotation]()
+		{
+			log_level_ = cfg_log_level;
+			log_rotation_ = cfg_log_rotation;
+		});
+
 		return true;
 	}
 
@@ -114,7 +129,16 @@ namespace waspp
 		rotate(boost::posix_time::to_tm(ptime_));
 
 		// Pass the work of opening the file to the background thread.
-		io_service_.post(std::bind(&logger::write_impl, this, message));
+		io_service_.post([this, message]()
+		{
+			ofstream_ << message << std::endl;
+
+			if (++unflushed_count_ > unflushed_limit_)
+			{
+				ofstream_.flush();
+				unflushed_count_ = 0;
+			}
+		});
 	}
 
 	void logger::rotate(const std::tm& tm_)
@@ -141,9 +165,26 @@ namespace waspp
 		std::string file_to(file_);
 		file_to.append(datetime);
 
-		io_service_.post(std::bind(&logger::rotate_impl, this, file_to));
+		io_service_.post([this, file_to]()
+		{
+			std::ifstream is(file_to.c_str(), std::ios::in | std::ios::binary);
+			if (is)
+			{
+				return;
+			}
+
+			ofstream_.close();
+			boost::filesystem::rename(file_, file_to);
+
+			std::time_t time_ = std::time(nullptr);
+			file_created_ = *std::localtime(&time_);
+
+			ofstream_.clear();
+			ofstream_.open(file_.c_str(), std::fstream::app);
+		});
 	}
 
+	/*
 	/// Helper function used to open the output file from within the private
 	/// io_service's thread.
 	void logger::file_impl(const std::string& file)
@@ -190,5 +231,6 @@ namespace waspp
 
 		file_impl(file_);
 	}
+	*/
 
 } // namespace waspp
