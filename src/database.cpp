@@ -115,8 +115,8 @@ namespace waspp
 	{
 		char dbname[8] = { 0 };
 
-		int count = sprintf(dbname, db_shard_format.c_str(), shard_key % db_shard_count);
-		if (count == 0)
+		int count_ = sprintf(dbname, db_shard_format.c_str(), shard_key % db_shard_count);
+		if (count_ == 0)
 		{
 			throw std::runtime_error("invalid db_shard_format");
 		}

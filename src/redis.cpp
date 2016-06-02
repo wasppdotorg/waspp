@@ -98,8 +98,8 @@ namespace waspp
 	{
 		char rdname[8] = { 0 };
 
-		int count = sprintf(rdname, rd_shard_format.c_str(), shard_key % rd_shard_count);
-		if (count == 0)
+		int count_ = sprintf(rdname, rd_shard_format.c_str(), shard_key % rd_shard_count);
+		if (count_ == 0)
 		{
 			throw std::runtime_error("invalid rd_shard_format");
 		}
