@@ -50,8 +50,7 @@ namespace waspp
 		/// Acceptor used to listen for incoming connections.
 		boost::asio::ip::tcp::acceptor acceptor_;
 
-		/// The next connection to be accepted.
-		connection_ptr new_connection_;
+		boost::asio::ip::tcp::socket socket_;
 
 		/// The handler for all incoming requests.
 		request_handler request_handler_;

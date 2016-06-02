@@ -32,6 +32,7 @@ namespace waspp
 
 		/// Construct a connection with the given io_service.
 		explicit connection(boost::asio::io_service& io_service,
+			boost::asio::ip::tcp::socket socket,
 			request_handler& handler);
 
 		/// Get the socket associated with the connection.
@@ -69,8 +70,6 @@ namespace waspp
 		response response_;
 
 	};
-
-	using connection_ptr = std::shared_ptr<connection>;
 
 } // namespace waspp
 

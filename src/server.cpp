@@ -19,7 +19,7 @@ namespace waspp
 		: cfg(cfg_),
 		signals_(io_service_),
 		acceptor_(io_service_),
-		new_connection_(),
+		socket_(io_service_),
 		request_handler_()
 	{
 		// Register to handle the signals that indicate when the server should exit.
@@ -73,14 +73,12 @@ namespace waspp
 
 	void server::do_accept()
 	{
-		new_connection_.reset(new connection(io_service_, request_handler_));
-
-		acceptor_.async_accept(new_connection_->socket(),
+		acceptor_.async_accept(socket_,
 			[this](boost::system::error_code e)
 		{
 			if (!e)
 			{
-				new_connection_->start();
+				std::make_shared<connection>(io_service_, std::move(socket_), request_handler_)->start();
 			}
 
 			do_accept();

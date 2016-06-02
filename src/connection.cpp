@@ -15,9 +15,10 @@ namespace waspp
 {
 
 	connection::connection(boost::asio::io_service& io_service,
+		boost::asio::ip::tcp::socket socket,
 		request_handler& handler)
 		: strand_(io_service),
-		socket_(io_service),
+		socket_(std::move(socket)),
 		request_handler_(handler)
 	{
 	}
