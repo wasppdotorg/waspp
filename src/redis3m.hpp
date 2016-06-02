@@ -357,7 +357,8 @@ namespace redis3m
 		/*
 		static redis3m_ptr connect(const std::string& host = "localhost", const unsigned int port = 6379, bool pooled_ = false)
 		{
-			return redis3m_ptr(new connection(host, port, pooled_));
+			//return redis3m_ptr(new connection(host, port, pooled_));
+			return std::make_shared<connection>(host, port, pooled_);
 		}
 		*/
 

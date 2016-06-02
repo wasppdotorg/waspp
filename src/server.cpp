@@ -56,11 +56,10 @@ namespace waspp
 		std::vector< std::shared_ptr<boost::thread> > threads_;
 		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
 		{
-			std::shared_ptr<boost::thread> thread_(new boost::thread(
-				[this]()
+			auto thread_ = std::make_shared<boost::thread>([this]()
 			{
 				io_service_.run();
-			}));
+			});
 
 			threads_.push_back(thread_);
 		}
