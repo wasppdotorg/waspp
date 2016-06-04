@@ -17,10 +17,10 @@
 
 int main(int argc, char* argv[])
 {
-	waspp::logger* log_ = waspp::logger::instance();
-	waspp::config* cfg = waspp::config::instance();
-	waspp::database* db = waspp::database::instance();
-	waspp::redis* rd = waspp::redis::instance();
+	auto log_ = waspp::logger::instance();
+	auto cfg = waspp::config::instance();
+	auto db = waspp::database::instance();
+	auto rd = waspp::redis::instance();
 
 	try
 	{
