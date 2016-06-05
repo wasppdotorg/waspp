@@ -6,6 +6,11 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#include <openssl/safestack.h>
+#include <openssl/ssl.h>
+
+#include <cstdlib>
+
 #include <string>
 
 #include "logger.hpp"
@@ -15,8 +20,15 @@
 #include "server.hpp"
 #include "server_ssl.hpp"
 
+void ssl_library_free()
+{
+	sk_SSL_COMP_free(SSL_COMP_get_compression_methods());
+}
+
 int main(int argc, char* argv[])
 {
+	atexit(ssl_library_free);
+
 	auto log_ = waspp::logger::instance();
 	auto cfg = waspp::config::instance();
 	auto db = waspp::database::instance();
