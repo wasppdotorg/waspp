@@ -21,7 +21,7 @@ namespace waspp
 		work_(new boost::asio::io_service::work(io_service_)),
 		thread_(new boost::thread([this](){ io_service_.run(); })),
 		log_level_(debug),
-		log_rotation_(rotate_every_minute),
+		log_rotation_(log_rotation_type::every_minute),
 		log_locale_(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,")),
 		unflushed_count_(0),
 		unflushed_limit_(255)
@@ -93,19 +93,19 @@ namespace waspp
 			return false;
 		}
 
-		log_rotation_type cfg_log_rotation = rotate_every_minute;
+		log_rotation_type cfg_log_rotation = log_rotation_type::every_minute;
 
 		if (log_rotation == "every_minute")
 		{
-			cfg_log_rotation = rotate_every_minute;
+			cfg_log_rotation = log_rotation_type::every_minute;
 		}
 		else if (log_rotation == "hourly")
 		{
-			cfg_log_rotation = rotate_hourly;
+			cfg_log_rotation = log_rotation_type::hourly;
 		}
 		else if (log_rotation == "daily")
 		{
-			cfg_log_rotation = rotate_daily;
+			cfg_log_rotation = log_rotation_type::daily;
 		}
 		else
 		{
@@ -145,15 +145,15 @@ namespace waspp
 	{
 		char datetime[32] = { 0 };
 
-		if (log_rotation_ == rotate_every_minute && tm_.tm_min != file_created_.tm_min)
+		if (log_rotation_ == log_rotation_type::every_minute && tm_.tm_min != file_created_.tm_min)
 		{
 			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d_%H%M", &file_created_);
 		}
-		else if (log_rotation_ == rotate_hourly && tm_.tm_hour != file_created_.tm_hour)
+		else if (log_rotation_ == log_rotation_type::hourly && tm_.tm_hour != file_created_.tm_hour)
 		{
 			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d_%H", &file_created_);
 		}
-		else if (log_rotation_ == rotate_daily && tm_.tm_mday != file_created_.tm_mday)
+		else if (log_rotation_ == log_rotation_type::daily && tm_.tm_mday != file_created_.tm_mday)
 		{
 			std::strftime(datetime, sizeof(datetime), ".%Y-%m-%d", &file_created_);
 		}

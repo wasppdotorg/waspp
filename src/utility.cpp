@@ -19,15 +19,15 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	uri_conn::uri_conn(uri_request_type req_type_, const std::string& host_, const std::string& port_) : req_type(req_type_), host(host_), port(port_), io_service_(), resolver_(io_service_)
+	uri_conn::uri_conn(uri_req_type req_type_, const std::string& host_, const std::string& port_) : req_type(req_type_), host(host_), port(port_), io_service_(), resolver_(io_service_)
 	{
 		if (port.empty())
 		{
-			if (req_type == http_get || req_type == http_post)
+			if (req_type == uri_req_type::http_get || req_type == uri_req_type::http_post)
 			{
 				port = "http";
 			}
-			else if (req_type == https_get || req_type == https_post)
+			else if (req_type == uri_req_type::https_get || req_type == uri_req_type::https_post)
 			{
 				port = "https";
 			}
@@ -47,7 +47,7 @@ namespace waspp
 	{
 		try
 		{
-			if (req_type == tcp || req_type == http_get || req_type == http_post)
+			if (req_type == uri_req_type::tcp || req_type == uri_req_type::http_get || req_type == uri_req_type::http_post)
 			{
 				// Get a list of endpoints corresponding to the server name.
 				boost::asio::ip::tcp::resolver::query query_(host, port);
@@ -62,16 +62,16 @@ namespace waspp
 				// allow us to treat all data up until the EOF as the content.
 				std::ostream req_stream(&req_buf);
 
-				if (req_type == tcp)
+				if (req_type == uri_req_type::tcp)
 				{
 					return tcp_query(socket_, req_stream, data);
 				}
-				else if (req_type == http_get)
+				else if (req_type == uri_req_type::http_get)
 				{
 					set_http_get(req_stream, uri);
 					return http_query(socket_);
 				}
-				else if (req_type == http_post)
+				else if (req_type == uri_req_type::http_post)
 				{
 					set_http_post(req_stream, uri, data);
 					return http_query(socket_);
@@ -83,7 +83,7 @@ namespace waspp
 
 				return true;
 			}
-			else if (req_type == ssl || req_type == https_get || req_type == https_post)
+			else if (req_type == uri_req_type::ssl || req_type == uri_req_type::https_get || req_type == uri_req_type::https_post)
 			{
 				// Get a list of endpoints corresponding to the server name.
 				boost::asio::ip::tcp::resolver::query query_(host, port);
@@ -103,16 +103,16 @@ namespace waspp
 				// allow us to treat all data up until the EOF as the content.
 				std::ostream req_stream(&req_buf);
 
-				if (req_type == ssl)
+				if (req_type == uri_req_type::ssl)
 				{
 					return ssl_query(socket_, req_stream, data);
 				}
-				else if (req_type == https_get)
+				else if (req_type == uri_req_type::https_get)
 				{
 					set_http_get(req_stream, uri);
 					return https_query(socket_);
 				}
-				else if (req_type == https_post)
+				else if (req_type == uri_req_type::https_post)
 				{
 					set_http_post(req_stream, uri, data);
 					return https_query(socket_);

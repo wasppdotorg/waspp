@@ -82,7 +82,7 @@ namespace waspp
 
 	};
 
-	enum uri_request_type
+	enum class uri_req_type
 	{
 		tcp = 1,
 		http_get = 2,
@@ -96,7 +96,7 @@ namespace waspp
 	class uri_conn
 	{
 	public:
-		uri_conn(uri_request_type req_type, const std::string& host_, const std::string& port_ = "");
+		uri_conn(uri_req_type req_type, const std::string& host_, const std::string& port_ = "");
 		~uri_conn();
 
 		void set_http_headers(const std::vector<name_value>& req_headers_);
@@ -119,7 +119,7 @@ namespace waspp
 
 		bool is_200(std::istream& res_stream);
 
-		uri_request_type req_type;
+		uri_req_type req_type;
 
 		std::string host;
 		std::string port;

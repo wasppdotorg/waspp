@@ -23,11 +23,11 @@
 namespace waspp
 {
 
-	enum log_rotation_type
+	enum class log_rotation_type
 	{
-		rotate_every_minute,
-		rotate_hourly,
-		rotate_daily
+		every_minute,
+		hourly,
+		daily
 	};
 
 	enum log_level_type
@@ -88,6 +88,9 @@ namespace waspp
 	class log
 	{
 	public:
+		log(const log&) = delete;
+		log& operator=(const log&) = delete;
+
 		log(log_level_type log_level) : logger_(logger::instance()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
 		{
 			if (log_level < logger_->log_level())
@@ -143,8 +146,6 @@ namespace waspp
 		}
 
 	private:
-		log() {}
-
 		logger* logger_;
 		bool is_logging;
 		boost::posix_time::ptime ptime_;

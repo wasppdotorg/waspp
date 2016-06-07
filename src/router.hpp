@@ -54,7 +54,7 @@ namespace waspp
 
 	} // namespace dir_performance
 
-	typedef void(*func_ptr)(config*, request&, response&);
+	using func_ptr = void(*)(config*, request&, response&);
 
 	const std::string jsonp_start = "_(";
 	const std::string jsonp_end = ");";
