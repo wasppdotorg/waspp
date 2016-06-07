@@ -4,6 +4,15 @@ cmake_minimum_required (VERSION 3.0)
 set (TARGET waspp)
 project (${TARGET})
 
+if (NOT CMAKE_BUILD_TYPE)
+	message ("")
+	message ("cmake -DCMAKE_BUILD_TYPE=Debug ..")
+	message ("cmake -DCMAKE_BUILD_TYPE=Release ..")
+	message ("")
+
+	message (FATAL_ERROR "CMAKE_BUILD_TYPE NOT SPECIFIED")
+endif()
+
 #find_program (CCACHE_FOUND ccache)
 #if (CCACHE_FOUND)
     #set_property (GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
