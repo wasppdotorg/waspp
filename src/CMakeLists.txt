@@ -10,7 +10,6 @@ project (${TARGET})
     #set_property (GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 #endif()
 
-add_definitions(-std=c++11)
 aux_source_directory (. Source_DIRECTORIES)
 add_executable (${TARGET} ${Source_DIRECTORIES})
 
@@ -26,9 +25,9 @@ find_library (Crypto_LIBRARIES NAMES crypto)
 find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
-	set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
+	set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -std=c++11")
 
-	set (CMAKE_CXX_FLAGS_RELEASE "-g -Wall -O2 -DNDEBUG")
+	set (CMAKE_CXX_FLAGS_RELEASE "-g -Wall -O2 -DNDEBUG -std=c++11")
 	set (CMAKE_EXE_LINKER_FLAGS_RELEASE "-ltcmalloc")
 endif()
 
