@@ -36,37 +36,32 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		if (argc != 3)
+		if (argc != 2)
 		{
-			std::cerr << "Usage: ./waspp develop 000 &" << std::endl;
+			std::cerr << "Usage: ./waspp develop &" << std::endl;
 			//return 1;
 		}
 
-		std::string phase("develop"), server_seq("000");
-		if (argc == 3)
+		std::string phase("develop");
+		if (argc == 2)
 		{
 			phase = argv[1];
-			server_seq = argv[2];
 		}
 
-		std::string log_file, cfg_file, server_id;
+		std::string log_file, cfg_file;
 		{
 			log_file.append("../log/");
 			log_file.append(phase);
-			log_file.append(server_seq);
 			log_file.append(".csv");
 
 			cfg_file.append("../cfg/");
 			cfg_file.append(phase);
 			cfg_file.append(".json");
-
-			server_id.append("server");
-			server_id.append(server_seq);
 		}
 
 		log_->file(log_file);
 
-		if (!cfg->init(cfg_file, server_id))
+		if (!cfg->init(cfg_file))
 		{
 			waspp::log(waspp::fatal) << "config::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;

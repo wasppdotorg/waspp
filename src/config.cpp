@@ -34,7 +34,7 @@ namespace waspp
 	{
 	}
 
-	bool config::init(const std::string& file, const std::string& server_id)
+	bool config::init(const std::string& file)
 	{
 		try
 		{
@@ -122,7 +122,7 @@ namespace waspp
 
 					if (key == "locale")
 					{
-						locale = found_item->second;
+						locale_ = found_item->second;
 					}
 				}
 			}
@@ -209,7 +209,7 @@ namespace waspp
 				}
 			}
 
-			found_section = cfg_.find(server_id);
+			found_section = cfg_.find("server");
 			{
 				if (found_section == cfg_.end())
 				{
@@ -219,7 +219,6 @@ namespace waspp
 
 				keys.resize(0);
 				{
-					keys.push_back("address");
 					keys.push_back("port");
 					keys.push_back("doc_root");
 					keys.push_back("num_threads");
@@ -239,13 +238,9 @@ namespace waspp
 						return false;
 					}
 
-					if (key == "address")
+					if (key == "port")
 					{
-						address_ = found_item->second;
-					}
-					else if (key == "port")
-					{
-						port_ = found_item->second;
+						port_ = boost::lexical_cast<unsigned short int>(found_item->second);
 					}
 					else if (key == "doc_root")
 					{
@@ -281,7 +276,7 @@ namespace waspp
 
 			std::string err_file("../err/");
 			{
-				err_file.append(locale);
+				err_file.append(locale_);
 				err_file.append(".json");
 			}
 

@@ -127,10 +127,11 @@
 			"timeout_sec" : 0
 		},
 
-	"//servers" : 0,
+	"//server" : 0,
 
-		"server_common" :
+		"server" :
 		{
+			"port" : 40000,
 			"doc_root" : "../doc",
 			"num_threads" : 4,
 			"compress" : 1,
@@ -138,32 +139,6 @@
 			"ssl" : 0,
 			"ssl_crt" : "../ssl/develop.crt",
 			"ssl_key" : "../ssl/develop.key"
-		},
-
-		"server000" :
-		{
-			"address" : "127.0.0.1",
-			"port" : 40000,
-			"doc_root" : "../doc",
-			"num_threads" : 16,
-			"compress" : 1,
-
-			"ssl" : 0,
-			"ssl_crt" : "../ssl/product.crt",
-			"ssl_key" : "../ssl/product.key"
-		},
-
-		"server001" :
-		{
-			"address" : "127.0.0.1",
-			"port" : 40001,
-			"doc_root" : "../doc",
-			"num_threads" : 16,
-			"compress" : 1,
-
-			"ssl" : 0,
-			"ssl_crt" : "../ssl/product.crt",
-			"ssl_key" : "../ssl/product.key"
 		},
 
 	"//end" : 0

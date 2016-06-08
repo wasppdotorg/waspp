@@ -25,7 +25,7 @@ namespace waspp
 		config();
 		~config();
 
-		bool init(const std::string& file, const std::string& server_id);
+		bool init(const std::string& file);
 		std::unordered_map<std::string, std::string>& get(const std::string& item);
 
 		// logger
@@ -49,8 +49,7 @@ namespace waspp
 		bool validate_ua() { return validate_ua_; }
 
 		// server
-		const std::string& address() { return address_; }
-		const std::string& port() { return port_; }
+		unsigned short int port() { return port_; }
 		const std::string& doc_root() { return doc_root_; }
 		std::size_t num_threads() { return num_threads_; }
 		bool compress() { return compress_; }
@@ -74,7 +73,8 @@ namespace waspp
 		bool validate_ip_, validate_ua_;
 
 		// server
-		std::string address_, port_, doc_root_;
+		unsigned short int port_;
+		std::string doc_root_;
 		std::size_t num_threads_;
 		bool compress_;
 
@@ -86,7 +86,7 @@ namespace waspp
 		std::unordered_map< std::string, std::unordered_map<std::string, std::string> > cfg_;
 
 		// error message
-		std::string locale;
+		std::string locale_;
 		std::unordered_map<int, std::string> err_;
 
 	};

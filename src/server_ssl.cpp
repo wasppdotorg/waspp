@@ -51,9 +51,7 @@ namespace waspp
 		do_await_stop();
 
 		// Open the acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
-		boost::asio::ip::tcp::resolver resolver_(io_service_);
-		boost::asio::ip::tcp::resolver::query query_(cfg->address(), cfg->port());
-		boost::asio::ip::tcp::endpoint endpoint_ = *resolver_.resolve(query_);
+		boost::asio::ip::tcp::endpoint endpoint_(boost::asio::ip::tcp::v4(), cfg->port());
 
 		acceptor_.open(endpoint_.protocol());
 		acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
