@@ -34,9 +34,9 @@ find_library (Crypto_LIBRARIES NAMES crypto)
 find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
-	set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -std=c++11")
+	set (CMAKE_CXX_FLAGS_DEBUG "-std=c++11 -Wall -g -fexceptions")
 
-	set (CMAKE_CXX_FLAGS_RELEASE "-g -Wall -O2 -DNDEBUG -std=c++11")
+	set (CMAKE_CXX_FLAGS_RELEASE "-std=c++11 -Wall -g -fexceptions -O2 -DNDEBUG")
 	set (CMAKE_EXE_LINKER_FLAGS_RELEASE "-ltcmalloc")
 endif()
 
