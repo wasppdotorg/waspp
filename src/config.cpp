@@ -213,7 +213,7 @@ namespace waspp
 			{
 				if (found_section == cfg_.end())
 				{
-					log(fatal) << "config::server_id not found," << __FILE__ << ":" << __LINE__;
+					log(fatal) << "config::server not found," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
 
