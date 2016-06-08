@@ -34,10 +34,12 @@ namespace waspp
 	{
 	}
 
-	bool config::init(const std::string& file)
+	bool config::init(const std::string& file, const std::string& addr)
 	{
 		try
 		{
+			address_ = addr;
+
 			if (!boost::filesystem::exists(file))
 			{
 				log(fatal) << "config::file not found," << __FILE__ << ":" << __LINE__;
@@ -240,7 +242,7 @@ namespace waspp
 
 					if (key == "port")
 					{
-						port_ = boost::lexical_cast<unsigned short int>(found_item->second);
+						port_ = found_item->second;
 					}
 					else if (key == "doc_root")
 					{

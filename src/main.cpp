@@ -36,16 +36,17 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		if (argc != 2)
+		if (argc != 3)
 		{
-			std::cerr << "Usage: ./waspp develop &" << std::endl;
+			std::cerr << "Usage: ./waspp develop 0.0.0.0 &" << std::endl;
 			//return 1;
 		}
 
-		std::string phase("develop");
-		if (argc == 2)
+		std::string phase("develop"), address("0.0.0.0");
+		if (argc == 3)
 		{
 			phase = argv[1];
+			address = argv[2];
 		}
 
 		std::string log_file, cfg_file;
@@ -61,7 +62,7 @@ int main(int argc, char* argv[])
 
 		log_->file(log_file);
 
-		if (!cfg->init(cfg_file))
+		if (!cfg->init(cfg_file, address))
 		{
 			waspp::log(waspp::fatal) << "config::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;

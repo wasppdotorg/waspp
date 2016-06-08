@@ -1,7 +1,8 @@
 #!/bin/sh
 
-sudo ./waspp product 00 &
-sudo ./waspp product 01 &
+IP=`/sbin/ifconfig | /bin/grep Bcast | /usr/bin/awk '/inet addr/{print substr($2,6)}'`
+
+sudo ./waspp product $IP &
 
 sleep 1
 ps -ef | grep waspp | grep product
