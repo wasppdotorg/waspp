@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 
 		log_->file(log_file);
 
-		if (!cfg->init(cfg_file, address))
+		if (!cfg->init(address, cfg_file))
 		{
 			waspp::log(waspp::fatal) << "config::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;

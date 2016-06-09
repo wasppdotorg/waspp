@@ -25,7 +25,7 @@ namespace waspp
 		config();
 		~config();
 
-		bool init(const std::string& file, const std::string& addr);
+		bool init(const std::string& addr, const std::string& file);
 		std::unordered_map<std::string, std::string>& get(const std::string& item);
 
 		// logger

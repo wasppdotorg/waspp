@@ -34,7 +34,7 @@ namespace waspp
 	{
 	}
 
-	bool config::init(const std::string& file, const std::string& addr)
+	bool config::init(const std::string& addr, const std::string& file)
 	{
 		try
 		{
