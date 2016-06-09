@@ -58,15 +58,23 @@ namespace waspp
 				log(error) << response::bad_request << "," << request_uri << "," << req.remote_addr;
 				return;
 			}
-			std::string request_path(request_uri);
+
+			if (request_uri[request_uri.size() - 1] == '/')
+			{	// If path ends in slash (i.e. is a directory) then add "index.html".
+				request_uri += "index.html";
+			}
+			else
+			{	// to make router::get_func to work correctly
+				request_uri += "/";
+			}
 
 			func_ptr func = router::get_func(request_uri);
 			if (func == nullptr)
 			{
-				if (!router::get_file(cfg, res, request_path))
+				if (!router::get_file(cfg, res, request_uri))
 				{
 					res = response::static_response(response::not_found);
-					log(error) << response::not_found << "," << request_path << "," << req.remote_addr;
+					log(error) << response::not_found << "," << request_uri << "," << req.remote_addr;
 					return;
 				}
 			}
@@ -102,7 +110,7 @@ namespace waspp
 			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
 			res.status = response::ok;
 
-			log(info) << response::ok << "," << request_path << "," << req.remote_addr;
+			log(info) << response::ok << "," << request_uri << "," << req.remote_addr;
 		}
 		catch (std::exception& e)
 		{
