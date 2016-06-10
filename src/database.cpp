@@ -52,7 +52,7 @@ namespace waspp
 	{
 		try
 		{
-			std::unordered_map<std::string, std::string>& cfg_db_shard = cfg->get("db_shard");
+			auto cfg_db_shard = cfg->get("db_shard");
 
 			std::vector<std::string> keys;
 			{
@@ -115,7 +115,7 @@ namespace waspp
 	{
 		char dbname[8] = { 0 };
 
-		int count_ = sprintf(dbname, db_shard_format.c_str(), shard_key % db_shard_count);
+		auto count_ = sprintf(dbname, db_shard_format.c_str(), shard_key % db_shard_count);
 		if (count_ == 0)
 		{
 			throw std::runtime_error("invalid db_shard_format");

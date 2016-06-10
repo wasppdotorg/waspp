@@ -26,7 +26,7 @@ namespace waspp
 		unflushed_count_(0),
 		unflushed_limit_(255)
 	{
-		std::time_t time_ = std::time(nullptr);
+		auto time_ = std::time(nullptr);
 		file_created_ = *std::localtime(&time_);
 	}
 
@@ -55,7 +55,7 @@ namespace waspp
 		{
 			file_ = file;
 
-			std::time_t time_ = std::time(nullptr);
+			auto time_ = std::time(nullptr);
 			file_created_ = *std::localtime(&time_);
 
 			ofstream_.close();
@@ -176,7 +176,7 @@ namespace waspp
 			ofstream_.close();
 			boost::filesystem::rename(file_, file_to);
 
-			std::time_t time_ = std::time(nullptr);
+			auto time_ = std::time(nullptr);
 			file_created_ = *std::localtime(&time_);
 
 			ofstream_.clear();

@@ -411,7 +411,7 @@ namespace waspp
 	std::string md5_digest(const std::string& str)
 	{
 		unsigned char digest[16] = { 0 };
-		char* c_str = const_cast<char*>(str.c_str());
+		auto c_str = const_cast<char*>(str.c_str());
 
 		MD5_CTX ctx;
 		MD5_Init(&ctx);

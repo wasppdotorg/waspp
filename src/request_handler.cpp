@@ -68,7 +68,7 @@ namespace waspp
 				request_uri += "/";
 			}
 
-			func_ptr func = router::get_func(request_uri);
+			auto func = router::get_func(request_uri);
 			if (func == nullptr)
 			{
 				if (!router::get_file(cfg, res, request_uri))

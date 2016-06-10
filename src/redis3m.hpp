@@ -465,7 +465,7 @@ namespace redis3m
 				throw std::runtime_error("redisConnectWithTimeout failed");
 			}
 
-			std::time_t time_ = std::time(nullptr);
+			auto time_ = std::time(nullptr);
 			set_released(*std::localtime(&time_));
 			set_pooled(pooled_);
 		}

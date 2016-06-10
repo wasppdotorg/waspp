@@ -29,7 +29,7 @@ namespace waspp
 
 	void request_parser::parse_params(request& req)
 	{
-		std::string request_uri = percent_decode(req.uri);
+		auto request_uri = percent_decode(req.uri);
 
 		boost::split(req.rest_params, request_uri, boost::is_any_of("/"));
 		req.rest_params.erase(req.rest_params.begin());

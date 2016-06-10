@@ -35,7 +35,7 @@ namespace waspp
 	{
 		try
 		{
-			std::unordered_map<std::string, std::string>& cfg_rd_shard = cfg->get("rd_shard");
+			auto cfg_rd_shard = cfg->get("rd_shard");
 
 			std::vector<std::string> keys;
 			{
@@ -98,7 +98,7 @@ namespace waspp
 	{
 		char rdname[8] = { 0 };
 
-		int count_ = sprintf(rdname, rd_shard_format.c_str(), shard_key % rd_shard_count);
+		auto count_ = sprintf(rdname, rd_shard_format.c_str(), shard_key % rd_shard_count);
 		if (count_ == 0)
 		{
 			throw std::runtime_error("invalid rd_shard_format");
