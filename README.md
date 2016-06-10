@@ -26,7 +26,7 @@ handlersocket_port = 9998
 handlersocket_port_wr = 9999
 ```
 
-* mysql -u root -p
+* sudo mysql -u root -p
 * INSTALL PLUGIN handlersocket SONAME 'handlersocket.so';
 * exit
 * sudo /etc/init.d/mysql restart
@@ -58,7 +58,7 @@ Download waspp
 
 Create Databases
 ----------------
-* mysql -u root -p
+* sudo mysql -u root -p
 ```
 source /var/waspp/sql/develop.sql
 grant all privileges on develop_waspp_idx.* to 'waspp_dbuser'@'localhost' identified by 'waspp_passwd' with grant option;
