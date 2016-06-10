@@ -12,18 +12,6 @@ Install MariaDB
 * sudo apt-get update
 * sudo apt-get upgrade
 * sudo apt-get install mariadb-server
-* sudo nano /etc/mysql/conf.d/mariadb.cnf
-```
-[client]
-default-character-set = utf8
-
-[mysqld]
-character-set-server = utf8
-collation-server     = utf8_general_ci
-character_set_server = utf8
-collation_server     = utf8_general_ci
-```
-
 * sudo /etc/init.d/mysql restart
 
 <!--
