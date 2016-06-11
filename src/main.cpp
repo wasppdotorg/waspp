@@ -6,9 +6,6 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <openssl/safestack.h>
-#include <openssl/ssl.h>
-
 #include <cstdlib>
 
 #include <string>
@@ -19,6 +16,10 @@
 #include "redis.hpp"
 #include "server.hpp"
 #include "server_ssl.hpp"
+
+// Winsock.h has already been included
+#include <openssl/safestack.h>
+#include <openssl/ssl.h>
 
 void ssl_library_free()
 {
