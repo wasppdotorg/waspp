@@ -19,8 +19,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	//using redis3m_ptr = std::shared_ptr<redis3m::connection>;
-	using rdconn_ptr = redis3m::connection*;
+	using redis3m_ptr = std::shared_ptr<redis3m::connection>;
 
 	class redis_pool
 	{
@@ -34,12 +33,11 @@ namespace waspp
 		bool init_pool(std::unordered_map<std::string, std::string>& cfg);
 		bool fill_pool();
 
-		rdconn_ptr get_rdconn();
-		void free_rdconn(rdconn_ptr rdconn);
+		redis3m_ptr get_rdconn();
+		void free_rdconn(redis3m_ptr rdconn);
 
 	private:
-		//redis3m_ptr connect(bool pooled_ = true);
-		rdconn_ptr connect_(bool pooled_ = true);
+		redis3m_ptr connect(bool pooled_ = true);
 
 		std::string host;
 		unsigned int port;
@@ -47,7 +45,7 @@ namespace waspp
 		std::size_t pool_size;
 		double timeout_sec;
 
-		std::vector<rdconn_ptr> pool;
+		std::vector<redis3m_ptr> pool;
 		spinlock lock;
 
 	};

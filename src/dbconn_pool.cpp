@@ -20,10 +20,7 @@ namespace waspp
 
 	dbconn_pool::~dbconn_pool()
 	{
-		for (auto& c : pool)
-		{
-			delete c;
-		}
+
 	}
 
 	bool dbconn_pool::init_pool(std::unordered_map<std::string, std::string>& cfg)
@@ -109,7 +106,7 @@ namespace waspp
 	dbconn_ptr dbconn_pool::get_dbconn()
 	{
 		lock.acquire();
-		//{
+		//
 			if (pool.empty())
 			{
 				lock.release();
@@ -120,11 +117,10 @@ namespace waspp
 
 			auto dbconn = pool.back();
 			pool.pop_back();
-		//}
+		//
 		lock.release();
 
 		auto diff = std::difftime(std::time(nullptr), mktime(dbconn->last_released()));
-
 		if (diff >= wait_timeout_sec && !dbconn->ping())
 		{
 			return connect();
@@ -144,15 +140,15 @@ namespace waspp
 		dbconn->set_released(*std::localtime(&time_));
 
 		lock.acquire();
-		{
+		//
 			pool.push_back(dbconn);
-		}
+		//
 		lock.release();
 	}
 
 	dbconn_ptr dbconn_pool::connect(bool pooled_)
 	{
-		return new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, charset.c_str(), pooled_);
+		return std::make_shared<mysqlpp::connection>(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, charset.c_str(), pooled_);
 	}
 
 } // namespace waspp

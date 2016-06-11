@@ -20,10 +20,7 @@ namespace waspp
 
 	redis_pool::~redis_pool()
 	{
-		for (auto& c : pool)
-		{
-			delete c;
-		}
+
 	}
 
 	bool redis_pool::init_pool(std::unordered_map<std::string, std::string>& cfg)
@@ -74,7 +71,7 @@ namespace waspp
 
 		for (std::size_t i = 0; i < pool_size; ++i)
 		{
-			auto rdconn = connect_();
+			auto rdconn = connect();
 			if (!rdconn->is_valid())
 			{
 				return false;
@@ -86,34 +83,33 @@ namespace waspp
 		return true;
 	}
 
-	rdconn_ptr redis_pool::get_rdconn()
+	redis3m_ptr redis_pool::get_rdconn()
 	{
 		lock.acquire();
-		//{
+		//
 			if (pool.empty())
 			{
 				lock.release();
 
 				log(warn) << "redis_pool is empty";
-				return connect_(false);
+				return connect(false);
 			}
 
 			auto rdconn = pool.back();
 			pool.pop_back();
-		//}
+		//
 		lock.release();
 
 		auto diff = std::difftime(std::time(nullptr), mktime(rdconn->last_released()));
-
 		if (diff >= timeout_sec && !rdconn->is_valid())
 		{
-			return connect_();
+			return connect();
 		}
 
 		return rdconn;
 	}
 
-	void redis_pool::free_rdconn(rdconn_ptr rdconn)
+	void redis_pool::free_rdconn(redis3m_ptr rdconn)
 	{
 		if (!rdconn->is_pooled())
 		{
@@ -124,22 +120,15 @@ namespace waspp
 		rdconn->set_released(*std::localtime(&time_));
 
 		lock.acquire();
-		{
+		//
 			pool.push_back(rdconn);
-		}
+		//
 		lock.release();
 	}
 
-	/*
 	redis3m_ptr redis_pool::connect(bool pooled_)
 	{
 		return redis3m::connection::connect(host, port, pooled_);
-	}
-	*/
-
-	rdconn_ptr redis_pool::connect_(bool pooled_)
-	{
-		return redis3m::connection::connect_(host, port, pooled_);
 	}
 
 } // namespace waspp

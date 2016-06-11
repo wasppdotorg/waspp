@@ -54,7 +54,7 @@ namespace waspp
 
 	private:
 		rdpool_ptr rdpool;
-		rdconn_ptr rdconn;
+		redis3m_ptr rdconn;
 
 	};
 

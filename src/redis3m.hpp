@@ -211,6 +211,7 @@ Apache License
 
 #include <hiredis/hiredis.h>
 
+#include <memory>
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -347,24 +348,31 @@ namespace redis3m
 		connection(const connection&) = delete;
 		connection& operator=(const connection&) = delete;
 
-		//using redis3m_ptr = std::shared_ptr<connection>;
+		using redis3m_ptr = std::shared_ptr<connection>;
+
+		connection(const std::string& host, const unsigned int port, bool pooled_ = false)
+		{
+			timeval timeval_ = { 1, 0 };
+
+			c = redisConnectWithTimeout(host.c_str(), port, timeval_);
+			if (c->err != REDIS_OK)
+			{
+				throw std::runtime_error("redisConnectWithTimeout failed");
+			}
+
+			auto time_ = std::time(nullptr);
+			set_released(*std::localtime(&time_));
+			set_pooled(pooled_);
+		}
 
 		~connection()
 		{
 			redisFree(c);
 		}
 
-		/*
 		static redis3m_ptr connect(const std::string& host = "localhost", const unsigned int port = 6379, bool pooled_ = false)
 		{
-			//return redis3m_ptr(new connection(host, port, pooled_));
 			return std::make_shared<connection>(host, port, pooled_);
-		}
-		*/
-
-		static connection* connect_(const std::string& host = "localhost", const unsigned int port = 6379, bool pooled_ = false)
-		{
-			return new connection(host, port, pooled_);
 		}
 
 		bool is_valid() const
@@ -455,21 +463,6 @@ namespace redis3m
 		}
 
 	private:
-		connection(const std::string& host, const unsigned int port, bool pooled_ = false)
-		{
-			timeval timeval_ = { 1, 0 };
-
-			c = redisConnectWithTimeout(host.c_str(), port, timeval_);
-			if (c->err != REDIS_OK)
-			{
-				throw std::runtime_error("redisConnectWithTimeout failed");
-			}
-
-			auto time_ = std::time(nullptr);
-			set_released(*std::localtime(&time_));
-			set_pooled(pooled_);
-		}
-
 		redisContext* c;
 
 		std::tm released;

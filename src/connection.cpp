@@ -40,7 +40,7 @@ namespace waspp
 
 		socket_.async_read_some(boost::asio::buffer(buffer_),
 			strand_.wrap(
-      			[this, self](boost::system::error_code e, std::size_t bytes_transferred)
+				[this, self](boost::system::error_code e, std::size_t bytes_transferred)
 		{
 			if (!e)
 			{
@@ -85,7 +85,7 @@ namespace waspp
 
 		boost::asio::async_write(socket_, response_.to_buffers(),
 			strand_.wrap(
-      			[this, self](boost::system::error_code e, std::size_t bytes_transferred)
+				[this, self](boost::system::error_code e, std::size_t bytes_transferred)
 		{
 			if (!e)
 			{
