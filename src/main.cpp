@@ -28,12 +28,6 @@ void ssl_library_free()
 
 int main(int argc, char* argv[])
 {
-	waspp::uri_conn c(waspp::uri_type::https_get, "www.boost.org");
-	c.query("/LICENSE_1_0.txt");
-	std::cout << c.res_content() << std::endl;
-	std::cin.get();
-	return 0;
-
 	atexit(ssl_library_free);
 
 	auto log_ = waspp::logger::instance();
