@@ -82,7 +82,7 @@ namespace waspp
 
 	};
 
-	enum class uri_req_type
+	enum class uri_type
 	{
 		tcp = 1,
 		http_get = 2,
@@ -96,30 +96,116 @@ namespace waspp
 	class uri_conn
 	{
 	public:
-		uri_conn(uri_req_type req_type, const std::string& host_, const std::string& port_ = "");
+		uri_conn(uri_type type_, const std::string& host_, const std::string& port_ = "");
 		~uri_conn();
 
-		void set_http_headers(const std::vector<name_value>& req_headers_);
-		bool query(const std::string& uri, const std::string& data);
-		bool query(const std::string& uri);
-		bool query();
+		void set_http_headers(const std::vector<name_value>& req_headers_) { req_headers = req_headers_; }
+		bool query(const std::string& path = "/", const std::string& data = "");
 
-		const std::string& res_headers();
-		const std::string& res_content();
+		const std::string& res_headers() { return res_headers_; }
+		const std::string& res_content() { return res_content_; }
 
 	private:
-		void set_http_get(std::ostream& req_stream, const std::string& uri);
-		void set_http_post(std::ostream& req_stream, const std::string& uri, const std::string& data);
+		void set_http_get(std::ostream& req_stream, const std::string& path);
+		void set_http_post(std::ostream& req_stream, const std::string& path, const std::string& data);
 
-		bool tcp_query(boost::asio::ip::tcp::socket& socket_, std::ostream& req_stream, const std::string& data);
-		bool http_query(boost::asio::ip::tcp::socket& socket_);
+		template<typename T>
+		bool tcp_query(T& socket_, std::ostream& req_stream, const std::string& data)
+		{
+			try
+			{
+				if (!data.empty())
+				{
+					req_stream << data;
 
-		bool ssl_query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_, std::ostream& req_stream, const std::string& data);
-		bool https_query(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket_);
+					// Send the request.
+					boost::asio::write(socket_, req_buf);
+				}
+
+				boost::system::error_code error;
+				boost::asio::read(socket_, res_buf, boost::asio::transfer_at_least(1), error);
+
+				if (error)
+				{
+					return false;
+				}
+
+				std::ostringstream oss;
+				oss << &res_buf;
+
+				res_content_ = oss.str();
+				return true;
+			}
+			catch (...)
+			{
+
+			}
+
+			return false;
+		}
+
+		template<typename T>
+		bool http_query(T& socket_)
+		{
+			try
+			{
+				// Send the request.
+				boost::asio::write(socket_, req_buf);
+
+				// Read the response status line. The response streambuf will automatically
+				// grow to accommodate the entire line. The growth may be limited by passing
+				// a maximum size to the streambuf constructor.
+				boost::asio::read_until(socket_, res_buf, "\r\n");
+
+				// Check that response is OK.
+				std::istream res_stream(&res_buf);
+				if (!is_200(res_stream))
+				{
+					return false;
+				}
+
+				// Read the response headers, which are terminated by a blank line.
+				boost::asio::read_until(socket_, res_buf, "\r\n\r\n");
+
+				// Process the response headers.
+				while (std::getline(res_stream, res_headers_) && res_headers_ != "\r")
+				{
+				}
+
+				// Write whatever content we already have to output.
+				std::ostringstream oss;
+				if (res_buf.size() > 0)
+				{
+					oss << &res_buf;
+				}
+
+				// Read until EOF, writing data to output as we go.
+				boost::system::error_code error;
+				while (boost::asio::read(socket_, res_buf,
+					boost::asio::transfer_at_least(1), error))
+				{
+					oss << &res_buf;
+				}
+
+				if (error != boost::asio::error::eof)
+				{
+					throw boost::system::system_error(error);
+				}
+
+				res_content_ = oss.str();
+				return true;
+			}
+			catch (...)
+			{
+
+			}
+
+			return false;
+		}
 
 		bool is_200(std::istream& res_stream);
 
-		uri_req_type req_type;
+		uri_type uri_type_;
 
 		std::string host;
 		std::string port;
