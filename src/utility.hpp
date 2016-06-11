@@ -205,21 +205,19 @@ namespace waspp
 
 		bool is_200(std::istream& res_stream);
 
-		uri_type uri_type_;
+		boost::asio::io_service io_service_;
 
+		uri_type uri_type_;
 		std::string host;
 		std::string port;
 
 		std::vector<name_value> req_headers;
-
-		boost::asio::io_service io_service_;
-		boost::asio::ip::tcp::resolver resolver_;
-
 		boost::asio::streambuf req_buf;
-		boost::asio::streambuf res_buf;
 
+		boost::asio::streambuf res_buf;
 		std::string res_headers_;
 		std::string res_content_;
+
 	};
 
 	std::string get_extension(const std::string& path);

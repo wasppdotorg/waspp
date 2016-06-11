@@ -20,7 +20,7 @@ namespace waspp
 {
 
 	uri_conn::uri_conn(uri_type type_, const std::string& host_, const std::string& port_)
-		: uri_type_(type_), host(host_), port(port_), io_service_(), resolver_(io_service_)
+		: uri_type_(type_), host(host_), port(port_)
 	{
 		if (!port.empty())
 		{
@@ -46,6 +46,7 @@ namespace waspp
 		try
 		{
 			// Get a list of endpoints corresponding to the server name.
+			boost::asio::ip::tcp::resolver resolver_(io_service_);
 			boost::asio::ip::tcp::resolver::query query_(host, port);
 			boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver_.resolve(query_);
 
