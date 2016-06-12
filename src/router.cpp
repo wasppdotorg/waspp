@@ -46,6 +46,12 @@ namespace waspp
 
 		func_ptr get_func(std::string& request_uri)
 		{
+			// to make router::get_func to work correctly
+			if (request_uri[request_uri.size() - 1] != '/')
+			{
+				request_uri += "/";
+			}
+
 			for (route* r = routes; r->uri; ++r)
 			{
 				if (!request_uri.find(r->uri))
@@ -57,9 +63,15 @@ namespace waspp
 			return nullptr;
 		}
 
-		bool get_file(config* cfg, response& res, std::string request_path)
+		bool get_file(config* cfg, response& res, const std::string& request_path)
 		{
 			std::string full_path(cfg->doc_root() + request_path);
+
+			// If path ends in slash (i.e. is a directory) then add "index.html".
+			if (full_path[full_path.size() - 1] == '/')
+			{
+				full_path += "/index.html";
+			}
 
 			std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
 			if (!is)

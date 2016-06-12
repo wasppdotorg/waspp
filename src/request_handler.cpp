@@ -58,20 +58,12 @@ namespace waspp
 				log(error) << response::bad_request << "," << request_uri << "," << req.remote_addr;
 				return;
 			}
-
-			if (request_uri[request_uri.size() - 1] == '/')
-			{	// If path ends in slash (i.e. is a directory) then add "index.html".
-				request_uri += "index.html";
-			}
-			else
-			{	// to make router::get_func to work correctly
-				request_uri += "/";
-			}
+			std::string request_path(request_uri);
 
 			auto func = router::get_func(request_uri);
 			if (func == nullptr)
 			{
-				if (!router::get_file(cfg, res, request_uri))
+				if (!router::get_file(cfg, res, request_path))
 				{
 					res = response::static_response(response::not_found);
 					log(error) << response::not_found << "," << request_uri << "," << req.remote_addr;

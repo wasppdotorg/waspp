@@ -69,7 +69,7 @@ namespace waspp
 		};
 
 		func_ptr get_func(std::string& request_uri);
-		bool get_file(config* cfg, response& res, std::string full_path);
+		bool get_file(config* cfg, response& res, const std::string& request_path);
 
 		void set_jsonp(request& req, response& res);
 
