@@ -30,7 +30,7 @@ handlersocket_port_wr = 9999
 * INSTALL PLUGIN handlersocket SONAME 'handlersocket.so';
 * exit
 * sudo /etc/init.d/mysql restart
-* mysql -u root -p
+* sudo mysql -u root -p
 * SHOW PROCESSLIST;
 * exit
 -->
@@ -54,7 +54,7 @@ Download waspp
 --------------
 * cd /var/
 * sudo apt-get install git
-* sudo git clone https://github.com/waspporg/waspp.git
+* sudo git clone https://github.com/wasppdotorg/waspp.git
 
 Create Databases
 ----------------
