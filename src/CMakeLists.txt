@@ -25,12 +25,12 @@ add_executable (${TARGET} ${Source_DIRECTORIES})
 include_directories (/usr/include /usr/local/include)
 
 find_package (Threads)
-find_package (Boost 1.55.0 COMPONENTS system thread filesystem serialization iostreams)
-
 find_library (MySQLClient_LIBRARIES NAMES mysqlclient PATHS /usr/lib/mysql /usr/local/lib/mysql)
 find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (SSL_LIBRARIES NAMES ssl)
 find_library (Crypto_LIBRARIES NAMES crypto)
+
+find_package (Boost 1.55.0 COMPONENTS system thread filesystem serialization iostreams)
 find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
@@ -41,11 +41,12 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 target_link_libraries (${TARGET} ${Threads_LIBRARIES})
-target_link_libraries (${TARGET} ${Boost_LIBRARIES})
 target_link_libraries (${TARGET} ${MySQLClient_LIBRARIES})
 target_link_libraries (${TARGET} ${HiRedis_LIBRARIES})
 target_link_libraries (${TARGET} ${SSL_LIBRARIES})
 target_link_libraries (${TARGET} ${Crypto_LIBRARIES})
+
+target_link_libraries (${TARGET} ${Boost_LIBRARIES})
 #target_link_libraries (${TARGET} ${TCMalloc_LIBRARIES})
 
 if (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)

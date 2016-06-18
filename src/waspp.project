@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="waspp" InternalType="Console">
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="src">
+    <File Name="main.cpp"/>
+    <File Name="config.cpp"/>
+    <File Name="config.hpp"/>
+    <File Name="connection.cpp"/>
+    <File Name="connection.hpp"/>
+    <File Name="connection_ssl.cpp"/>
+    <File Name="connection_ssl.hpp"/>
+    <File Name="database.cpp"/>
+    <File Name="database.hpp"/>
+    <File Name="dbconn_pool.cpp"/>
+    <File Name="dbconn_pool.hpp"/>
+    <File Name="error.hpp"/>
+    <File Name="logger.cpp"/>
+    <File Name="logger.hpp"/>
+    <File Name="mime_types.cpp"/>
+    <File Name="mime_types.hpp"/>
+    <File Name="multipart.hpp"/>
+    <File Name="mysqlpp.hpp"/>
+    <File Name="mysqlpp_connection.cpp"/>
+    <File Name="mysqlpp_result.cpp"/>
+    <File Name="mysqlpp_statement.cpp"/>
+    <File Name="name_value.hpp"/>
+    <File Name="performance_checker.cpp"/>
+    <File Name="performance_checker.hpp"/>
+    <File Name="redis.cpp"/>
+    <File Name="redis.hpp"/>
+    <File Name="redis3m.hpp"/>
+    <File Name="redis_pool.cpp"/>
+    <File Name="redis_pool.hpp"/>
+    <File Name="request.cpp"/>
+    <File Name="request.hpp"/>
+    <File Name="request_handler.cpp"/>
+    <File Name="request_handler.hpp"/>
+    <File Name="request_parser.cpp"/>
+    <File Name="request_parser.hpp"/>
+    <File Name="response.cpp"/>
+    <File Name="response.hpp"/>
+    <File Name="route_dir_forum.cpp"/>
+    <File Name="route_dir_performance.cpp"/>
+    <File Name="route_dir_user.cpp"/>
+    <File Name="router.cpp"/>
+    <File Name="router.hpp"/>
+    <File Name="server.cpp"/>
+    <File Name="server.hpp"/>
+    <File Name="server_ssl.cpp"/>
+    <File Name="server_ssl.hpp"/>
+    <File Name="session.cpp"/>
+    <File Name="session.hpp"/>
+    <File Name="utility.cpp"/>
+    <File Name="utility.hpp"/>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="-g;-std=c++11;-Wall" C_Options="" Assembler=""/>
+      <Linker Options="">
+        <Library Value="pthread"/>
+        <Library Value="mysqlclient"/>
+        <Library Value="hiredis"/>
+        <Library Value="ssl"/>
+        <Library Value="crypto"/>
+        <Library Value="boost_system"/>
+        <Library Value="boost_thread"/>
+        <Library Value="boost_filesystem"/>
+        <Library Value="boost_serialization"/>
+        <Library Value="boost_iostreams"/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-fexceptions" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0"/>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="yes">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-fexceptions -O2" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <Preprocessor Value="NDEBUG"/>
+      </Compiler>
+      <Linker Options="" Required="yes">
+        <Library Value="tcmalloc"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>
