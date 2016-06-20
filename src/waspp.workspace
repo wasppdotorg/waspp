@@ -3,9 +3,11 @@
   <Project Name="waspp" Path="waspp.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Environment/>
       <Project Name="waspp" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="no">
+      <Environment/>
       <Project Name="waspp" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
