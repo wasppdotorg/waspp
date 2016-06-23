@@ -9,7 +9,9 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <string>
 #include <exception>
+#include <iostream>
 
+#include <boost/logic/tribool.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/iostreams/filter/gzip.hpp>
 #include <boost/iostreams/copy.hpp>
@@ -19,32 +21,26 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	uri_conn::uri_conn(uri_type type_, const std::string& host_, const std::string& port_)
-		: uri_type_(type_), host(host_), port(port_)
+	uri_conn::uri_conn(const std::string& uri_)
+		: uri_state_(uri_scheme), scheme_type_(scheme_type::http), uri(uri_), port("http")
 	{
-		if (!port.empty())
-		{
-			return;
-		}
-
-		if (uri_type_ == uri_type::http_get || uri_type_ == uri_type::http_post)
-		{
-			port = "http";
-		}
-		else if (uri_type_ == uri_type::https_get || uri_type_ == uri_type::https_post)
-		{
-			port = "https";
-		}
+		
 	}
 
 	uri_conn::~uri_conn()
 	{
+		
 	}
 
-	bool uri_conn::query(const std::string& path, const std::string& data)
+	bool uri_conn::query(const std::string& data, bool force_http_post)
 	{
 		try
 		{
+			if (!parse())
+			{
+				return false;
+			}
+
 			// Get a list of endpoints corresponding to the server name.
 			boost::asio::ip::tcp::resolver resolver_(io_service_);
 			boost::asio::ip::tcp::resolver::query query_(host, port);
@@ -55,24 +51,28 @@ namespace waspp
 			// allow us to treat all data up until the EOF as the content.
 			std::ostream req_stream(&req_buf);
 
-			if (uri_type_ == uri_type::tcp || uri_type_ == uri_type::http_get || uri_type_ == uri_type::http_post)
+			if (scheme_type_ == scheme_type::tcp || scheme_type_ == scheme_type::http)
 			{
 				// Try each endpoint until we successfully establish a connection.
 				boost::asio::ip::tcp::socket socket_(io_service_);
 				boost::asio::connect(socket_, endpoint_iterator);
 
-				if (uri_type_ == uri_type::tcp)
+				if (scheme_type_ == scheme_type::tcp)
 				{
 					return tcp_query(socket_, req_stream, data);
 				}
-				else if (uri_type_ == uri_type::http_get)
+				else if (scheme_type_ == scheme_type::http)
 				{
-					set_http_get(req_stream, path);
-					return http_query(socket_);
-				}
-				else if (uri_type_ == uri_type::http_post)
-				{
-					set_http_post(req_stream, path, data);
+					if (force_http_post || !data.empty())
+					{
+						set_http_request(req_stream, "POST", data);
+					}
+					else
+					{
+						set_http_request(req_stream, "GET", data);
+					}
+
+					std::cout << 1 << std::endl;
 					return http_query(socket_);
 				}
 				else
@@ -82,7 +82,7 @@ namespace waspp
 
 				return true;
 			}
-			else if (uri_type_ == uri_type::ssl || uri_type_ == uri_type::https_get || uri_type_ == uri_type::https_post)
+			else if (scheme_type_ == scheme_type::ssl || scheme_type_ == scheme_type::https)
 			{
 				boost::asio::ssl::context context_(io_service_, boost::asio::ssl::context::sslv23);
 				context_.set_verify_mode(boost::asio::ssl::verify_none);
@@ -93,18 +93,21 @@ namespace waspp
 				boost::asio::connect(socket_.lowest_layer(), endpoint_iterator);
 				socket_.handshake(boost::asio::ssl::stream_base::client);
 
-				if (uri_type_ == uri_type::ssl)
+				if (scheme_type_ == scheme_type::ssl)
 				{
 					return tcp_query(socket_, req_stream, data);
 				}
-				else if (uri_type_ == uri_type::https_get)
+				else if (scheme_type_ == scheme_type::https)
 				{
-					set_http_get(req_stream, path);
-					return http_query(socket_);
-				}
-				else if (uri_type_ == uri_type::https_post)
-				{
-					set_http_post(req_stream, path, data);
+					if (force_http_post || !data.empty())
+					{
+						set_http_request(req_stream, "POST", data);
+					}
+					else
+					{
+						set_http_request(req_stream, "GET", data);
+					}
+
 					return http_query(socket_);
 				}
 				else
@@ -122,25 +125,220 @@ namespace waspp
 
 		return false;
 	}
-
-	void uri_conn::set_http_get(std::ostream& req_stream, const std::string& path)
+	
+	bool uri_conn::is_char(int c)
 	{
-		req_stream << "GET " << path << " HTTP/1.1\r\n";
-		req_stream << "Host: " << host << "\r\n";
-		req_stream << "Accept: */*\r\n";
-		req_stream << "Connection: close\r\n";
-
-		for (auto& req_header : req_headers)
-		{
-			req_stream << req_header.name << ": ";
-			req_stream << req_header.value << "\r\n";
-		}
-
-		req_stream << "\r\n";
+		return c >= 0 && c <= 127;
 	}
 
-	void uri_conn::set_http_post(std::ostream& req_stream, const std::string& path, const std::string& data)
+	bool uri_conn::is_ctl(int c)
 	{
+		return (c >= 0 && c <= 31) || (c == 127);
+	}
+
+	bool uri_conn::is_digit(int c)
+	{
+		return c >= '0' && c <= '9';
+	}
+	
+	bool uri_conn::parse()
+	{
+		char input;
+		boost::tribool result = boost::indeterminate;
+
+		auto begin = uri.begin();
+		auto end = uri.end();
+
+		while (begin != end)
+		{
+			switch (uri_state_)
+			{
+			case uri_scheme:
+				input = *begin++;
+
+				if (!is_char(input) || is_ctl(input))
+				{
+					result = false;
+					break;
+				}
+				else if (input == ':')
+				{
+					uri_state_ = uri_first_slash;
+					result = boost::indeterminate;
+					break;
+				}
+				else
+				{
+					scheme.push_back(input);
+					result = boost::indeterminate;
+					break;
+				}
+
+			case uri_first_slash:
+				input = *begin++;
+
+				if (input == '/')
+				{
+					uri_state_ = uri_second_slash;
+					result = boost::indeterminate;
+					break;
+				}
+				else
+				{
+					result = false;
+					break;
+				}
+					
+			case uri_second_slash:
+				input = *begin++;
+					
+				if (input == '/')
+				{
+					uri_state_ = uri_host;
+					result = boost::indeterminate;
+					break;
+				}
+				else
+				{
+					result = false;
+					break;
+				}
+					
+			case uri_host:
+				do
+				{
+					input = *begin++;
+
+					if (input == ':')
+					{
+						uri_state_ = uri_port;
+						result = boost::indeterminate;
+						break;
+					}
+					else if (input == '/')
+					{
+						uri_state_ = uri_path;
+						path.push_back(input);
+						result = boost::indeterminate;
+						break;
+					}
+					else if (is_ctl(input))
+					{
+						result = false;
+						break;
+					}
+					else
+					{
+						host.push_back(input);
+					}
+
+				} while (begin != end);
+				break;
+
+			case uri_port:
+				input = *begin++;
+
+				if (is_digit(input))
+				{
+					port.push_back(input);
+					result = boost::indeterminate;
+					break;
+				}
+				else if (input == '/')
+				{
+					uri_state_ = uri_path;
+					path.push_back(input);
+					result = boost::indeterminate;
+					break;
+				}
+				else
+				{
+					result = false;
+					break;
+				}
+
+			case uri_path:
+				do
+				{
+					input = *begin++;
+
+					if (is_ctl(input))
+					{
+						result = false;
+						break;
+					}
+					else
+					{
+						path.push_back(input);
+					}
+
+				} while (begin != end);
+				break;
+
+			default:
+				result = false;
+					break;
+			}
+		}
+		
+		std::cout << uri << std::endl;
+		std::cout << scheme << std::endl;
+		std::cout << host << std::endl;
+		std::cout << port << std::endl;
+		std::cout << path << std::endl;
+
+		if (scheme == "tcp")
+		{
+			if (port.empty())
+			{
+				return false;
+			}
+			
+			scheme_type_ = scheme_type::tcp;
+		}
+		else if (scheme == "http")
+		{
+			if (port.empty())
+			{
+				port = scheme;
+			}
+			
+			scheme_type_ = scheme_type::http;
+		}
+		else if (scheme == "ssl")
+		{
+			if (port.empty())
+			{
+				return false;
+			}
+			
+			scheme_type_ = scheme_type::ssl;
+		}
+		else if (scheme == "https")
+		{
+			if (port.empty())
+			{
+				port = scheme;
+			}
+			
+			scheme_type_ = scheme_type::https;
+		}
+		else
+		{
+			return false;
+		}
+
+		if (result == false)
+		{
+			return false;
+		}
+			
+		return true;
+	}
+
+	void uri_conn::set_http_request(std::ostream& req_stream, const std::string& method, const std::string& data)
+	{
+		req_stream << method << " " << path << " HTTP/1.1\r\n";
 		req_stream << "POST " << path << " HTTP/1.1\r\n";
 		req_stream << "Host: " << host << "\r\n";
 		req_stream << "Accept: */*\r\n";
@@ -153,7 +351,11 @@ namespace waspp
 		}
 
 		req_stream << "\r\n";
-		req_stream << data;
+
+		if (method == "POST" || !data.empty())
+		{
+			req_stream << data;
+		}
 	}
 
 	bool uri_conn::is_200(std::istream& res_stream)
@@ -166,6 +368,7 @@ namespace waspp
 
 		std::string status_msg;
 		std::getline(res_stream, status_msg);
+		std::cout << status_msg << std::endl;
 
 		if (!res_stream || http_version.substr(0, 5) != "HTTP/")
 		{

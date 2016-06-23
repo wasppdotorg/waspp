@@ -12,6 +12,7 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <openssl/md5.h>
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -81,33 +82,45 @@ namespace waspp
 		std::atomic<state> state_;
 
 	};
+	
+	enum uri_state
+	{
+		uri_scheme = 1,
+        uri_first_slash = 2,
+        uri_second_slash = 3,
+        uri_host = 4,
+        uri_port = 5,
+        uri_path = 6,
+	};
 
-	enum class uri_type
+	enum class scheme_type
 	{
 		tcp = 1,
-		http_get = 2,
-		http_post = 3,
+		http = 2,
 
-		ssl = 4,
-		https_get = 5,
-		https_post = 6
+		ssl = 3,
+		https = 4,
 	};
 
 	class uri_conn
 	{
 	public:
-		uri_conn(uri_type type_, const std::string& host_, const std::string& port_ = "");
+		uri_conn(const std::string& uri);
 		~uri_conn();
 
 		void set_http_headers(const std::vector<name_value>& req_headers_) { req_headers = req_headers_; }
-		bool query(const std::string& path = "/", const std::string& data = "");
+		bool query(const std::string& data = "", bool force_http_post = false);
 
 		const std::string& res_headers() { return res_headers_; }
 		const std::string& res_content() { return res_content_; }
 
 	private:
-		void set_http_get(std::ostream& req_stream, const std::string& path);
-		void set_http_post(std::ostream& req_stream, const std::string& path, const std::string& data);
+		bool is_char(int c);
+		bool is_ctl(int c);
+		bool is_digit(int c);
+		bool parse();
+
+		void set_http_request(std::ostream& req_stream, const std::string& method, const std::string& data);
 
 		template<typename T>
 		bool tcp_query(T& socket_, std::ostream& req_stream, const std::string& data)
@@ -155,7 +168,9 @@ namespace waspp
 				// Read the response status line. The response streambuf will automatically
 				// grow to accommodate the entire line. The growth may be limited by passing
 				// a maximum size to the streambuf constructor.
+				std::cout << 2 << std::endl;
 				boost::asio::read_until(socket_, res_buf, "\r\n");
+				std::cout << 3 << std::endl;
 
 				// Check that response is OK.
 				std::istream res_stream(&res_buf);
@@ -207,9 +222,9 @@ namespace waspp
 
 		boost::asio::io_service io_service_;
 
-		uri_type uri_type_;
-		std::string host;
-		std::string port;
+		uri_state uri_state_;
+		scheme_type scheme_type_;
+		std::string uri, scheme, host, port, path;
 
 		std::vector<name_value> req_headers;
 		boost::asio::streambuf req_buf;

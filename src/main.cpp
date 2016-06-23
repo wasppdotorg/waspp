@@ -21,6 +21,8 @@
 #include <openssl/safestack.h>
 #include <openssl/ssl.h>
 
+#include "utility.hpp"
+
 void ssl_library_free()
 {
 	sk_SSL_COMP_free(SSL_COMP_get_compression_methods());
@@ -28,6 +30,16 @@ void ssl_library_free()
 
 int main(int argc, char* argv[])
 {
+	waspp::uri_conn uri_conn_("http://www.boost.org/LICENSE_1_0.txt");
+	if (!uri_conn_.query())
+	{
+		std::cout << "error" << std::endl;
+		std::cin.get();
+		return 1;
+	}
+	std::cout << uri_conn_.res_content() << std::endl;
+	std::cin.get();
+	return 0;
 	atexit(ssl_library_free);
 
 	auto log_ = waspp::logger::instance();
