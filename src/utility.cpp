@@ -9,7 +9,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <string>
 #include <exception>
-#include <iostream>
 
 #include <boost/logic/tribool.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
@@ -72,7 +71,6 @@ namespace waspp
 						set_http_request(req_stream, "GET", data);
 					}
 
-					std::cout << 1 << std::endl;
 					return http_query(socket_);
 				}
 				else
@@ -280,12 +278,6 @@ namespace waspp
 					break;
 			}
 		}
-		
-		std::cout << uri << std::endl;
-		std::cout << scheme << std::endl;
-		std::cout << host << std::endl;
-		std::cout << port << std::endl;
-		std::cout << path << std::endl;
 
 		if (scheme == "tcp")
 		{
@@ -339,7 +331,6 @@ namespace waspp
 	void uri_conn::set_http_request(std::ostream& req_stream, const std::string& method, const std::string& data)
 	{
 		req_stream << method << " " << path << " HTTP/1.1\r\n";
-		req_stream << "POST " << path << " HTTP/1.1\r\n";
 		req_stream << "Host: " << host << "\r\n";
 		req_stream << "Accept: */*\r\n";
 		req_stream << "Connection: close\r\n";
@@ -368,7 +359,6 @@ namespace waspp
 
 		std::string status_msg;
 		std::getline(res_stream, status_msg);
-		std::cout << status_msg << std::endl;
 
 		if (!res_stream || http_version.substr(0, 5) != "HTTP/")
 		{

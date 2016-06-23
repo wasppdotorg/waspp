@@ -12,7 +12,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <openssl/md5.h>
 
-#include <iostream>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -168,9 +167,7 @@ namespace waspp
 				// Read the response status line. The response streambuf will automatically
 				// grow to accommodate the entire line. The growth may be limited by passing
 				// a maximum size to the streambuf constructor.
-				std::cout << 2 << std::endl;
 				boost::asio::read_until(socket_, res_buf, "\r\n");
-				std::cout << 3 << std::endl;
 
 				// Check that response is OK.
 				std::istream res_stream(&res_buf);
