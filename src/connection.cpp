@@ -5,11 +5,7 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <boost/lexical_cast.hpp>
-
 #include "connection.hpp"
-#include "request_handler.hpp"
-#include "logger.hpp"
 
 namespace waspp
 {

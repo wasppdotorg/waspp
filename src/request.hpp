@@ -8,10 +8,7 @@
 #ifndef request_hpp
 #define request_hpp
 
-#include <string>
 #include <vector>
-#include <unordered_map>
-#include <algorithm>
 
 #include "name_value.hpp"
 #include "multipart.hpp"

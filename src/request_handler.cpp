@@ -5,22 +5,11 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <ctime>
-
-#include <string>
-#include <sstream>
-#include <algorithm>
-
-#include <boost/lexical_cast.hpp>
-
 #include "request_handler.hpp"
-#include "request.hpp"
-#include "response.hpp"
 #include "logger.hpp"
-#include "config.hpp"
-#include "database.hpp"
 #include "router.hpp"
 #include "mime_types.hpp"
+#include "utility.hpp"
 
 namespace waspp
 {

@@ -8,14 +8,9 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef router_hpp
 #define router_hpp
 
-#include <string>
-
-#include "logger.hpp"
 #include "config.hpp"
-#include "database.hpp"
 #include "request.hpp"
 #include "response.hpp"
-#include "error.hpp"
 
 namespace waspp
 {

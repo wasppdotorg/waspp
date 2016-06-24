@@ -9,11 +9,10 @@
 #define server_ssl_hpp
 
 #include <boost/asio.hpp>
+#include <boost/asio/ssl.hpp>
 
-#include "logger.hpp"
 #include "config.hpp"
 #include "connection_ssl.hpp"
-#include "request_handler.hpp"
 
 namespace waspp
 {

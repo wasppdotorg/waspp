@@ -8,12 +8,11 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef config_hpp
 #define config_hpp
 
-#include <string>
 #include <vector>
 #include <unordered_map>
 
+#include "singleton.hpp"
 #include "error.hpp"
-#include "utility.hpp"
 
 namespace waspp
 {

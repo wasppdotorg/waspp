@@ -8,9 +8,6 @@
 #ifndef response_hpp
 #define response_hpp
 
-#include <vector>
-#include <unordered_map>
-
 #include <boost/asio.hpp>
 
 #include "name_value.hpp"
@@ -89,6 +86,7 @@ namespace waspp
 
 		/// Get a static response.
 		static response static_response(status_type status);
+
 	};
 
 } // namespace waspp

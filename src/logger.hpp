@@ -8,17 +8,13 @@
 #ifndef logger_hpp
 #define logger_hpp
 
-#include <ctime>
-
-#include <memory>
 #include <fstream>
-#include <string>
 
-#include <boost/asio.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/asio.hpp>
 #include <boost/thread.hpp>
 
-#include "utility.hpp"
+#include "singleton.hpp"
 
 namespace waspp
 {

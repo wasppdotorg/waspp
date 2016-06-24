@@ -8,7 +8,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef uri_conn_hpp
 #define uri_conn_hpp
 
-#include <string>
 #include <unordered_map>
 
 #include <boost/asio.hpp>

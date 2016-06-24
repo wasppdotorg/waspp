@@ -17,13 +17,8 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/lexical_cast.hpp>
 
 #include "router.hpp"
-#include "logger.hpp"
-#include "config.hpp"
 #include "database.hpp"
-#include "request.hpp"
-#include "response.hpp"
 #include "session.hpp"
-#include "error.hpp"
 #include "performance_checker.hpp"
 
 namespace waspp

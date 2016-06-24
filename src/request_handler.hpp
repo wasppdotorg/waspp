@@ -8,8 +8,6 @@
 #ifndef request_handler_hpp
 #define request_handler_hpp
 
-#include <string>
-
 #include "request.hpp"
 #include "response.hpp"
 #include "config.hpp"

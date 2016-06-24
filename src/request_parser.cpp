@@ -5,12 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <cctype>
-
 #include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
 
-#include "request.hpp"
 #include "request_parser.hpp"
 #include "utility.hpp"
 

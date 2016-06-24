@@ -8,14 +8,9 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef database_hpp
 #define database_hpp
 
-#include <vector>
-#include <string>
-#include <unordered_map>
-
 #include "dbconn_pool.hpp"
-#include "utility.hpp"
+#include "singleton.hpp"
 #include "config.hpp"
-#include "mysqlpp.hpp"
 
 namespace waspp
 {

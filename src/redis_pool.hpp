@@ -8,13 +8,11 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef redis_pool_hpp
 #define redis_pool_hpp
 
-#include <ctime>
-
-#include <vector>
+#include <memory>
 #include <unordered_map>
 
 #include "redis3m.hpp"
-#include "utility.hpp"
+#include "spinlock.hpp"
 
 namespace waspp
 {

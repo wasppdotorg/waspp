@@ -5,13 +5,12 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
+#include <cstring>
+
 #include <openssl/md5.h>
 
-#include <string>
-#include <exception>
 #include <sstream>
 
-#include <boost/logic/tribool.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/iostreams/filter/gzip.hpp>
 #include <boost/iostreams/copy.hpp>

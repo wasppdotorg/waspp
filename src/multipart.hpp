@@ -8,8 +8,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef mutipart_hpp
 #define mutipart_hpp
 
-#include <string>
-
 namespace waspp
 {
 

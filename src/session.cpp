@@ -5,22 +5,16 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#include <ctime>
+#include <boost/serialization/vector.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 
-#include <string>
-#include <vector>
-
-#include <sstream>
-#include <algorithm>
-
-#include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
 #include "session.hpp"
-#include "config.hpp"
-#include "request.hpp"
-#include "response.hpp"
+#include "utility.hpp"
 
 namespace waspp
 {

@@ -211,11 +211,7 @@ Apache License
 
 #include <hiredis/hiredis.h>
 
-#include <memory>
 #include <vector>
-#include <unordered_map>
-#include <string>
-#include <stdexcept>
 
 #include <boost/lexical_cast.hpp>
 

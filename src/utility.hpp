@@ -8,70 +8,10 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef utility_hpp
 #define utility_hpp
 
-#include <cstdlib>
-
 #include <string>
-#include <atomic>
 
 namespace waspp
 {
-
-	template<typename T>
-	class singleton
-	{
-	public:
-		static T* instance()
-		{
-			if (instance_ == nullptr)
-			{
-				instance_ = new T();
-
-				// avoid memory leak
-				atexit(destroy);
-			}
-
-			return instance_;
-		}
-
-	protected:
-		singleton() {}
-		virtual ~singleton() {}
-
-	private:
-		static void destroy()
-		{
-			delete instance_;
-		}
-
-		static T* instance_;
-
-	};
-
-	template<typename T> T* singleton<T>::instance_ = nullptr;
-
-	class spinlock
-	{
-	public:
-		spinlock() : state_(unlocked) {}
-
-		void acquire()
-		{
-			while (state_.exchange(locked, std::memory_order_acquire) == locked)
-			{
-				/* busy-wait */
-			}
-		}
-
-		void release()
-		{
-			state_.store(unlocked, std::memory_order_release);
-		}
-
-	private:
-		enum state { locked, unlocked };
-		std::atomic<state> state_;
-
-	};
 
 	std::string get_extension(const std::string& path);
 	std::string md5_digest(const std::string& str);

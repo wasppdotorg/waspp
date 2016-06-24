@@ -13,7 +13,6 @@
 #include <boost/lexical_cast.hpp>
 
 #include "request.hpp"
-#include "multipart.hpp"
 
 namespace waspp
 {

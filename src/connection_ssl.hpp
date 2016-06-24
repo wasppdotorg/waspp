@@ -9,15 +9,12 @@
 #define connection_ssl_hpp
 
 #include <memory>
-#include <array>
 
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
 
 #include "request_handler.hpp"
-#include "request.hpp"
 #include "request_parser.hpp"
-#include "response.hpp"
 
 namespace waspp
 {

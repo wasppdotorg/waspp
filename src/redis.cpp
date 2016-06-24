@@ -5,16 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#include <vector>
-#include <string>
-#include <unordered_map>
-
-#include <boost/lexical_cast.hpp>
-
 #include "redis.hpp"
-#include "config.hpp"
-#include "redis_pool.hpp"
-#include "redis3m.hpp"
 
 namespace waspp
 {

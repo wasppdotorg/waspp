@@ -5,10 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#include <unordered_map>
-#include <string>
-
-#include <boost/property_tree/ptree.hpp>
+#include <boost/filesystem.hpp>
 
 // when using both boost asio and boost ptree on win32
 // put these lines below before json_parser.hpp
@@ -17,8 +14,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #endif
 
 #include <boost/property_tree/json_parser.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include "config.hpp"
 #include "logger.hpp"

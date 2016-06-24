@@ -8,14 +8,11 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef dbconn_pool_hpp
 #define dbconn_pool_hpp
 
-#include <ctime>
-
 #include <memory>
-#include <vector>
 #include <unordered_map>
 
 #include "mysqlpp.hpp"
-#include "utility.hpp"
+#include "spinlock.hpp"
 
 namespace waspp
 {

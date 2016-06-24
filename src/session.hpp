@@ -8,13 +8,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef session_hpp
 #define session_hpp
 
-#include <string>
-
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/vector.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-
 #include "config.hpp"
 #include "request.hpp"
 #include "response.hpp"

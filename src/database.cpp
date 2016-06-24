@@ -5,19 +5,9 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#include <mysql/mysql.h>
-
-#include <stdexcept>
-#include <vector>
-#include <string>
-#include <unordered_map>
-
 #include <boost/lexical_cast.hpp>
 
 #include "database.hpp"
-#include "config.hpp"
-#include "dbconn_pool.hpp"
-#include "mysqlpp.hpp"
 
 namespace waspp
 {
