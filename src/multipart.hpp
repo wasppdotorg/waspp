@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef WASPP_MULTIPART_HPP
-#define WASPP_MULTIPART_HPP
+#ifndef mutipart_hpp
+#define mutipart_hpp
 
 #include <string>
 
@@ -47,4 +47,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_MULTIPART_HPP
+#endif // mutipart_hpp

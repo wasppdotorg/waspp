@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef WASPP_DBCONN_POOL_HPP
-#define WASPP_DBCONN_POOL_HPP
+#ifndef dbconn_pool_hpp
+#define dbconn_pool_hpp
 
 #include <ctime>
 
@@ -55,4 +55,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_DBCONN_POOL_HPP
+#endif // dbconn_pool_hpp

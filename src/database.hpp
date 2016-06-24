@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef WASPP_DATABASE_HPP
-#define WASPP_DATABASE_HPP
+#ifndef database_hpp
+#define database_hpp
 
 #include <vector>
 #include <string>
@@ -59,4 +59,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_DATABASE_HPP
+#endif // database_hpp

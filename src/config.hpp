@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef WASPP_CONFIG_HPP
-#define WASPP_CONFIG_HPP
+#ifndef config_hpp
+#define config_hpp
 
 #include <string>
 #include <vector>
@@ -93,4 +93,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_CONFIG_HPP
+#endif // config_hpp

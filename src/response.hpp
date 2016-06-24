@@ -5,8 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_RESPONSE_HPP
-#define WASPP_RESPONSE_HPP
+#ifndef response_hpp
+#define response_hpp
 
 #include <vector>
 #include <unordered_map>
@@ -93,4 +93,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_RESPONSE_HPP
+#endif // response_hpp

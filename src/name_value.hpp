@@ -5,8 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_NAME_VALUE_HPP
-#define WASPP_NAME_VALUE_HPP
+#ifndef name_value_hpp
+#define name_value_hpp
 
 #include <string>
 
@@ -36,4 +36,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_NAME_VALUE_HPP
+#endif // name_value_hpp

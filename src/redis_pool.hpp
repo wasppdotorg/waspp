@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef WASPP_REDIS_POOL_HPP
-#define WASPP_REDIS_POOL_HPP
+#ifndef redis_pool_hpp
+#define redis_pool_hpp
 
 #include <ctime>
 
@@ -52,4 +52,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_REDIS_POOL_HPP
+#endif // redis_pool_hpp

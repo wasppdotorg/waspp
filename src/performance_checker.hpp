@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef WASPP_PERFORMANCE_CHECKER_HPP
-#define WASPP_PERFORMANCE_CHECKER_HPP
+#ifndef performance_checker_hpp
+#define performance_checker_hpp
 
 #include <chrono>
 
@@ -34,4 +34,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_PERFORMANCE_CHECKER_HPP
+#endif // performance_checker_hpp

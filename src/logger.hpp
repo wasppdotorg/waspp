@@ -5,8 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_LOGGER_HPP
-#define WASPP_LOGGER_HPP
+#ifndef logger_hpp
+#define logger_hpp
 
 #include <ctime>
 
@@ -156,4 +156,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_LOGGER_HPP
+#endif // logger_hpp

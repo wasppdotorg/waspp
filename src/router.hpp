@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef WASPP_ROUTER_HPP
-#define WASPP_ROUTER_HPP
+#ifndef router_hpp
+#define router_hpp
 
 #include <string>
 
@@ -79,4 +79,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_ROUTER_HPP
+#endif // router_hpp

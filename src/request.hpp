@@ -5,8 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_REQUEST_HPP
-#define WASPP_REQUEST_HPP
+#ifndef request_hpp
+#define request_hpp
 
 #include <string>
 #include <vector>
@@ -50,4 +50,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_REQUEST_HPP
+#endif // request_hpp

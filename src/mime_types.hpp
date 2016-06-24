@@ -5,8 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_MIME_TYPES_HPP
-#define WASPP_MIME_TYPES_HPP
+#ifndef mime_types_hpp
+#define mime_types_hpp
 
 #include <string>
 
@@ -25,4 +25,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_MIME_TYPES_HPP
+#endif // mime_types_hpp

@@ -5,8 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_REQUEST_PARSER_HPP
-#define WASPP_REQUEST_PARSER_HPP
+#ifndef request_parser_hpp
+#define request_parser_hpp
 
 #include <boost/tuple/tuple.hpp>
 #include <boost/logic/tribool.hpp>
@@ -701,4 +701,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_REQUEST_PARSER_HPP
+#endif // request_parser_hpp

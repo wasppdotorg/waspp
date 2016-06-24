@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef WASPP_ERROR_HPP
-#define WASPP_ERROR_HPP
+#ifndef error_hpp
+#define error_hpp
 
 namespace waspp
 {
@@ -38,4 +38,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_ERROR_HPP
+#endif // error_hpp

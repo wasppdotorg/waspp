@@ -5,8 +5,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef WASPP_SERVER_SSL_HPP
-#define WASPP_SERVER_SSL_HPP
+#ifndef server_ssl_hpp
+#define server_ssl_hpp
 
 #include <boost/asio.hpp>
 
@@ -62,4 +62,4 @@ namespace waspp
 
 } // namespace waspp
 
-#endif // WASPP_SERVER_SSL_HPP
+#endif // server_ssl_hpp

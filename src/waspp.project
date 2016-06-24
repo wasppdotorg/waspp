@@ -53,6 +53,8 @@
     <File Name="session.hpp"/>
     <File Name="utility.cpp"/>
     <File Name="utility.hpp"/>
+    <File Name="uri_conn.cpp"/>
+    <File Name="uri_conn.hpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

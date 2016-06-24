@@ -206,8 +206,8 @@ Apache License
 
 */
 
-#ifndef REDIS3M_HPP
-#define REDIS3M_HPP
+#ifndef redis3m_hpp
+#define redis3m_hpp
 
 #include <hiredis/hiredis.h>
 
@@ -472,4 +472,4 @@ namespace redis3m
 
 } // namespace redis3m
 
-#endif // REDIS3M_HPP
+#endif // redis3m_hpp
