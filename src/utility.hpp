@@ -10,17 +10,8 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <cstdlib>
 
-#include <openssl/md5.h>
-
 #include <string>
-#include <vector>
-#include <unordered_map>
 #include <atomic>
-
-#include <boost/asio.hpp>
-#include <boost/asio/ssl.hpp>
-
-#include "name_value.hpp"
 
 namespace waspp
 {

@@ -10,6 +10,7 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <ctime>
 
+#include <memory>
 #include <vector>
 #include <unordered_map>
 
