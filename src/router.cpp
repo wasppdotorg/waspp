@@ -41,7 +41,6 @@ namespace waspp
 			{ "/dir/performance/test/", &dir_performance::test },
 
 			{ 0, nullptr }
-
 		};
 
 		func_ptr get_func(std::string& request_uri)
