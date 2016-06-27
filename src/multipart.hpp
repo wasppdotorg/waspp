@@ -15,10 +15,12 @@ namespace waspp
 	{
 		multipart_header()
 		{
+			
 		}
 
 		multipart_header(const std::string& disposition_, const std::string& name_, const std::string& filename_, const std::string& filetype_) : disposition(disposition_), name(name_), filename(filename_), filetype(filetype_)
 		{
+			
 		}
 
 		std::string disposition;
@@ -31,10 +33,12 @@ namespace waspp
 	{
 		multipart_content()
 		{
+			
 		}
 
 		multipart_content(const std::string& name_, const std::string& filename_, const std::string& filetype_, const std::string& data_) : name(name_), filename(filename_), filetype(filetype_), data(data_)
 		{
+			
 		}
 
 		std::string name;

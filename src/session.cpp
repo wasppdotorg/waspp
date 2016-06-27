@@ -36,6 +36,7 @@ namespace waspp
 
 	session::~session()
 	{
+		
 	}
 
 	std::string& session::get(const std::string& name)

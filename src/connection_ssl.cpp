@@ -17,6 +17,7 @@ namespace waspp
 		socket_(io_service, context),
 		request_handler_(handler)
 	{
+		
 	}
 
 	boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& connection_ssl::socket()

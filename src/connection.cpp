@@ -17,6 +17,7 @@ namespace waspp
 		socket_(std::move(socket)),
 		request_handler_(handler)
 	{
+		
 	}
 
 	boost::asio::ip::tcp::socket& connection::socket()

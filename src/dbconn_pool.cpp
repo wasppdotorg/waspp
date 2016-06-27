@@ -16,6 +16,7 @@ namespace waspp
 	dbconn_pool::dbconn_pool()
 		: port(0), pool_size(0), wait_timeout_sec(0), pool(0)
 	{
+		
 	}
 
 	dbconn_pool::~dbconn_pool()

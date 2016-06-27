@@ -23,10 +23,12 @@ namespace waspp
 
 	config::config() : unflushed_limit_(0), expiry_sec_(0), update_sec_(0), validate_ip_(false), validate_ua_(false), num_threads_(0), compress_(false), ssl_(false)
 	{
+		
 	}
 
 	config::~config()
 	{
+		
 	}
 
 	bool config::init(const std::string& addr, const std::string& file)

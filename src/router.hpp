@@ -17,6 +17,7 @@ namespace waspp
 
 	namespace dir_forum
 	{
+		
 		void index_html(config* cfg, request& req, response& res);
 		void index_jsonp(config* cfg, request& req, response& res);
 
@@ -33,6 +34,7 @@ namespace waspp
 
 	namespace dir_user
 	{
+		
 		void signin_html(config* cfg, request& req, response& res);
 		void auth(config* cfg, request& req, response& res);
 
@@ -45,6 +47,7 @@ namespace waspp
 
 	namespace dir_performance
 	{
+		
 		void test(config* cfg, request& req, response& res);
 
 	} // namespace dir_performance

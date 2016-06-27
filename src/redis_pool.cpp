@@ -14,6 +14,7 @@ namespace waspp
 	redis_pool::redis_pool()
 		: port(0), pool_size(0), timeout_sec(0), pool(0)
 	{
+		
 	}
 
 	redis_pool::~redis_pool()

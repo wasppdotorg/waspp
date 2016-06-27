@@ -12,6 +12,7 @@ namespace waspp
 
 	redis::redis()
 	{
+		
 	}
 
 	redis::~redis()

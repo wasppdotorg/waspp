@@ -17,10 +17,12 @@ namespace waspp
 	{
 		name_value()
 		{
+			
 		}
 
 		name_value(const std::string& name_, const std::string& value_) : name(name_), value(value_)
 		{
+			
 		}
 
 		template<typename archive>
