@@ -34,20 +34,24 @@
 
 #include "fmacros.h"
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/select.h>
-#include <sys/un.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <arpa/inet.h>
-#include <unistd.h>
+
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+
+//#include <sys/socket.h>
+//#include <sys/select.h>
+//#include <sys/un.h>
+//#include <netinet/in.h>
+//#include <netinet/tcp.h>
+//#include <arpa/inet.h>
+//#include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
-#include <netdb.h>
+//#include <netdb.h>
 #include <errno.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <poll.h>
+//#include <poll.h>
 #include <limits.h>
 #include <stdlib.h>
 
@@ -59,7 +63,8 @@ void __redisSetError(redisContext *c, int type, const char *str);
 
 static void redisContextCloseFd(redisContext *c) {
     if (c && c->fd >= 0) {
-        close(c->fd);
+        //close(c->fd);
+		closesocket(c->fd);
         c->fd = -1;
     }
 }
@@ -100,11 +105,12 @@ static int redisCreateSocket(redisContext *c, int type) {
 }
 
 static int redisSetBlocking(redisContext *c, int blocking) {
-    int flags;
+#ifndef _WIN32
+	int flags;
 
-    /* Set the socket nonblocking.
-     * Note that fcntl(2) for F_GETFL and F_SETFL can't be
-     * interrupted by a signal. */
+	/* Set the socket nonblocking.
+	* Note that fcntl(2) for F_GETFL and F_SETFL can't be
+	* interrupted by a signal. */
     if ((flags = fcntl(c->fd, F_GETFL)) == -1) {
         __redisSetErrorFromErrno(c,REDIS_ERR_IO,"fcntl(F_GETFL)");
         redisContextCloseFd(c);
@@ -121,6 +127,7 @@ static int redisSetBlocking(redisContext *c, int blocking) {
         redisContextCloseFd(c);
         return REDIS_ERR;
     }
+#endif
     return REDIS_OK;
 }
 
@@ -202,13 +209,14 @@ static int redisContextWaitReady(redisContext *c, const struct timeval *timeout)
     }
 
     if (errno == EINPROGRESS) {
-        int res;
+        int res = 0;
 
+		/*
         if ((res = poll(wfd, 1, msec)) == -1) {
             __redisSetErrorFromErrno(c, REDIS_ERR_IO, "poll(2)");
             redisContextCloseFd(c);
             return REDIS_ERR;
-        } else if (res == 0) {
+        } else */ if (res == 0) {
             errno = ETIMEDOUT;
             __redisSetErrorFromErrno(c,REDIS_ERR_IO,NULL);
             redisContextCloseFd(c);
@@ -280,7 +288,7 @@ static int _redisContextConnectTcp(redisContext *c, const char *addr, int port,
         if (c->tcp.host)
             free(c->tcp.host);
 
-        c->tcp.host = strdup(addr);
+        c->tcp.host = _strdup(addr);
     }
 
     if (timeout) {
@@ -301,7 +309,7 @@ static int _redisContextConnectTcp(redisContext *c, const char *addr, int port,
         c->tcp.source_addr = NULL;
     } else if (c->tcp.source_addr != source_addr) {
         free(c->tcp.source_addr);
-        c->tcp.source_addr = strdup(source_addr);
+        c->tcp.source_addr = _strdup(source_addr);
     }
 
     snprintf(_port, 6, "%d", port);
@@ -412,6 +420,7 @@ int redisContextConnectBindTcp(redisContext *c, const char *addr, int port,
     return _redisContextConnectTcp(c, addr, port, timeout, source_addr);
 }
 
+/*
 int redisContextConnectUnix(redisContext *c, const char *path, const struct timeval *timeout) {
     int blocking = (c->flags & REDIS_BLOCK);
     struct sockaddr_un sa;
@@ -423,7 +432,7 @@ int redisContextConnectUnix(redisContext *c, const char *path, const struct time
 
     c->connection_type = REDIS_CONN_UNIX;
     if (c->unix_sock.path != path)
-        c->unix_sock.path = strdup(path);
+        c->unix_sock.path = _strdup(path);
 
     if (timeout) {
         if (c->timeout != timeout) {
@@ -442,17 +451,18 @@ int redisContextConnectUnix(redisContext *c, const char *path, const struct time
     strncpy(sa.sun_path,path,sizeof(sa.sun_path)-1);
     if (connect(c->fd, (struct sockaddr*)&sa, sizeof(sa)) == -1) {
         if (errno == EINPROGRESS && !blocking) {
-            /* This is ok. */
+            * This is ok. *
         } else {
             if (redisContextWaitReady(c,c->timeout) != REDIS_OK)
                 return REDIS_ERR;
         }
     }
 
-    /* Reset socket to be blocking after connect(2). */
+    * Reset socket to be blocking after connect(2). *
     if (blocking && redisSetBlocking(c,1) != REDIS_OK)
         return REDIS_ERR;
 
     c->flags |= REDIS_CONNECTED;
     return REDIS_OK;
 }
+*/

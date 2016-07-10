@@ -35,7 +35,7 @@
 #define __HIREDIS_H
 #include "read.h"
 #include <stdarg.h> /* for va_list */
-#include <sys/time.h> /* for struct timeval */
+//#include <sys/time.h> /* for struct timeval */
 #include <stdint.h> /* uintXX_t, etc */
 #include "sds.h" /* for sds */
 
@@ -87,7 +87,7 @@
 /* "regular" POSIX strerror_r that does the right thing. */
 #define __redis_strerror_r(errno, buf, len)                                    \
     do {                                                                       \
-        strerror_r((errno), (buf), (len));                                     \
+        strerror_s((buf), (len), (errno));                                     \
     } while (0)
 #else
 /* "bad" GNU strerror_r we need to clean up after. */
@@ -167,9 +167,9 @@ redisContext *redisConnectBindNonBlock(const char *ip, int port,
                                        const char *source_addr);
 redisContext *redisConnectBindNonBlockWithReuse(const char *ip, int port,
                                                 const char *source_addr);
-redisContext *redisConnectUnix(const char *path);
-redisContext *redisConnectUnixWithTimeout(const char *path, const struct timeval tv);
-redisContext *redisConnectUnixNonBlock(const char *path);
+//redisContext *redisConnectUnix(const char *path);
+//redisContext *redisConnectUnixWithTimeout(const char *path, const struct timeval tv);
+//redisContext *redisConnectUnixNonBlock(const char *path);
 redisContext *redisConnectFd(int fd);
 
 /**

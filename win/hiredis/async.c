@@ -32,7 +32,7 @@
 #include "fmacros.h"
 #include <stdlib.h>
 #include <string.h>
-#include <strings.h>
+//#include <strings.h>
 #include <assert.h>
 #include <ctype.h>
 #include <errno.h>
@@ -184,7 +184,8 @@ redisAsyncContext *redisAsyncConnectBindWithReuse(const char *ip, int port,
     return ac;
 }
 
-redisAsyncContext *redisAsyncConnectUnix(const char *path) {
+/*
+//redisAsyncContext *redisAsyncConnectUnix(const char *path) {
     redisContext *c;
     redisAsyncContext *ac;
 
@@ -201,6 +202,7 @@ redisAsyncContext *redisAsyncConnectUnix(const char *path) {
     __redisAsyncCopyError(ac);
     return ac;
 }
+*/
 
 int redisAsyncSetConnectCallback(redisAsyncContext *ac, redisConnectCallback *fn) {
     if (ac->onConnect == NULL) {
@@ -390,7 +392,7 @@ static int __redisGetSubscribeCallback(redisAsyncContext *ac, redisReply *reply,
             memcpy(dstcb,dictGetEntryVal(de),sizeof(*dstcb));
 
             /* If this is an unsubscribe message, remove it. */
-            if (strcasecmp(stype+pvariant,"unsubscribe") == 0) {
+            if (strcmp(stype+pvariant,"unsubscribe") == 0) {
                 dictDelete(callbacks,sname);
 
                 /* If this was the last unsubscribe message, revert to
@@ -605,7 +607,7 @@ static int __redisAsyncCommand(redisAsyncContext *ac, redisCallbackFn *fn, void 
     cstr += pvariant;
     clen -= pvariant;
 
-    if (hasnext && strncasecmp(cstr,"subscribe\r\n",11) == 0) {
+    if (hasnext && strncmp(cstr,"subscribe\r\n",11) == 0) {
         c->flags |= REDIS_SUBSCRIBED;
 
         /* Add every channel/pattern to the list of subscription callbacks. */
@@ -618,7 +620,7 @@ static int __redisAsyncCommand(redisAsyncContext *ac, redisCallbackFn *fn, void 
 
             if (ret == 0) sdsfree(sname);
         }
-    } else if (strncasecmp(cstr,"unsubscribe\r\n",13) == 0) {
+    } else if (_strnicmp(cstr,"unsubscribe\r\n",13) == 0) {
         /* It is only useful to call (P)UNSUBSCRIBE when the context is
          * subscribed to one or more channels or patterns. */
         if (!(c->flags & REDIS_SUBSCRIBED)) return REDIS_ERR;
@@ -626,7 +628,7 @@ static int __redisAsyncCommand(redisAsyncContext *ac, redisCallbackFn *fn, void 
         /* (P)UNSUBSCRIBE does not have its own response: every channel or
          * pattern that is unsubscribed will receive a message. This means we
          * should not append a callback function for this command. */
-     } else if(strncasecmp(cstr,"monitor\r\n",9) == 0) {
+     } else if(_strnicmp(cstr,"monitor\r\n",9) == 0) {
          /* Set monitor flag and push callback */
          c->flags |= REDIS_MONITORING;
          __redisPushCallback(&ac->replies,&cb);

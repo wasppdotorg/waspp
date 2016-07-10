@@ -215,6 +215,10 @@ Apache License
 
 #include <boost/lexical_cast.hpp>
 
+#ifdef _WIN32
+#include <WinSock2.h>
+#endif
+
 // code from redis3m
 /*
 redis3m::connection::redis3m_ptr rdconn = redis3m::connection::connect();
@@ -349,7 +353,7 @@ namespace redis3m
 		connection(const std::string& host, const unsigned int port, bool pooled_ = false)
 		{
 			timeval timeval_ = { 1, 0 };
-
+			
 			c = redisConnectWithTimeout(host.c_str(), port, timeval_);
 			if (c->err != REDIS_OK)
 			{

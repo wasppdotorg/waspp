@@ -4,6 +4,10 @@
 
 #include <hiredis.h>
 
+#ifdef _WIN32
+#include <WinSock2.h>
+#endif
+
 int main(int argc, char **argv) {
     unsigned int j;
     redisContext *c;
