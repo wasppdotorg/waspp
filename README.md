@@ -4,9 +4,9 @@ waspp
 
 Build Environment
 -----------------
-* GCC 4.9 - Debian 8 (Boost 1.55)
+* GCC 4.9 - Debian 8.5 (Boost 1.55)
 * Clang 3.4 - FreeBSD 10.2 (Boost 1.55)
-* Visual Studio 2013 - Windows 7 (Boost 1.57)
+* Visual Studio 2015 - Windows 7 (Boost 1.59)
 
 Install MariaDB
 ---------------
@@ -197,7 +197,7 @@ For FreeBSD
 
 For Windows
 -----------
-* boost_1_57_0-msvc-12.0-64.exe
-* mariadb-10.0.23-winx64.msi
-* Win64OpenSSL-1_0_2d.exe
+* boost_1_59_0-msvc-14.0-64.exe
+* mariadb-10.1.14-winx64.msi
+* Win64OpenSSL-1_0_2h.exe
 
