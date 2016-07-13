@@ -49,6 +49,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\OpenSSL-Win64\include;C:\local\boost_1_59_0;C:\Program Files\MariaDB 10.1\include;..\win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32_WINNT=0x601;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\local\boost_1_59_0\lib64-msvc-14.0;C:\OpenSSL-Win64\lib;C:\Program Files\MariaDB 10.1\lib;..\win\hiredis\x64\Debug</AdditionalLibraryDirectories>
