@@ -5,7 +5,7 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <boost/thread.hpp>
+#include <thread>
 
 #include "server.hpp"
 #include "connection.hpp"
@@ -52,10 +52,10 @@ namespace waspp
 	void server::run()
 	{
 		// Create a pool of threads to run all of the io_services.
-		std::vector< std::shared_ptr<boost::thread> > threads_;
+		std::vector< std::shared_ptr<std::thread> > threads_;
 		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
 		{
-			auto thread_ = std::make_shared<boost::thread>([this]()
+			auto thread_ = std::make_shared<std::thread>([this]()
 			{
 				io_service_.run();
 			});
