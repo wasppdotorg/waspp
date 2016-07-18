@@ -25,12 +25,13 @@ add_executable (${TARGET} ${Source_DIRECTORIES})
 include_directories (/usr/include /usr/local/include)
 
 find_library (POSIXThread_LIBRARIES NAMES pthread)
-find_package (Boost 1.55.0 COMPONENTS system filesystem serialization iostreams)
 find_library (MySQLClient_LIBRARIES NAMES mysqlclient PATHS /usr/lib/mysql /usr/local/lib/mysql)
 find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (SSL_LIBRARIES NAMES ssl)
 find_library (Crypto_LIBRARIES NAMES crypto)
+
 find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
+find_package (Boost 1.55.0 COMPONENTS system filesystem serialization iostreams)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
 	set (CMAKE_CXX_FLAGS_DEBUG "-std=c++11 -Wall -g -fexceptions")
