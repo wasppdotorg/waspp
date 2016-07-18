@@ -48,7 +48,7 @@ namespace waspp
 			// to make router::get_func to work correctly
 			if (request_uri[request_uri.size() - 1] != '/')
 			{
-				request_uri += "/";
+				request_uri += '/';
 			}
 
 			for (route* r = routes; r->uri; ++r)

@@ -247,7 +247,7 @@ namespace waspp
 
 						if (doc_root_[doc_root_.size() - 1] != '/')
 						{
-							doc_root_ += "/";
+							doc_root_ += '/';
 						}
 					}
 					else if (key == "num_threads")
