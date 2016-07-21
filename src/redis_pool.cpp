@@ -25,12 +25,12 @@ namespace waspp
 	bool redis_pool::init_pool(std::unordered_map<std::string, std::string>& cfg)
 	{
 		std::vector<std::string> keys;
-		{
+		//{
 			keys.push_back("host");
 			keys.push_back("port");
 			keys.push_back("pool_size");
 			keys.push_back("timeout_sec");
-		}
+		//}
 
 		for (auto& key : keys)
 		{

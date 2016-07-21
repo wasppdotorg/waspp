@@ -30,10 +30,10 @@ namespace waspp
 			auto cfg_rd_shard = cfg->get("rd_shard");
 
 			std::vector<std::string> keys;
-			{
+			//{
 				keys.push_back("rd_shard_count");
 				keys.push_back("rd_shard_format");
-			}
+			//}
 
 			for (auto& key : keys)
 			{

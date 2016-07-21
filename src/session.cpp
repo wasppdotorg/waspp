@@ -102,12 +102,12 @@ namespace waspp
 			}
 
 			std::vector<std::string> keys;
-			{
+			//{
 				keys.push_back("sess_id");
 				keys.push_back("last_tm");
 				keys.push_back("last_ip");
 				keys.push_back("last_ua");
-			}
+			//}
 
 			for (auto& key : keys)
 			{
@@ -227,10 +227,10 @@ namespace waspp
 	{
 		// serialize
 		std::ostringstream oss;
-		{
+		//{
 			boost::archive::text_oarchive oar(oss, boost::archive::no_tracking);
 			oar << session_;
-		}
+		//}
 		std::string cookie_value(percent_encode(oss.str()));
 
 		cookie_value.append(md5_digest(cookie_value + cfg->encrypt_key()));
