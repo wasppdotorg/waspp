@@ -101,9 +101,9 @@ Build waspp
 * cd ../src
 * sudo apt-get install build-essential
 * sudo apt-get install cmake
-* sudo mkdir cmakebuild
-* cd cmakebuild
-* sudo cmake ..
+* sudo mkdir cmake_debug
+* cd cmake_debug
+* sudo cmake -DCMAKE_BUILD_TYPE=Debug ..
 * sudo make
 * sudo mv -f ./waspp ../../bin/
 
@@ -152,7 +152,7 @@ route routes[] =
 	..
 ```
 
-* cd cmakebuild
+* cd cmake_debug
 * sudo cmake ..
 * sudo make
 
