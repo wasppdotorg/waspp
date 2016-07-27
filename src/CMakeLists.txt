@@ -33,7 +33,11 @@ find_library (Crypto_LIBRARIES NAMES crypto)
 find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
 find_package (Boost 1.55.0 COMPONENTS system filesystem serialization iostreams)
 
-if (CMAKE_COMPILER_IS_GNUCXX)
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+	set (CMAKE_COMPILER_IS_CLANGCXX 1)
+endif()
+
+if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANGCXX)
 	set (CMAKE_CXX_FLAGS_DEBUG "-std=c++11 -Wall -g -fexceptions")
 
 	set (CMAKE_CXX_FLAGS_RELEASE "-std=c++11 -Wall -g -fexceptions -O2 -DNDEBUG")
