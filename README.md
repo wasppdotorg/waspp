@@ -189,8 +189,8 @@ For FreeBSD
 -----------
 * sudo pkg install nano
 * sudo pkg install boost-all
-* sudo pkg install mariadb100-client
-* sudo pkg install mariadb100-server
+* sudo pkg install mariadb101-client
+* sudo pkg install mariadb101-server
 * sudo pkg install redis
 * sudo pkg install hiredis
 * sudo pkg install google-perftools
