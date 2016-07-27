@@ -5,7 +5,7 @@ waspp
 Build Environment
 -----------------
 * GCC 4.9 - Debian 8.5 (Boost 1.55)
-* Clang 3.4 - FreeBSD 10.2 (Boost 1.55)
+* Clang 3.4 - FreeBSD 10.3 (Boost 1.55)
 * Visual Studio 2015 - Windows 10 (Boost 1.59)
 
 Install MariaDB
