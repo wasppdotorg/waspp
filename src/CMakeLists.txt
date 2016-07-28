@@ -55,7 +55,3 @@ if (CMAKE_BUILD_TYPE STREQUAL Release)
 	target_link_libraries (${TARGET} ${TCMalloc_LIBRARIES})
 endif()
 
-if (CMAKE_SYSTEM_NAME MATCHES FreeBSD)
-	target_link_libraries (${TARGET} -lthr)
-endif()
-
