@@ -15,8 +15,8 @@ endif()
 
 #find_program (CCACHE_FOUND ccache)
 #if (CCACHE_FOUND)
-    #set_property (GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-    #set_property (GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+#	set_property (GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+#	set_property (GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 #endif()
 
 aux_source_directory (. Source_DIRECTORIES)
@@ -29,19 +29,19 @@ find_library (MySQLClient_LIBRARIES NAMES mysqlclient PATHS /usr/lib/mysql /usr/
 find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (SSL_LIBRARIES NAMES ssl)
 find_library (Crypto_LIBRARIES NAMES crypto)
-
-find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
 find_package (Boost 1.55.0 COMPONENTS system filesystem serialization iostreams)
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+if (CMAKE_BUILD_TYPE STREQUAL Release)
+	find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
+endif()
+
+if (CMAKE_CXX_COMPILER_ID MATCHES Clang)
 	set (CMAKE_COMPILER_IS_CLANGCXX 1)
 endif()
 
 if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANGCXX)
 	set (CMAKE_CXX_FLAGS_DEBUG "-std=c++11 -Wall -g -fexceptions")
-
 	set (CMAKE_CXX_FLAGS_RELEASE "-std=c++11 -Wall -g -fexceptions -O2 -DNDEBUG")
-	set (CMAKE_EXE_LINKER_FLAGS_RELEASE "-ltcmalloc")
 endif()
 
 target_link_libraries (${TARGET} ${POSIXThread_LIBRARIES})
@@ -49,11 +49,13 @@ target_link_libraries (${TARGET} ${MySQLClient_LIBRARIES})
 target_link_libraries (${TARGET} ${HiRedis_LIBRARIES})
 target_link_libraries (${TARGET} ${SSL_LIBRARIES})
 target_link_libraries (${TARGET} ${Crypto_LIBRARIES})
-
 target_link_libraries (${TARGET} ${Boost_LIBRARIES})
-#target_link_libraries (${TARGET} ${TCMalloc_LIBRARIES})
 
-if (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
-	target_link_libraries (${TARGET} "-lthr")
+if (CMAKE_BUILD_TYPE STREQUAL Release)
+	target_link_libraries (${TARGET} ${TCMalloc_LIBRARIES})
+endif()
+
+if (CMAKE_SYSTEM_NAME MATCHES FreeBSD)
+	target_link_libraries (${TARGET} -lthr)
 endif()
 
