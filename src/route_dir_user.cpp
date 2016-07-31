@@ -49,9 +49,9 @@ namespace waspp
 			scoped_db db_idx("db_idx");
 
 			stmt_ptr stmt(db_idx.ptr->prepare("SELECT userid FROM users_idx WHERE username = ?"));
-			//{
+			//
 				stmt->param(req.param("username"));
-			//}
+			//
 
 			rs_ptr rs(stmt->query());
 			if (rs->num_rows() == 0)
@@ -68,10 +68,10 @@ namespace waspp
 			scoped_db db_shard(userid);
 
 			stmt.reset(db_shard.ptr->prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
-			//{
+			//
 				stmt->param(userid);
 				stmt->param(passwd);
-			//}
+			//
 
 			rs.reset(stmt->query());
 			if (rs->num_rows() == 0)
@@ -138,9 +138,9 @@ namespace waspp
 			scoped_db db_idx("db_idx");
 
 			stmt_ptr stmt(db_idx.ptr->prepare("SELECT userid FROM users_idx WHERE username = ?"));
-			//{
+			//
 				stmt->param(req.param("username"));
-			//}
+			//
 
 			rs_ptr rs(stmt->query());
 			if (rs->num_rows() != 0)
@@ -150,9 +150,9 @@ namespace waspp
 			}
 
 			stmt.reset(db_idx.ptr->prepare("CALL USP_GET_UNIQUE_KEYS('users_idx', ?)"));
-			//{
+			//
 				stmt->param(1);
-			//}
+			//
 
 			rs.reset(stmt->query());
 			if (rs->fetch(true))
@@ -162,12 +162,12 @@ namespace waspp
 			platformid = boost::lexical_cast<std::string>(userid);
 
 			stmt.reset(db_idx.ptr->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
-			//{
+			//
 				stmt->param(userid);
 				stmt->param(platformtype);
 				stmt->param(platformid);
 				stmt->param(req.param("username"));
-			//}
+			//
 
 			unsigned long long int affected_rows = stmt->execute();
 			if (affected_rows == 0)
@@ -179,10 +179,10 @@ namespace waspp
 			scoped_db db_shard(userid);
 
 			stmt.reset(db_shard.ptr->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
-			//{
+			//
 				stmt->param(userid);
 				stmt->param(passwd);
-			//}
+			//
 
 			affected_rows = stmt->execute();
 			if (affected_rows == 0)

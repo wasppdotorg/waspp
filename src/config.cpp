@@ -59,7 +59,7 @@ namespace waspp
 
 			std::vector<std::string> keys;
 			auto found_section = cfg_.find("log");
-			//{
+			//
 				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::log not found," << __FILE__ << ":" << __LINE__;
@@ -95,10 +95,10 @@ namespace waspp
 						unflushed_limit_ = boost::lexical_cast<int>(found_item->second);
 					}
 				}
-			//}
+			//
 
 			found_section = cfg_.find("error");
-			//{
+			//
 				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::error not found," << __FILE__ << ":" << __LINE__;
@@ -124,10 +124,10 @@ namespace waspp
 						locale_ = found_item->second;
 					}
 				}
-			//}
+			//
 
 			found_section = cfg_.find("access_granted");
-			//{
+			//
 				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::access_granted not found," << __FILE__ << ":" << __LINE__;
@@ -138,10 +138,10 @@ namespace waspp
 				{
 					access_granted_.push_back(found_item.second);
 				}
-			//}
+			//
 
 			found_section = cfg_.find("access_denied");
-			//{
+			//
 				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::denied not found," << __FILE__ << ":" << __LINE__;
@@ -152,10 +152,10 @@ namespace waspp
 				{
 					access_denied_.push_back(found_item.second);
 				}
-			//}
+			//
 
 			found_section = cfg_.find("session");
-			//{
+			//
 				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::session not found," << __FILE__ << ":" << __LINE__;
@@ -206,10 +206,10 @@ namespace waspp
 						validate_ua_ = boost::lexical_cast<bool>(found_item->second);
 					}
 				}
-			//}
+			//
 
 			found_section = cfg_.find("server");
-			//{
+			//
 				if (found_section == cfg_.end())
 				{
 					log(fatal) << "config::server not found," << __FILE__ << ":" << __LINE__;
@@ -271,13 +271,13 @@ namespace waspp
 						ssl_key_ = found_item->second;
 					}
 				}
-			//}
+			//
 
 			std::string err_file("../err/");
-			//{
+			//
 				err_file.append(locale_);
 				err_file.append(".json");
-			//}
+			//
 
 			if (!boost::filesystem::exists(err_file))
 			{

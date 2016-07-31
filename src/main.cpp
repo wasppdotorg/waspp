@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 		}
 
 		std::string log_file, cfg_file;
-		//{
+		//
 			log_file.append("../log/");
 			log_file.append(phase);
 			log_file.append(".csv");
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 			cfg_file.append("../cfg/");
 			cfg_file.append(phase);
 			cfg_file.append(".json");
-		//}
+		//
 
 		log_->file(log_file);
 
@@ -71,12 +71,12 @@ int main(int argc, char* argv[])
 		}
 
 		std::vector<std::string> dbnames;
-		//{
+		//
 			dbnames.push_back("db_idx");
 			dbnames.push_back("db_000");
 			dbnames.push_back("db_001");
 			dbnames.push_back("db_etc");
-		//}
+		//
 
 		/*
 		if (!db->init(cfg, dbnames))
@@ -87,9 +87,9 @@ int main(int argc, char* argv[])
 		*/
 
 		std::vector<std::string> rdnames;
-		//{
+		//
 			rdnames.push_back("rd_idx");
-		//}
+		//
 
 		/*
 		if (!rd->init(cfg, rdnames))

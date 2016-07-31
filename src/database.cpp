@@ -45,10 +45,10 @@ namespace waspp
 			auto cfg_db_shard = cfg->get("db_shard");
 
 			std::vector<std::string> keys;
-			//{
+			//
 				keys.push_back("db_shard_count");
 				keys.push_back("db_shard_format");
-			//}
+			//
 
 			for (auto& key : keys)
 			{
