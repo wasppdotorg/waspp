@@ -106,11 +106,11 @@ namespace waspp
 
 	dbconn_ptr dbconn_pool::get_dbconn()
 	{
-		lock.acquire();
+		mutex_.lock();
 		//
 			if (pool.empty())
 			{
-				lock.release();
+				mutex_.unlock();
 
 				log(warn) << "dbconn_pool is empty";
 				return connect(false);
@@ -119,7 +119,7 @@ namespace waspp
 			auto dbconn = pool.back();
 			pool.pop_back();
 		//
-		lock.release();
+		mutex_.unlock();
 
 		auto diff = std::difftime(std::time(nullptr), mktime(dbconn->last_released()));
 		if (diff >= wait_timeout_sec && !dbconn->ping())
@@ -140,11 +140,10 @@ namespace waspp
 		auto time_ = std::time(nullptr);
 		dbconn->set_released(*std::localtime(&time_));
 
-		lock.acquire();
+		std::lock_guard<std::mutex> lock(mutex_);
 		//
 			pool.push_back(dbconn);
 		//
-		lock.release();
 	}
 
 	dbconn_ptr dbconn_pool::connect(bool pooled_)

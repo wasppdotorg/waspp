@@ -10,9 +10,9 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <memory>
 #include <unordered_map>
+#include <mutex>
 
 #include "mysqlpp.hpp"
-#include "spinlock.hpp"
 
 namespace waspp
 {
@@ -47,7 +47,7 @@ namespace waspp
 		double wait_timeout_sec;
 
 		std::vector<dbconn_ptr> pool;
-		spinlock lock;
+		std::mutex mutex_;
 
 	};
 

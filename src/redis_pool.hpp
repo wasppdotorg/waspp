@@ -10,9 +10,9 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <memory>
 #include <unordered_map>
+#include <mutex>
 
 #include "redis3m.hpp"
-#include "spinlock.hpp"
 
 namespace waspp
 {
@@ -44,7 +44,7 @@ namespace waspp
 		double timeout_sec;
 
 		std::vector<redis3m_ptr> pool;
-		spinlock lock;
+		std::mutex mutex_;
 
 	};
 

@@ -18,11 +18,11 @@ namespace waspp
 	enum uri_state
 	{
 		state_type = 1,
-        state_slash_1 = 2,
-        state_slash_2 = 3,
-        state_host = 4,
-        state_port = 5,
-        state_path = 6,
+		state_slash_1 = 2,
+		state_slash_2 = 3,
+		state_host = 4,
+		state_port = 5,
+		state_path = 6,
 	};
 
 	enum class uri_type
