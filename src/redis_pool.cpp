@@ -84,11 +84,11 @@ namespace waspp
 
 	redis3m_ptr redis_pool::get_rdconn()
 	{
-		mutex_.lock();
+		spinlock_.lock();
 		//
 			if (pool.empty())
 			{
-				mutex_.unlock();
+				spinlock_.unlock();
 
 				log(warn) << "redis_pool is empty";
 				return connect(false);
@@ -97,7 +97,7 @@ namespace waspp
 			auto rdconn = pool.back();
 			pool.pop_back();
 		//
-		mutex_.unlock();
+		spinlock_.unlock();
 
 		auto diff = std::difftime(std::time(nullptr), mktime(rdconn->last_released()));
 		if (diff >= timeout_sec && !rdconn->is_valid())
@@ -118,10 +118,11 @@ namespace waspp
 		auto time_ = std::time(nullptr);
 		rdconn->set_released(*std::localtime(&time_));
 
-		std::lock_guard<std::mutex> lock(mutex_);
+		spinlock_.lock();
 		//
 			pool.push_back(rdconn);
 		//
+		spinlock_.unlock();
 	}
 
 	redis3m_ptr redis_pool::connect(bool pooled_)

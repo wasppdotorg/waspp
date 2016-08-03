@@ -56,6 +56,7 @@
     <File Name="uri_conn.cpp"/>
     <File Name="uri_conn.hpp"/>
     <File Name="singleton.hpp"/>
+    <File Name="spinlock.hpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
