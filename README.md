@@ -10,10 +10,27 @@ Build Environment
 
 Install MariaDB
 ---------------
+* sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+* sudo nano /etc/apt/sources.list
+```
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=amd64,i386] http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial main
+deb-src http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial main
+```
+
 * sudo apt-get update
 * sudo apt-get upgrade
 * sudo apt-get install mariadb-server
-* sudo /etc/init.d/mysql restart
+* sudo /etc/init.d/mysql stop
+* sudo /usr/bin/mysqld_safe --skip-grant-tables &
+* mysql -u root
+```
+update mysql.user set plugin='mysql_native_password';
+quit;
+```
+ 
+* sudo kill -9 $(pgrep mysql)
+* sudo /etc/init.d/mysql start
 
 <!--
 Install HandlerSocket
@@ -74,9 +91,9 @@ exit
 Configure waspp
 ---------------
 * cd waspp/cfg
-* grep wait_timeout /etc/mysql/my.cnf
+* mysql -u root -p
 ```
-wait_timeout = 600
+show variables like 'wait_timeout';
 ```
 
 * grep wait_timeout develop.json
@@ -121,7 +138,7 @@ Run on Windows
 ```
 cd path\to\waspp
 copy src\x64\Debug\waspp.exe .\bin
-copy src\x64\Debug\libmysql.dll .\bin
+copy "C:\Program Files\Mariadb 10.1\lib\libmysql.dll" .\bin
 cd .\bin
 .\waspp.exe develop 00
 
