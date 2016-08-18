@@ -27,7 +27,7 @@ deb-src http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial main
 update mysql.user set plugin='mysql_native_password';
 quit;
 ```
- 
+
 * sudo kill -9 $(pgrep mysql)
 * sudo /etc/init.d/mysql start
 
@@ -66,15 +66,10 @@ Install Redis
 Install Redis (Windows)
 -----------------------
 * Download redis-64.3.0.503.nupkg from https://www.nuget.org/packages/Redis-64/
-```
-move redis-64.3.0.503.nupkg redis-64.3.0.503.zip
-```
-
-* extract redis-64.3.0.503.zip
-```
+* Rename redis-64.3.0.503.nupkg to redis-64.3.0.503.zip
+* Extract redis-64.3.0.503.zip
 * cd redis-64.3.0.503\tools
 * .\redis-server.exe
-```
 
 Install Libraries
 -----------------
@@ -155,14 +150,11 @@ Run
 
 Run (Windows)
 -------------
-* Run cmd.exe
-```
 cd path\to\waspp
 copy src\x64\Debug\waspp.exe .\bin
 copy "C:\Program Files\Mariadb 10.1\lib\libmysql.dll" .\bin
 cd .\bin
 .\waspp.exe develop 00
-```
 
 Add Your Own Route
 ------------------
