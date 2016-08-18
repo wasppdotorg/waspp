@@ -150,11 +150,11 @@ Run
 
 Run (Windows)
 -------------
-cd path\to\waspp
-copy src\x64\Debug\waspp.exe .\bin
-copy "C:\Program Files\Mariadb 10.1\lib\libmysql.dll" .\bin
-cd .\bin
-.\waspp.exe develop 00
+* cd path\to\waspp
+* copy src\x64\Debug\waspp.exe .\bin
+* copy "C:\Program Files\Mariadb 10.1\lib\libmysql.dll" .\bin
+* cd .\bin
+* .\waspp.exe develop 00
 
 Add Your Own Route
 ------------------
