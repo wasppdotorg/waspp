@@ -6,7 +6,6 @@ Build Environment
 -----------------
 * GCC 5.4 - Ubuntu 16.04 LTS (Boost 1.58)
 * Visual Studio 2015 - Windows 10 (Boost 1.59)
-* Clang 3.4 - FreeBSD 10.3 (Boost 1.55)
 
 Install MariaDB
 ---------------
@@ -31,6 +30,10 @@ quit;
  
 * sudo kill -9 $(pgrep mysql)
 * sudo /etc/init.d/mysql start
+
+Install MariaDB (Windows)
+-------------------------
+* mariadb-10.1.14-winx64.msi
 
 <!--
 Install HandlerSocket
@@ -60,6 +63,19 @@ Install Redis
 * sudo apt-get install redis-server
 * sudo /etc/init.d/redis-server restart
 
+Install Redis (Windows)
+-----------------------
+* Download redis-64.3.0.503.nupkg from https://www.nuget.org/packages/Redis-64/
+```
+move redis-64.3.0.503.nupkg redis-64.3.0.503.zip
+```
+
+* extract redis-64.3.0.503.zip
+```
+* cd redis-64.3.0.503\tools
+* .\redis-server.exe
+```
+
 Install Libraries
 -----------------
 * sudo apt-get install libboost-all-dev
@@ -67,6 +83,11 @@ Install Libraries
 * sudo apt-get install libssl-dev
 * sudo apt-get install libhiredis-dev
 * sudo apt-get install libgoogle-perftools-dev
+
+Install Libraries (Windows)
+---------------------------
+* boost_1_59_0-msvc-14.0-64.exe
+* Win64OpenSSL-1_0_2h.exe
 
 Download waspp
 --------------
@@ -132,8 +153,8 @@ Run
 * sudo tail -f ../log/develop00.csv
 * Go to http://127.0.0.1:10080/
 
-Run on Windows
---------------
+Run (Windows)
+-------------
 * Run cmd.exe
 ```
 cd path\to\waspp
@@ -141,7 +162,6 @@ copy src\x64\Debug\waspp.exe .\bin
 copy "C:\Program Files\Mariadb 10.1\lib\libmysql.dll" .\bin
 cd .\bin
 .\waspp.exe develop 00
-
 ```
 
 Add Your Own Route
@@ -201,20 +221,3 @@ kernel.core_pattern = core.%p
 ```
 ulimit -c unlimited
 ```
-
-For FreeBSD
------------
-* sudo pkg install nano
-* sudo pkg install boost-all
-* sudo pkg install mariadb101-client
-* sudo pkg install mariadb101-server
-* sudo pkg install redis
-* sudo pkg install hiredis
-* sudo pkg install google-perftools
-
-For Windows
------------
-* boost_1_59_0-msvc-14.0-64.exe
-* mariadb-10.1.14-winx64.msi
-* Win64OpenSSL-1_0_2h.exe
-
