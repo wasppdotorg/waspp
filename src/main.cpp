@@ -78,26 +78,22 @@ int main(int argc, char* argv[])
 			dbnames.push_back("db_etc");
 		//
 
-		/*
 		if (!db->init(cfg, dbnames))
 		{
 			waspp::log(waspp::fatal) << "database::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
-		*/
 
 		std::vector<std::string> rdnames;
 		//
 			rdnames.push_back("rd_idx");
 		//
 
-		/*
 		if (!rd->init(cfg, rdnames))
 		{
 			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
-		*/
 
 		if (cfg->ssl())
 		{
