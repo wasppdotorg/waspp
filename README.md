@@ -20,6 +20,8 @@ deb-src http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial main
 * sudo apt-get update
 * sudo apt-get upgrade
 * sudo apt-get install mariadb-server
+* sudo /etc/init.d/mysql restart
+<!--
 * sudo /etc/init.d/mysql stop
 * sudo /usr/bin/mysqld_safe --skip-grant-tables &
 * mysql -u root
@@ -30,6 +32,7 @@ quit;
 
 * sudo kill -9 $(pgrep mysql)
 * sudo /etc/init.d/mysql start
+-->
 
 Install MariaDB (Windows)
 -------------------------
