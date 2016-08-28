@@ -121,7 +121,7 @@ show variables like 'wait_timeout';
 "wait_timeout_sec" : 600
 ```
 
-* grep timeout /etc/redis/redis.conf
+* sudo grep timeout /etc/redis/redis.conf
 ```
 timeout 0
 ```

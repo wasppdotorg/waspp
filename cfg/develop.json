@@ -69,7 +69,7 @@
 			"port" : 3306,
 			"charset" : "utf8",
 			"pool_size" : 4,
-			"wait_timeout_sec" : 600
+			"wait_timeout_sec" : 28800
 		},
 
 		"db_000" :
@@ -81,7 +81,7 @@
 			"port" : 3306,
 			"charset" : "utf8",
 			"pool_size" : 4,
-			"wait_timeout_sec" : 600
+			"wait_timeout_sec" : 28800
 		},
 
 
@@ -94,7 +94,7 @@
 			"port" : 3306,
 			"charset" : "utf8",
 			"pool_size" : 4,
-			"wait_timeout_sec" : 600
+			"wait_timeout_sec" : 28800
 		},
 
 		"db_etc" :
@@ -106,7 +106,7 @@
 			"port" : 3306,
 			"charset" : "utf8",
 			"pool_size" : 4,
-			"wait_timeout_sec" : 600
+			"wait_timeout_sec" : 28800
 		},
 
 	"//rd_shard" : 0,
