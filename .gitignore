@@ -1,0 +1,7 @@
+*.db
+x64
+Debug
+Release
+bin
+obj
+.vs
