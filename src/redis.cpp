@@ -59,6 +59,7 @@ namespace waspp
 
 				if (!rdpool->init_pool(cfg->get(rdname)) || !rdpool->fill_pool())
 				{
+					delete rdpool;
 					return false;
 				}
 

@@ -74,6 +74,7 @@ namespace waspp
 
 				if (!dbpool->init_pool(cfg->get(dbname)) || !dbpool->fill_pool())
 				{
+					delete dbpool;
 					return false;
 				}
 

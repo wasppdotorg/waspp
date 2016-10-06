@@ -348,9 +348,9 @@ namespace redis3m
 		connection(const connection&) = delete;
 		connection& operator=(const connection&) = delete;
 
-		using redis3m_ptr = std::shared_ptr<connection>;
+		using redis3m_ptr = connection*;
 
-		connection(const std::string& host, const unsigned int port, bool pooled_ = false)
+		connection(const std::string& host, const unsigned int port, bool pooled_ = true)
 		{
 			timeval timeval_ = { 1, 0 };
 			
@@ -370,9 +370,9 @@ namespace redis3m
 			redisFree(c);
 		}
 
-		static redis3m_ptr connect(const std::string& host = "localhost", const unsigned int port = 6379, bool pooled_ = false)
+		static redis3m_ptr connect(const std::string& host = "localhost", const unsigned int port = 6379, bool pooled_ = true)
 		{
-			return std::make_shared<connection>(host, port, pooled_);
+			return new connection(host, port, pooled_);
 		}
 
 		bool is_valid() const

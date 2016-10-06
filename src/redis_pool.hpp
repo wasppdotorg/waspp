@@ -17,7 +17,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	using redis3m_ptr = std::shared_ptr<redis3m::connection>;
+	using redis3m_ptr = redis3m::connection*;
 
 	class redis_pool
 	{

@@ -19,7 +19,10 @@ namespace waspp
 
 	redis_pool::~redis_pool()
 	{
-
+		for (auto& p : pool)
+		{
+			delete p;
+		}
 	}
 
 	bool redis_pool::init_pool(std::unordered_map<std::string, std::string>& cfg)
@@ -112,6 +115,7 @@ namespace waspp
 	{
 		if (!rdconn->is_pooled())
 		{
+			delete rdconn;
 			return;
 		}
 

@@ -21,7 +21,10 @@ namespace waspp
 
 	dbconn_pool::~dbconn_pool()
 	{
-
+		for (auto& p : pool)
+		{
+			delete p;
+		}
 	}
 
 	bool dbconn_pool::init_pool(std::unordered_map<std::string, std::string>& cfg)
@@ -134,6 +137,7 @@ namespace waspp
 	{
 		if (!dbconn->is_pooled())
 		{
+			delete dbconn;
 			return;
 		}
 
@@ -149,7 +153,7 @@ namespace waspp
 
 	dbconn_ptr dbconn_pool::connect(bool pooled_)
 	{
-		return std::make_shared<mysqlpp::connection>(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, charset.c_str(), pooled_);
+		return new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, charset.c_str(), pooled_);
 	}
 
 } // namespace waspp

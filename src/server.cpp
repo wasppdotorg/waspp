@@ -52,21 +52,20 @@ namespace waspp
 	void server::run()
 	{
 		// Create a pool of threads to run all of the io_services.
-		std::vector< std::shared_ptr<std::thread> > threads_;
+		std::vector< std::thread* > threads_;
 		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
 		{
-			auto thread_ = std::make_shared<std::thread>([this]()
+			threads_.push_back(new std::thread([this]()
 			{
 				io_service_.run();
-			});
-
-			threads_.push_back(thread_);
+			}));
 		}
 
 		// Wait for all threads in the pool to exit.
 		for (auto& thread_ : threads_)
 		{
 			thread_->join();
+			delete thread_;
 		}
 	}
 
