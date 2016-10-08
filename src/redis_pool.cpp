@@ -76,6 +76,7 @@ namespace waspp
 			auto rdconn = connect();
 			if (!rdconn->is_valid())
 			{
+				delete rdconn;
 				return false;
 			}
 
@@ -105,6 +106,7 @@ namespace waspp
 		auto diff = std::difftime(std::time(nullptr), mktime(rdconn->last_released()));
 		if (diff >= timeout_sec && !rdconn->is_valid())
 		{
+			delete rdconn;
 			return connect();
 		}
 

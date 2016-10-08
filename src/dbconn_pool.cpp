@@ -98,6 +98,7 @@ namespace waspp
 			auto dbconn = connect();
 			if (!dbconn->ping())
 			{
+				delete dbconn;
 				return false;
 			}
 
@@ -127,6 +128,7 @@ namespace waspp
 		auto diff = std::difftime(std::time(nullptr), mktime(dbconn->last_released()));
 		if (diff >= wait_timeout_sec && !dbconn->ping())
 		{
+			delete dbconn;
 			return connect();
 		}
 
