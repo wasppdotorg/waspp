@@ -37,7 +37,7 @@ quit;
 
 Install MariaDB (Windows)
 -------------------------
-* mariadb-10.1.14-winx64.msi
+* mariadb-10.1.18-winx64.msi
 
 <!--
 Install HandlerSocket
@@ -86,7 +86,7 @@ Install Libraries
 Install Libraries (Windows)
 ---------------------------
 * boost_1_59_0-msvc-14.0-64.exe
-* Win64OpenSSL-1_0_2h.exe
+* Win64OpenSSL-1_1_0b.exe
 
 Download waspp
 --------------
