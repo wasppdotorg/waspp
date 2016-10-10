@@ -29,7 +29,7 @@ find_library (MySQLClient_LIBRARIES NAMES mysqlclient PATHS /usr/lib/mysql /usr/
 find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (SSL_LIBRARIES NAMES ssl)
 find_library (Crypto_LIBRARIES NAMES crypto)
-find_package (Boost 1.55.0 COMPONENTS system filesystem serialization iostreams)
+find_package (Boost 1.58.0 COMPONENTS system filesystem serialization iostreams)
 
 if (CMAKE_BUILD_TYPE STREQUAL Release)
 	find_library (TCMalloc_LIBRARIES NAMES tcmalloc)
