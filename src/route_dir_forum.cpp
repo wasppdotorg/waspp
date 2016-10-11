@@ -318,9 +318,9 @@ namespace waspp
 			if (seq == 0)
 			{
 				stmt_ptr stmt(db_etc.ptr->prepare("CALL USP_GET_UNIQUE_KEYS('forum', ?)"));
-				{
+				//
 					stmt->param(1);
-				}
+				//
 
 				rs_ptr rs(stmt->query());
 				if (rs->fetch(true))
@@ -329,7 +329,7 @@ namespace waspp
 				}
 
 				stmt.reset(db_etc.ptr->prepare("INSERT INTO forum(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
-				{
+				//
 					stmt->param(seq);
 					stmt->param(req.param("title"));
 					stmt->param(req.param("content"));
@@ -337,7 +337,7 @@ namespace waspp
 					stmt->param("");
 					stmt->param(userid);
 					stmt->param(sess.get("username"));
-				}
+				//
 
 				unsigned long long int affected_rows = stmt->execute();
 				if (affected_rows == 0)
@@ -349,7 +349,7 @@ namespace waspp
 			else
 			{
 				stmt_ptr stmt(db_etc.ptr->prepare("UPDATE forum SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
-				{
+				//
 					stmt->param(req.param("title"));
 					stmt->param(req.param("content"));
 					stmt->param("");
@@ -357,7 +357,7 @@ namespace waspp
 					stmt->param(req.param("username"));
 					stmt->param(seq);
 					stmt->param(userid);
-				}
+				//
 				stmt->execute();
 			}
 
