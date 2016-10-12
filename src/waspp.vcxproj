@@ -78,7 +78,7 @@
     <ClCompile Include="config.cpp" />
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="connection_ssl.cpp" />
-    <ClCompile Include="curl_easy.cpp" />
+    <ClCompile Include="url_conn.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="dbconn_pool.cpp" />
     <ClCompile Include="logger.cpp" />
@@ -107,7 +107,7 @@
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="connection_ssl.hpp" />
-    <ClInclude Include="curl_easy.hpp" />
+    <ClInclude Include="url_conn.hpp" />
     <ClInclude Include="database.hpp" />
     <ClInclude Include="dbconn_pool.hpp" />
     <ClInclude Include="error.hpp" />
