@@ -86,8 +86,9 @@ Install Libraries
 
 Install Libraries (Windows)
 ---------------------------
-* boost_1_59_0-msvc-14.0-64.exe
 * Win64OpenSSL-1_1_0b.exe
+* curl-7.46.0-win64
+* boost_1_59_0-msvc-14.0-64.exe
 
 Download waspp
 --------------
