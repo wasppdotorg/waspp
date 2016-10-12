@@ -53,10 +53,10 @@
     <File Name="session.hpp"/>
     <File Name="utility.cpp"/>
     <File Name="utility.hpp"/>
-    <File Name="uri_conn.cpp"/>
-    <File Name="uri_conn.hpp"/>
     <File Name="singleton.hpp"/>
     <File Name="spinlock.hpp"/>
+    <File Name="curl_easy.cpp"/>
+    <File Name="curl_easy.hpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
@@ -67,6 +67,7 @@
         <Library Value="hiredis"/>
         <Library Value="ssl"/>
         <Library Value="crypto"/>
+        <Library Value="curl"/>
         <Library Value="boost_system"/>
         <Library Value="boost_thread"/>
         <Library Value="boost_filesystem"/>
@@ -104,7 +105,7 @@
         <CustomPostBuild/>
         <CustomPreBuild/>
       </AdditionalRules>
-      <Completion EnableCpp11="no">
+      <Completion EnableCpp11="no" EnableCpp14="no">
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>
@@ -144,7 +145,7 @@
         <CustomPostBuild/>
         <CustomPreBuild/>
       </AdditionalRules>
-      <Completion EnableCpp11="no">
+      <Completion EnableCpp11="no" EnableCpp14="no">
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>

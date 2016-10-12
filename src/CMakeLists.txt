@@ -29,6 +29,7 @@ find_library (MySQLClient_LIBRARIES NAMES mysqlclient PATHS /usr/lib/mysql /usr/
 find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (SSL_LIBRARIES NAMES ssl)
 find_library (Crypto_LIBRARIES NAMES crypto)
+find_library (CURL_LIBRARIES NAMES curl)
 find_package (Boost 1.58.0 COMPONENTS system filesystem serialization iostreams)
 
 if (CMAKE_BUILD_TYPE STREQUAL Release)
@@ -49,6 +50,7 @@ target_link_libraries (${TARGET} ${MySQLClient_LIBRARIES})
 target_link_libraries (${TARGET} ${HiRedis_LIBRARIES})
 target_link_libraries (${TARGET} ${SSL_LIBRARIES})
 target_link_libraries (${TARGET} ${Crypto_LIBRARIES})
+target_link_libraries (${TARGET} ${CURL_LIBRARIES})
 target_link_libraries (${TARGET} ${Boost_LIBRARIES})
 
 if (CMAKE_BUILD_TYPE STREQUAL Release)
