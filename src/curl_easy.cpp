@@ -40,6 +40,12 @@ namespace waspp
 		}
 
 		curl_easy_setopt(curl, CURLOPT_URL, url_.c_str());
+		
+		if (url_.substr(0, 5) == "https")
+		{
+			curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+		}
+		
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_easy_write_func);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &content_);
 
