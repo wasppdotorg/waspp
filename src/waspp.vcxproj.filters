@@ -90,10 +90,10 @@
     <ClCompile Include="session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="uri_conn.cpp">
+    <ClCompile Include="utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utility.cpp">
+    <ClCompile Include="curl_easy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -173,10 +173,10 @@
     <ClInclude Include="spinlock.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="uri_conn.hpp">
+    <ClInclude Include="utility.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="utility.hpp">
+    <ClInclude Include="curl_easy.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

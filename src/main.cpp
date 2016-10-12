@@ -72,10 +72,8 @@ int main(int argc, char* argv[])
 
 		std::vector<std::string> dbnames;
 		//
-			dbnames.push_back("db_idx");
 			dbnames.push_back("db_000");
 			dbnames.push_back("db_001");
-			dbnames.push_back("db_etc");
 		//
 
 		if (!db->init(cfg, dbnames))
@@ -86,7 +84,7 @@ int main(int argc, char* argv[])
 
 		std::vector<std::string> rdnames;
 		//
-			rdnames.push_back("rd_idx");
+			rdnames.push_back("rd_rnk");
 		//
 
 		if (!rd->init(cfg, rdnames))

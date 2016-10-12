@@ -60,18 +60,6 @@
 
 	"//database" : 0,
 
-		"db_idx" :
-		{
-			"host" : "127.0.0.1",
-			"userid" : "waspp_dbuser",
-			"passwd" : "waspp_passwd",
-			"database" : "product_waspp_idx",
-			"port" : 3306,
-			"charset" : "utf8",
-			"pool_size" : 16,
-			"wait_timeout_sec" : 28800
-		},
-
 		"db_000" :
 		{
 			"host" : "127.0.0.1",
@@ -97,18 +85,6 @@
 			"wait_timeout_sec" : 28800
 		},
 
-		"db_etc" :
-		{
-			"host" : "127.0.0.1",
-			"userid" : "waspp_dbuser",
-			"passwd" : "waspp_passwd",
-			"database" : "product_waspp_etc",
-			"port" : 3306,
-			"charset" : "utf8",
-			"pool_size" : 16,
-			"wait_timeout_sec" : 28800
-		},
-
 	"//rd_shard" : 0,
 
 		"rd_shard" :
@@ -119,7 +95,7 @@
 
 	"//redis" : 0,
 
-		"rd_idx" :
+		"rd_rnk" :
 		{
 			"host" : "127.0.0.1",
 			"port" : 36379,
