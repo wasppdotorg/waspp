@@ -77,10 +77,11 @@ Install Redis (Windows)
 
 Install Libraries
 -----------------
-* sudo apt-get install libboost-all-dev
 * sudo apt-get install libmariadbclient-dev
-* sudo apt-get install libssl-dev
 * sudo apt-get install libhiredis-dev
+* sudo apt-get install libssl-dev
+* sudo apt-get install libcurl4-openssl-dev
+* sudo apt-get install libboost-all-dev
 * sudo apt-get install libgoogle-perftools-dev
 
 Install Libraries (Windows)
