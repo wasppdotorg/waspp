@@ -74,6 +74,7 @@ int main(int argc, char* argv[])
 		//
 			dbnames.push_back("db_000");
 			dbnames.push_back("db_001");
+			dbnames.push_back("db_etc");
 		//
 
 		if (!db->init(cfg, dbnames))
