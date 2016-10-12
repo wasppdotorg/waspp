@@ -65,8 +65,8 @@
         <Library Value="pthread"/>
         <Library Value="mysqlclient"/>
         <Library Value="hiredis"/>
-        <Library Value="ssl"/>
         <Library Value="crypto"/>
+        <Library Value="ssl"/>
         <Library Value="curl"/>
         <Library Value="boost_system"/>
         <Library Value="boost_thread"/>
