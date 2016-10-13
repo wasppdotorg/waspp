@@ -55,8 +55,8 @@
     <File Name="utility.hpp"/>
     <File Name="singleton.hpp"/>
     <File Name="spinlock.hpp"/>
-    <File Name="curl_easy.cpp"/>
-    <File Name="curl_easy.hpp"/>
+    <File Name="url_conn.cpp"/>
+    <File Name="url_conn.hpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
