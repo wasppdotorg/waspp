@@ -19,14 +19,14 @@ namespace waspp
 	namespace dir_user
 	{
 
-		void signin_html(config* cfg, request& req, response& res)
+		void signin_html(config& cfg, request& req, response& res)
 		{
 			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_user_signin.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void auth(config* cfg, request& req, response& res)
+		void auth(config& cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
@@ -80,21 +80,21 @@ namespace waspp
 				return;
 			}
 
-			waspp::session sess(cfg, &req, &res);
+			waspp::session sess(cfg, req, res);
 			sess.put("userid", boost::lexical_cast<std::string>(userid));
 			sess.put("username", req.param("username"));
 
 			res.redirect_to("/dir/forum/index");
 		}
 
-		void signup_html(config* cfg, request& req, response& res)
+		void signup_html(config& cfg, request& req, response& res)
 		{
 			router::get_file(cfg, res, "dir_include_header.html");
 			router::get_file(cfg, res, "dir_user_signup.html");
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void post(config* cfg, request& req, response& res)
+		void post(config& cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
@@ -194,9 +194,9 @@ namespace waspp
 			res.redirect_to("/dir/user/signin");
 		}
 
-		void signout(config* cfg, request& req, response& res)
+		void signout(config& cfg, request& req, response& res)
 		{
-			res.delete_cookie(cfg->sess_cookie());
+			res.delete_cookie(cfg.sess_cookie());
 			res.redirect_to("/dir/user/signin");
 		}
 

@@ -38,11 +38,11 @@ namespace waspp
 		mysql_library_end();
 	}
 
-	bool database::init(config* cfg, const std::vector<std::string>& dbnames)
+	bool database::init(config& cfg, const std::vector<std::string>& dbnames)
 	{
 		try
 		{
-			auto cfg_db_shard = cfg->get("db_shard");
+			auto cfg_db_shard = cfg.get("db_shard");
 
 			std::vector<std::string> keys;
 			//
@@ -72,7 +72,7 @@ namespace waspp
 			{
 				auto dbpool = new dbconn_pool();
 
-				if (!dbpool->init_pool(cfg->get(dbname)) || !dbpool->fill_pool())
+				if (!dbpool->init_pool(cfg.get(dbname)) || !dbpool->fill_pool())
 				{
 					delete dbpool;
 					return false;
@@ -122,20 +122,20 @@ namespace waspp
 	}
 
 	scoped_db::scoped_db(const std::string& dbname)
+		: dbpool(*(database::instance()->get_dbpool(dbname)))
 	{
-		dbpool = database::instance()->get_dbpool(dbname);
-		ptr = dbpool->get_dbconn();
+		ptr = dbpool.get_dbconn();
 	}
 
 	scoped_db::scoped_db(unsigned long long int shard_key)
+		: dbpool(*database::instance()->get_dbpool(shard_key))
 	{
-		dbpool = database::instance()->get_dbpool(shard_key);
-		ptr = dbpool->get_dbconn();
+		ptr = dbpool.get_dbconn();
 	}
 
 	scoped_db::~scoped_db()
 	{
-		dbpool->free_dbconn(ptr);
+		dbpool.free_dbconn(ptr);
 	}
 
 } // namespace waspp

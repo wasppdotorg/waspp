@@ -87,16 +87,16 @@ namespace waspp
 		log(const log&) = delete;
 		log& operator=(const log&) = delete;
 
-		log(log_level_type log_level) : logger_(logger::instance()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
+		log(log_level_type log_level) : logger_(*logger::instance()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
 		{
-			if (log_level < logger_->log_level())
+			if (log_level < logger_.log_level())
 			{
 				return;
 			}
 
 			is_logging = true;
 
-			oss.imbue(logger_->log_locale());
+			oss.imbue(logger_.log_locale());
 			oss << ptime_;
 
 			switch (log_level)
@@ -126,7 +126,7 @@ namespace waspp
 		{
 			if (is_logging)
 			{
-				logger_->write(ptime_, oss.str());
+				logger_.write(ptime_, oss.str());
 			}
 		}
 
@@ -142,7 +142,7 @@ namespace waspp
 		}
 
 	private:
-		logger* logger_;
+		logger& logger_;
 		bool is_logging;
 		boost::posix_time::ptime ptime_;
 

@@ -27,9 +27,9 @@ namespace waspp
 	namespace dir_forum
 	{
 
-		void index_html(config* cfg, request& req, response& res)
+		void index_html(config& cfg, request& req, response& res)
 		{
-			waspp::session sess(cfg, &req, &res);
+			waspp::session sess(cfg, req, res);
 			if (sess.get("userid").empty())
 			{
 				res.redirect_to("/dir/user/signin");
@@ -43,20 +43,20 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void index_jsonp(config* cfg, request& req, response& res)
+		void index_jsonp(config& cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, error, session, forum_search, forum_item, forum_index, pagination;
 
-			waspp::session sess(cfg, &req, &res);
+			waspp::session sess(cfg, req, res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
 
 				error.put("_code", err_code);
-				error.put("_message", cfg->err_msg(err_code));
+				error.put("_message", cfg.err_msg(err_code));
 
 				json.put_child("_error", error);
 
@@ -74,7 +74,7 @@ namespace waspp
 			err_code = err_none;
 
 			error.put("_code", err_code);
-			error.put("_message", cfg->err_msg(err_code));
+			error.put("_message", cfg.err_msg(err_code));
 
 			session.put("_userid", sess.get("userid"));
 			session.put("_username", sess.get("username"));
@@ -133,9 +133,9 @@ namespace waspp
 			res.content_extension = "js";
 		}
 
-		void show_html(config* cfg, request& req, response& res)
+		void show_html(config& cfg, request& req, response& res)
 		{
-			waspp::session sess(cfg, &req, &res);
+			waspp::session sess(cfg, req, res);
 			if (sess.get("userid").empty())
 			{
 				res.redirect_to("/dir/user/signin");
@@ -149,20 +149,20 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void show_jsonp(config* cfg, request& req, response& res)
+		void show_jsonp(config& cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, error, session, param, params;
 
-			waspp::session sess(cfg, &req, &res);
+			waspp::session sess(cfg, req, res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
 
 				error.put("_code", err_code);
-				error.put("_message", cfg->err_msg(err_code));
+				error.put("_message", cfg.err_msg(err_code));
 
 				json.put_child("_error", error);
 
@@ -180,7 +180,7 @@ namespace waspp
 			err_code = err_none;
 
 			error.put("_code", err_code);
-			error.put("_message", cfg->err_msg(err_code));
+			error.put("_message", cfg.err_msg(err_code));
 
 			session.put("_userid", sess.get("userid"));
 			session.put("_username", sess.get("username"));
@@ -205,9 +205,9 @@ namespace waspp
 			res.content_extension = "js";
 		}
 
-		void form_html(config* cfg, request& req, response& res)
+		void form_html(config& cfg, request& req, response& res)
 		{
-			waspp::session sess(cfg, &req, &res);
+			waspp::session sess(cfg, req, res);
 			if (sess.get("userid").empty())
 			{
 				res.redirect_to("/dir/user/signin");
@@ -221,20 +221,20 @@ namespace waspp
 			router::get_file(cfg, res, "dir_include_footer.html");
 		}
 
-		void form_jsonp(config* cfg, request& req, response& res)
+		void form_jsonp(config& cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, error, session, param, params;
 
-			waspp::session sess(cfg, &req, &res);
+			waspp::session sess(cfg, req, res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
 
 				error.put("_code", err_code);
-				error.put("_message", cfg->err_msg(err_code));
+				error.put("_message", cfg.err_msg(err_code));
 
 				json.put_child("_error", error);
 
@@ -252,7 +252,7 @@ namespace waspp
 			err_code = err_none;
 
 			error.put("_code", err_code);
-			error.put("_message", cfg->err_msg(err_code));
+			error.put("_message", cfg.err_msg(err_code));
 
 			session.put("_userid", sess.get("userid"));
 			session.put("_username", sess.get("username"));
@@ -277,16 +277,16 @@ namespace waspp
 			res.content_extension = "js";
 		}
 
-		void del(config* cfg, request& req, response& res)
+		void del(config& cfg, request& req, response& res)
 		{
 
 		}
 
-		void post(config* cfg, request& req, response& res)
+		void post(config& cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
-			waspp::session sess(cfg, &req, &res);
+			waspp::session sess(cfg, req, res);
 			if (sess.get("userid").empty())
 			{
 				res.redirect_to("/dir/user/signin");

@@ -22,7 +22,7 @@ namespace waspp
 		database();
 		~database();
 
-		bool init(config* cfg, const std::vector<std::string>& dbnames);
+		bool init(config& cfg, const std::vector<std::string>& dbnames);
 
 		dbconn_pool* get_dbpool(const std::string& dbname);
 		dbconn_pool* get_dbpool(unsigned long long int shard_key);
@@ -46,7 +46,7 @@ namespace waspp
 		mysqlpp::connection* ptr;
 
 	private:
-		dbconn_pool* dbpool;
+		dbconn_pool& dbpool;
 
 	};
 

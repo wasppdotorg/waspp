@@ -23,11 +23,11 @@ namespace waspp
 		}
 	}
 
-	bool redis::init(config* cfg, const std::vector<std::string>& rdnames)
+	bool redis::init(config& cfg, const std::vector<std::string>& rdnames)
 	{
 		try
 		{
-			auto cfg_rd_shard = cfg->get("rd_shard");
+			auto cfg_rd_shard = cfg.get("rd_shard");
 
 			std::vector<std::string> keys;
 			//
@@ -57,7 +57,7 @@ namespace waspp
 			{
 				auto rdpool = new redis_pool();
 
-				if (!rdpool->init_pool(cfg->get(rdname)) || !rdpool->fill_pool())
+				if (!rdpool->init_pool(cfg.get(rdname)) || !rdpool->fill_pool())
 				{
 					delete rdpool;
 					return false;
@@ -106,26 +106,21 @@ namespace waspp
 		return found->second;
 	}
 
-	scoped_rd::scoped_rd(redis* rd, const std::string& rdname)
+	scoped_rd::scoped_rd(const std::string& rdname)
+		: rdpool(*(redis::instance()->get_rdpool(rdname)))
 	{
-		rdpool = rd->get_rdpool(rdname);
-		rdconn = rdpool->get_rdconn();
+		ptr = rdpool.get_rdconn();
 	}
 
-	scoped_rd::scoped_rd(redis* rd, unsigned long long int shard_key)
+	scoped_rd::scoped_rd(unsigned long long int shard_key)
+		: rdpool(*(redis::instance()->get_rdpool(shard_key)))
 	{
-		rdpool = rd->get_rdpool(shard_key);
-		rdconn = rdpool->get_rdconn();
+		ptr = rdpool.get_rdconn();
 	}
 
 	scoped_rd::~scoped_rd()
 	{
-		rdpool->free_rdconn(rdconn);
-	}
-
-	redis3m::reply scoped_rd::run(const std::vector<std::string>& args)
-	{
-		return rdconn->run(args);
+		rdpool.free_rdconn(ptr);
 	}
 
 } // namespace waspp

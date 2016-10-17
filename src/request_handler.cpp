@@ -14,7 +14,7 @@
 namespace waspp
 {
 
-	request_handler::request_handler() : cfg(config::instance())
+	request_handler::request_handler() : cfg(*config::instance())
 	{
 
 	}
@@ -80,7 +80,7 @@ namespace waspp
 				res.headers.push_back(name_value("Set-Cookie", cookie));
 			}
 
-			if (cfg->compress() &&
+			if (cfg.compress() &&
 				req.header("Accept-Encoding") == "gzip, deflate" &&
 				mime_types::is_compressible(res.content_extension))
 			{
@@ -102,12 +102,12 @@ namespace waspp
 
 	bool request_handler::is_access_granted(const std::string& remote_addr)
 	{
-		if (cfg->access_granted().size() == 0)
+		if (cfg.access_granted().size() == 0)
 		{
 			return true;
 		}
 
-		if (std::find(cfg->access_granted().begin(), cfg->access_granted().end(), remote_addr) != cfg->access_granted().end())
+		if (std::find(cfg.access_granted().begin(), cfg.access_granted().end(), remote_addr) != cfg.access_granted().end())
 		{
 			return false;
 		}
@@ -117,12 +117,12 @@ namespace waspp
 
 	bool request_handler::is_access_denied(const std::string& remote_addr)
 	{
-		if (cfg->access_denied().size() == 0)
+		if (cfg.access_denied().size() == 0)
 		{
 			return false;
 		}
 
-		if (std::find(cfg->access_denied().begin(), cfg->access_denied().end(), remote_addr) == cfg->access_denied().end())
+		if (std::find(cfg.access_denied().begin(), cfg.access_denied().end(), remote_addr) == cfg.access_denied().end())
 		{
 			return true;
 		}

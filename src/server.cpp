@@ -14,7 +14,7 @@
 namespace waspp
 {
 
-	server::server(config* cfg_)
+	server::server(config& cfg_)
 		: cfg(cfg_),
 		signals_(io_service_),
 		acceptor_(io_service_),
@@ -37,7 +37,7 @@ namespace waspp
 
 		// Open the acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
 		boost::asio::ip::tcp::resolver resolver_(io_service_);
-		boost::asio::ip::tcp::resolver::query query_(cfg->address(), cfg->port());
+		boost::asio::ip::tcp::resolver::query query_(cfg.address(), cfg.port());
 		boost::asio::ip::tcp::endpoint endpoint_ = *resolver_.resolve(query_);
 
 		acceptor_.open(endpoint_.protocol());
@@ -53,7 +53,7 @@ namespace waspp
 	{
 		// Create a pool of threads to run all of the io_services.
 		std::vector< std::thread* > threads_;
-		for (std::size_t i = 0; i < cfg->num_threads(); ++i)
+		for (std::size_t i = 0; i < cfg.num_threads(); ++i)
 		{
 			threads_.push_back(new std::thread([this]()
 			{

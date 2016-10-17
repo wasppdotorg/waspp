@@ -22,7 +22,7 @@ namespace waspp
 		redis();
 		~redis();
 
-		bool init(config* cfg, const std::vector<std::string>& rdnames);
+		bool init(config& cfg, const std::vector<std::string>& rdnames);
 
 		redis_pool* get_rdpool(const std::string& rdname);
 		redis_pool* get_rdpool(unsigned long long int shard_key);
@@ -38,16 +38,15 @@ namespace waspp
 	class scoped_rd
 	{
 	public:
-		scoped_rd(redis* rd, const std::string& rdname);
-		scoped_rd(redis* rd, unsigned long long int shard_key);
+		scoped_rd(const std::string& rdname);
+		scoped_rd(unsigned long long int shard_key);
 
 		~scoped_rd();
 
-		redis3m::reply run(const std::vector<std::string>& args);
+		redis3m::connection* ptr;
 
 	private:
-		redis_pool* rdpool;
-		redis3m::connection* rdconn;
+		redis_pool& rdpool;
 
 	};
 

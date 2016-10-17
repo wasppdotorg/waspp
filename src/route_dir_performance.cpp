@@ -26,20 +26,20 @@ namespace waspp
 	namespace dir_performance
 	{
 
-		void test(config* cfg, request& req, response& res)
+		void test(config& cfg, request& req, response& res)
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
 			boost::property_tree::ptree json, error, session, forum_search, forum_item, forum_index, pagination;
 
-			waspp::session sess(cfg, &req, &res);
+			waspp::session sess(cfg, req, res);
 			sess.put("userid", "test");
 
 			err_code = err_none;
 
 			error.put("_code", err_code);
-			error.put("_message", cfg->err_msg(err_code));
+			error.put("_message", cfg.err_msg(err_code));
 
 			session.put("_userid", sess.get("userid"));
 			session.put("_username", sess.get("username"));

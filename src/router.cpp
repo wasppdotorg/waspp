@@ -62,9 +62,9 @@ namespace waspp
 			return nullptr;
 		}
 
-		bool get_file(config* cfg, response& res, const std::string& request_path)
+		bool get_file(config& cfg, response& res, const std::string& request_path)
 		{
-			std::string full_path(cfg->doc_root() + request_path);
+			std::string full_path(cfg.doc_root() + request_path);
 
 			// If path ends in slash (i.e. is a directory) then add "index.html".
 			if (full_path[full_path.size() - 1] == '/')
@@ -95,19 +95,19 @@ namespace waspp
 			res.content.append("'></script>\n");
 		}
 
-		void err_msg(config* cfg, response& res, error_type err_code)
+		void err_msg(config& cfg, response& res, error_type err_code)
 		{
 			res.content.clear();
 			get_file(cfg, res, "dir_include_header.html");
 
 			res.content.append("<h2>Error : ");
-			res.content.append(cfg->err_msg(err_code));
+			res.content.append(cfg.err_msg(err_code));
 			res.content.append("</h2>");
 
 			get_file(cfg, res, "dir_include_footer.html");
 			res.content_extension = "html";
 
-			log(info) << cfg->err_msg(err_code);
+			log(info) << cfg.err_msg(err_code);
 		}
 
 	} // namespace router

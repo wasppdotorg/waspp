@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
 			dbnames.push_back("db_etc");
 		//
 
-		if (!db->init(cfg, dbnames))
+		if (!db->init(*cfg, dbnames))
 		{
 			waspp::log(waspp::fatal) << "database::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
 			rdnames.push_back("rd_rnk");
 		//
 
-		if (!rd->init(cfg, rdnames))
+		if (!rd->init(*cfg, rdnames))
 		{
 			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
@@ -96,13 +96,13 @@ int main(int argc, char* argv[])
 
 		if (cfg->ssl())
 		{
-			waspp::server_ssl s(cfg);
+			waspp::server_ssl s(*cfg);
 			waspp::log(waspp::info) << "server_ssl starting..";
 			s.run();
 		}
 		else
 		{
-			waspp::server s(cfg);
+			waspp::server s(*cfg);
 			waspp::log(waspp::info) << "server starting..";
 			s.run();
 		}

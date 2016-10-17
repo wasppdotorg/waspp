@@ -18,41 +18,41 @@ namespace waspp
 	namespace dir_forum
 	{
 		
-		void index_html(config* cfg, request& req, response& res);
-		void index_jsonp(config* cfg, request& req, response& res);
+		void index_html(config& cfg, request& req, response& res);
+		void index_jsonp(config& cfg, request& req, response& res);
 
-		void show_html(config* cfg, request& req, response& res);
-		void show_jsonp(config* cfg, request& req, response& res);
+		void show_html(config& cfg, request& req, response& res);
+		void show_jsonp(config& cfg, request& req, response& res);
 
-		void form_html(config* cfg, request& req, response& res);
-		void form_jsonp(config* cfg, request& req, response& res);
+		void form_html(config& cfg, request& req, response& res);
+		void form_jsonp(config& cfg, request& req, response& res);
 
-		void del(config* cfg, request& req, response& res);
-		void post(config* cfg, request& req, response& res);
+		void del(config& cfg, request& req, response& res);
+		void post(config& cfg, request& req, response& res);
 
 	} // namespace dir_forum
 
 	namespace dir_user
 	{
 		
-		void signin_html(config* cfg, request& req, response& res);
-		void auth(config* cfg, request& req, response& res);
+		void signin_html(config& cfg, request& req, response& res);
+		void auth(config& cfg, request& req, response& res);
 
-		void signup_html(config* cfg, request& req, response& res);
-		void post(config* cfg, request& req, response& res);
+		void signup_html(config& cfg, request& req, response& res);
+		void post(config& cfg, request& req, response& res);
 
-		void signout(config* cfg, request& req, response& res);
+		void signout(config& cfg, request& req, response& res);
 
 	} // namespace dir_user
 
 	namespace dir_performance
 	{
 		
-		void test(config* cfg, request& req, response& res);
+		void test(config& cfg, request& req, response& res);
 
 	} // namespace dir_performance
 
-	using func_ptr = void(*)(config*, request&, response&);
+	using func_ptr = void(*)(config&, request&, response&);
 
 	const std::string jsonp_start = "_(";
 	const std::string jsonp_end = ");";
@@ -67,11 +67,11 @@ namespace waspp
 		};
 
 		func_ptr get_func(std::string& request_uri);
-		bool get_file(config* cfg, response& res, const std::string& request_path);
+		bool get_file(config& cfg, response& res, const std::string& request_path);
 
 		void set_jsonp(request& req, response& res);
 
-		void err_msg(config* cfg, response& res, error_type err_code);
+		void err_msg(config& cfg, response& res, error_type err_code);
 
 	} // namespace router
 

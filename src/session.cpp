@@ -23,7 +23,7 @@ namespace waspp
 	// the session library of php framework called codeigniter
 	// codeigniter/system/libraries/Session.php
 
-	session::session(config* cfg_, request* req_, response* res_) : cfg(cfg_), req(req_), res(res_)
+	session::session(config& cfg_, request& req_, response& res_) : cfg(cfg_), req(req_), res(res_)
 	{
 		if (!load())
 		{
@@ -79,7 +79,7 @@ namespace waspp
 	{
 		try
 		{
-			std::string session_cookie = req->cookie(cfg->sess_cookie());
+			std::string session_cookie = req.cookie(cfg.sess_cookie());
 			if (session_cookie.empty())
 			{
 				return false;
@@ -88,9 +88,9 @@ namespace waspp
 			std::string session_md5 = session_cookie.substr(session_cookie.size() - 32);
 			std::string session_str = session_cookie.substr(0, session_cookie.size() - 32);
 
-			if (session_md5 != md5_digest(session_str + cfg->encrypt_key()))
+			if (session_md5 != md5_digest(session_str + cfg.encrypt_key()))
 			{
-				res->delete_cookie(cfg->sess_cookie());
+				res.delete_cookie(cfg.sess_cookie());
 				return false;
 			}
 
@@ -119,26 +119,26 @@ namespace waspp
 
 				if (found == session_.end())
 				{
-					res->delete_cookie(cfg->sess_cookie());
+					res.delete_cookie(cfg.sess_cookie());
 					return false;
 				}
 			}
 
-			if (std::difftime(std::time(nullptr), get_last_tm()) > cfg->expiry_sec())
+			if (std::difftime(std::time(nullptr), get_last_tm()) > cfg.expiry_sec())
 			{
-				res->delete_cookie(cfg->sess_cookie());
+				res.delete_cookie(cfg.sess_cookie());
 				return false;
 			}
 
-			if (cfg->validate_ip() && get_curr_ip() != get_last_ip())
+			if (cfg.validate_ip() && get_curr_ip() != get_last_ip())
 			{
-				res->delete_cookie(cfg->sess_cookie());
+				res.delete_cookie(cfg.sess_cookie());
 				return false;
 			}
 
-			if (cfg->validate_ua() && get_curr_ua() != get_last_ua())
+			if (cfg.validate_ua() && get_curr_ua() != get_last_ua())
 			{
-				res->delete_cookie(cfg->sess_cookie());
+				res.delete_cookie(cfg.sess_cookie());
 				return false;
 			}
 
@@ -167,7 +167,7 @@ namespace waspp
 
 	void session::update()
 	{
-		if (std::difftime(std::time(nullptr), get_last_tm()) < cfg->update_sec())
+		if (std::difftime(std::time(nullptr), get_last_tm()) < cfg.update_sec())
 		{
 			return;
 		}
@@ -202,7 +202,7 @@ namespace waspp
 
 	std::string& session::get_curr_ip()
 	{
-		return req->remote_addr;
+		return req.remote_addr;
 	}
 
 	std::string& session::get_last_ip()
@@ -212,7 +212,7 @@ namespace waspp
 
 	std::string session::get_curr_ua()
 	{
-		std::string user_agent = req->header("User-Agent").substr(0, 120);
+		std::string user_agent = req.header("User-Agent").substr(0, 120);
 		boost::algorithm::trim(user_agent);
 
 		return user_agent;
@@ -233,9 +233,9 @@ namespace waspp
 		//
 		std::string cookie_value(percent_encode(oss.str()));
 
-		cookie_value.append(md5_digest(cookie_value + cfg->encrypt_key()));
+		cookie_value.append(md5_digest(cookie_value + cfg.encrypt_key()));
 
-		res->set_cookie(cfg->sess_cookie(), cookie_value);
+		res.set_cookie(cfg.sess_cookie(), cookie_value);
 	}
 
 } // namespace waspp
