@@ -122,20 +122,20 @@ namespace waspp
 	}
 
 	scoped_db::scoped_db(const std::string& dbname)
-		: dbpool(*(database::instance()->get_dbpool(dbname)))
+		: dbpool(*database::instance()->get_dbpool(dbname))
 	{
-		ptr = dbpool.get_dbconn();
+		conn = dbpool.get_dbconn();
 	}
 
 	scoped_db::scoped_db(unsigned long long int shard_key)
 		: dbpool(*database::instance()->get_dbpool(shard_key))
 	{
-		ptr = dbpool.get_dbconn();
+		conn = dbpool.get_dbconn();
 	}
 
 	scoped_db::~scoped_db()
 	{
-		dbpool.free_dbconn(ptr);
+		dbpool.free_dbconn(conn);
 	}
 
 } // namespace waspp

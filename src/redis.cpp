@@ -107,20 +107,20 @@ namespace waspp
 	}
 
 	scoped_rd::scoped_rd(const std::string& rdname)
-		: rdpool(*(redis::instance()->get_rdpool(rdname)))
+		: rdpool(*redis::instance()->get_rdpool(rdname))
 	{
-		ptr = rdpool.get_rdconn();
+		conn = rdpool.get_rdconn();
 	}
 
 	scoped_rd::scoped_rd(unsigned long long int shard_key)
-		: rdpool(*(redis::instance()->get_rdpool(shard_key)))
+		: rdpool(*redis::instance()->get_rdpool(shard_key))
 	{
-		ptr = rdpool.get_rdconn();
+		conn = rdpool.get_rdconn();
 	}
 
 	scoped_rd::~scoped_rd()
 	{
-		rdpool.free_rdconn(ptr);
+		rdpool.free_rdconn(conn);
 	}
 
 } // namespace waspp

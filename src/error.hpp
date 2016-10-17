@@ -26,8 +26,7 @@ namespace waspp
 		err_platformid_required = 1106,
 		err_passwds_not_identical = 1107,
 		err_username_not_available = 1108,
-		err_users_idx_insert_failed = 1109,
-		err_users_insert_failed = 1110,
+		err_users_insert_failed = 1109,
 
 		err_title_required = 1201,
 		err_content_required = 1202,

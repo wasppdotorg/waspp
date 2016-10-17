@@ -43,7 +43,7 @@ namespace waspp
 
 		~scoped_rd();
 
-		redis3m::connection* ptr;
+		redis3m::connection* conn;
 
 	private:
 		redis_pool& rdpool;

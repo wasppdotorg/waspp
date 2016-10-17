@@ -43,7 +43,7 @@ namespace waspp
 
 		~scoped_db();
 
-		mysqlpp::connection* ptr;
+		mysqlpp::connection* conn;
 
 	private:
 		dbconn_pool& dbpool;

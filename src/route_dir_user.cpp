@@ -5,6 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
+#include <cstdint>
+
 #include <boost/lexical_cast.hpp>
 
 #include "router.hpp"
@@ -30,9 +32,6 @@ namespace waspp
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
-			unsigned int userid = 0;
-			std::string passwd;
-
 			if (req.param("username").empty())
 			{
 				router::err_msg(cfg, res, err_username_required);
@@ -44,11 +43,10 @@ namespace waspp
 				router::err_msg(cfg, res, err_passwd_required);
 				return;
 			}
-			passwd = md5_digest(req.param("passwd"));
+			std::string passwd(md5_digest(req.param("passwd")));
 
-			scoped_db db_idx("db_idx");
-
-			stmt_ptr stmt(db_idx.ptr->prepare("SELECT userid FROM users_idx WHERE username = ?"));
+			scoped_db db_shard(req.param("userid"));
+			stmt_ptr stmt(db_shard.conn->prepare("SELECT userid FROM users WHERE username = ?"));
 			//
 				stmt->param(req.param("username"));
 			//
@@ -60,14 +58,13 @@ namespace waspp
 				return;
 			}
 
+			unsigned long long userid(0);
 			if (rs->fetch())
 			{
-				userid = rs->get<unsigned int>("userid");
+				userid = rs->get<unsigned long long>("userid");
 			}
 
-			scoped_db db_shard(userid);
-
-			stmt.reset(db_shard.ptr->prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
+			stmt.reset(db_shard.conn->prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
 			//
 				stmt->param(userid);
 				stmt->param(passwd);
@@ -98,17 +95,12 @@ namespace waspp
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
-			unsigned int userid;
-			int platformtype;
-			std::string platformid;
-			std::string passwd;
-
 			if (req.param("platformtype").empty())
 			{
 				router::err_msg(cfg, res, err_platformtype_required);
 				return;
 			}
-			platformtype = boost::lexical_cast<int>(req.param("platformtype"));
+			int platformtype = boost::lexical_cast<int>(req.param("platformtype"));
 
 			if (req.param("platformid").empty())
 			{
@@ -133,15 +125,15 @@ namespace waspp
 				router::err_msg(cfg, res, err_passwds_not_identical);
 				return;
 			}
-			passwd = md5_digest(req.param("passwd"));
+			std::string passwd(md5_digest(req.param("passwd")));
 
-			scoped_db db_idx("db_idx");
-
-			stmt_ptr stmt(db_idx.ptr->prepare("SELECT userid FROM users_idx WHERE username = ?"));
+			scoped_db db_shard(req.param("username"));
+			stmt_ptr stmt(db_shard.conn->prepare("SELECT userid FROM users_idx WHERE username = ?"));
 			//
 				stmt->param(req.param("username"));
 			//
 
+			unsigned long long userid(0);
 			rs_ptr rs(stmt->query());
 			if (rs->num_rows() != 0)
 			{
@@ -149,7 +141,7 @@ namespace waspp
 				return;
 			}
 
-			stmt.reset(db_idx.ptr->prepare("CALL USP_GET_UNIQUE_KEYS('users_idx', ?)"));
+			stmt.reset(db_shard.conn->prepare("CALL USP_GET_UNIQUE_KEYS('users', ?)"));
 			//
 				stmt->param(1);
 			//
@@ -157,11 +149,11 @@ namespace waspp
 			rs.reset(stmt->query());
 			if (rs->fetch(true))
 			{
-				userid = rs->get<unsigned int>("last_key");
+				userid = rs->get<unsigned long long>("last_key");
 			}
-			platformid = boost::lexical_cast<std::string>(userid);
+			std::string platformid = boost::lexical_cast<std::string>(userid);
 
-			stmt.reset(db_idx.ptr->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
+			stmt.reset(db_shard.conn->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
 			//
 				stmt->param(userid);
 				stmt->param(platformtype);
@@ -169,16 +161,14 @@ namespace waspp
 				stmt->param(req.param("username"));
 			//
 
-			unsigned long long int affected_rows = stmt->execute();
+			uint64_t affected_rows = stmt->execute();
 			if (affected_rows == 0)
 			{
-				router::err_msg(cfg, res, err_users_idx_insert_failed);
+				router::err_msg(cfg, res, err_users_insert_failed);
 				return;
 			}
 
-			scoped_db db_shard(userid);
-
-			stmt.reset(db_shard.ptr->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
+			stmt.reset(db_shard.conn->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
 			//
 				stmt->param(userid);
 				stmt->param(passwd);

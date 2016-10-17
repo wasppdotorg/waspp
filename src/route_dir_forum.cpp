@@ -47,8 +47,8 @@ namespace waspp
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
-			error_type err_code = err_unknown;
-			boost::property_tree::ptree json, error, session, forum_search, forum_item, forum_index, pagination;
+			error_type err_code(err_unknown);
+			boost::property_tree::ptree json, error;
 
 			waspp::session sess(cfg, req, res);
 			if (sess.get("userid").empty())
@@ -76,6 +76,7 @@ namespace waspp
 			error.put("_code", err_code);
 			error.put("_message", cfg.err_msg(err_code));
 
+			boost::property_tree::ptree session;
 			session.put("_userid", sess.get("userid"));
 			session.put("_username", sess.get("username"));
 
@@ -86,13 +87,14 @@ namespace waspp
 				keyword.append(req.rest_params[5]);
 			}
 
+			boost::property_tree::ptree forum_search;
 			forum_search.put("_field", field);
 			forum_search.put("_keyword", keyword);
 
 			scoped_db db_etc("db_etc");
 
-			long long int total_count_ = 0;
-			stmt_ptr stmt(db_etc.ptr->prepare("SELECT COUNT(seq) AS total_count FROM forum"));
+			uint64_t total_count_ = 0;
+			stmt_ptr stmt(db_etc.conn->prepare("SELECT COUNT(seq) AS total_count FROM forum"));
 
 			rs_ptr rs(stmt->query());
 			if (rs->fetch())
@@ -101,9 +103,10 @@ namespace waspp
 			}
 
 			//long long int per_page = 10;
-			stmt.reset(db_etc.ptr->prepare("SELECT * FROM forum ORDER BY seq DESC"));
+			stmt.reset(db_etc.conn->prepare("SELECT * FROM forum ORDER BY seq DESC"));
 			rs.reset(stmt->query());
 
+			boost::property_tree::ptree forum_item, forum_index;
 			while (rs->fetch())
 			{
 				forum_item.put("_seq", rs->get<long long int>("seq"));
@@ -114,6 +117,7 @@ namespace waspp
 				forum_index.push_back(std::make_pair("", forum_item));
 			}
 
+			boost::property_tree::ptree pagination;
 			pagination.put("_total_count", total_count_);
 			pagination.put("_page_count", 10);
 			pagination.put("_link_count", 10);
@@ -317,7 +321,7 @@ namespace waspp
 
 			if (seq == 0)
 			{
-				stmt_ptr stmt(db_etc.ptr->prepare("CALL USP_GET_UNIQUE_KEYS('forum', ?)"));
+				stmt_ptr stmt(db_etc.conn->prepare("CALL USP_GET_UNIQUE_KEYS('forum', ?)"));
 				//
 					stmt->param(1);
 				//
@@ -328,7 +332,7 @@ namespace waspp
 					seq = rs->get<unsigned int>("last_key");
 				}
 
-				stmt.reset(db_etc.ptr->prepare("INSERT INTO forum(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
+				stmt.reset(db_etc.conn->prepare("INSERT INTO forum(seq, title, content, file1, file2, userid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"));
 				//
 					stmt->param(seq);
 					stmt->param(req.param("title"));
@@ -348,7 +352,7 @@ namespace waspp
 			}
 			else
 			{
-				stmt_ptr stmt(db_etc.ptr->prepare("UPDATE forum SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
+				stmt_ptr stmt(db_etc.conn->prepare("UPDATE forum SET title = ?, content = ?, file1 = ?, file2 = ?, username = ?, updatetime = NOW() WHERE seq = ? AND userid = ?"));
 				//
 					stmt->param(req.param("title"));
 					stmt->param(req.param("content"));
