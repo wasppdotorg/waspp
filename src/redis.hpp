@@ -15,8 +15,6 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	using rdpool_ptr = redis_pool*;
-
 	class redis
 		: public singleton<redis>
 	{
@@ -26,14 +24,14 @@ namespace waspp
 
 		bool init(config* cfg, const std::vector<std::string>& rdnames);
 
-		rdpool_ptr get_rdpool(const std::string& rdname);
-		rdpool_ptr get_rdpool(unsigned long long int shard_key);
+		redis_pool* get_rdpool(const std::string& rdname);
+		redis_pool* get_rdpool(unsigned long long int shard_key);
 
 	private:
 		unsigned int rd_shard_count;
 		std::string rd_shard_format;
 
-		std::unordered_map<std::string, rdpool_ptr> rd_;
+		std::unordered_map<std::string, redis_pool*> rd_;
 
 	};
 
@@ -48,8 +46,8 @@ namespace waspp
 		redis3m::reply run(const std::vector<std::string>& args);
 
 	private:
-		rdpool_ptr rdpool;
-		redis3m_ptr rdconn;
+		redis_pool* rdpool;
+		redis3m::connection* rdconn;
 
 	};
 

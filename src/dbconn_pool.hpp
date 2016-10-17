@@ -17,7 +17,6 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	using dbconn_ptr = mysqlpp::connection*;
 	using stmt_ptr = std::unique_ptr<mysqlpp::statement>;
 	using rs_ptr = std::unique_ptr<mysqlpp::result>;
 
@@ -33,11 +32,11 @@ namespace waspp
 		bool init_pool(std::unordered_map<std::string, std::string>& cfg);
 		bool fill_pool();
 
-		dbconn_ptr get_dbconn();
-		void free_dbconn(dbconn_ptr dbconn);
+		mysqlpp::connection* get_dbconn();
+		void free_dbconn(mysqlpp::connection* dbconn);
 
 	private:
-		dbconn_ptr connect(bool pooled_ = true);
+		mysqlpp::connection* connect(bool pooled_ = true);
 
 		std::string host, userid, passwd, database;
 		unsigned int port;
@@ -46,7 +45,7 @@ namespace waspp
 		std::size_t pool_size;
 		double wait_timeout_sec;
 
-		std::vector<dbconn_ptr> pool;
+		std::vector<mysqlpp::connection*> pool;
 		spinlock spinlock_;
 
 	};

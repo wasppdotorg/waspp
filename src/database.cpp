@@ -91,7 +91,7 @@ namespace waspp
 		return false;
 	}
 
-	dbpool_ptr database::get_dbpool(const std::string& dbname)
+	dbconn_pool* database::get_dbpool(const std::string& dbname)
 	{
 		auto found = db_.find(dbname);
 		if (found == db_.end())
@@ -102,7 +102,7 @@ namespace waspp
 		return found->second;
 	}
 
-	dbpool_ptr database::get_dbpool(unsigned long long int shard_key)
+	dbconn_pool* database::get_dbpool(unsigned long long int shard_key)
 	{
 		char dbname[8] = { 0 };
 

@@ -15,8 +15,6 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	using dbpool_ptr = dbconn_pool*;
-
 	class database
 		: public singleton<database>
 	{
@@ -26,14 +24,14 @@ namespace waspp
 
 		bool init(config* cfg, const std::vector<std::string>& dbnames);
 
-		dbpool_ptr get_dbpool(const std::string& dbname);
-		dbpool_ptr get_dbpool(unsigned long long int shard_key);
+		dbconn_pool* get_dbpool(const std::string& dbname);
+		dbconn_pool* get_dbpool(unsigned long long int shard_key);
 
 	private:
 		unsigned int db_shard_count;
 		std::string db_shard_format;
 
-		std::unordered_map<std::string, dbpool_ptr> db_;
+		std::unordered_map<std::string, dbconn_pool*> db_;
 
 	};
 
@@ -45,10 +43,10 @@ namespace waspp
 
 		~scoped_db();
 
-		dbconn_ptr ptr;
+		mysqlpp::connection* ptr;
 
 	private:
-		dbpool_ptr dbpool;
+		dbconn_pool* dbpool;
 
 	};
 

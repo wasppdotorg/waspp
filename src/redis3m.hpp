@@ -221,10 +221,11 @@ Apache License
 
 // code from redis3m
 /*
-redis3m::connection::redis3m_ptr rdconn = redis3m::connection::connect();
+redis3m::connection* rdconn = redis3m::connection::connect();
 rdconn->run(redis3m::command("SET") << "foo" << "bar");
 redis3m::reply r = rdconn->run(redis3m::command("GET") << "foo");
 std::cout << "foo is " << r.str() << std::endl;
+delete rdconn;
 */
 
 namespace redis3m
@@ -348,8 +349,6 @@ namespace redis3m
 		connection(const connection&) = delete;
 		connection& operator=(const connection&) = delete;
 
-		using redis3m_ptr = connection*;
-
 		connection(const std::string& host, const unsigned int port, bool pooled_ = true)
 		{
 			c = redisConnect(host.c_str(), port);
@@ -368,7 +367,7 @@ namespace redis3m
 			redisFree(c);
 		}
 
-		static redis3m_ptr connect(const std::string& host = "localhost", const unsigned int port = 6379, bool pooled_ = true)
+		static connection* connect(const std::string& host = "localhost", const unsigned int port = 6379, bool pooled_ = true)
 		{
 			return new connection(host, port, pooled_);
 		}

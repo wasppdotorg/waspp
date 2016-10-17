@@ -86,7 +86,7 @@ namespace waspp
 		return true;
 	}
 
-	redis3m_ptr redis_pool::get_rdconn()
+	redis3m::connection* redis_pool::get_rdconn()
 	{
 		spinlock_.lock();
 		//
@@ -113,7 +113,7 @@ namespace waspp
 		return rdconn;
 	}
 
-	void redis_pool::free_rdconn(redis3m_ptr rdconn)
+	void redis_pool::free_rdconn(redis3m::connection* rdconn)
 	{
 		if (!rdconn->is_pooled())
 		{
@@ -131,7 +131,7 @@ namespace waspp
 		spinlock_.unlock();
 	}
 
-	redis3m_ptr redis_pool::connect(bool pooled_)
+	redis3m::connection* redis_pool::connect(bool pooled_)
 	{
 		return redis3m::connection::connect(host, port, pooled_);
 	}

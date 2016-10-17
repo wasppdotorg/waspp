@@ -76,7 +76,7 @@ namespace waspp
 		return false;
 	}
 
-	rdpool_ptr redis::get_rdpool(const std::string& rdname)
+	redis_pool* redis::get_rdpool(const std::string& rdname)
 	{
 		auto found = rd_.find(rdname);
 		if (found == rd_.end())
@@ -87,7 +87,7 @@ namespace waspp
 		return found->second;
 	}
 
-	rdpool_ptr redis::get_rdpool(unsigned long long int shard_key)
+	redis_pool* redis::get_rdpool(unsigned long long int shard_key)
 	{
 		char rdname[8] = { 0 };
 

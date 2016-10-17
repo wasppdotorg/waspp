@@ -108,7 +108,7 @@ namespace waspp
 		return true;
 	}
 
-	dbconn_ptr dbconn_pool::get_dbconn()
+	mysqlpp::connection* dbconn_pool::get_dbconn()
 	{
 		spinlock_.lock();
 		//
@@ -135,7 +135,7 @@ namespace waspp
 		return dbconn;
 	}
 
-	void dbconn_pool::free_dbconn(dbconn_ptr dbconn)
+	void dbconn_pool::free_dbconn(mysqlpp::connection* dbconn)
 	{
 		if (!dbconn->is_pooled())
 		{
@@ -153,7 +153,7 @@ namespace waspp
 		spinlock_.unlock();
 	}
 
-	dbconn_ptr dbconn_pool::connect(bool pooled_)
+	mysqlpp::connection* dbconn_pool::connect(bool pooled_)
 	{
 		return new mysqlpp::connection(host.c_str(), userid.c_str(), passwd.c_str(), database.c_str(), port, charset.c_str(), pooled_);
 	}
