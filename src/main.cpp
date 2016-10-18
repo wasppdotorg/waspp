@@ -30,6 +30,11 @@ int main(int argc, char* argv[])
 	waspp::database db;
 	waspp::redis rd;
 
+	waspp::locator<waspp::logger>::init(&log_);
+	waspp::locator<waspp::config>::init(&cfg);
+	waspp::locator<waspp::database>::init(&db);
+	waspp::locator<waspp::redis>::init(&rd);
+
 	try
 	{
 		if (argc != 3)
@@ -93,11 +98,6 @@ int main(int argc, char* argv[])
 			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
-		
-		waspp::locator<waspp::logger>::init(&log_);
-		waspp::locator<waspp::config>::init(&cfg);
-		waspp::locator<waspp::database>::init(&db);
-		waspp::locator<waspp::redis>::init(&rd);
 
 		if (cfg.ssl())
 		{
