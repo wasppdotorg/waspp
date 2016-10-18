@@ -15,17 +15,14 @@ namespace waspp
 	class singleton
 	{
 	public:
-		static T* instance()
+		static void init(T* inst_)
 		{
-			if (instance_ == nullptr)
-			{
-				instance_ = new T();
+			instance_ = inst_;
+		}
 
-				// avoid memory leak
-				atexit(destroy);
-			}
-
-			return instance_;
+		static T& instance()
+		{
+			return *instance_;
 		}
 
 	protected:
@@ -33,11 +30,6 @@ namespace waspp
 		virtual ~singleton() {}
 
 	private:
-		static void destroy()
-		{
-			delete instance_;
-		}
-
 		static T* instance_;
 
 	};

@@ -76,7 +76,7 @@ namespace waspp
 		return false;
 	}
 
-	redis_pool* redis::get_rdpool(const std::string& rdname)
+	redis_pool& redis::get_rdpool(const std::string& rdname)
 	{
 		auto found = rd_.find(rdname);
 		if (found == rd_.end())
@@ -84,10 +84,10 @@ namespace waspp
 			throw std::runtime_error("invalid rdname");
 		}
 
-		return found->second;
+		return *found->second;
 	}
 
-	redis_pool* redis::get_rdpool(unsigned long long int shard_key)
+	redis_pool& redis::get_rdpool(unsigned long long int shard_key)
 	{
 		char rdname[8] = { 0 };
 
@@ -103,17 +103,17 @@ namespace waspp
 			throw std::runtime_error("invalid rd_shard_key");
 		}
 
-		return found->second;
+		return *found->second;
 	}
 
 	scoped_rd::scoped_rd(const std::string& rdname)
-		: rdpool(*redis::instance()->get_rdpool(rdname))
+		: rdpool(redis::instance().get_rdpool(rdname))
 	{
 		conn = rdpool.get_rdconn();
 	}
 
 	scoped_rd::scoped_rd(unsigned long long int shard_key)
-		: rdpool(*redis::instance()->get_rdpool(shard_key))
+		: rdpool(redis::instance().get_rdpool(shard_key))
 	{
 		conn = rdpool.get_rdconn();
 	}

@@ -24,8 +24,8 @@ namespace waspp
 
 		bool init(config& cfg, const std::vector<std::string>& rdnames);
 
-		redis_pool* get_rdpool(const std::string& rdname);
-		redis_pool* get_rdpool(unsigned long long int shard_key);
+		redis_pool& get_rdpool(const std::string& rdname);
+		redis_pool& get_rdpool(unsigned long long int shard_key);
 
 	private:
 		unsigned int rd_shard_count;

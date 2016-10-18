@@ -91,7 +91,7 @@ namespace waspp
 		return false;
 	}
 
-	dbconn_pool* database::get_dbpool(const std::string& dbname)
+	dbconn_pool& database::get_dbpool(const std::string& dbname)
 	{
 		auto found = db_.find(dbname);
 		if (found == db_.end())
@@ -99,10 +99,10 @@ namespace waspp
 			throw std::runtime_error("invalid dbname");
 		}
 
-		return found->second;
+		return *found->second;
 	}
 
-	dbconn_pool* database::get_dbpool(unsigned long long int shard_key)
+	dbconn_pool& database::get_dbpool(unsigned long long int shard_key)
 	{
 		char dbname[8] = { 0 };
 
@@ -118,17 +118,17 @@ namespace waspp
 			throw std::runtime_error("invalid db_shard_key");
 		}
 
-		return found->second;
+		return *found->second;
 	}
 
 	scoped_db::scoped_db(const std::string& dbname)
-		: dbpool(*database::instance()->get_dbpool(dbname))
+		: dbpool(database::instance().get_dbpool(dbname))
 	{
 		conn = dbpool.get_dbconn();
 	}
 
 	scoped_db::scoped_db(unsigned long long int shard_key)
-		: dbpool(*database::instance()->get_dbpool(shard_key))
+		: dbpool(database::instance().get_dbpool(shard_key))
 	{
 		conn = dbpool.get_dbconn();
 	}

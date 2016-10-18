@@ -24,8 +24,8 @@ namespace waspp
 
 		bool init(config& cfg, const std::vector<std::string>& dbnames);
 
-		dbconn_pool* get_dbpool(const std::string& dbname);
-		dbconn_pool* get_dbpool(unsigned long long int shard_key);
+		dbconn_pool& get_dbpool(const std::string& dbname);
+		dbconn_pool& get_dbpool(unsigned long long int shard_key);
 
 	private:
 		unsigned int db_shard_count;
