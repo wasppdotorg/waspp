@@ -351,10 +351,12 @@ namespace redis3m
 
 		connection(const std::string& host, const unsigned int port, bool pooled_ = true)
 		{
-			c = redisConnect(host.c_str(), port);
+			timeval timeval_ = { 1, 0 };
+
+			c = redisConnectWithTimeout(host.c_str(), port, timeval_);
 			if (c->err != REDIS_OK)
 			{
-				throw std::runtime_error("redisConnect failed");
+				throw std::runtime_error("redisConnectWithTimeout failed");
 			}
 
 			auto time_ = std::time(nullptr);
