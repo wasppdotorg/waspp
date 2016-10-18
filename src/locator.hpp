@@ -5,14 +5,14 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
-#ifndef singleton_hpp
-#define singleton_hpp
+#ifndef locator_hpp
+#define locator_hpp
 
 namespace waspp
 {
 
 	template<typename T>
-	class singleton
+	class locator
 	{
 	public:
 		static void init(T* inst)
@@ -26,16 +26,16 @@ namespace waspp
 		}
 
 	protected:
-		singleton() {}
-		virtual ~singleton() {}
+		locator() {}
+		virtual ~locator() {}
 
 	private:
 		static T* instance_;
 
 	};
 
-	template<typename T> T* singleton<T>::instance_ = nullptr;
+	template<typename T> T* locator<T>::instance_ = nullptr;
 
 } // namespace waspp
 
-#endif // singleton_hpp
+#endif // locator_hpp

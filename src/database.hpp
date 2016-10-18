@@ -9,14 +9,14 @@ http://www.boost.org/LICENSE_1_0.txt
 #define database_hpp
 
 #include "dbconn_pool.hpp"
-#include "singleton.hpp"
+#include "locator.hpp"
 #include "config.hpp"
 
 namespace waspp
 {
 
 	class database
-		: public singleton<database>
+		: public locator<database>
 	{
 	public:
 		database();

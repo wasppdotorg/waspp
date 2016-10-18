@@ -14,7 +14,7 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/asio.hpp>
 
-#include "singleton.hpp"
+#include "locator.hpp"
 
 namespace waspp
 {
@@ -36,7 +36,7 @@ namespace waspp
 	};
 
 	class logger
-		: public singleton<logger>
+		: public locator<logger>
 	{
 	public:
 		logger();

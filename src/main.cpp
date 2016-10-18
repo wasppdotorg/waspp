@@ -94,10 +94,10 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 		
-		waspp::singleton<waspp::logger>::init(&log_);
-		waspp::singleton<waspp::config>::init(&cfg);
-		waspp::singleton<waspp::database>::init(&db);
-		waspp::singleton<waspp::redis>::init(&rd);
+		waspp::locator<waspp::logger>::init(&log_);
+		waspp::locator<waspp::config>::init(&cfg);
+		waspp::locator<waspp::database>::init(&db);
+		waspp::locator<waspp::redis>::init(&rd);
 
 		if (cfg.ssl())
 		{

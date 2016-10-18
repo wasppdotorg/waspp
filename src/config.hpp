@@ -11,14 +11,14 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <vector>
 #include <unordered_map>
 
-#include "singleton.hpp"
+#include "locator.hpp"
 #include "error.hpp"
 
 namespace waspp
 {
 
 	class config
-		: public singleton<config>
+		: public locator<config>
 	{
 	public:
 		config();
