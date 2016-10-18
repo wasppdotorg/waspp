@@ -99,17 +99,17 @@ namespace waspp
 			rs_ptr rs(stmt->query());
 			if (rs->fetch())
 			{
-				total_count_ = rs->get<long long int>("total_count");
+				total_count_ = rs->get<uint64_t>("total_count");
 			}
 
-			//long long int per_page = 10;
+			//uint64_t per_page = 10;
 			stmt.reset(db_etc.conn->prepare("SELECT * FROM forum ORDER BY seq DESC"));
 			rs.reset(stmt->query());
 
 			boost::property_tree::ptree forum_item, forum_index;
 			while (rs->fetch())
 			{
-				forum_item.put("_seq", rs->get<long long int>("seq"));
+				forum_item.put("_seq", rs->get<uint64_t>("seq"));
 				forum_item.put("_title", rs->get<std::string>("title"));
 				forum_item.put("_username", rs->get<std::string>("username"));
 				forum_item.put("_updatetime", rs->get<std::string>("updatetime"));
@@ -343,7 +343,7 @@ namespace waspp
 					stmt->param(sess.get("username"));
 				//
 
-				unsigned long long int affected_rows = stmt->execute();
+				uint64_t affected_rows = stmt->execute();
 				if (affected_rows == 0)
 				{
 					router::err_msg(cfg, res, err_forum_insert_failed);

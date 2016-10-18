@@ -5,6 +5,9 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt
 */
 
+#include <boost/lexical_cast.hpp>
+#include <boost/crc.hpp>
+
 #include "redis.hpp"
 
 namespace waspp
@@ -23,7 +26,7 @@ namespace waspp
 		}
 	}
 
-	bool redis::init(config& cfg, const std::vector<std::string>& rdnames)
+	bool redis::init(config& cfg, const std::unordered_map<int, std::string>& rdnames)
 	{
 		try
 		{
@@ -53,17 +56,17 @@ namespace waspp
 				}
 			}
 
-			for (auto& rdname : rdnames)
+			for (auto& rdpair : rdnames)
 			{
 				auto rdpool = new redis_pool();
 
-				if (!rdpool->init_pool(cfg.get(rdname)) || !rdpool->fill_pool())
+				if (!rdpool->init_pool(cfg.get(rdpair.second)) || !rdpool->fill_pool())
 				{
 					delete rdpool;
 					return false;
 				}
 
-				rd_.insert(std::make_pair(rdname, rdpool));
+				rd_.insert(std::make_pair(rdpair.first, rdpool));
 			}
 
 			return true;
@@ -76,28 +79,20 @@ namespace waspp
 		return false;
 	}
 
-	redis_pool& redis::get_rdpool(const std::string& rdname)
+	redis_pool& redis::get_rdpool(rdname_type rdname)
 	{
-		auto found = rd_.find(rdname);
+		auto found = rd_.find((int)rdname);
 		if (found == rd_.end())
 		{
-			throw std::runtime_error("invalid rdname");
+			throw std::runtime_error("invalid rd_name_type");
 		}
 
 		return *found->second;
 	}
 
-	redis_pool& redis::get_rdpool(unsigned long long int shard_key)
+	redis_pool& redis::get_rdpool(uint64_t shard_key)
 	{
-		char rdname[8] = { 0 };
-
-		auto count_ = sprintf(rdname, rd_shard_format.c_str(), shard_key % rd_shard_count);
-		if (count_ == 0)
-		{
-			throw std::runtime_error("invalid rd_shard_format");
-		}
-
-		auto found = rd_.find(rdname);
+		auto found = rd_.find(shard_key % rd_shard_count);
 		if (found == rd_.end())
 		{
 			throw std::runtime_error("invalid rd_shard_key");
@@ -106,13 +101,21 @@ namespace waspp
 		return *found->second;
 	}
 
+	redis_pool& redis::get_rdpool(const std::string& shard_key)
+	{
+		boost::crc_32_type crc32;
+		crc32.process_bytes(shard_key.c_str(), shard_key.size());
+		
+		return get_rdpool((uint64_t)crc32.checksum());
+	}
+
 	scoped_rd::scoped_rd(const std::string& rdname)
 		: rdpool(redis::instance().get_rdpool(rdname))
 	{
 		conn = rdpool.get_rdconn();
 	}
 
-	scoped_rd::scoped_rd(unsigned long long int shard_key)
+	scoped_rd::scoped_rd(uint64_t shard_key)
 		: rdpool(redis::instance().get_rdpool(shard_key))
 	{
 		conn = rdpool.get_rdconn();

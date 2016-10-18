@@ -246,11 +246,11 @@ namespace redis3m
 	public:
 		type_t type() const { return type_; }
 		const std::string& str() const { return str_; }
-		long long int integer() const { return integer_; }
+		int64_t integer() const { return integer_; }
 		const std::vector<reply>& elements() const { return elements_; }
 
 		operator const std::string&() const { return str_; }
-		operator const long long int() const { return integer_; }
+		operator const int64_t() const { return integer_; }
 		bool operator==(const std::string& rvalue) const
 		{
 			if (type_ == STRING_ || type_ == ERROR_ || type_ == STATUS_)
@@ -261,7 +261,7 @@ namespace redis3m
 			return false;
 		}
 
-		bool operator==(const long long int rvalue) const
+		bool operator==(const int64_t rvalue) const
 		{
 			if (type_ == INTEGER_)
 			{
@@ -299,7 +299,7 @@ namespace redis3m
 
 		type_t type_;
 		std::string str_;
-		long long int integer_;
+		int64_t integer_;
 		std::vector<reply> elements_;
 
 		friend class connection;

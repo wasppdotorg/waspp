@@ -58,10 +58,10 @@ namespace waspp
 				return;
 			}
 
-			unsigned long long userid(0);
+			uint64_t userid = 0;
 			if (rs->fetch())
 			{
-				userid = rs->get<unsigned long long>("userid");
+				userid = rs->get<uint64_t>("userid");
 			}
 
 			stmt.reset(db_shard.conn->prepare("SELECT userid FROM users WHERE userid = ? AND passwd = ?"));
@@ -95,18 +95,18 @@ namespace waspp
 		{
 			performance_checker c(50, __FILE__, __LINE__);
 
-			if (req.param("platformtype").empty())
-			{
-				router::err_msg(cfg, res, err_platformtype_required);
-				return;
-			}
-			int platformtype = boost::lexical_cast<int>(req.param("platformtype"));
-
 			if (req.param("platformid").empty())
 			{
 				router::err_msg(cfg, res, err_platformid_required);
 				return;
 			}
+
+			if (req.param("platformtype").empty())
+			{
+				router::err_msg(cfg, res, err_platformtype_required);
+				return;
+			}
+			int32_t platformtype = boost::lexical_cast<int32_t>(req.param("platformtype"));
 
 			if (req.param("username").empty())
 			{
@@ -128,12 +128,11 @@ namespace waspp
 			std::string passwd(md5_digest(req.param("passwd")));
 
 			scoped_db db_shard(req.param("username"));
-			stmt_ptr stmt(db_shard.conn->prepare("SELECT userid FROM users_idx WHERE username = ?"));
+			stmt_ptr stmt(db_shard.conn->prepare("SELECT userid FROM users WHERE username = ?"));
 			//
 				stmt->param(req.param("username"));
 			//
 
-			unsigned long long userid(0);
 			rs_ptr rs(stmt->query());
 			if (rs->num_rows() != 0)
 			{
@@ -146,14 +145,15 @@ namespace waspp
 				stmt->param(1);
 			//
 
+			uint64_t userid = 0;
 			rs.reset(stmt->query());
 			if (rs->fetch(true))
 			{
-				userid = rs->get<unsigned long long>("last_key");
+				userid = rs->get<uint64_t>("last_key");
 			}
 			std::string platformid = boost::lexical_cast<std::string>(userid);
 
-			stmt.reset(db_shard.conn->prepare("INSERT INTO users_idx(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
+			stmt.reset(db_shard.conn->prepare("INSERT INTO users(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
 			//
 				stmt->param(userid);
 				stmt->param(platformtype);

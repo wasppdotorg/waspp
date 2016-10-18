@@ -8,6 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef performance_checker_hpp
 #define performance_checker_hpp
 
+#include <cstdint>
+
 #include <chrono>
 
 namespace waspp
@@ -16,13 +18,13 @@ namespace waspp
 	class performance_checker
 	{
 	public:
-		performance_checker(long long int limit_ms, const char* file_, int line_);
+		performance_checker(int64_t limit_ms, const char* file_, int line_);
 		~performance_checker();
 
 	private:
 		performance_checker();
 
-		long long int limit_ms;
+		int64_t limit_ms;
 		const char* file;
 		int line;
 

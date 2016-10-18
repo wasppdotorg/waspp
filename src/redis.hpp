@@ -15,6 +15,11 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
+	enum rdname_type
+	{
+		rd_rnk = 999,
+	};
+
 	class redis
 		: public locator<redis>
 	{
@@ -22,24 +27,25 @@ namespace waspp
 		redis();
 		~redis();
 
-		bool init(config& cfg, const std::vector<std::string>& rdnames);
+		bool init(config& cfg, const std::unordered_map<int, std::string>& rdnames);
 
-		redis_pool& get_rdpool(const std::string& rdname);
-		redis_pool& get_rdpool(unsigned long long int shard_key);
+		redis_pool& get_rdpool(rdname_type rdname);
+		redis_pool& get_rdpool(uint64_t shard_key);
+		redis_pool& get_rdpool(const std::string& shard_key);
 
 	private:
 		unsigned int rd_shard_count;
 		std::string rd_shard_format;
 
-		std::unordered_map<std::string, redis_pool*> rd_;
+		std::unordered_map<int, redis_pool*> rd_;
 
 	};
 
 	class scoped_rd
 	{
 	public:
-		scoped_rd(const std::string& rdname);
-		scoped_rd(unsigned long long int shard_key);
+		scoped_rd(const std::string& shard_key);
+		scoped_rd(uint64_t shard_key);
 
 		~scoped_rd();
 

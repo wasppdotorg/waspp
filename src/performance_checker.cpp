@@ -13,14 +13,14 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	performance_checker::performance_checker(long long int limit_ms_, const char* file_, int line_) : limit_ms(limit_ms_), file(file_), line(line_)
+	performance_checker::performance_checker(int64_t limit_ms_, const char* file_, int line_) : limit_ms(limit_ms_), file(file_), line(line_)
 	{
 		start = std::chrono::system_clock::now();
 	}
 
 	performance_checker::~performance_checker()
 	{
-		long long int diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start).count();
+		int64_t diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start).count();
 
 		if (diff_ms > limit_ms)
 		{

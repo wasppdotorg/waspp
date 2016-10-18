@@ -75,11 +75,11 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		std::vector<std::string> dbnames;
+		std::unordered_map<int, std::string> dbnames;
 		//
-			dbnames.push_back("db_000");
-			dbnames.push_back("db_001");
-			dbnames.push_back("db_etc");
+			dbnames.insert(std::make_pair(waspp::db_000, "db_000"));
+			dbnames.insert(std::make_pair(waspp::db_001, "db_001"));
+			dbnames.insert(std::make_pair(waspp::db_etc, "db_etc"));
 		//
 
 		if (!db.init(cfg, dbnames))
@@ -88,9 +88,9 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		std::vector<std::string> rdnames;
+		std::unordered_map<int, std::string> rdnames;
 		//
-			rdnames.push_back("rd_rnk");
+			rdnames.insert(std::make_pair(waspp::rd_rnk, "rd_rnk"));
 		//
 
 		if (!rd.init(cfg, rdnames))

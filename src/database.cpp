@@ -6,6 +6,7 @@ http://www.boost.org/LICENSE_1_0.txt
 */
 
 #include <boost/lexical_cast.hpp>
+#include <boost/crc.hpp>
 
 #include "database.hpp"
 
@@ -38,7 +39,7 @@ namespace waspp
 		mysql_library_end();
 	}
 
-	bool database::init(config& cfg, const std::vector<std::string>& dbnames)
+	bool database::init(config& cfg, const std::unordered_map<int, std::string>& dbnames)
 	{
 		try
 		{
@@ -68,17 +69,17 @@ namespace waspp
 				}
 			}
 
-			for (auto& dbname : dbnames)
+			for (auto& dbpair : dbnames)
 			{
 				auto dbpool = new dbconn_pool();
 
-				if (!dbpool->init_pool(cfg.get(dbname)) || !dbpool->fill_pool())
+				if (!dbpool->init_pool(cfg.get(dbpair.second)) || !dbpool->fill_pool())
 				{
 					delete dbpool;
 					return false;
 				}
 
-				db_.insert(std::make_pair(dbname, dbpool));
+				db_.insert(std::make_pair(dbpair.first, dbpool));
 			}
 
 			return true;
@@ -91,28 +92,20 @@ namespace waspp
 		return false;
 	}
 
-	dbconn_pool& database::get_dbpool(const std::string& dbname)
+	dbconn_pool& database::get_dbpool(dbname_type dbname)
 	{
-		auto found = db_.find(dbname);
+		auto found = db_.find((int)dbname);
 		if (found == db_.end())
 		{
-			throw std::runtime_error("invalid dbname");
+			throw std::runtime_error("invalid db_name_type");
 		}
 
 		return *found->second;
 	}
 
-	dbconn_pool& database::get_dbpool(unsigned long long int shard_key)
+	dbconn_pool& database::get_dbpool(uint64_t shard_key)
 	{
-		char dbname[8] = { 0 };
-
-		auto count_ = sprintf(dbname, db_shard_format.c_str(), shard_key % db_shard_count);
-		if (count_ == 0)
-		{
-			throw std::runtime_error("invalid db_shard_format");
-		}
-
-		auto found = db_.find(dbname);
+		auto found = db_.find(shard_key % db_shard_count);
 		if (found == db_.end())
 		{
 			throw std::runtime_error("invalid db_shard_key");
@@ -121,13 +114,21 @@ namespace waspp
 		return *found->second;
 	}
 
+	dbconn_pool& database::get_dbpool(const std::string& shard_key)
+	{
+		boost::crc_32_type crc32;
+		crc32.process_bytes(shard_key.c_str(), shard_key.size());
+
+		return get_dbpool((uint64_t)crc32.checksum());
+	}
+
 	scoped_db::scoped_db(const std::string& dbname)
 		: dbpool(database::instance().get_dbpool(dbname))
 	{
 		conn = dbpool.get_dbconn();
 	}
 
-	scoped_db::scoped_db(unsigned long long int shard_key)
+	scoped_db::scoped_db(uint64_t shard_key)
 		: dbpool(database::instance().get_dbpool(shard_key))
 	{
 		conn = dbpool.get_dbconn();
