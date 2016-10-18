@@ -15,9 +15,9 @@ namespace waspp
 	class singleton
 	{
 	public:
-		static void init(T* inst_)
+		static void init(T* inst)
 		{
-			instance_ = inst_;
+			instance_ = inst;
 		}
 
 		static T& instance()
