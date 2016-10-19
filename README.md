@@ -22,7 +22,7 @@ deb-src http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial main
 * sudo apt-get install mariadb-server
 * sudo /etc/init.d/mysql restart
 
-<!---
+<!--
 * sudo /etc/init.d/mysql stop
 * sudo /usr/bin/mysqld_safe --skip-grant-tables &
 * mysql -u root
@@ -33,7 +33,7 @@ quit;
 
 * sudo kill -9 $(pgrep mysql)
 * sudo /etc/init.d/mysql start
---->
+-->
 
 Install MariaDB (Windows)
 -------------------------
@@ -158,6 +158,7 @@ Run (Windows)
 * cd path\to\waspp
 * copy src\x64\Debug\waspp.exe .\bin
 * copy "C:\Program Files\Mariadb 10.1\lib\libmysql.dll" .\bin
+* copy ".\win\curl-7.46.0-win64\dlls\libcurl.dll" .\bin
 * cd .\bin
 * .\waspp.exe develop 00
 
