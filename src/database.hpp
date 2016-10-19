@@ -48,7 +48,7 @@ namespace waspp
 	public:
 		scoped_db(dbname_type dbname);
 		scoped_db(uint64_t shard_key);
-		scoped_db(const std::string& dbname);
+		scoped_db(const std::string& shard_key);
 
 		~scoped_db();
 

@@ -44,7 +44,7 @@ namespace waspp
 	class scoped_rd
 	{
 	public:
-		scoped_rd(rdname_type dbname);
+		scoped_rd(rdname_type rdname);
 		scoped_rd(uint64_t shard_key);
 		scoped_rd(const std::string& shard_key);
 
