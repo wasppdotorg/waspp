@@ -94,7 +94,7 @@ namespace waspp
 
 	dbconn_pool& database::get_dbpool(dbname_type dbname)
 	{
-		auto found = db_.find((int)dbname);
+		auto found = db_.find(dbname);
 		if (found == db_.end())
 		{
 			throw std::runtime_error("invalid db_name_type");
@@ -136,7 +136,7 @@ namespace waspp
 
 	scoped_db::~scoped_db()
 	{
-		dbpool.free_dbconn(conn);
+		dbpool.release_dbconn(conn);
 	}
 
 } // namespace waspp

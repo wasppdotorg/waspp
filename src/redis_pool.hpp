@@ -30,7 +30,7 @@ namespace waspp
 		bool fill_pool();
 
 		redis3m::connection* get_rdconn();
-		void free_rdconn(redis3m::connection* rdconn);
+		void release_rdconn(redis3m::connection* rdconn);
 
 	private:
 		redis3m::connection* connect(bool pooled_ = true);

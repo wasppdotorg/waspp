@@ -81,7 +81,7 @@ namespace waspp
 
 	redis_pool& redis::get_rdpool(rdname_type rdname)
 	{
-		auto found = rd_.find((int)rdname);
+		auto found = rd_.find(rdname);
 		if (found == rd_.end())
 		{
 			throw std::runtime_error("invalid rd_name_type");
@@ -123,7 +123,7 @@ namespace waspp
 
 	scoped_rd::~scoped_rd()
 	{
-		rdpool.free_rdconn(conn);
+		rdpool.release_rdconn(conn);
 	}
 
 } // namespace waspp

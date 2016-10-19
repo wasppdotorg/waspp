@@ -113,7 +113,7 @@ namespace waspp
 		return rdconn;
 	}
 
-	void redis_pool::free_rdconn(redis3m::connection* rdconn)
+	void redis_pool::release_rdconn(redis3m::connection* rdconn)
 	{
 		if (!rdconn->is_pooled())
 		{

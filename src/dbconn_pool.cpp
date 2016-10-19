@@ -135,7 +135,7 @@ namespace waspp
 		return dbconn;
 	}
 
-	void dbconn_pool::free_dbconn(mysqlpp::connection* dbconn)
+	void dbconn_pool::release_dbconn(mysqlpp::connection* dbconn)
 	{
 		if (!dbconn->is_pooled())
 		{

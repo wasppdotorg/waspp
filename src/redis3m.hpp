@@ -443,12 +443,12 @@ namespace redis3m
 
 		std::tm* last_released()
 		{
-			return &freed;
+			return &released;
 		}
 
 		void set_released(const std::tm& released_)
 		{
-			freed = released_;
+			released = released_;
 		}
 
 		bool is_pooled()
@@ -464,7 +464,7 @@ namespace redis3m
 	private:
 		redisContext* c;
 
-		std::tm freed;
+		std::tm released;
 		bool pooled;
 
 	};

@@ -33,7 +33,7 @@ namespace waspp
 		bool fill_pool();
 
 		mysqlpp::connection* get_dbconn();
-		void free_dbconn(mysqlpp::connection* dbconn);
+		void release_dbconn(mysqlpp::connection* dbconn);
 
 	private:
 		mysqlpp::connection* connect(bool pooled_ = true);
