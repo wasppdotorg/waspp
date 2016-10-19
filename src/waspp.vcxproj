@@ -107,6 +107,7 @@
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="connection_ssl.hpp" />
+    <ClInclude Include="locator.hpp" />
     <ClInclude Include="url_conn.hpp" />
     <ClInclude Include="database.hpp" />
     <ClInclude Include="dbconn_pool.hpp" />
@@ -128,7 +129,6 @@
     <ClInclude Include="server.hpp" />
     <ClInclude Include="server_ssl.hpp" />
     <ClInclude Include="session.hpp" />
-    <ClInclude Include="singleton.hpp" />
     <ClInclude Include="spinlock.hpp" />
     <ClInclude Include="utility.hpp" />
   </ItemGroup>
