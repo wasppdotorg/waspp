@@ -98,21 +98,24 @@ namespace waspp
 	}
 
 	scoped_rd::scoped_rd(rdname_type rdname)
-		: rdpool(redis::instance().get_rdpool(rdname))
+		: rdpool(redis::instance().get_rdpool(rdname)),
+		conn(rdpool.get_rdconn())
 	{
-		conn = rdpool.get_rdconn();
+		
 	}
 
 	scoped_rd::scoped_rd(uint64_t shard_key)
-		: rdpool(redis::instance().get_rdpool(shard_key))
+		: rdpool(redis::instance().get_rdpool(shard_key)),
+		conn(rdpool.get_rdconn())
 	{
-		conn = rdpool.get_rdconn();
+		
 	}
 
-	scoped_rd::scoped_rd(const std::string& rdname)
-		: rdpool(redis::instance().get_rdpool(rdname))
+	scoped_rd::scoped_rd(const std::string& shard_key)
+		: rdpool(redis::instance().get_rdpool(shard_key)),
+		conn(rdpool.get_rdconn())
 	{
-		conn = rdpool.get_rdconn();
+		
 	}
 
 	scoped_rd::~scoped_rd()
