@@ -22,11 +22,11 @@ namespace waspp
 	{
 		for (auto& r : rd_)
 		{
-			delete r.second;
+			delete r;
 		}
 	}
 
-	bool redis::init(config& cfg, const std::unordered_map<int, std::string>& rdnames)
+	bool redis::init(config& cfg, const std::vector<std::string>& rdnames)
 	{
 		try
 		{
@@ -56,17 +56,17 @@ namespace waspp
 				}
 			}
 
-			for (auto& rdpair : rdnames)
+			for (int i = 0; i < rdnames.size(); ++i)
 			{
 				auto rdpool = new redis_pool();
 
-				if (!rdpool->init_pool(cfg.get(rdpair.second)) || !rdpool->fill_pool())
+				if (!rdpool->init_pool(cfg.get(rdnames[i])) || !rdpool->fill_pool())
 				{
 					delete rdpool;
 					return false;
 				}
 
-				rd_.insert(std::make_pair(rdpair.first, rdpool));
+				rd_.push_back(rdpool);
 			}
 
 			return true;
@@ -81,24 +81,12 @@ namespace waspp
 
 	redis_pool& redis::get_rdpool(rdname_type rdname)
 	{
-		auto found = rd_.find(rdname);
-		if (found == rd_.end())
-		{
-			throw std::runtime_error("invalid rd_name_type");
-		}
-
-		return *found->second;
+		return *rd_[rdname + rd_shard_count];
 	}
 
 	redis_pool& redis::get_rdpool(uint64_t shard_key)
 	{
-		auto found = rd_.find(shard_key % rd_shard_count);
-		if (found == rd_.end())
-		{
-			throw std::runtime_error("invalid rd_shard_key");
-		}
-
-		return *found->second;
+		return *rd_[shard_key % rd_shard_count];
 	}
 
 	redis_pool& redis::get_rdpool(const std::string& shard_key)
@@ -106,7 +94,7 @@ namespace waspp
 		boost::crc_32_type crc32;
 		crc32.process_bytes(shard_key.c_str(), shard_key.size());
 		
-		return get_rdpool((uint64_t)crc32.checksum());
+		return *rd_[crc32.checksum() % rd_shard_count];
 	}
 
 	scoped_rd::scoped_rd(const std::string& rdname)

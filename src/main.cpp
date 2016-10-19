@@ -69,17 +69,17 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		if (!log_.init(cfg.log_level(), cfg.log_rotation(), cfg.unflushed_limit()))
+		if (!log_.init(cfg.log_level(), cfg.log_rotation(), cfg.log_unflushed_limit()))
 		{
 			waspp::log(waspp::fatal) << "logger::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
 
-		std::unordered_map<int, std::string> dbnames;
+		std::vector<std::string> dbnames;
 		//
-			dbnames.insert(std::make_pair(waspp::db_000, "db_000"));
-			dbnames.insert(std::make_pair(waspp::db_001, "db_001"));
-			dbnames.insert(std::make_pair(waspp::db_etc, "db_etc"));
+			dbnames.push_back("db_000");
+			dbnames.push_back("db_001");
+			dbnames.push_back("db_etc");
 		//
 
 		if (!db.init(cfg, dbnames))
@@ -88,9 +88,9 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		std::unordered_map<int, std::string> rdnames;
+		std::vector<std::string> rdnames;
 		//
-			rdnames.insert(std::make_pair(waspp::rd_rnk, "rd_rnk"));
+			rdnames.push_back("rd_rnk");
 		//
 
 		if (!rd.init(cfg, rdnames))

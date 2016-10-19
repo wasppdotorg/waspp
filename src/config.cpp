@@ -21,7 +21,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	config::config() : unflushed_limit_(0), expiry_sec_(0), update_sec_(0), validate_ip_(false), validate_ua_(false), num_threads_(0), compress_(false), ssl_(false)
+	config::config() : log_unflushed_limit_(0), expiry_sec_(0), update_sec_(0), validate_ip_(false), validate_ua_(false), num_threads_(0), compress_(false), ssl_(false)
 	{
 		
 	}
@@ -92,7 +92,7 @@ namespace waspp
 					}
 					else if (key == "unflushed_limit")
 					{
-						unflushed_limit_ = boost::lexical_cast<int>(found_item->second);
+						log_unflushed_limit_ = boost::lexical_cast<int>(found_item->second);
 					}
 				}
 			//

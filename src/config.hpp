@@ -30,7 +30,7 @@ namespace waspp
 		// logger
 		const std::string& log_level() { return log_level_; }
 		const std::string& log_rotation() { return log_rotation_; }
-		int unflushed_limit() { return unflushed_limit_; }
+		int log_unflushed_limit() { return log_unflushed_limit_; }
 
 		// error message
 		const std::string& err_msg(error_type err_code);
@@ -62,7 +62,7 @@ namespace waspp
 	private:
 		// logger
 		std::string log_level_, log_rotation_;
-		int unflushed_limit_;
+		int log_unflushed_limit_;
 
 		// access
 		std::vector<std::string> access_granted_, access_denied_;

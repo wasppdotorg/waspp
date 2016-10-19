@@ -17,7 +17,7 @@ namespace waspp
 
 	enum rdname_type
 	{
-		rd_rnk = 999,
+		rd_rnk = 0,
 	};
 
 	class redis
@@ -27,7 +27,7 @@ namespace waspp
 		redis();
 		~redis();
 
-		bool init(config& cfg, const std::unordered_map<int, std::string>& rdnames);
+		bool init(config& cfg, const std::vector<std::string>& rdnames);
 
 		redis_pool& get_rdpool(rdname_type rdname);
 		redis_pool& get_rdpool(uint64_t shard_key);
@@ -37,7 +37,7 @@ namespace waspp
 		unsigned int rd_shard_count;
 		std::string rd_shard_format;
 
-		std::unordered_map<int, redis_pool*> rd_;
+		std::vector<redis_pool*> rd_;
 
 	};
 

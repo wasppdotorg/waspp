@@ -33,13 +33,13 @@ namespace waspp
 	{
 		for (auto& d : db_)
 		{
-			delete d.second;
+			delete d;
 		}
 
 		mysql_library_end();
 	}
 
-	bool database::init(config& cfg, const std::unordered_map<int, std::string>& dbnames)
+	bool database::init(config& cfg, const std::vector<std::string>& dbnames)
 	{
 		try
 		{
@@ -69,17 +69,17 @@ namespace waspp
 				}
 			}
 
-			for (auto& dbpair : dbnames)
+			for (auto& dbname : dbnames)
 			{
 				auto dbpool = new dbconn_pool();
 
-				if (!dbpool->init_pool(cfg.get(dbpair.second)) || !dbpool->fill_pool())
+				if (!dbpool->init_pool(cfg.get(dbname)) || !dbpool->fill_pool())
 				{
 					delete dbpool;
 					return false;
 				}
 
-				db_.insert(std::make_pair(dbpair.first, dbpool));
+				db_.push_back(dbpool);
 			}
 
 			return true;
@@ -94,24 +94,12 @@ namespace waspp
 
 	dbconn_pool& database::get_dbpool(dbname_type dbname)
 	{
-		auto found = db_.find(dbname);
-		if (found == db_.end())
-		{
-			throw std::runtime_error("invalid db_name_type");
-		}
-
-		return *found->second;
+		return *db_[dbname + db_shard_count];
 	}
 
 	dbconn_pool& database::get_dbpool(uint64_t shard_key)
 	{
-		auto found = db_.find(shard_key % db_shard_count);
-		if (found == db_.end())
-		{
-			throw std::runtime_error("invalid db_shard_key");
-		}
-
-		return *found->second;
+		return *db_[shard_key % db_shard_count];
 	}
 
 	dbconn_pool& database::get_dbpool(const std::string& shard_key)
@@ -119,7 +107,7 @@ namespace waspp
 		boost::crc_32_type crc32;
 		crc32.process_bytes(shard_key.c_str(), shard_key.size());
 
-		return get_dbpool((uint64_t)crc32.checksum());
+		return *db_[crc32.checksum() % db_shard_count];
 	}
 
 	scoped_db::scoped_db(const std::string& dbname)

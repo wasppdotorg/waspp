@@ -42,8 +42,8 @@ namespace waspp
 		logger();
 		~logger();
 
-		log_level_type log_level() { return log_level_; }
-		const std::locale& log_locale() { return log_locale_; }
+		log_level_type level() { return level_; }
+		const std::locale& loc() { return loc_; }
 
 		void file(const std::string& file);
 		bool init(const std::string& log_level, const std::string& log_rotation, int unflushed_limit);
@@ -71,10 +71,10 @@ namespace waspp
 		std::string file_;
 		std::tm file_created_;
 
-		log_level_type log_level_;
-		log_rotation_type log_rotation_;
+		log_level_type level_;
+		log_rotation_type rotation_;
 
-		std::locale log_locale_;
+		std::locale loc_;
 
 		int unflushed_count_;
 		int unflushed_limit_;
@@ -89,14 +89,14 @@ namespace waspp
 
 		log(log_level_type log_level) : logger_(logger::instance()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
 		{
-			if (log_level < logger_.log_level())
+			if (log_level < logger_.level())
 			{
 				return;
 			}
 
 			is_logging = true;
 
-			oss.imbue(logger_.log_locale());
+			oss.imbue(logger_.loc());
 			oss << ptime_;
 
 			switch (log_level)
