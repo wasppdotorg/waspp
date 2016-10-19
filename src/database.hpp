@@ -17,7 +17,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 	
-	enum dbname_type
+	enum dbname_type : int
 	{
 		db_etc = 0,
 	};
@@ -46,8 +46,9 @@ namespace waspp
 	class scoped_db
 	{
 	public:
-		scoped_db(const std::string& dbname);
+		scoped_db(dbname_type dbname);
 		scoped_db(uint64_t shard_key);
+		scoped_db(const std::string& dbname);
 
 		~scoped_db();
 

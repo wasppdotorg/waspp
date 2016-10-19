@@ -125,7 +125,7 @@ namespace waspp
 				router::err_msg(cfg, res, err_passwds_not_identical);
 				return;
 			}
-			std::string passwd(md5_digest(req.param("passwd")));
+			std::string passwd = md5_digest(req.param("passwd"));
 
 			scoped_db db_shard(req.param("username"));
 			stmt_ptr stmt(db_shard.conn->prepare("SELECT userid FROM users WHERE username = ?"));
@@ -153,28 +153,16 @@ namespace waspp
 			}
 			std::string platformid = boost::lexical_cast<std::string>(userid);
 
-			stmt.reset(db_shard.conn->prepare("INSERT INTO users(userid, platformtype, platformid, username, inserttime, updatetime) VALUES(?, ?, ?, ?, NOW(), NOW())"));
+			stmt.reset(db_shard.conn->prepare("INSERT INTO users(userid, platformid, username, passwd, platformtype, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, NOW(), NOW())"));
 			//
 				stmt->param(userid);
-				stmt->param(platformtype);
 				stmt->param(platformid);
 				stmt->param(req.param("username"));
+				stmt->param(passwd);
+				stmt->param(platformtype);
 			//
 
 			uint64_t affected_rows = stmt->execute();
-			if (affected_rows == 0)
-			{
-				router::err_msg(cfg, res, err_users_insert_failed);
-				return;
-			}
-
-			stmt.reset(db_shard.conn->prepare("INSERT INTO users(userid, passwd, inserttime, updatetime) VALUES(?, ?, NOW(), NOW())"));
-			//
-				stmt->param(userid);
-				stmt->param(passwd);
-			//
-
-			affected_rows = stmt->execute();
 			if (affected_rows == 0)
 			{
 				router::err_msg(cfg, res, err_users_insert_failed);

@@ -110,13 +110,19 @@ namespace waspp
 		return *db_[crc32.checksum() % db_shard_count];
 	}
 
-	scoped_db::scoped_db(const std::string& dbname)
+	scoped_db::scoped_db(dbname_type dbname)
 		: dbpool(database::instance().get_dbpool(dbname))
 	{
 		conn = dbpool.get_dbconn();
 	}
 
 	scoped_db::scoped_db(uint64_t shard_key)
+		: dbpool(database::instance().get_dbpool(shard_key))
+	{
+		conn = dbpool.get_dbconn();
+	}
+
+	scoped_db::scoped_db(const std::string& shard_key)
 		: dbpool(database::instance().get_dbpool(shard_key))
 	{
 		conn = dbpool.get_dbconn();

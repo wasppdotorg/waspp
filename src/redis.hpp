@@ -15,7 +15,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	enum rdname_type
+	enum rdname_type : int
 	{
 		rd_rnk = 0,
 	};
@@ -44,8 +44,9 @@ namespace waspp
 	class scoped_rd
 	{
 	public:
-		scoped_rd(const std::string& shard_key);
+		scoped_rd(rdname_type dbname);
 		scoped_rd(uint64_t shard_key);
+		scoped_rd(const std::string& shard_key);
 
 		~scoped_rd();
 
