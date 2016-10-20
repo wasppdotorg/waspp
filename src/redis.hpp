@@ -50,10 +50,11 @@ namespace waspp
 
 		~scoped_rd();
 
-		redis3m::connection* conn;
-
 	private:
 		redis_pool& rdpool;
+		
+	public:
+		redis3m::connection* conn;
 
 	};
 

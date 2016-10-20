@@ -56,7 +56,7 @@ namespace waspp
 				}
 			}
 
-			for (int i = 0; i < rdnames.size(); ++i)
+			for (unsigned i = 0; i < rdnames.size(); ++i)
 			{
 				auto rdpool = new redis_pool();
 

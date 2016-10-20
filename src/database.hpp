@@ -52,10 +52,11 @@ namespace waspp
 
 		~scoped_db();
 
-		mysqlpp::connection* conn;
-
 	private:
 		dbconn_pool& dbpool;
+		
+	public:
+		mysqlpp::connection* conn;
 
 	};
 
