@@ -56,11 +56,11 @@ namespace waspp
 				}
 			}
 
-			for (unsigned i = 0; i < rdnames.size(); ++i)
+			for (auto& rdname : rdnames)
 			{
 				auto rdpool = new redis_pool();
 
-				if (!rdpool->init_pool(cfg.get(rdnames[i])) || !rdpool->fill_pool())
+				if (!rdpool->init_pool(cfg.get(rdname)) || !rdpool->fill_pool())
 				{
 					delete rdpool;
 					return false;
