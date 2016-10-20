@@ -9,7 +9,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #define mysqlpp_hpp
 
 #include <ctime>
-#include <cstdint>
 
 #include <mysql/mysql.h>
 
@@ -243,7 +242,7 @@ namespace mysqlpp
 		int bind_index;
 
 		std::vector<st_mysql_bind> binds;
-		std::vector<unsigned long int> lengths;
+		std::vector<unsigned long> lengths;
 	};
 
 	class connection

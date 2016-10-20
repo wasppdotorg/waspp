@@ -61,7 +61,7 @@ namespace waspp
 
 				if (key == "db_shard_count")
 				{
-					db_shard_count = boost::lexical_cast<unsigned int>(found->second);
+					db_shard_count = strtoul(found->second.c_str(), nullptr, 0);
 				}
 				else if (key == "db_shard_format")
 				{

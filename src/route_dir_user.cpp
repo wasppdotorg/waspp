@@ -78,7 +78,7 @@ namespace waspp
 			}
 
 			waspp::session sess(cfg, req, res);
-			sess.put("userid", boost::lexical_cast<std::string>(userid));
+			sess.put("userid", std::to_string(userid));
 			sess.put("username", req.param("username"));
 
 			res.redirect_to("/dir/forum/index");
@@ -106,7 +106,7 @@ namespace waspp
 				router::err_msg(cfg, res, err_platformtype_required);
 				return;
 			}
-			int32_t platformtype = boost::lexical_cast<int32_t>(req.param("platformtype"));
+			int32_t platformtype = strtol(req.param("platformtype").c_str(), nullptr, 0);
 
 			if (req.param("username").empty())
 			{
@@ -142,7 +142,7 @@ namespace waspp
 
 			stmt.reset(db_shard.conn->prepare("CALL USP_GET_UNIQUE_KEYS('users', ?)"));
 			//
-				stmt->param(1);
+				stmt->param((long int)1);
 			//
 
 			uint64_t userid = 0;
@@ -151,7 +151,7 @@ namespace waspp
 			{
 				userid = rs->get<uint64_t>("last_key");
 			}
-			std::string platformid = boost::lexical_cast<std::string>(userid);
+			std::string platformid = std::to_string(userid);
 
 			stmt.reset(db_shard.conn->prepare("INSERT INTO users(userid, platformid, username, passwd, platformtype, inserttime, updatetime) VALUES(?, ?, ?, ?, ?, NOW(), NOW())"));
 			//

@@ -248,7 +248,7 @@ namespace waspp
 
 		res.headers.resize(3);
 		res.headers[0].name = "Content-Length";
-		res.headers[0].value = boost::lexical_cast<std::string>(res.content.size());
+		res.headers[0].value = std::to_string(res.content.size());
 		res.headers[1].name = "Content-Type";
 		res.headers[1].value = "text/html";
 		res.headers[2].name = "Keep-Alive";

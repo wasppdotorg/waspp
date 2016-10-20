@@ -67,7 +67,7 @@ namespace waspp
 			}
 			else if (key == "port")
 			{
-				port = boost::lexical_cast<unsigned int>(found->second);
+				port = strtoul(found->second.c_str(), nullptr, 0);
 			}
 			else if (key == "charset")
 			{
@@ -75,11 +75,11 @@ namespace waspp
 			}
 			else if (key == "pool_size")
 			{
-				pool_size = boost::lexical_cast<std::size_t>(found->second);
+				pool_size = strtoul(found->second.c_str(), nullptr, 0);
 			}
 			else if (key == "wait_timeout_sec")
 			{
-				wait_timeout_sec = boost::lexical_cast<double>(found->second);
+				wait_timeout_sec = strtod(found->second.c_str(), nullptr);
 			}
 		}
 

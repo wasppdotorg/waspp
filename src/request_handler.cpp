@@ -88,7 +88,7 @@ namespace waspp
 				gzip_str(res.content);
 			}
 
-			res.headers.push_back(name_value("Content-Length", boost::lexical_cast<std::string>(res.content.size())));
+			res.headers.push_back(name_value("Content-Length", std::to_string(res.content.size())));
 			res.status = response::ok;
 
 			log(info) << response::ok << "," << request_uri << "," << req.remote_addr;

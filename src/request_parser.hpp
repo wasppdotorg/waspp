@@ -522,7 +522,7 @@ namespace waspp
 							result = false;
 							break;
 						}
-						req.content_length = boost::lexical_cast<int>(req.header("Content-Length"));
+						req.content_length = atoi(req.header("Content-Length").c_str());
 
 						state_ = content_start;
 						result = boost::indeterminate;
@@ -553,7 +553,7 @@ namespace waspp
 						req.content.push_back(input);
 						if (req.content_length == 0)
 						{
-							req.content_length = boost::lexical_cast<int>(req.header("Content-Length"));
+							req.content_length = atoi(req.header("Content-Length").c_str());
 							result = true;
 							break;
 						}
@@ -572,7 +572,7 @@ namespace waspp
 						req.content.push_back(input);
 						if (req.content_length == 0)
 						{
-							req.content_length = boost::lexical_cast<int>(req.header("Content-Length"));
+							req.content_length = atoi(req.header("Content-Length").c_str());
 							result = true;
 							break;
 						}

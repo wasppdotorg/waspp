@@ -192,12 +192,12 @@ namespace waspp
 
 	std::string session::get_curr_tm()
 	{
-		return boost::lexical_cast<std::string>(std::time(nullptr));
+		return std::to_string(std::time(nullptr));
 	}
 
 	std::time_t session::get_last_tm()
 	{
-		return boost::lexical_cast<std::time_t>(get("last_tm"));
+		return strtoll(get("last_tm").c_str(), nullptr, 0);
 	}
 
 	std::string& session::get_curr_ip()

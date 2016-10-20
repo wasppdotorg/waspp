@@ -297,12 +297,12 @@ namespace waspp
 				return;
 			}
 
-			unsigned int userid = boost::lexical_cast<unsigned int>(sess.get("userid"));
-			unsigned int seq = 0;
+			uint32_t userid = strtoul(sess.get("userid").c_str(), nullptr, 0);
+			uint32_t seq = 0;
 
 			if (!req.param("seq").empty())
 			{
-				seq = boost::lexical_cast<unsigned int>(req.param("seq"));
+				seq = strtoul(req.param("seq").c_str(), nullptr, 0);
 			}
 
 			if (req.param("title").empty())

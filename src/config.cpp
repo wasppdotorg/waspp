@@ -92,7 +92,7 @@ namespace waspp
 					}
 					else if (key == "unflushed_limit")
 					{
-						log_unflushed_limit_ = boost::lexical_cast<int>(found_item->second);
+						log_unflushed_limit_ = atoi(found_item->second.c_str());
 					}
 				}
 			//
@@ -191,11 +191,11 @@ namespace waspp
 					}
 					else if (key == "expiry_sec")
 					{
-						expiry_sec_ = boost::lexical_cast<double>(found_item->second);
+						expiry_sec_ = strtod(found_item->second.c_str(), nullptr);
 					}
 					else if (key == "update_sec")
 					{
-						update_sec_ = boost::lexical_cast<double>(found_item->second);
+						update_sec_ = strtod(found_item->second.c_str(), nullptr);
 					}
 					else if (key == "validate_ip")
 					{
@@ -252,7 +252,7 @@ namespace waspp
 					}
 					else if (key == "num_threads")
 					{
-						num_threads_ = boost::lexical_cast<std::size_t>(found_item->second);
+						num_threads_ = strtoul(found_item->second.c_str(), nullptr, 0);
 					}
 					else if (key == "compress")
 					{
@@ -288,7 +288,7 @@ namespace waspp
 			boost::property_tree::json_parser::read_json(err_file, ptree_);
 			for (auto& item : ptree_)
 			{
-				int err_code = boost::lexical_cast<int>(item.first);
+				int err_code = atoi(item.first.c_str());
 				auto err_found = err_.find(err_code);
 
 				if (err_found != err_.end())
