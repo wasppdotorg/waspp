@@ -91,10 +91,10 @@ namespace waspp
 			forum_search.put("_field", field);
 			forum_search.put("_keyword", keyword);
 
-			scoped_db db_etc_(db_etc);
+			scoped_db db_etc(dbname_type::db_etc);
 
 			uint64_t total_count_ = 0;
-			stmt_ptr stmt(db_etc_.conn->prepare("SELECT COUNT(seq) AS total_count FROM forum"));
+			stmt_ptr stmt(db_etc.conn->prepare("SELECT COUNT(seq) AS total_count FROM forum"));
 
 			rs_ptr rs(stmt->query());
 			if (rs->fetch())
@@ -103,7 +103,7 @@ namespace waspp
 			}
 
 			//uint64_t per_page = 10;
-			stmt.reset(db_etc_.conn->prepare("SELECT * FROM forum ORDER BY seq DESC"));
+			stmt.reset(db_etc.conn->prepare("SELECT * FROM forum ORDER BY seq DESC"));
 			rs.reset(stmt->query());
 
 			boost::property_tree::ptree forum_item, forum_index;

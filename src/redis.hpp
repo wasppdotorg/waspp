@@ -15,7 +15,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	enum rdname_type : int
+	enum class rdname_type : int
 	{
 		rd_rnk = 0,
 	};

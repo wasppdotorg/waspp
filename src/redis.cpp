@@ -81,7 +81,7 @@ namespace waspp
 
 	redis_pool& redis::get_rdpool(rdname_type rdname)
 	{
-		return *rd_[rdname + rd_shard_count];
+		return *rd_[(int)rdname];
 	}
 
 	redis_pool& redis::get_rdpool(uint64_t shard_key)

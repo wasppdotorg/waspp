@@ -17,9 +17,11 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 	
-	enum dbname_type : int
+	enum class dbname_type : int
 	{
-		db_etc = 0,
+		db_000 = 0,
+		db_001 = 1,
+		db_etc = 2,
 	};
 
 	class database

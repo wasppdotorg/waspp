@@ -94,7 +94,7 @@ namespace waspp
 
 	dbconn_pool& database::get_dbpool(dbname_type dbname)
 	{
-		return *db_[dbname + db_shard_count];
+		return *db_[(int)dbname];
 	}
 
 	dbconn_pool& database::get_dbpool(uint64_t shard_key)
