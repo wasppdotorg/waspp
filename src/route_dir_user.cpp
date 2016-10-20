@@ -142,7 +142,7 @@ namespace waspp
 
 			stmt.reset(db_shard.conn->prepare("CALL USP_GET_UNIQUE_KEYS('users', ?)"));
 			//
-				stmt->param((long int)1);
+				stmt->param((uint32_t)1);
 			//
 
 			uint64_t userid = 0;

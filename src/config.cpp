@@ -92,7 +92,7 @@ namespace waspp
 					}
 					else if (key == "unflushed_limit")
 					{
-						log_unflushed_limit_ = atoi(found_item->second.c_str());
+						log_unflushed_limit_ = strtol(found_item->second.c_str(), nullptr, 0);
 					}
 				}
 			//
@@ -252,7 +252,7 @@ namespace waspp
 					}
 					else if (key == "num_threads")
 					{
-						num_threads_ = strtoul(found_item->second.c_str(), nullptr, 0);
+						num_threads_ = strtoull(found_item->second.c_str(), nullptr, 0);
 					}
 					else if (key == "compress")
 					{
@@ -288,7 +288,7 @@ namespace waspp
 			boost::property_tree::json_parser::read_json(err_file, ptree_);
 			for (auto& item : ptree_)
 			{
-				int err_code = atoi(item.first.c_str());
+				int err_code = strtol(item.first.c_str(), nullptr, 0);
 				auto err_found = err_.find(err_code);
 
 				if (err_found != err_.end())

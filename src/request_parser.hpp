@@ -522,7 +522,7 @@ namespace waspp
 							result = false;
 							break;
 						}
-						req.content_length = atoi(req.header("Content-Length").c_str());
+						req.content_length = strtol(req.header("Content-Length").c_str(), nullptr, 0);
 
 						state_ = content_start;
 						result = boost::indeterminate;
@@ -553,7 +553,7 @@ namespace waspp
 						req.content.push_back(input);
 						if (req.content_length == 0)
 						{
-							req.content_length = atoi(req.header("Content-Length").c_str());
+							req.content_length = strtol(req.header("Content-Length").c_str(), nullptr, 0);
 							result = true;
 							break;
 						}
@@ -572,7 +572,7 @@ namespace waspp
 						req.content.push_back(input);
 						if (req.content_length == 0)
 						{
-							req.content_length = atoi(req.header("Content-Length").c_str());
+							req.content_length = strtol(req.header("Content-Length").c_str(), nullptr, 0);
 							result = true;
 							break;
 						}

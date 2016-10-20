@@ -297,12 +297,12 @@ namespace waspp
 				return;
 			}
 
-			uint32_t userid = strtoul(sess.get("userid").c_str(), nullptr, 0);
-			uint32_t seq = 0;
+			uint64_t userid = strtoull(sess.get("userid").c_str(), nullptr, 0);
+			uint64_t seq = 0;
 
 			if (!req.param("seq").empty())
 			{
-				seq = strtoul(req.param("seq").c_str(), nullptr, 0);
+				seq = strtoull(req.param("seq").c_str(), nullptr, 0);
 			}
 
 			if (req.param("title").empty())

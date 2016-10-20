@@ -53,7 +53,7 @@ namespace waspp
 			}
 			else if (key == "pool_size")
 			{
-				pool_size = strtoul(found->second.c_str(), nullptr, 0);
+				pool_size = strtoull(found->second.c_str(), nullptr, 0);
 			}
 			else if (key == "timeout_sec")
 			{
