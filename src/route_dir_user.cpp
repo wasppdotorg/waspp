@@ -7,8 +7,6 @@ http://www.boost.org/LICENSE_1_0.txt
 
 #include <cstdint>
 
-#include <boost/lexical_cast.hpp>
-
 #include "router.hpp"
 #include "database.hpp"
 #include "utility.hpp"
@@ -142,7 +140,7 @@ namespace waspp
 
 			stmt.reset(db_shard.conn->prepare("CALL USP_GET_UNIQUE_KEYS('users', ?)"));
 			//
-				stmt->param((uint32_t)1);
+				stmt->param(1);
 			//
 
 			uint64_t userid = 0;

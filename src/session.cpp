@@ -10,7 +10,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/archive/text_oarchive.hpp>
 
 #include <boost/uuid/uuid.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
 #include "session.hpp"

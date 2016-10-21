@@ -14,7 +14,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #endif
 
 #include <boost/property_tree/json_parser.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include "router.hpp"
 #include "database.hpp"

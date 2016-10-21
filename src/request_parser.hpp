@@ -10,7 +10,6 @@
 
 #include <boost/tuple/tuple.hpp>
 #include <boost/logic/tribool.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include "request.hpp"
 
