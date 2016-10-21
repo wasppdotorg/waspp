@@ -15,6 +15,7 @@ USE `develop_waspp_000`;
 	LOCK TABLES `unique_keys` WRITE;
 	INSERT INTO `unique_keys` VALUES ('users',2,0);
 	INSERT INTO `unique_keys` VALUES ('characters',2,0);
+	INSERT INTO `unique_keys` VALUES ('char_name',2,0);
 	INSERT INTO `unique_keys` VALUES ('char_inven',2,0);
 	UNLOCK TABLES;
 
@@ -43,30 +44,39 @@ USE `develop_waspp_000`;
 	CREATE TABLE `users` (
 	  `userid` bigint(20) unsigned NOT NULL,
 	  `platformid` varchar(64) NOT NULL,
+	  `platformtype` int(11) NOT NULL,
 	  `username` varchar(64) NOT NULL,
 	  `passwd` varchar(32) NOT NULL,
-	  `platformtype` int(11) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
 	  PRIMARY KEY (`userid`),
-	  UNIQUE KEY `platformid_UNIQUE` (`platformid`),
+	  UNIQUE KEY `platformid_UNIQUE` (`platformid`,`platformtype`),
 	  UNIQUE KEY `username_UNIQUE` (`username`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE `characters` (
 	  `charid` bigint(20) unsigned NOT NULL,
 	  `userid` bigint(20) unsigned NOT NULL,
+	  `charname` varchar(64) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
-	  PRIMARY KEY (`charid`)
+	  PRIMARY KEY (`charid`,`userid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-	
+		
+	CREATE TABLE `char_name` (
+	  `charid` bigint(20) unsigned NOT NULL,
+	  `userid` bigint(20) unsigned NOT NULL,
+	  `charname` varchar(64) NOT NULL,
+	  PRIMARY KEY (`charid`,`userid`),
+	  UNIQUE KEY `charname_UNIQUE` (`charname`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 	CREATE TABLE `char_inven` (
 	  `invenseq` bigint(20) unsigned NOT NULL,
 	  `charid` bigint(20) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
-	  PRIMARY KEY (`invenseq`)
+	  PRIMARY KEY (`invenseq`,`charid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 USE `develop_waspp_001`;
@@ -81,6 +91,7 @@ USE `develop_waspp_001`;
 	LOCK TABLES `unique_keys` WRITE;
 	INSERT INTO `unique_keys` VALUES ('users',2,1);
 	INSERT INTO `unique_keys` VALUES ('characters',2,1);
+	INSERT INTO `unique_keys` VALUES ('char_name',2,1);
 	INSERT INTO `unique_keys` VALUES ('char_inven',2,1);
 	UNLOCK TABLES;
 
@@ -109,30 +120,39 @@ USE `develop_waspp_001`;
 	CREATE TABLE `users` (
 	  `userid` bigint(20) unsigned NOT NULL,
 	  `platformid` varchar(64) NOT NULL,
+	  `platformtype` int(11) NOT NULL,
 	  `username` varchar(64) NOT NULL,
 	  `passwd` varchar(32) NOT NULL,
-	  `platformtype` int(11) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
 	  PRIMARY KEY (`userid`),
-	  UNIQUE KEY `platformid_UNIQUE` (`platformid`),
+	  UNIQUE KEY `platformid_UNIQUE` (`platformid`,`platformtype`),
 	  UNIQUE KEY `username_UNIQUE` (`username`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE `characters` (
 	  `charid` bigint(20) unsigned NOT NULL,
 	  `userid` bigint(20) unsigned NOT NULL,
+	  `charname` varchar(64) NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
-	  PRIMARY KEY (`charid`)
+	  PRIMARY KEY (`charid`,`userid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-	
+		
+	CREATE TABLE `char_name` (
+	  `charid` bigint(20) unsigned NOT NULL,
+	  `userid` bigint(20) unsigned NOT NULL,
+	  `charname` varchar(64) NOT NULL,
+	  PRIMARY KEY (`charid`,`userid`),
+	  UNIQUE KEY `charname_UNIQUE` (`charname`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 	CREATE TABLE `char_inven` (
 	  `invenseq` bigint(20) unsigned NOT NULL,
 	  `charid` bigint(20) unsigned NOT NULL,
 	  `inserttime` datetime NOT NULL,
 	  `updatetime` datetime NOT NULL,
-	  PRIMARY KEY (`invenseq`)
+	  PRIMARY KEY (`invenseq`,`charid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 USE `develop_waspp_etc`;
