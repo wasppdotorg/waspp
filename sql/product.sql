@@ -40,7 +40,7 @@ USE `product_waspp_000`;
 
 		END ;;
 	DELIMITER ;
-	
+
 	CREATE TABLE `users` (
 	  `userid` bigint(20) unsigned NOT NULL,
 	  `platformid` varchar(64) NOT NULL,
@@ -53,7 +53,7 @@ USE `product_waspp_000`;
 	  UNIQUE KEY `platformid_UNIQUE` (`platformid`,`platformtype`),
 	  UNIQUE KEY `username_UNIQUE` (`username`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-	
+
 	CREATE TABLE `characters` (
 	  `charid` bigint(20) unsigned NOT NULL,
 	  `userid` bigint(20) unsigned NOT NULL,
@@ -62,7 +62,7 @@ USE `product_waspp_000`;
 	  `updatetime` datetime NOT NULL,
 	  PRIMARY KEY (`charid`,`userid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-		
+
 	CREATE TABLE `char_name` (
 	  `charid` bigint(20) unsigned NOT NULL,
 	  `userid` bigint(20) unsigned NOT NULL,
@@ -116,7 +116,7 @@ USE `product_waspp_001`;
 
 		END ;;
 	DELIMITER ;
-	
+
 	CREATE TABLE `users` (
 	  `userid` bigint(20) unsigned NOT NULL,
 	  `platformid` varchar(64) NOT NULL,
@@ -129,7 +129,7 @@ USE `product_waspp_001`;
 	  UNIQUE KEY `platformid_UNIQUE` (`platformid`,`platformtype`),
 	  UNIQUE KEY `username_UNIQUE` (`username`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-	
+
 	CREATE TABLE `characters` (
 	  `charid` bigint(20) unsigned NOT NULL,
 	  `userid` bigint(20) unsigned NOT NULL,
@@ -138,7 +138,7 @@ USE `product_waspp_001`;
 	  `updatetime` datetime NOT NULL,
 	  PRIMARY KEY (`charid`,`userid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-		
+
 	CREATE TABLE `char_name` (
 	  `charid` bigint(20) unsigned NOT NULL,
 	  `userid` bigint(20) unsigned NOT NULL,
