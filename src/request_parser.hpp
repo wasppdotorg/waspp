@@ -653,6 +653,8 @@ namespace waspp
 		void parse_multipart_content(request& req, const std::string& data);
 
 	private:
+		void split(const std::string& s, char c, std::vector<std::string>& v);
+
 		/// Check if a byte is an HTTP character.
 		static bool is_char(int c);
 

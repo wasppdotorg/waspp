@@ -7,7 +7,8 @@
 
 #include <cctype>
 
-#include <boost/algorithm/string.hpp>
+#include <exception>
+#include <sstream>
 
 #include "request_parser.hpp"
 #include "utility.hpp"
@@ -30,7 +31,7 @@ namespace waspp
 	{
 		auto request_uri = percent_decode(req.uri);
 
-		boost::split(req.rest_params, request_uri, boost::is_any_of("/"));
+		split(request_uri, '/', req.rest_params);
 		req.rest_params.erase(req.rest_params.begin());
 
 		if (req.params.size() == 0)
@@ -289,6 +290,18 @@ namespace waspp
 		else
 		{
 			req.uploads.push_back(multipart_content(head.name, head.filename, head.filetype, value));
+		}
+	}
+
+	void request_parser::split(const std::string& s, char c, std::vector<std::string>& v)
+	{
+		std::stringstream ss;
+		ss.str(s);
+
+		std::string item;
+		while (std::getline(ss, item, c))
+		{
+			v.push_back(item);
 		}
 	}
 

@@ -10,7 +10,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/archive/text_oarchive.hpp>
 
 #include <boost/uuid/uuid.hpp>
-#include <boost/algorithm/string.hpp>
 
 #include "session.hpp"
 #include "utility.hpp"
@@ -211,10 +210,7 @@ namespace waspp
 
 	std::string session::get_curr_ua()
 	{
-		std::string user_agent = req.header("User-Agent").substr(0, 120);
-		boost::algorithm::trim(user_agent);
-
-		return user_agent;
+		return req.header("User-Agent").substr(0, 120);
 	}
 
 	std::string& session::get_last_ua()
