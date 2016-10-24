@@ -53,9 +53,10 @@ namespace waspp
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
-
-				error.put("_code", err_code);
-				error.put("_message", cfg.err_msg(err_code));
+				//
+					error.put("_code", err_code);
+					error.put("_message", cfg.err_msg(err_code));
+				//
 
 				json.put_child("_error", error);
 
@@ -71,13 +72,16 @@ namespace waspp
 			}
 
 			err_code = err_none;
-
-			error.put("_code", err_code);
-			error.put("_message", cfg.err_msg(err_code));
+			//
+				error.put("_code", err_code);
+				error.put("_message", cfg.err_msg(err_code));
+			//
 
 			boost::property_tree::ptree session;
-			session.put("_userid", sess.get("userid"));
-			session.put("_username", sess.get("username"));
+			//
+				session.put("_userid", sess.get("userid"));
+				session.put("_username", sess.get("username"));
+			//
 
 			std::string field, keyword;
 			if (req.rest_params.size() > 5)
@@ -87,21 +91,21 @@ namespace waspp
 			}
 
 			boost::property_tree::ptree forum_search;
-			forum_search.put("_field", field);
-			forum_search.put("_keyword", keyword);
+			//
+				forum_search.put("_field", field);
+				forum_search.put("_keyword", keyword);
+			//
 
 			scoped_db db_etc(dbname_type::db_etc);
+			stmt_ptr stmt(db_etc.conn->prepare("SELECT COUNT(seq) AS total_count FROM forum"));
+			rs_ptr rs(stmt->query());
 
 			uint64_t total_count_ = 0;
-			stmt_ptr stmt(db_etc.conn->prepare("SELECT COUNT(seq) AS total_count FROM forum"));
-
-			rs_ptr rs(stmt->query());
 			if (rs->fetch())
 			{
 				total_count_ = rs->get<uint64_t>("total_count");
 			}
 
-			//uint64_t per_page = 10;
 			stmt.reset(db_etc.conn->prepare("SELECT * FROM forum ORDER BY seq DESC"));
 			rs.reset(stmt->query());
 
@@ -117,9 +121,11 @@ namespace waspp
 			}
 
 			boost::property_tree::ptree pagination;
-			pagination.put("_total_count", total_count_);
-			pagination.put("_page_count", 10);
-			pagination.put("_link_count", 10);
+			//
+				pagination.put("_total_count", total_count_);
+				pagination.put("_page_count", 10);
+				pagination.put("_link_count", 10);
+			//
 
 			json.put_child("_error", error);
 			json.put_child("_session", session);
@@ -157,15 +163,16 @@ namespace waspp
 			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
-			boost::property_tree::ptree json, error, session, param, params;
+			boost::property_tree::ptree json, error;
 
 			waspp::session sess(cfg, req, res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
-
-				error.put("_code", err_code);
-				error.put("_message", cfg.err_msg(err_code));
+				//
+					error.put("_code", err_code);
+					error.put("_message", cfg.err_msg(err_code));
+				//
 
 				json.put_child("_error", error);
 
@@ -181,14 +188,18 @@ namespace waspp
 			}
 
 			err_code = err_none;
+			//
+				error.put("_code", err_code);
+				error.put("_message", cfg.err_msg(err_code));
+			//
 
-			error.put("_code", err_code);
-			error.put("_message", cfg.err_msg(err_code));
+			boost::property_tree::ptree session;
+			//
+				session.put("_userid", sess.get("userid"));
+				session.put("_username", sess.get("username"));
+			//
 
-			session.put("_userid", sess.get("userid"));
-			session.put("_username", sess.get("username"));
-
-			//std::vector<std::string>::iterator i;
+			boost::property_tree::ptree param, params;
 			for (auto& rest_param : req.rest_params)
 			{
 				param.put("", rest_param);
@@ -229,15 +240,16 @@ namespace waspp
 			performance_checker c(50, __FILE__, __LINE__);
 
 			error_type err_code = err_unknown;
-			boost::property_tree::ptree json, error, session, param, params;
+			boost::property_tree::ptree json, error;
 
 			waspp::session sess(cfg, req, res);
 			if (sess.get("userid").empty())
 			{
 				err_code = err_unauthorized;
-
-				error.put("_code", err_code);
-				error.put("_message", cfg.err_msg(err_code));
+				//
+					error.put("_code", err_code);
+					error.put("_message", cfg.err_msg(err_code));
+				//
 
 				json.put_child("_error", error);
 
@@ -253,14 +265,18 @@ namespace waspp
 			}
 
 			err_code = err_none;
+			//
+				error.put("_code", err_code);
+				error.put("_message", cfg.err_msg(err_code));
+			//
 
-			error.put("_code", err_code);
-			error.put("_message", cfg.err_msg(err_code));
+			boost::property_tree::ptree session;
+			//
+				session.put("_userid", sess.get("userid"));
+				session.put("_username", sess.get("username"));
+			//
 
-			session.put("_userid", sess.get("userid"));
-			session.put("_username", sess.get("username"));
-
-			//std::vector<std::string>::iterator i;
+			boost::property_tree::ptree param, params;
 			for (auto& rest_param : req.rest_params)
 			{
 				param.put("", rest_param);
@@ -295,10 +311,9 @@ namespace waspp
 				res.redirect_to("/dir/user/signin");
 				return;
 			}
-
 			uint64_t userid = strtoull(sess.get("userid").c_str(), nullptr, 0);
-			uint64_t seq = 0;
 
+			uint64_t seq = 0;
 			if (!req.param("seq").empty())
 			{
 				seq = strtoull(req.param("seq").c_str(), nullptr, 0);
@@ -317,7 +332,6 @@ namespace waspp
 			}
 
 			scoped_db db_etc("db_etc");
-
 			if (seq == 0)
 			{
 				stmt_ptr stmt(db_etc.conn->prepare("CALL USP_GET_UNIQUE_KEYS('forum', ?)"));

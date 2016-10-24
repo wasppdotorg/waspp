@@ -37,9 +37,10 @@ namespace waspp
 			sess.put("userid", "test");
 
 			err_code = err_none;
-
-			error.put("_code", err_code);
-			error.put("_message", cfg.err_msg(err_code));
+			//
+				error.put("_code", err_code);
+				error.put("_message", cfg.err_msg(err_code));
+			//
 
 			session.put("_userid", sess.get("userid"));
 			session.put("_username", sess.get("username"));
@@ -55,11 +56,10 @@ namespace waspp
 			forum_search.put("_keyword", keyword);
 
 			scoped_db db_etc("db_etc");
+			stmt_ptr stmt(db_etc.conn->prepare("SELECT COUNT(seq) AS total_count FROM forum"));
+			rs_ptr rs(stmt->query());
 
 			int64_t total_count_ = 0;
-			stmt_ptr stmt(db_etc.conn->prepare("SELECT COUNT(seq) AS total_count FROM forum"));
-
-			rs_ptr rs(stmt->query());
 			if (rs->fetch())
 			{
 				total_count_ = rs->get<int64_t>("total_count");

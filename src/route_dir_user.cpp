@@ -76,8 +76,10 @@ namespace waspp
 			}
 
 			waspp::session sess(cfg, req, res);
-			sess.put("userid", std::to_string(userid));
-			sess.put("username", req.param("username"));
+			//
+				sess.put("userid", std::to_string(userid));
+				sess.put("username", req.param("username"));
+			//
 
 			res.redirect_to("/dir/forum/index");
 		}
@@ -104,7 +106,6 @@ namespace waspp
 				router::err_msg(cfg, res, err_platformtype_required);
 				return;
 			}
-			int32_t platformtype = strtol(req.param("platformtype").c_str(), nullptr, 0);
 
 			if (req.param("username").empty())
 			{
@@ -123,7 +124,7 @@ namespace waspp
 				router::err_msg(cfg, res, err_passwds_not_identical);
 				return;
 			}
-			std::string passwd = md5_digest(req.param("passwd"));
+			std::string md5_passwd = md5_digest(req.param("passwd"));
 
 			scoped_db db_shard(req.param("username"));
 			stmt_ptr stmt(db_shard.conn->prepare("SELECT userid FROM users WHERE username = ?"));
@@ -142,9 +143,9 @@ namespace waspp
 			//
 				stmt->param(1);
 			//
+			rs.reset(stmt->query());
 
 			uint64_t userid = 0;
-			rs.reset(stmt->query());
 			if (rs->fetch(true))
 			{
 				userid = rs->get<uint64_t>("last_key");
@@ -156,8 +157,8 @@ namespace waspp
 				stmt->param(userid);
 				stmt->param(platformid);
 				stmt->param(req.param("username"));
-				stmt->param(passwd);
-				stmt->param(platformtype);
+				stmt->param(md5_passwd);
+				stmt->param(strtol(req.param("platformtype").c_str(), nullptr, 0));
 			//
 
 			uint64_t affected_rows = stmt->execute();
