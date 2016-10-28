@@ -128,7 +128,7 @@ namespace waspp
 		// Pass the work of opening the file to the background thread.
 		io_service_.post([this, message]()
 		{
-			ofstream_ << message << std::endl;
+			ofstream_ << message << "\n";
 
 			if (++unflushed_count_ > unflushed_limit_)
 			{

@@ -224,7 +224,7 @@ Apache License
 redis3m::connection* rdconn = redis3m::connection::connect();
 rdconn->run(redis3m::command("SET") << "foo" << "bar");
 redis3m::reply r = rdconn->run(redis3m::command("GET") << "foo");
-std::cout << "foo is " << r.str() << std::endl;
+std::cout << "foo is " << r.str() << "\n";
 delete rdconn;
 */
 
