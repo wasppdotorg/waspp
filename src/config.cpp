@@ -284,35 +284,19 @@ namespace waspp
 				log(fatal) << "config::err_file not found," << __FILE__ << ":" << __LINE__;
 				return false;
 			}
-
 			boost::property_tree::json_parser::read_json(err_file, ptree_);
+
+			int err_code = 0;
 			for (auto& item : ptree_)
 			{
-				int err_code = strtol(item.first.c_str(), nullptr, 0);
-				auto err_found = err_.find(err_code);
-
-				if (err_found != err_.end())
+				err_code = strtol(item.first.c_str(), nullptr, 0);
+				if (err_.find(err_code) != err_.end())
 				{
 					log(fatal) << "config - duplicated err_code:" << err_code << "," << __FILE__ << ":" << __LINE__;
 					return false;
 				}
+
 				err_.insert(std::make_pair(err_code, item.second.get_value<std::string>()));
-			}
-
-			unsigned int err_count = 0;
-			for (int err_code = err_none; err_code < err_end; ++err_code)
-			{
-				auto err_found = err_.find(err_code);
-				if (err_found != err_.end())
-				{
-					++err_count;
-				}
-			}
-
-			if (err_count != (err_.size() - 1))
-			{
-				log(fatal) << "config::err_count not match," << __FILE__ << ":" << __LINE__;
-				return false;
 			}
 
 			return true;
