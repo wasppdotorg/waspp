@@ -15,14 +15,14 @@ namespace waspp
 	class locator
 	{
 	public:
-		static void init(T* inst)
+		static void init(T* location)
 		{
-			instance_ = inst;
+			location_ = location;
 		}
 
-		static T& instance()
+		static T& location()
 		{
-			return *instance_;
+			return *location_;
 		}
 
 	protected:
@@ -30,11 +30,11 @@ namespace waspp
 		virtual ~locator() {}
 
 	private:
-		static T* instance_;
+		static T* location_;
 
 	};
 
-	template<typename T> T* locator<T>::instance_ = nullptr;
+	template<typename T> T* locator<T>::location_ = nullptr;
 
 } // namespace waspp
 
