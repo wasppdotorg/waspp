@@ -56,7 +56,7 @@
     <File Name="spinlock.hpp"/>
     <File Name="url_conn.cpp"/>
     <File Name="url_conn.hpp"/>
-    <File Name="locator.hpp"/>
+    <File Name="singleton.hpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

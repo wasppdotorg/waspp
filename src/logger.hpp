@@ -14,7 +14,7 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/asio.hpp>
 
-#include "locator.hpp"
+#include "singleton.hpp"
 
 namespace waspp
 {
@@ -36,7 +36,7 @@ namespace waspp
 	};
 
 	class logger
-		: public locator<logger>
+		: public singleton<logger>
 	{
 	public:
 		logger();
@@ -87,7 +87,7 @@ namespace waspp
 		log(const log&) = delete;
 		log& operator=(const log&) = delete;
 
-		log(log_level_type log_level) : logger_(logger::location()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
+		log(log_level_type log_level) : logger_(*logger::instance()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
 		{
 			if (log_level < logger_.level())
 			{

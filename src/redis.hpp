@@ -9,7 +9,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #define redis_hpp
 
 #include "redis_pool.hpp"
-#include "locator.hpp"
+#include "singleton.hpp"
 #include "config.hpp"
 
 namespace waspp
@@ -21,7 +21,7 @@ namespace waspp
 	};
 
 	class redis
-		: public locator<redis>
+		: public singleton<redis>
 	{
 	public:
 		redis();

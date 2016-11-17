@@ -14,7 +14,7 @@
 namespace waspp
 {
 
-	request_handler::request_handler() : cfg(config::location())
+	request_handler::request_handler() : cfg(*config::instance())
 	{
 
 	}

@@ -11,7 +11,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <cstdint>
 
 #include "dbconn_pool.hpp"
-#include "locator.hpp"
+#include "singleton.hpp"
 #include "config.hpp"
 
 namespace waspp
@@ -25,7 +25,7 @@ namespace waspp
 	};
 
 	class database
-		: public locator<database>
+		: public singleton<database>
 	{
 	public:
 		database();
