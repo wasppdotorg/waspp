@@ -17,9 +17,9 @@ deb [arch=amd64,i386] http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial mai
 deb-src http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial main
 ```
 
-* sudo apt-get update
-* sudo apt-get upgrade
-* sudo apt-get install mariadb-server
+* sudo apt update
+* sudo apt upgrade
+* sudo apt install mariadb-server
 * sudo /etc/init.d/mysql restart
 
 <!--
@@ -62,9 +62,9 @@ handlersocket_port_wr = 9999
 
 Install Redis
 -------------
-* sudo apt-get update
-* sudo apt-get upgrade
-* sudo apt-get install redis-server
+* sudo apt update
+* sudo apt upgrade
+* sudo apt install redis-server
 * sudo /etc/init.d/redis-server restart
 
 Install Redis (Windows)
@@ -77,12 +77,12 @@ Install Redis (Windows)
 
 Install Libraries
 -----------------
-* sudo apt-get install libmariadbclient-dev
-* sudo apt-get install libhiredis-dev
-* sudo apt-get install libssl-dev
-* sudo apt-get install libcurl4-openssl-dev
-* sudo apt-get install libboost-all-dev
-* sudo apt-get install libgoogle-perftools-dev
+* sudo apt install libmariadbclient-dev
+* sudo apt install libhiredis-dev
+* sudo apt install libssl-dev
+* sudo apt install libcurl4-openssl-dev
+* sudo apt install libboost-all-dev
+* sudo apt install libgoogle-perftools-dev
 
 Install Libraries (Windows)
 ---------------------------
@@ -93,7 +93,7 @@ Install Libraries (Windows)
 Download waspp
 --------------
 * cd /var/
-* sudo apt-get install git
+* sudo apt install git
 * sudo git clone https://github.com/wasppdotorg/waspp.git
 
 Create Databases
@@ -137,8 +137,8 @@ timeout 0
 Build waspp
 -----------
 * cd ../src
-* sudo apt-get install build-essential
-* sudo apt-get install cmake
+* sudo apt install build-essential
+* sudo apt install cmake
 * sudo mkdir cmake_debug
 * cd cmake_debug
 * sudo cmake -DCMAKE_BUILD_TYPE=Debug ..
@@ -203,7 +203,7 @@ Enable SSL
 
 Check Memory Leak
 -----------------
-* sudo apt-get install valgrind
+* sudo apt install valgrind
 * sudo valgrind ./waspp develop 00
 
 Enable Core Dump
