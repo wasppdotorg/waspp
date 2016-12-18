@@ -176,5 +176,8 @@
     <ClInclude Include="url_conn.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="singleton.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
