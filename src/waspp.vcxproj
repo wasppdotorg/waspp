@@ -107,7 +107,6 @@
     <ClInclude Include="config.hpp" />
     <ClInclude Include="connection.hpp" />
     <ClInclude Include="connection_ssl.hpp" />
-    <ClInclude Include="locator.hpp" />
     <ClInclude Include="url_conn.hpp" />
     <ClInclude Include="database.hpp" />
     <ClInclude Include="dbconn_pool.hpp" />
