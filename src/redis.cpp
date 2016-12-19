@@ -8,6 +8,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/crc.hpp>
 
 #include "redis.hpp"
+#include "locator.hpp"
 
 namespace waspp
 {
@@ -97,21 +98,21 @@ namespace waspp
 	}
 
 	scoped_rd::scoped_rd(rdname_type rdname)
-		: rdpool(redis::instance()->get_rdpool(rdname)),
+		: rdpool(locator::rd()->get_rdpool(rdname)),
 		conn(rdpool.get_rdconn())
 	{
 		
 	}
 
 	scoped_rd::scoped_rd(uint64_t shard_key)
-		: rdpool(redis::instance()->get_rdpool(shard_key)),
+		: rdpool(locator::rd()->get_rdpool(shard_key)),
 		conn(rdpool.get_rdconn())
 	{
 		
 	}
 
 	scoped_rd::scoped_rd(const std::string& shard_key)
-		: rdpool(redis::instance()->get_rdpool(shard_key)),
+		: rdpool(locator::rd()->get_rdpool(shard_key)),
 		conn(rdpool.get_rdconn())
 	{
 		

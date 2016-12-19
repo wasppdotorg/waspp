@@ -8,6 +8,7 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <boost/crc.hpp>
 
 #include "database.hpp"
+#include "locator.hpp"
 
 namespace waspp
 {
@@ -110,21 +111,21 @@ namespace waspp
 	}
 
 	scoped_db::scoped_db(dbname_type dbname)
-		: dbpool(database::instance()->get_dbpool(dbname)),
+		: dbpool(locator::db()->get_dbpool(dbname)),
 		conn(dbpool.get_dbconn())
 	{
 		
 	}
 
 	scoped_db::scoped_db(uint64_t shard_key)
-		: dbpool(database::instance()->get_dbpool(shard_key)),
+		: dbpool(locator::db()->get_dbpool(shard_key)),
 		conn(dbpool.get_dbconn())
 	{
 		
 	}
 
 	scoped_db::scoped_db(const std::string& shard_key)
-		: dbpool(database::instance()->get_dbpool(shard_key)),
+		: dbpool(locator::db()->get_dbpool(shard_key)),
 		conn(dbpool.get_dbconn())
 	{
 		

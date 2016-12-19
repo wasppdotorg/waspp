@@ -14,8 +14,6 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/asio.hpp>
 
-#include "singleton.hpp"
-
 namespace waspp
 {
 
@@ -36,7 +34,6 @@ namespace waspp
 	};
 
 	class logger
-		: public singleton<logger>
 	{
 	public:
 		logger();
@@ -84,51 +81,8 @@ namespace waspp
 	class log
 	{
 	public:
-		log(const log&) = delete;
-		log& operator=(const log&) = delete;
-
-		log(log_level_type log_level) : logger_(*logger::instance()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
-		{
-			if (log_level < logger_.level())
-			{
-				return;
-			}
-
-			is_logging = true;
-
-			oss.imbue(logger_.loc());
-			oss << ptime_;
-
-			switch (log_level)
-			{
-			case debug:
-				oss << "DEBUG,";
-				break;
-			case info:
-				oss << "INFO,";
-				break;
-			case warn:
-				oss << "WARN,";
-				break;
-			case error:
-				oss << "ERROR,";
-				break;
-			case fatal:
-				oss << "FATAL,";
-				break;
-			default:
-				oss << "UNKNOWN,";
-				break;
-			}
-		}
-
-		~log()
-		{
-			if (is_logging)
-			{
-				logger_.write(ptime_, oss.str());
-			}
-		}
+		log(log_level_type log_level);
+		~log();
 
 		template<typename T>
 		std::ostringstream& operator<<(T v)

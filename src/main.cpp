@@ -10,6 +10,8 @@
 #include "config.hpp"
 #include "database.hpp"
 #include "redis.hpp"
+#include "locator.hpp"
+#include "logger.hpp"
 #include "server.hpp"
 #include "server_ssl.hpp"
 
@@ -25,10 +27,15 @@ int main(int argc, char* argv[])
 {
 	atexit(ssl_library_free);
 
-	auto log_ = waspp::logger::instance();
-	auto cfg = waspp::config::instance();
-	auto db = waspp::database::instance();
-	auto rd = waspp::redis::instance();
+	waspp::logger log_;
+	waspp::config cfg;
+	waspp::database db;
+	waspp::redis rd;
+
+	waspp::locator::put(&log_);
+	waspp::locator::put(&cfg);
+	waspp::locator::put(&db);
+	waspp::locator::put(&rd);
 
 	try
 	{
@@ -56,15 +63,15 @@ int main(int argc, char* argv[])
 			cfg_file.append(".json");
 		//
 
-		log_->file(log_file);
+		log_.file(log_file);
 
-		if (!cfg->init(address, cfg_file))
+		if (!cfg.init(address, cfg_file))
 		{
 			waspp::log(waspp::fatal) << "config::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
 
-		if (!log_->init(cfg->log_level(), cfg->log_rotation(), cfg->log_unflushed_limit()))
+		if (!log_.init(cfg.log_level(), cfg.log_rotation(), cfg.log_unflushed_limit()))
 		{
 			waspp::log(waspp::fatal) << "logger::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
@@ -77,7 +84,7 @@ int main(int argc, char* argv[])
 			dbnames.push_back("db_etc");
 		//
 
-		if (!db->init(*cfg, dbnames))
+		if (!db.init(cfg, dbnames))
 		{
 			waspp::log(waspp::fatal) << "database::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
@@ -88,21 +95,21 @@ int main(int argc, char* argv[])
 			rdnames.push_back("rd_rnk");
 		//
 
-		if (!rd->init(*cfg, rdnames))
+		if (!rd.init(cfg, rdnames))
 		{
 			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
 
-		if (cfg->ssl())
+		if (cfg.ssl())
 		{
-			waspp::server_ssl s(*cfg);
+			waspp::server_ssl s(cfg);
 			waspp::log(waspp::info) << "server_ssl starting..";
 			s.run();
 		}
 		else
 		{
-			waspp::server s(*cfg);
+			waspp::server s(cfg);
 			waspp::log(waspp::info) << "server starting..";
 			s.run();
 		}

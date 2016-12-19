@@ -6,6 +6,7 @@
 //
 
 #include "request_handler.hpp"
+#include "locator.hpp"
 #include "logger.hpp"
 #include "router.hpp"
 #include "mime_types.hpp"
@@ -14,7 +15,7 @@
 namespace waspp
 {
 
-	request_handler::request_handler() : cfg(*config::instance())
+	request_handler::request_handler() : cfg(*locator::cfg())
 	{
 
 	}

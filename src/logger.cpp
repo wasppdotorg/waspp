@@ -8,6 +8,7 @@
 #include <boost/filesystem.hpp>
 
 #include "logger.hpp"
+#include "locator.hpp"
 
 namespace waspp
 {
@@ -179,6 +180,49 @@ namespace waspp
 			ofstream_.clear();
 			ofstream_.open(file_.c_str(), std::fstream::app);
 		});
+	}
+
+	log::log(log_level_type log_level) : logger_(*locator::log_()), is_logging(false), ptime_(boost::posix_time::microsec_clock::local_time())
+	{
+		if (log_level < logger_.level())
+		{
+			return;
+		}
+
+		is_logging = true;
+
+		oss.imbue(logger_.loc());
+		oss << ptime_;
+
+		switch (log_level)
+		{
+		case debug:
+			oss << "DEBUG,";
+			break;
+		case info:
+			oss << "INFO,";
+			break;
+		case warn:
+			oss << "WARN,";
+			break;
+		case error:
+			oss << "ERROR,";
+			break;
+		case fatal:
+			oss << "FATAL,";
+			break;
+		default:
+			oss << "UNKNOWN,";
+			break;
+		}
+	}
+
+	log::~log()
+	{
+		if (is_logging)
+		{
+			logger_.write(ptime_, oss.str());
+		}
 	}
 
 } // namespace waspp

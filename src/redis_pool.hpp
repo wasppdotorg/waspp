@@ -20,9 +20,6 @@ namespace waspp
 	class redis_pool
 	{
 	public:
-		redis_pool(const redis_pool&) = delete;
-		redis_pool& operator=(const redis_pool&) = delete;
-
 		redis_pool();
 		~redis_pool();
 
