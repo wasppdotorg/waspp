@@ -26,11 +26,12 @@ namespace waspp
 		}
 	}
 
-	bool redis::init(config& cfg, const std::vector<std::string>& rdnames)
+	bool redis::init(const std::vector<std::string>& rdnames)
 	{
 		try
 		{
-			auto cfg_rd_shard = cfg.get("rd_shard");
+			auto cfg = locator::cfg();
+			auto cfg_rd_shard = cfg->get("rd_shard");
 
 			std::vector<std::string> keys;
 			//
@@ -60,7 +61,7 @@ namespace waspp
 			{
 				auto rdpool = new redis_pool();
 
-				if (!rdpool->init_pool(cfg.get(rdname)) || !rdpool->fill_pool())
+				if (!rdpool->init_pool(cfg->get(rdname)) || !rdpool->fill_pool())
 				{
 					delete rdpool;
 					return false;

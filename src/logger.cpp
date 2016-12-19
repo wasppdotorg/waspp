@@ -66,8 +66,13 @@ namespace waspp
 	/// output file for all logger instances, and so the impl parameter is not
 	/// actually needed. It is retained here to illustrate how service functions
 	/// are typically defined.
-	bool logger::init(const std::string& log_level, const std::string& log_rotation, int unflushed_limit)
+	bool logger::init()
 	{
+		auto cfg = locator::cfg();
+		auto& log_level = cfg->log_level();
+		auto& log_rotation = cfg->log_rotation();
+		auto unflushed_limit = cfg->log_unflushed_limit();
+
 		log_level_type cfg_log_level = debug;
 
 		if (log_level == "debug")

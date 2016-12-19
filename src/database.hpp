@@ -11,7 +11,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #include <cstdint>
 
 #include "dbconn_pool.hpp"
-#include "config.hpp"
 
 namespace waspp
 {
@@ -29,7 +28,7 @@ namespace waspp
 		database();
 		~database();
 
-		bool init(config& cfg, const std::vector<std::string>& dbnames);
+		bool init(const std::vector<std::string>& dbnames);
 
 		dbconn_pool& get_dbpool(dbname_type dbname);
 		dbconn_pool& get_dbpool(uint64_t shard_key);

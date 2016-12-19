@@ -39,11 +39,12 @@ namespace waspp
 		mysql_library_end();
 	}
 
-	bool database::init(config& cfg, const std::vector<std::string>& dbnames)
+	bool database::init(const std::vector<std::string>& dbnames)
 	{
 		try
 		{
-			auto cfg_db_shard = cfg.get("db_shard");
+			auto cfg = locator::cfg();
+			auto cfg_db_shard = cfg->get("db_shard");
 
 			std::vector<std::string> keys;
 			//
@@ -73,7 +74,7 @@ namespace waspp
 			{
 				auto dbpool = new dbconn_pool();
 
-				if (!dbpool->init_pool(cfg.get(dbname)) || !dbpool->fill_pool())
+				if (!dbpool->init_pool(cfg->get(dbname)) || !dbpool->fill_pool())
 				{
 					delete dbpool;
 					return false;

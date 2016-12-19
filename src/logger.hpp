@@ -43,7 +43,7 @@ namespace waspp
 		const std::locale& loc() { return loc_; }
 
 		void file(const std::string& file);
-		bool init(const std::string& log_level, const std::string& log_rotation, int unflushed_limit);
+		bool init();
 
 		/// Log a message.
 		void write(const boost::posix_time::ptime& ptime_, const std::string& message);

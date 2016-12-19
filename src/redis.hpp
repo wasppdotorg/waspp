@@ -9,7 +9,6 @@ http://www.boost.org/LICENSE_1_0.txt
 #define redis_hpp
 
 #include "redis_pool.hpp"
-#include "config.hpp"
 
 namespace waspp
 {
@@ -25,7 +24,7 @@ namespace waspp
 		redis();
 		~redis();
 
-		bool init(config& cfg, const std::vector<std::string>& rdnames);
+		bool init(const std::vector<std::string>& rdnames);
 
 		redis_pool& get_rdpool(rdname_type rdname);
 		redis_pool& get_rdpool(uint64_t shard_key);

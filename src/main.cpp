@@ -11,7 +11,7 @@
 #include "database.hpp"
 #include "redis.hpp"
 #include "locator.hpp"
-#include "logger.hpp"
+
 #include "server.hpp"
 #include "server_ssl.hpp"
 
@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		if (!log_.init(cfg.log_level(), cfg.log_rotation(), cfg.log_unflushed_limit()))
+		if (!log_.init())
 		{
 			waspp::log(waspp::fatal) << "logger::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
 			dbnames.push_back("db_etc");
 		//
 
-		if (!db.init(cfg, dbnames))
+		if (!db.init(dbnames))
 		{
 			waspp::log(waspp::fatal) << "database::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 			rdnames.push_back("rd_rnk");
 		//
 
-		if (!rd.init(cfg, rdnames))
+		if (!rd.init(rdnames))
 		{
 			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
