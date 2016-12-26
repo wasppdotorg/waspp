@@ -57,6 +57,8 @@
     <File Name="url_conn.cpp"/>
     <File Name="url_conn.hpp"/>
     <File Name="singleton.hpp"/>
+    <File Name="locator.cpp"/>
+    <File Name="locator.hpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
