@@ -99,14 +99,7 @@ namespace waspp
 				iar >> session_;
 			}
 
-			std::vector<std::string> keys;
-			//
-				keys.push_back("sess_id");
-				keys.push_back("last_tm");
-				keys.push_back("last_ip");
-				keys.push_back("last_ua");
-			//
-
+			std::vector<std::string> keys = { "sess_id", "last_tm", "last_ip", "last_ua" };
 			for (auto& key : keys)
 			{
 				auto found = std::find_if(session_.begin(), session_.end(),

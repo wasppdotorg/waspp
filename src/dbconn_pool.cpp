@@ -27,18 +27,7 @@ namespace waspp
 
 	bool dbconn_pool::init_pool(std::unordered_map<std::string, std::string>& cfg)
 	{
-		std::vector<std::string> keys;
-		//
-			keys.push_back("host");
-			keys.push_back("userid");
-			keys.push_back("passwd");
-			keys.push_back("database");
-			keys.push_back("port");
-			keys.push_back("charset");
-			keys.push_back("pool_size");
-			keys.push_back("wait_timeout_sec");
-		//
-
+		std::vector<std::string> keys =  { "host", "userid", "passwd", "database", "port", "charset", "pool_size", "wait_timeout_sec" };
 		for (auto& key : keys)
 		{
 			auto found = cfg.find(key);

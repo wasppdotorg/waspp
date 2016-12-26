@@ -77,25 +77,13 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		std::vector<std::string> dbnames;
-		//
-			dbnames.push_back("db_000");
-			dbnames.push_back("db_001");
-			dbnames.push_back("db_etc");
-		//
-
-		if (!db.init(dbnames))
+		if (!db.init({ "db_000", "db_001", "db_etc" }))
 		{
 			waspp::log(waspp::fatal) << "database::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;
 		}
 
-		std::vector<std::string> rdnames;
-		//
-			rdnames.push_back("rd_rnk");
-		//
-
-		if (!rd.init(rdnames))
+		if (!rd.init({ "rd_rnk" }))
 		{
 			waspp::log(waspp::fatal) << "redis::init failed," << __FILE__ << ":" << __LINE__;
 			return 1;

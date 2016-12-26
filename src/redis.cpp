@@ -33,12 +33,7 @@ namespace waspp
 			auto cfg = locator::cfg();
 			auto cfg_rd_shard = cfg->get("rd_shard");
 
-			std::vector<std::string> keys;
-			//
-				keys.push_back("rd_shard_count");
-				keys.push_back("rd_shard_format");
-			//
-
+			std::vector<std::string> keys = { "rd_shard_count", "rd_shard_format" };
 			for (auto& key : keys)
 			{
 				auto found = cfg_rd_shard.find(key);

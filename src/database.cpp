@@ -46,12 +46,7 @@ namespace waspp
 			auto cfg = locator::cfg();
 			auto cfg_db_shard = cfg->get("db_shard");
 
-			std::vector<std::string> keys;
-			//
-				keys.push_back("db_shard_count");
-				keys.push_back("db_shard_format");
-			//
-
+			std::vector<std::string> keys = { "db_shard_count", "db_shard_format" };
 			for (auto& key : keys)
 			{
 				auto found = cfg_db_shard.find(key);

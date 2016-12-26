@@ -66,13 +66,7 @@ namespace waspp
 					return false;
 				}
 
-				keys.resize(0);
-				{
-					keys.push_back("level");
-					keys.push_back("rotation");
-					keys.push_back("unflushed_limit");
-				}
-
+				keys = { "level", "rotation", "unflushed_limit" };
 				for (auto& key : keys)
 				{
 					auto found_item = found_section->second.find(key);
@@ -105,11 +99,7 @@ namespace waspp
 					return false;
 				}
 
-				keys.resize(0);
-				{
-					keys.push_back("locale");
-				}
-
+				keys = { "locale" };
 				for (auto& key : keys)
 				{
 					auto found_item = found_section->second.find(key);
@@ -162,16 +152,7 @@ namespace waspp
 					return false;
 				}
 
-				keys.resize(0);
-				{
-					keys.push_back("encrypt_key");
-					keys.push_back("sess_cookie");
-					keys.push_back("expiry_sec");
-					keys.push_back("update_sec");
-					keys.push_back("validate_ip");
-					keys.push_back("validate_ua");
-				}
-
+				keys = { "encrypt_key", "sess_cookie", "expiry_sec", "update_sec", "validate_ip", "validate_ua" };
 				for (auto& key : keys)
 				{
 					auto found_item = found_section->second.find(key);
@@ -216,18 +197,7 @@ namespace waspp
 					return false;
 				}
 
-				keys.resize(0);
-				{
-					keys.push_back("port");
-					keys.push_back("doc_root");
-					keys.push_back("num_threads");
-					keys.push_back("compress");
-
-					keys.push_back("ssl");
-					keys.push_back("ssl_crt");
-					keys.push_back("ssl_key");
-				}
-
+				keys = { "port", "doc_root", "num_threads", "compress", "ssl", "ssl_crt", "ssl_key" };
 				for (auto& key : keys)
 				{
 					auto found_item = found_section->second.find(key);
