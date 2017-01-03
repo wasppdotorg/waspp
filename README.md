@@ -119,7 +119,7 @@ show variables like 'wait_timeout';
 
 * grep wait_timeout develop.json
 ```
-"wait_timeout_sec" : 600
+"wait_timeout_sec" : 28800
 ```
 
 * sudo grep timeout /etc/redis/redis.conf
