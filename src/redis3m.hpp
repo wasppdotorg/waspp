@@ -441,25 +441,11 @@ namespace redis3m
 
 		redisContext* c_ptr() { return c; }
 
-		std::tm* last_released()
-		{
-			return &released;
-		}
+		std::tm* last_released() { return &released; }
+		void set_released(const std::tm& released_) { released = released_; }
 
-		void set_released(const std::tm& released_)
-		{
-			released = released_;
-		}
-
-		bool is_pooled()
-		{
-			return pooled;
-		}
-
-		void set_pooled(bool pooled_)
-		{
-			pooled = pooled_;
-		}
+		bool is_pooled() { return pooled; }
+		void set_pooled(bool pooled_) { pooled = pooled_; }
 
 	private:
 		redisContext* c;

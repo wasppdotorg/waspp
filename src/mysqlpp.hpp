@@ -111,11 +111,12 @@ namespace mysqlpp
 
 			return std::string(buf);
 		}
+
 	};
 
 	struct st_mysql_column
 	{
-		st_mysql_column() : buffer(0), length(0), is_unsigned_(0), is_null(0), error(0)
+		st_mysql_column() : buffer(), length(0), is_unsigned_(0), is_null(0), error(0)
 		{
 		}
 
@@ -128,6 +129,7 @@ namespace mysqlpp
 		char is_unsigned_;
 		char is_null;
 		char error;
+
 	};
 
 	class result
@@ -205,6 +207,7 @@ namespace mysqlpp
 
 		std::vector<st_mysql_bind> binds;
 		std::vector<st_mysql_column> columns;
+
 	};
 
 	class statement
@@ -244,6 +247,7 @@ namespace mysqlpp
 
 		std::vector<st_mysql_bind> binds;
 		std::vector<unsigned long> lengths;
+
 	};
 
 	class connection
@@ -252,29 +256,15 @@ namespace mysqlpp
 		connection(const std::string& host, const std::string& userid, const std::string& passwd, const std::string& database, unsigned int port = 3306, const std::string& charset = "utf8", bool pooled_ = true);
 		~connection();
 
+		std::tm* last_released() { return &released; }
+		void set_released(const std::tm& released_) { released = released_; }
+
+		bool is_pooled() { return pooled; }
+		void set_pooled(bool pooled_) { pooled = pooled_; }
+
 		bool ping();
 		statement* prepare(const std::string& query);
 		statement* prepare_like(const std::string& query, bool left_percent, const std::string& keyword, bool right_percent);
-
-		std::tm* last_released()
-		{
-			return &released;
-		}
-
-		void set_released(const std::tm& released_)
-		{
-			released = released_;
-		}
-
-		bool is_pooled()
-		{
-			return pooled;
-		}
-
-		void set_pooled(bool pooled_)
-		{
-			pooled = pooled_;
-		}
 
 	private:
 		st_mysql* mysql;
