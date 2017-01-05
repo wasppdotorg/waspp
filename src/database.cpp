@@ -129,6 +129,7 @@ namespace waspp
 
 	scoped_db::~scoped_db()
 	{
+		conn->clear();
 		dbpool.release_dbconn(conn);
 	}
 
