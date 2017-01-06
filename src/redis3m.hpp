@@ -317,6 +317,30 @@ namespace redis3m
 			args.push_back(std::move(arg));
 		}
 
+		command& operator<<(const char* arg)
+		{
+			args.push_back(arg);
+			return *this;
+		}
+
+		command& operator()(const char* arg)
+		{
+			args.push_back(arg);
+			return *this;
+		}
+
+		command& operator<<(const std::string arg)
+		{
+			args.push_back(std::move(arg));
+			return *this;
+		}
+
+		command& operator()(const std::string arg)
+		{
+			args.push_back(std::move(arg));
+			return *this;
+		}
+
 		template<typename T>
 		command& operator<<(const T arg)
 		{
