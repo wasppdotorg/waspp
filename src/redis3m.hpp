@@ -211,6 +211,9 @@ Apache License
 
 #include <ctime>
 
+#ifdef _MSC_VER
+#include <Winsock2.h>
+#endif
 #include <hiredis/hiredis.h>
 
 #include <string>

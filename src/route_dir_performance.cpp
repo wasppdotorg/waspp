@@ -9,7 +9,7 @@ http://www.boost.org/LICENSE_1_0.txt
 
 // when using both boost asio and boost ptree on win32
 // put these lines below before json_parser.hpp
-#ifdef _WIN32
+#ifdef _MSC_VER
 #define WIN32_LEAN_AND_MEAN
 #endif
 
