@@ -211,13 +211,8 @@ Apache License
 
 #include <hiredis/hiredis.h>
 
+#include <string>
 #include <vector>
-
-#include <boost/lexical_cast.hpp>
-
-#ifdef _WIN32
-#include <WinSock2.h>
-#endif
 
 // code from redis3m
 /*
@@ -316,20 +311,20 @@ namespace redis3m
 
 		command(std::string arg)
 		{
-			args.push_back(arg);
+			args.push_back(std::move(arg));
 		}
 
 		template<typename T>
 		command& operator<<(const T arg)
 		{
-			args.push_back(boost::lexical_cast<std::string>(arg));
+			args.push_back(std::to_string(arg));
 			return *this;
 		}
 
 		template<typename T>
 		command& operator()(const T arg)
 		{
-			args.push_back(boost::lexical_cast<std::string>(arg));
+			args.push_back(std::to_string(arg));
 			return *this;
 		}
 
@@ -342,6 +337,34 @@ namespace redis3m
 		std::vector<std::string> args;
 
 	};
+
+	template<>
+	command& command::operator<<(const char* arg)
+	{
+		args.push_back(arg);
+		return *this;
+	}
+
+	template<>
+	command& command::operator()(const char* arg)
+	{
+		args.push_back(arg);
+		return *this;
+	}
+
+	template<>
+	command& command::operator<<(const std::string arg)
+	{
+		args.push_back(std::move(arg));
+		return *this;
+	}
+
+	template<>
+	command& command::operator()(const std::string arg)
+	{
+		args.push_back(std::move(arg));
+		return *this;
+	}
 
 	class connection
 	{
