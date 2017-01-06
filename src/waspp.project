@@ -59,6 +59,7 @@
     <File Name="singleton.hpp"/>
     <File Name="locator.cpp"/>
     <File Name="locator.hpp"/>
+    <File Name="redis3m.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
