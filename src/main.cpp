@@ -25,13 +25,6 @@ void ssl_library_free()
 
 int main(int argc, char* argv[])
 {
-	redis3m::connection* rdconn = redis3m::connection::connect();
-	rdconn->run(redis3m::command("SET") << "foo" << "bar");
-	redis3m::reply r = rdconn->run(redis3m::command("GET") << "foo");
-	std::cout << "foo is " << r.str() << "\n";
-	delete rdconn;
-	std::cin.get();
-	return 0;
 	atexit(ssl_library_free);
 
 	waspp::logger log_;
