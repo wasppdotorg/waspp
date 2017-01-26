@@ -20,6 +20,16 @@ deb-src http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial main
 * sudo apt update
 * sudo apt upgrade
 * sudo apt install mariadb-server
+* sudo nano /etc/mysql/conf.d/mariadb.cnf
+```
+[mysqld]
+..
+character-set-server  = utf8 
+collation-server      = utf8_general_ci 
+character_set_server   = utf8 
+collation_server       = utf8_general_ci 
+```
+
 * sudo /etc/init.d/mysql restart
 
 <!--
@@ -86,7 +96,7 @@ Install Libraries
 
 Install Libraries (Windows)
 ---------------------------
-* Win64OpenSSL-1_1_0b.exe
+* Win64OpenSSL-1_0_2j.exe
 * curl-7.46.0-win64
 * boost_1_59_0-msvc-14.0-64.exe
 
