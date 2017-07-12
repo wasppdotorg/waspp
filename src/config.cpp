@@ -21,7 +21,7 @@ http://www.boost.org/LICENSE_1_0.txt
 namespace waspp
 {
 
-	config::config() : log_unflushed_limit_(0), expiry_sec_(0), update_sec_(0), validate_ip_(false), validate_ua_(false), num_threads_(0), compress_(false), ssl_(false)
+	config::config() : expiry_sec_(0), update_sec_(0), validate_ip_(false), validate_ua_(false), num_threads_(0), compress_(false), ssl_(false)
 	{
 		
 	}
@@ -66,7 +66,7 @@ namespace waspp
 					return false;
 				}
 
-				keys = { "level", "rotation", "unflushed_limit" };
+				keys = { "level", "rotation" };
 				for (auto& key : keys)
 				{
 					auto found_item = found_section->second.find(key);
@@ -83,10 +83,6 @@ namespace waspp
 					else if (key == "rotation")
 					{
 						log_rotation_ = found_item->second;
-					}
-					else if (key == "unflushed_limit")
-					{
-						log_unflushed_limit_ = strtol(found_item->second.c_str(), nullptr, 0);
 					}
 				}
 			//

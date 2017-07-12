@@ -5,8 +5,7 @@
 		"log" :
 		{
 			"level" : "debug",
-			"rotation" : "hourly",
-			"unflushed_limit" : 255
+			"rotation" : "hourly"
 		},
 
 	"//error" : 0,

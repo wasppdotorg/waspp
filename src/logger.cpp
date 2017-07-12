@@ -20,9 +20,7 @@ namespace waspp
 		thread_(new std::thread([this](){ io_service_.run(); })),
 		level_(debug),
 		rotation_(log_rotation_type::every_minute),
-		loc_(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,")),
-		unflushed_count_(0),
-		unflushed_limit_(255)
+		loc_(std::cout.getloc(), new boost::posix_time::time_facet("%Y-%m-%d %H:%M:%S,%f,"))
 	{
 		auto time_ = std::time(nullptr);
 		file_created_ = *std::localtime(&time_);
@@ -71,7 +69,6 @@ namespace waspp
 		auto cfg = locator::cfg();
 		auto& log_level = cfg->log_level();
 		auto& log_rotation = cfg->log_rotation();
-		auto unflushed_limit = cfg->log_unflushed_limit();
 
 		log_level_type cfg_log_level = debug;
 
@@ -115,8 +112,6 @@ namespace waspp
 			return false;
 		}
 
-		unflushed_limit_ = unflushed_limit;
-
 		io_service_.post([this, cfg_log_level, cfg_log_rotation]()
 		{
 			level_ = cfg_log_level;
@@ -134,13 +129,7 @@ namespace waspp
 		// Pass the work of opening the file to the background thread.
 		io_service_.post([this, message]()
 		{
-			ofstream_ << message << "\n";
-
-			if (++unflushed_count_ > unflushed_limit_)
-			{
-				ofstream_.flush();
-				unflushed_count_ = 0;
-			}
+			ofstream_ << message << std::endl;
 		});
 	}
 
