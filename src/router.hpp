@@ -8,6 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt
 #ifndef router_hpp
 #define router_hpp
 
+#include <functional>
+
 #include "config.hpp"
 #include "request.hpp"
 #include "response.hpp"
@@ -52,7 +54,7 @@ namespace waspp
 
 	} // namespace dir_performance
 
-	using func_ptr = void(*)(config&, request&, response&);
+	using func_ptr = std::function<void(config&, request&, response&)>;
 
 	const std::string jsonp_start = "_(";
 	const std::string jsonp_end = ");";
