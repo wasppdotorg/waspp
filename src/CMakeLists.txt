@@ -30,7 +30,7 @@ find_library (HiRedis_LIBRARIES NAMES hiredis)
 find_library (Crypto_LIBRARIES NAMES crypto)
 find_library (SSL_LIBRARIES NAMES ssl)
 find_library (CURL_LIBRARIES NAMES curl)
-find_package (Boost 1.58.0 COMPONENTS system filesystem serialization iostreams)
+find_package (Boost 1.65.1 COMPONENTS system filesystem serialization iostreams)
 
 if (CMAKE_BUILD_TYPE STREQUAL Release)
 	find_library (TCMalloc_LIBRARIES NAMES tcmalloc)

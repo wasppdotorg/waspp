@@ -4,50 +4,19 @@ waspp
 
 Build Environment
 -----------------
-* GCC 5.4 - Ubuntu 16.04 LTS (Boost 1.58)
-* Visual Studio 2015 - Windows 10 (Boost 1.59)
+* GCC 7.3.0 - Ubuntu 18.04 LTS (Boost 1.65.1)
+* Visual Studio 2017 - Windows 10 (Boost 1.65.1)
 
 Install MariaDB
 ---------------
-* sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-* sudo nano /etc/apt/sources.list
-```
-# http://downloads.mariadb.org/mariadb/repositories/
-deb [arch=amd64,i386] http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial main
-deb-src http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial main
-```
-
 * sudo apt update
 * sudo apt upgrade
 * sudo apt install mariadb-server
-* sudo nano /etc/mysql/conf.d/mariadb.cnf
-```
-[mysqld]
-..
-character-set-server  = utf8 
-collation-server      = utf8_general_ci 
-character_set_server   = utf8 
-collation_server       = utf8_general_ci 
-```
-
 * sudo /etc/init.d/mysql restart
-
-<!--
-* sudo /etc/init.d/mysql stop
-* sudo /usr/bin/mysqld_safe --skip-grant-tables &
-* mysql -u root
-```
-update mysql.user set plugin='mysql_native_password';
-quit;
-```
-
-* sudo kill -9 $(pgrep mysql)
-* sudo /etc/init.d/mysql start
--->
 
 Install MariaDB (Windows)
 -------------------------
-* mariadb-10.1.18-winx64.msi
+* mariadb-10.3.9-winx64.msi
 
 <!--
 Install HandlerSocket
@@ -87,7 +56,7 @@ Install Redis (Windows)
 
 Install Libraries
 -----------------
-* sudo apt install libmariadbclient-dev
+* sudo apt install libmariadbclient-dev-compat
 * sudo apt install libhiredis-dev
 * sudo apt install libssl-dev
 * sudo apt install libcurl4-openssl-dev
@@ -96,7 +65,7 @@ Install Libraries
 
 Install Libraries (Windows)
 ---------------------------
-* Win64OpenSSL-1_0_2j.exe
+* Win64OpenSSL-1_0_2p.exe
 * curl-7.46.0-win64
 * boost_1_59_0-msvc-14.0-64.exe
 
