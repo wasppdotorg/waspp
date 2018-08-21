@@ -136,7 +136,7 @@ Run (Windows)
 -------------
 * cd path\to\waspp
 * copy src\x64\Debug\waspp.exe .\bin
-* copy "C:\Program Files\Mariadb 10.1\lib\libmysql.dll" .\bin
+* copy "C:\Program Files\Mariadb 10.3\lib\libmysql.dll" .\bin
 * copy ".\win\curl-7.46.0-win64\dlls\libcurl.dll" .\bin
 * cd .\bin
 * .\waspp.exe develop 00
