@@ -4,7 +4,7 @@ waspp
 
 Build Environment
 -----------------
-* GCC 7.3.0 - Ubuntu 18.04 LTS (Boost 1.65.1)
+* GCC 7.3 - Ubuntu 18.04 LTS (Boost 1.65.1)
 * Visual Studio 2017 - Windows 10 (Boost 1.65.1)
 
 Install MariaDB
